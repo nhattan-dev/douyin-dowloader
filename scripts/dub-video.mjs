@@ -30,6 +30,10 @@
 //   ... --voices <dir>     kho giọng dùng chung cấp series, tra trước khi tự tách
 //   ... --synth voice      (mặc định) enrol giọng nhân vật (POST /voices) rồi tổng hợp bằng job /tts
 //   ... --synth clone      /clone zero-shot từng câu — gói Starter chỉ 9 lượt/ngày (429 CLONE_ONESHOT_DAILY_CAP)
+//   ... --synth preset    giọng CÓ SẴN của VieNeu (catalog, hoặc giọng đã enrol trước đó) qua /tts:
+//                          không cần mẫu, không đụng hạn mức clone (ngày/tháng/slot). Chọn giọng
+//                          bằng --preset-map <file.json> ({"<nhân vật>": "<voiceId>"}) và/hoặc
+//                          --preset <voiceId> cho nhân vật không có trong file. Danh sách: GET /voices.
 //   ... --out <tên>        thư mục đầu ra trong videoDir (mặc định dub, hoặc dub-clone khi --synth clone)
 //
 // Vì sao có `--synth voice`: /clone chịu rate-limit chặt tới mức song song còn chậm hơn
@@ -262,8 +266,13 @@ async function main() {
   // KHÔNG có --voices, hoặc nhân vật chưa có trong kho, thì rơi về voice/ của video đó.
   const seriesVoices = args.voices ? path.resolve(str(args.voices, "")) : null;
   const synth = str(args.synth, "voice");
-  if (!["clone", "voice"].includes(synth)) throw new Error("--synth phải là clone hoặc voice");
+  if (!["clone", "voice", "preset"].includes(synth)) throw new Error("--synth phải là clone, voice hoặc preset");
+  const presetMap = synth === "preset" && args["preset-map"]
+    ? JSON.parse(await fs.readFile(path.resolve(str(args["preset-map"], "")), "utf8")) : {};
+  const presetDefault = str(args.preset, null);
 
+  // preset ghi vào `dub/` như clone — đó là chỗ UI (scan.js) đọc; clip đã làm bằng giọng khác thì
+  // được nhận ra qua clips/voices.json (xem `voiceKey`), không lẫn vào nhau khi --resume.
   const outDir = path.join(dir, str(args.out, synth === "clone" ? "dub-clone" : "dub"));
   const clipDir = path.join(outDir, "clips");
   await fs.mkdir(clipDir, { recursive: true });
@@ -283,8 +292,24 @@ async function main() {
 
   // ── chọn mẫu cho từng nhân vật ──────────────────────────────────────────
   const refs = {};
-  console.log("chọn mẫu clone (theo độ giống, khung 3-5.5s):");
-  for (const speaker of speakers) {
+  if (synth === "preset") {
+    // giọng có sẵn: khỏi mẫu, khỏi resemblyzer — chỉ cần biết nhân vật nào đọc giọng nào
+    const missing = [];
+    console.log("giọng có sẵn của VieNeu:");
+    for (const speaker of speakers) {
+      const voiceId = presetMap[speaker] ?? presetDefault;
+      if (!voiceId) {
+        missing.push(speaker);
+        continue;
+      }
+      refs[speaker] = { voiceId, voiceEngine: engine };
+      console.log(`  ${speaker.padEnd(14)} → ${voiceId}`);
+    }
+    if (missing.length) throw new Error(`chưa chọn giọng cho: ${missing.join(", ")} (--preset-map <file> hoặc --preset <voiceId>)`);
+  } else {
+    console.log("chọn mẫu clone (theo độ giống, khung 3-5.5s):");
+  }
+  for (const speaker of synth === "preset" ? [] : speakers) {
     // Tên thư mục phải khớp với sanitize của extract-voice.js: "/" trong tên nhân
     // vật (cụm giọng gộp nhiều tên) bị path.join hiểu thành phân cách thư mục.
     const folderName = speaker.replace(/[/\\]/g, "_").trim();
@@ -334,11 +359,22 @@ async function main() {
   let doneCount = 0;
   let synthesized = 0;
   const synthStart = Date.now();
+  // Clip đặt tên theo số câu nên không nói được nó đọc bằng giọng nào; chạy lại với giọng khác mà
+  // vẫn dùng clip cũ là một nhân vật lẫn hai giọng. Ghi kèm "giọng nào" cho từng clip: đổi giọng
+  // thì làm lại đúng các câu đó. Clip cũ không có ghi chú vẫn dùng lại được ở clone/voice (như trước
+  // đây), nhưng KHÔNG ở preset — nó gần như chắc chắn từ giọng khác.
+  const voiceKey = (r) => (r.voiceId ? `${r.voiceEngine ?? engine}:${r.voiceId}` : `clone:${engine}`);
+  const marksFile = path.join(clipDir, "voices.json");
+  const marks = resume ? await fs.readFile(marksFile, "utf8").then(JSON.parse, () => ({})) : {};
+  let saving = Promise.resolve(); // nối đuôi: nhiều luồng cùng ghi một file sẽ xé nhau
+  const saveMarks = () => (saving = saving.then(() => fs.writeFile(marksFile, JSON.stringify(marks))));
   await pool(segments, concurrency, async (seg, i) => {
     const name = `${String(seg.index).padStart(3, "0")}.wav`;
     const file = path.join(clipDir, name);
-    if (!(resume && (await exists(file)))) {
-      const r = refs[seg.speaker];
+    const r = refs[seg.speaker];
+    const known = marks[seg.index];
+    const reusable = resume && (await exists(file)) && (known ? known === voiceKey(r) : synth !== "preset");
+    if (!reusable) {
       let url;
       if (r.voiceId) {
         const job = await api("/tts", { body: { text: seg.vi, voiceId: r.voiceId, engine: r.voiceEngine } });
@@ -350,6 +386,8 @@ async function main() {
         url = json.audioUrl ?? json.url;
       }
       await fs.writeFile(file, await download(url));
+      marks[seg.index] = voiceKey(r);
+      await saveMarks();
       synthesized += 1;
     }
     rows[i] = { seg, file, natural: await probeDuration(file) };
@@ -433,7 +471,8 @@ async function main() {
     engine,
     synth,
     refs: Object.fromEntries(Object.entries(refs).map(([k, v]) =>
-      [k, { file: v.file, duration: v.duration, score: Number(v.score.toFixed(3)), text: v.text, voiceId: v.voiceId }])),
+      [k, { file: v.file, duration: v.duration, score: v.score === undefined ? undefined : Number(v.score.toFixed(3)),
+        text: v.text, voiceId: v.voiceId }])),
     maxTempo,
     segments: placed.map((p) => ({
       index: p.seg.index, speaker: p.seg.speaker, start: p.seg.start,
