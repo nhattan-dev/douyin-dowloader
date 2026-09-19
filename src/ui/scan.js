@@ -49,6 +49,8 @@ export const mediaUrl = (abs) => {
 export const tagsOf = (desc) => [...String(desc || "").matchAll(/#([^\s#@]+)/g)].map((m) => m[1]);
 export const titleOf = (desc) => String(desc || "").replace(/#[^\s#]+/g, " ").replace(/\s+/g, " ").trim();
 export const editsPath = (seriesDir, ep) => path.join(seriesDir, `ep${ep}.vi-edits.json`);
+/** Giọng có sẵn của VieNeu đã chọn cho từng nhân vật: { "<nhân vật>": "<voiceId>" } — dùng chung mọi tập của series. */
+export const presetsPath = (seriesDir) => path.join(seriesDir, "preset-voices.json");
 /** Phải khớp sanitize của extract-voice.js / dub-video.mjs. */
 export const folderOf = (speaker) => String(speaker).replace(/[/\\]/g, "_").trim();
 
@@ -279,6 +281,10 @@ export async function episodeDetail(slug, ep) {
     const c = cast.find((x) => x.zh === zh || (x.alias || []).includes(zh));
     return c ? c.vi || c.zh : zh;
   };
+  const genderOf = (zh) => {
+    const g = cast.find((x) => x.zh === zh || (x.alias || []).includes(zh))?.gender;
+    return g === "male" || g === "female" ? g : null;
+  };
   const report = await readJson(path.join(e.videoDir, "dub", "report.json"));
   const overflow = (report?.segments || [])
     .map((s) => ({ ...s, over: Number((s.natural / s.tempo - s.room).toFixed(2)) }))
@@ -293,10 +299,12 @@ export async function episodeDetail(slug, ep) {
     const ref = report?.refs?.[sp] ?? null;
     const refDir = inBank ? path.join(bank, folderOf(sp)) : path.join(e.videoDir, "voice", folderOf(sp));
     voices.push({
-      speaker: sp, name: nameOf(sp),
+      speaker: sp, name: nameOf(sp), gender: genderOf(sp),
       lines: segs.filter((s) => s.speaker === sp && s.vi).length,
       source: inBank ? "series" : inEp ? "episode" : null,
-      refUrl: ref ? mediaUrl(path.join(refDir, ref.file)) : null,
+      // lần lồng tiếng bằng giọng có sẵn không có clip mẫu (ref.file) — chỉ có voiceId
+      refUrl: ref?.file ? mediaUrl(path.join(refDir, ref.file)) : null,
+      preset: report?.synth === "preset" ? ref?.voiceId ?? null : null,
     });
   }
   const edits = (await readJson(editsPath(core.dir, e.ep))) || {};
@@ -317,6 +325,7 @@ export async function episodeDetail(slug, ep) {
     staleEdits,
     speakerReviewed: Boolean(tr?.speakerReviewed),
     voices,
+    presets: (await readJson(presetsPath(core.dir))) || {}, // giọng có sẵn đã chọn lần trước, theo nhân vật
     dub: report ? { engine: report.engine, synth: report.synth, lines: report.segments.length, overflow } : null,
     urls: {
       video: state.hasVideo ? mediaUrl(path.join(e.videoDir, "video.mp4")) : null,
@@ -332,7 +341,7 @@ export async function episodeDetail(slug, ep) {
  * ở đó — tập đầu tiên được lồng tiếng đặt giọng, các tập sau dùng chung, nên một nhân vật đọc
  * cùng một giọng suốt series (dub-video --voices), và khỏi tách mẫu (demucs) lại mỗi tập.
  */
-export async function ttsPlan(slug, ep, { reextract = false } = {}) {
+export async function ttsPlan(slug, ep, { reextract = false, preset = false } = {}) {
   const hit = await episodeCore(slug, ep);
   if (!hit) throw new Error(`không có tập ${ep} trong series ${slug}`);
   const { e, core } = hit;
@@ -341,7 +350,8 @@ export async function ttsPlan(slug, ep, { reextract = false } = {}) {
   const speakers = [...new Set(tr.segments.filter((s) => s.vi && s.speaker).map((s) => s.speaker))];
   const bank = path.join(core.dir, "voices");
   const extract = [];
-  for (const sp of speakers) {
+  // giọng có sẵn không cần mẫu: khỏi tách (demucs) và khỏi cập nhật kho giọng
+  for (const sp of preset ? [] : speakers) {
     const inBank = await exists(path.join(bank, folderOf(sp), "manifest.json"));
     const inEp = await exists(path.join(e.videoDir, "voice", folderOf(sp), "manifest.json"));
     if (reextract || (!inBank && !inEp)) extract.push(sp);

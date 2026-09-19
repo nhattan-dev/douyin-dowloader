@@ -369,10 +369,49 @@ on("POST", "/api/series/([^/]+)/ep/([^/]+)/speaker-review", async (req, [slug, e
   const file = await saveSubmission(path.join("series", slug, "reviews"), `ep${ep}.speaker-review`, await body(req));
   return { file, job: await jobs.enqueue("speakerApply", { slug, ep, file }) };
 });
-on("POST", "/api/series/([^/]+)/ep/([^/]+)/tts", async (req, [slug, ep]) => {
-  const { engine = "v3", reextract = false } = await body(req);
+// Danh sách giọng của VieNeu (catalog + giọng bạn đã clone/enrol) — GET /voices chỉ đọc, không tốn token.
+// Cache 10 phút: ~1200 giọng, và id trùng giữa v3/v4 nên phải lọc theo engine.
+let voicesCache = null;
+async function vieneuVoices(engine) {
+  if (!voicesCache || Date.now() - voicesCache.at > 600000) {
+    const env = { ...(await readEnvFile(path.join(ROOT, ".env"))), ...process.env };
+    const key = (env.VIENUE_KEY || env.VIENEU_API_KEY || "").trim();
+    if (!key) throw Object.assign(new Error("thiếu VIENUE_KEY trong .env"), { code: 400 });
+    const res = await fetch("https://api.vieneu.io/api/v1/voices", {
+      headers: { Authorization: `Bearer ${key}` }, signal: AbortSignal.timeout(20000),
+    });
+    if (!res.ok) throw Object.assign(new Error(`VieNeu ${res.status} khi lấy danh sách giọng`), { code: 502 });
+    voicesCache = { at: Date.now(), list: (await res.json()).voices || [] };
+  }
+  const seen = new Set();
+  return voicesCache.list
+    .filter((v) => v.engine === engine && !seen.has(v.id) && seen.add(v.id))
+    // giọng đã clone của chính bạn lên đầu: dùng lại không tốn thêm lượt clone nào
+    .sort((a, b) => (a.kind === "cloned" ? 0 : 1) - (b.kind === "cloned" ? 0 : 1))
+    .map(({ id, name, description, gender, region, kind }) => ({ id, name, description, gender, region, kind }));
+}
+on("GET", "/api/vieneu/voices", async (req, m, res, url) => {
+  const engine = url.searchParams.get("engine") || "v3";
   if (!["v3", "v4"].includes(engine)) throw Object.assign(new Error("engine phải là v3 hoặc v4"), { code: 400 });
-  return { job: await jobs.enqueue("tts", { slug, ep, engine, ...(reextract ? { reextract: true } : {}) }) };
+  return { engine, voices: await vieneuVoices(engine) };
+});
+on("POST", "/api/series/([^/]+)/ep/([^/]+)/tts", async (req, [slug, ep]) => {
+  const { engine = "v3", reextract = false, mode = "clone", presets = {} } = await body(req);
+  if (!["v3", "v4"].includes(engine)) throw Object.assign(new Error("engine phải là v3 hoặc v4"), { code: 400 });
+  if (!["clone", "preset"].includes(mode)) throw Object.assign(new Error("mode phải là clone hoặc preset"), { code: 400 });
+  if (mode === "clone") return { job: await jobs.enqueue("tts", { slug, ep, engine, ...(reextract ? { reextract: true } : {}) }) };
+  // chặn từ đầu: thiếu/sai giọng thì báo ngay, khỏi xếp hàng rồi mới hỏng
+  const d = await scan.episodeDetail(slug, ep);
+  if (!d) throw Object.assign(new Error("không có tập này"), { code: 404 });
+  const valid = new Set((await vieneuVoices(engine)).map((v) => v.id));
+  const picked = {};
+  const bad = [];
+  for (const v of d.voices) {
+    if (valid.has(presets[v.speaker])) picked[v.speaker] = presets[v.speaker];
+    else bad.push(v.name);
+  }
+  if (bad.length) throw Object.assign(new Error(`chưa chọn giọng (hoặc giọng không có ở engine ${engine}) cho: ${bad.join(", ")}`), { code: 400 });
+  return { job: await jobs.enqueue("tts", { slug, ep, engine, mode, presets: picked }) };
 });
 on("POST", "/api/series/([^/]+)/ep/([^/]+)/line", async (req, [slug, ep]) => {
   const { index, vi = null, drop = false } = await body(req);

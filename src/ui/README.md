@@ -19,7 +19,7 @@ tiếp từ checkpoint, không trả tiền lại.
 | Series › các tập | **Dịch** từng tập / cả loạt; tiến độ từng bước con A1…E3 | `zhvi <transcript> --bible … --events` |
 | Tập › Soát người nói | trang soát zhvi nhúng; gửi xong tự nạp nhãn + dịch tiếp | `zhvi --apply` → dịch lại |
 | Tập › Bản dịch | video + phụ đề Việt đồng bộ bảng câu; lọc câu nên xem; **sửa tay** | — |
-| Tập › Lồng tiếng | VieNeu v3/v4, 1 luồng; xem bản lồng / bản gốc; câu tràn khung | `extract-voice.js` → `dub-video.mjs --voices series/<slug>/voices` |
+| Tập › Lồng tiếng | VieNeu v3/v4, 1 luồng; **clone từ mẫu** hoặc **giọng có sẵn** (chọn từng nhân vật); xem bản lồng / bản gốc; câu tràn khung | clone: `extract-voice.js` → `dub-video.mjs --voices series/<slug>/voices`; giọng có sẵn: `dub-video.mjs --synth preset --preset-map series/<slug>/preset-voices.json` |
 | Chờ bạn | việc máy đợi người: duyệt bible, soát người nói, lỗi, tập làm tiếp được | — |
 
 ## Kiến trúc
@@ -46,6 +46,12 @@ tiếp từ checkpoint, không trả tiền lại.
 | `series/<slug>/voices/<nhân vật>/` | kho giọng series: tập đầu tiên lồng tiếng đặt giọng, các tập sau dùng chung |
 | `series/<slug>/reviews/`, `draft/reviews/` | bản gửi từ trang soát/duyệt, giữ làm dấu vết |
 | `data/_ui/` | lịch sử việc, log, ảnh thu nhỏ |
+
+Hai chế độ giọng ở tab Lồng tiếng: **clone** cần mẫu giọng (tách bằng demucs) và bị VieNeu giới hạn theo
+ngày/tháng/slot; **giọng có sẵn** dùng catalog của VieNeu (`GET /voices`, lọc theo engine — id trùng giữa v3/v4)
+và cả giọng bạn đã clone trước đó (`kind: cloned`, chỉ v4), không tốn hạn mức clone, không cần mẫu. Lựa chọn lưu ở
+`series/<slug>/preset-voices.json` (nhân vật → voiceId) nên các tập sau tự nhớ. Clip ghi kèm giọng đã dùng
+(`dub/clips/voices.json`): đổi giọng rồi `--resume` chỉ làm lại đúng các câu của giọng đó.
 
 Lồng tiếng lại sau khi dịch lại/sửa tay: clip nào có chữ hoặc người nói khác lần trước (so với
 `dub/report.json`) thì xoá và tổng hợp lại; còn lại dùng lại (`--resume`).

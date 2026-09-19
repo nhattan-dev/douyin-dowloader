@@ -875,17 +875,23 @@ async function viewEpisode([slug, ep, tab]) {
             : html`<div class="empty"><b>Chưa có bản lồng tiếng</b>Chọn engine rồi bấm «Lồng tiếng».</div>`}
           ${act?.type === "tts" ? html`<div data-live-job="${act.id}" data-mode="card">${liveJob(act)}</div>` : ""}
           ${!act && ttsJob?.status === "failed" ? html`<div class="callout err"><b>Lần lồng tiếng trước hỏng</b><div class="err-text">${ttsJob.error}</div></div>` : ""}
-          ${act ? "" : html`<form class="row" id="ttsForm">
-            <select name="engine"><option value="v3">VieNeu v3 (mặc định)</option><option value="v4">VieNeu v4 (clone tốt hơn, đắt hơn)</option></select>
-            <label class="chk"><input type="checkbox" name="reextract"> tách lại giọng mẫu</label>
-            <button class="btn pri">${d.urls.dub ? "Lồng tiếng lại" : "Lồng tiếng"}</button></form>
+          ${act ? "" : html`<form id="ttsForm" class="stack" style="gap:10px">
+            <div class="row">
+              <select name="engine"><option value="v3">VieNeu v3 (mặc định)</option><option value="v4">VieNeu v4 (clone tốt hơn, đắt hơn)</option></select>
+              <select name="mode" title="Clone bị VieNeu giới hạn theo ngày/tháng; giọng có sẵn thì không">
+                <option value="clone">Clone giọng từ mẫu (tính hạn mức clone)</option>
+                <option value="preset">Giọng có sẵn của VieNeu (không clone)</option></select>
+              <label class="chk" id="reextractLbl"><input type="checkbox" name="reextract"> tách lại giọng mẫu</label>
+              <button class="btn pri">${d.urls.dub ? "Lồng tiếng lại" : "Lồng tiếng"}</button></div>
+            <div id="presetBox" class="stack" style="gap:6px" hidden></div></form>
             <div class="dim small">Chạy tuần tự 1 luồng (VieNeu giới hạn tốc độ) — tập 5 phút mất cỡ vài chục phút. Đóng trang vẫn chạy.</div>`}
         </div>
         <div class="stack">
           <div class="card"><div class="card-h"><h3>Giọng nhân vật</h3></div><div class="tw"><table class="t">
             ${d.voices.map((v) => html`<tr><td>${spk(v.name)}<span class="dim small zh">${v.speaker !== v.name ? v.speaker : ""}</span></td>
               <td class="num">${v.lines} câu</td>
-              <td>${v.source === "series" ? html`<span class="pill p-ok" title="dùng chung cho mọi tập của series">giọng series</span>`
+              <td>${v.preset ? html`<span class="pill p-ok" title="lần lồng tiếng gần nhất dùng giọng có sẵn này">${v.preset}</span>`
+                : v.source === "series" ? html`<span class="pill p-ok" title="dùng chung cho mọi tập của series">giọng series</span>`
                 : v.source === "episode" ? html`<span class="pill p-q">mẫu của tập này</span>` : html`<span class="pill p-mute">chưa có mẫu</span>`}</td>
               <td>${v.refUrl ? html`<audio controls preload="none" style="height:28px;width:180px" src="${v.refUrl}"></audio>` : ""}</td></tr>`)}
           </table></div>
@@ -1026,11 +1032,67 @@ async function viewEpisode([slug, ep, tab]) {
     }
     const f = $("#ttsForm");
     if (f) {
+      // Chế độ «giọng có sẵn»: mỗi nhân vật một ô chọn giọng, danh sách lấy từ VieNeu theo engine.
+      // Nhớ lựa chọn của series (d.presets) và của ô đang chọn khi đổi engine.
+      const box = $("#presetBox");
+      const preset = () => f.mode.value === "preset";
+      const picks = () => Object.fromEntries($$("select[data-sp]", box).filter((s) => s.value).map((s) => [s.dataset.sp, s.value]));
+      // vẽ lại tab (job khác vừa xong…) không được làm mất lựa chọn đang dở
+      const draft = ((S.ttsDraft ??= {})[url] ??= {});
+      let loaded = null;
+      const label = (v) => (v.kind === "cloned" ? `${v.name} (bạn đã clone)` : `${v.name} — ${v.description}`);
+      const GROUPS = { cloned: "Giọng bạn đã clone (dùng lại không tốn lượt clone)", male: "Nam", female: "Nữ", other: "Khác" };
+      const groupOf = (v) => (v.kind === "cloned" ? "cloned" : v.gender === "male" || v.gender === "female" ? v.gender : "other");
+      const paintPreset = async () => {
+        $("#reextractLbl").hidden = preset();
+        box.hidden = !preset();
+        if (!preset() || loaded === f.engine.value) return;
+        const keep = { ...d.presets, ...draft.picks, ...picks() };
+        const engine = f.engine.value;
+        box.innerHTML = val(html`<div class="dim small">Đang tải danh sách giọng VieNeu…</div>`);
+        let list;
+        try {
+          list = (await api(`/api/vieneu/voices?engine=${engine}`)).voices;
+        } catch (ex) {
+          box.innerHTML = val(html`<div class="callout err">${ex.message}</div>`);
+          return;
+        }
+        if (f.engine.value !== engine) return; // đổi engine trong lúc chờ: lượt vẽ mới lo
+        loaded = engine;
+        const by = Object.groupBy(list, groupOf);
+        box.innerHTML = val(html`${d.voices.map((v) => {
+          // giới tính của nhân vật (từ bible) đưa nhóm cùng giới lên trước — đỡ cuộn qua 300 giọng
+          const order = ["cloned", v.gender, "male", "female", "other"].filter((g, i, a) => g && a.indexOf(g) === i);
+          return html`<div class="row"><span style="min-width:140px">${spk(v.name)}${v.gender ? html` <span class="dim small">${v.gender === "male" ? "nam" : "nữ"}</span>` : ""}</span>
+            <span class="dim small" style="min-width:52px">${v.lines} câu</span>
+            <select data-sp="${v.speaker}" style="flex:1;min-width:220px"><option value="">— chọn giọng —</option>
+              ${order.filter((g) => by[g]).map((g) => html`<optgroup label="${GROUPS[g]}">${by[g].map((o) => html`<option value="${o.id}">${label(o)}</option>`)}</optgroup>`)}</select></div>`;
+        })}<div class="dim small">Giọng có sẵn không tốn hạn mức clone (ngày/tháng); vẫn tính token theo số ký tự. Lựa chọn được nhớ cho cả series.</div>`);
+        for (const s of $$("select[data-sp]", box)) if ([...s.options].some((o) => o.value === keep[s.dataset.sp])) s.value = keep[s.dataset.sp];
+      };
+      f.engine.value = draft.engine ?? f.engine.value;
+      f.mode.value = draft.mode ?? (d.dub?.synth === "preset" ? "preset" : "clone");
+      f.mode.onchange = f.engine.onchange = paintPreset;
+      // chỉ ghi nhớ những gì NGƯỜI DÙNG chọn: đổi engine làm ô mất giọng không có ở engine kia, đổi lại thì có lại
+      f.addEventListener("change", (e) => {
+        Object.assign(draft, { mode: f.mode.value, engine: f.engine.value });
+        if (e.target.dataset.sp) (draft.picks ??= {})[e.target.dataset.sp] = e.target.value;
+      });
+      paintPreset();
       f.onsubmit = async (e) => {
         e.preventDefault();
-        if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value}? Tính tiền theo token VieNeu.`)) return;
+        const presets = preset() ? picks() : null;
+        if (presets) {
+          const missing = d.voices.filter((v) => !presets[v.speaker]).map((v) => v.name);
+          if (!box.querySelector("select")) return toast("Danh sách giọng chưa tải xong", "err");
+          if (missing.length) return toast(`Chưa chọn giọng cho: ${missing.join(", ")}`, "err");
+        }
+        const how = presets ? "giọng có sẵn — không tốn lượt clone" : "clone từ mẫu";
+        if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value}, ${how}? Tính tiền theo token VieNeu.`)) return;
         try {
-          const r = await api(`${url}/tts`, { method: "POST", body: { engine: f.engine.value, reextract: f.reextract.checked } });
+          const r = await api(`${url}/tts`, { method: "POST", body: presets
+            ? { engine: f.engine.value, mode: "preset", presets }
+            : { engine: f.engine.value, reextract: f.reextract.checked } });
           S.jobs.set(r.job.id, r.job);
           paintSide();
           toast("Đã xếp lồng tiếng");

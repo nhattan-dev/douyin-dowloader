@@ -114,13 +114,28 @@ export const recipes = {
   },
 
   tts: {
-    plan: async ({ slug, ep, engine = "v3" }) => ({
-      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}) — ${await seriesTitle(slug)}`, lane: "tts", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
+    // mode "preset": giọng có sẵn của VieNeu (chọn từng nhân vật) thay vì clone từ mẫu — không tốn
+    // hạn mức clone (ngày/tháng/slot), không cần tách mẫu. `presets` = { "<nhân vật>": "<voiceId>" }.
+    plan: async ({ slug, ep, engine = "v3", mode = "clone" }) => ({
+      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}${mode === "preset" ? ", giọng có sẵn" : ""}) — ${await seriesTitle(slug)}`,
+      lane: "tts", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
     }),
-    async steps({ slug, ep, engine = "v3", reextract = false }) {
-      const p = await scan.ttsPlan(slug, ep, { reextract });
+    async steps({ slug, ep, engine = "v3", reextract = false, mode = "clone", presets = {} }) {
+      const preset = mode === "preset";
+      const p = await scan.ttsPlan(slug, ep, { reextract, preset });
       const cast = p.core.bible?.cast || [];
       const vi = (zh) => cast.find((c) => c.zh === zh)?.vi || zh;
+      const presetFile = scan.presetsPath(p.core.dir);
+      const dub = {
+        label: p.resume
+          ? `tổng hợp giọng Việt (dùng lại clip cũ${p.dropped ? `, làm lại ${p.dropped} câu đã đổi` : ""}) + trộn nền + ghép video`
+          : "tổng hợp giọng Việt + trộn nền nhạc + ghép video",
+        // --concurrency 1: VieNeu rate-limit, song song đã thử và chậm hơn — đừng tăng
+        argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "1",
+          ...(preset ? ["--synth", "preset", "--preset-map", rel(presetFile)] : ["--voices", rel(p.bank)]),
+          ...(p.resume ? ["--resume"] : [])),
+      };
+      if (preset) return [{ label: "lưu giọng đã chọn cho series", run: () => savePresets(presetFile, presets) }, dub];
       return [
         // nhân vật thoại quá ít có thể không cắt được mẫu: cho qua, dub-video sẽ báo đúng tên thiếu
         ...p.extract.map((sp) => ({
@@ -131,18 +146,18 @@ export const recipes = {
           label: "cập nhật kho giọng series (một nhân vật một giọng suốt các tập)",
           run: () => syncVoiceBank(p, { replace: reextract ? p.extract : [] }),
         },
-        {
-          label: p.resume
-            ? `tổng hợp giọng Việt (dùng lại clip cũ${p.dropped ? `, làm lại ${p.dropped} câu đã đổi` : ""}) + trộn nền + ghép video`
-            : "tổng hợp giọng Việt + trộn nền nhạc + ghép video",
-          // --concurrency 1: VieNeu rate-limit, song song đã thử và chậm hơn — đừng tăng
-          argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "1",
-            "--voices", rel(p.bank), ...(p.resume ? ["--resume"] : [])),
-        },
+        dub,
       ];
     },
   },
 };
+
+/** Gộp vào lựa chọn cũ: nhân vật của các tập khác trong series giữ nguyên giọng đã chọn. */
+async function savePresets(file, presets) {
+  const old = (await scan.readJson(file)) || {};
+  await fs.writeFile(file, `${JSON.stringify({ ...old, ...presets }, null, 1)}
+`, "utf8");
+}
 
 /** Nhân vật chưa có trong kho series thì lấy mẫu của tập này làm giọng chung; `replace` = thay giọng kho. */
 async function syncVoiceBank(p, { replace = [] } = {}) {
