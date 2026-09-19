@@ -30,7 +30,12 @@ import { promisify } from "node:util";
 import { findAudioFile } from "../src/stt.js";
 
 const run = promisify(execFile);
-const sh = (cmd, args) => run(cmd, args, { maxBuffer: 1024 * 1024 * 64 });
+// PYTHONUTF8: demucs in đường dẫn ra stdout; trên Windows khi bị pipe Python dùng cp1252 và
+// chết UnicodeEncodeError ngay khi thư mục có tên tiếng Trung (voice/苏然/...).
+const sh = (cmd, args) => run(cmd, args, {
+  maxBuffer: 1024 * 1024 * 64,
+  env: { ...process.env, PYTHONUTF8: "1" },
+});
 
 function parseArgs(argv) {
   const out = {};

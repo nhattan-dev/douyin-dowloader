@@ -142,8 +142,11 @@ let healthCache = null;
 async function health() {
   if (healthCache && Date.now() - healthCache.at < 30000) return healthCache.v;
   const env = { ...(await readEnvFile(path.join(ROOT, ".env"))), ...process.env };
-  const which = (bin) => new Promise((r) => execFile("which", [bin], (err, out) => r(err ? null : out.trim())));
-  const py = process.env.RESEMBLYZER_PYTHON ?? path.join(os.homedir(), "WorkSpace/tools/seed-vc/.venv/bin/python");
+  // Windows không có `which`; `where.exe` in mỗi đường dẫn một dòng
+  const which = (bin) => new Promise((r) => execFile(process.platform === "win32" ? "where.exe" : "which", [bin],
+    (err, out) => r(err ? null : out.trim().split(/\r?\n/)[0])));
+  // `env` đã gộp .env — server chạy bằng `node src/ui/server.js` không nạp .env vào process.env
+  const py = env.RESEMBLYZER_PYTHON ?? path.join(os.homedir(), "WorkSpace/tools/seed-vc/.venv/bin/python");
   let freeGb = null;
   try {
     const s = await fsp.statfs(ROOT);
@@ -458,7 +461,9 @@ on("POST", "/api/open", async (req) => {
   const abs = safePath(p);
   if (!abs) throw Object.assign(new Error("chỉ mở được thư mục trong data/, out/, series/"), { code: 400 });
   const wsl = /microsoft/i.test(await fsp.readFile("/proc/version", "utf8").catch(() => ""));
-  if (wsl) {
+  if (process.platform === "win32") {
+    spawn("explorer.exe", [path.normalize(abs)], { detached: true, stdio: "ignore" }).unref();
+  } else if (wsl) {
     const win = await new Promise((r, j) => execFile("wslpath", ["-w", abs], (e, o) => (e ? j(e) : r(o.trim()))));
     spawn("explorer.exe", [win], { detached: true, stdio: "ignore" }).unref();
   } else {

@@ -23,6 +23,7 @@
  */
 import fs from "node:fs/promises";
 import path from "node:path";
+import { fileURLToPath } from "node:url";
 
 import { Llm, STAGES, modelsFromEnv, readEnvFile, runPipeline, subsOf } from "./index.js";
 import { applyExport, buildReview } from "./review.js";
@@ -80,7 +81,7 @@ if (a.apply) {
   process.exit(0);
 }
 
-const root = path.resolve(path.dirname(new URL(import.meta.url).pathname), "../..");
+const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 const env = { ...(await readEnvFile(path.join(root, ".env"))), ...process.env };
 
 const log = {

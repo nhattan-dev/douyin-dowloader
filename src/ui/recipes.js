@@ -136,6 +136,7 @@ export const recipes = {
             ? `tổng hợp giọng Việt (dùng lại clip cũ${p.dropped ? `, làm lại ${p.dropped} câu đã đổi` : ""}) + trộn nền + ghép video`
             : "tổng hợp giọng Việt + trộn nền nhạc + ghép video",
           // --concurrency 1: VieNeu rate-limit, song song đã thử và chậm hơn — đừng tăng
+          // synth mặc định của dub-video là `voice` (enrol + /tts) và ghi ra dub/ — đúng chỗ scan.js đọc
           argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "1",
             "--voices", rel(p.bank), ...(p.resume ? ["--resume"] : [])),
         },

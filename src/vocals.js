@@ -34,7 +34,7 @@ export async function separateVocals(audioPath, workDir) {
   log.info(`tách vocal: demucs ${args.join(" ")}`);
   const t0 = Date.now();
   try {
-    await run("demucs", args, { maxBuffer: 1024 * 1024 * 50 });
+    await run("demucs", args, { maxBuffer: 1024 * 1024 * 50, env: { ...process.env, PYTHONUTF8: "1" } });
   } catch (err) {
     throw new Error(
       `demucs lỗi (đã cài chưa? \`pipx install demucs\` rồi \`pipx inject demucs numpy\`): ${err.message}`,

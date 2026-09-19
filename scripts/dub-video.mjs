@@ -28,9 +28,9 @@
 //   ... --resume           dùng lại file đã tổng hợp trước đó, chỉ làm phần thiếu
 //   ... --concurrency 5    số câu tổng hợp song song (mặc định 5)
 //   ... --voices <dir>     kho giọng dùng chung cấp series, tra trước khi tự tách
-//   ... --synth voice      enrol giọng nhân vật (POST /voices) rồi tổng hợp bằng job /tts;
-//                          mặc định `clone` = /clone zero-shot từng câu
-//   ... --out <tên>        thư mục đầu ra trong videoDir (mặc định dub, hoặc dub-voice)
+//   ... --synth voice      (mặc định) enrol giọng nhân vật (POST /voices) rồi tổng hợp bằng job /tts
+//   ... --synth clone      /clone zero-shot từng câu — gói Starter chỉ 9 lượt/ngày (429 CLONE_ONESHOT_DAILY_CAP)
+//   ... --out <tên>        thư mục đầu ra trong videoDir (mặc định dub, hoặc dub-clone khi --synth clone)
 //
 // Vì sao có `--synth voice`: /clone chịu rate-limit chặt tới mức song song còn chậm hơn
 // tuần tự. /tts là hàng đợi job (submit trả jobId ngay, poll lấy kết quả) nên là đường
@@ -261,10 +261,10 @@ async function main() {
   // thay vì mỗi tập tự chọn "clip giống nhất" của riêng nó rồi lệch nhau. Video nào
   // KHÔNG có --voices, hoặc nhân vật chưa có trong kho, thì rơi về voice/ của video đó.
   const seriesVoices = args.voices ? path.resolve(str(args.voices, "")) : null;
-  const synth = str(args.synth, "clone");
+  const synth = str(args.synth, "voice");
   if (!["clone", "voice"].includes(synth)) throw new Error("--synth phải là clone hoặc voice");
 
-  const outDir = path.join(dir, str(args.out, synth === "voice" ? "dub-voice" : "dub"));
+  const outDir = path.join(dir, str(args.out, synth === "clone" ? "dub-clone" : "dub"));
   const clipDir = path.join(outDir, "clips");
   await fs.mkdir(clipDir, { recursive: true });
 
