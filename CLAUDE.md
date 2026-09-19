@@ -309,7 +309,47 @@ theo nội dung, nên chạy lại mà ra kết quả y hệt thì không kéo t
   ra cùng một bible.
 - `look` là bằng chứng gộp: đo được hai mục máy tách riêng mà look tả đúng đặc điểm của nhân vật
   khác ("có đuôi trắng lớn" = Ngọc Diện).
-- Chưa làm: bổ sung tập mới vào bible **đã có** (`init` từ chối khi đã có `bible.json`).
+- `init` từ chối khi đã có `bible.json` — dựng lại cả series KHÔNG phải đường bổ sung tập mới.
+
+### Bible lớn thêm ở cổng soát từng tập (cài 2026-09-19)
+
+Trước đó đường này chỉ được vẽ chứ chưa nối: `proposals.json` ghi ra mà không ai đọc,
+`bible.pending` và `proposeTerms()` viết xong không ai gọi. Đo trên ep01 của 飞鸟炮灰: **6 thuật
+ngữ mới** (`穿书`, `炮灰`, `退婚`, `盲文`, `股份`, `系统商店`) rơi vào hư không mỗi lần chạy.
+
+Chỗ nối là **cổng soát đã có sẵn ở mỗi tập**, không phải lệnh mới: trang `review.html` hỏi thêm
+thuật ngữ mới + "người mới", `zhvi --apply` gọi `bible.extend()` ghi thẳng vào `bible.json`.
+Lý do chọn chỗ đó: hai cổng hỏi cùng một câu hỏi ở hai nơi là thiết kế sai; và người duyệt lúc
+soát tập N đã xem tập N, tức phán đúng hơn lúc duyệt bible trước khi xem gì.
+
+Bốn luật, đừng nới:
+
+- **Xung đột thì TỪ CHỐI, không đè.** Thuật ngữ đã chốt khác đi là quyết định cũ của người; sửa
+  nó phải qua `bible-review`, không phải lặng lẽ thay ở tập thứ 7.
+- **Không gộp hai nhân vật ĐÃ duyệt ở đây.** Gộp trong nháp thì rẻ; gộp sau khi duyệt là
+  migration — phải trỏ lại `address`, `alias` và mọi `ep<N>.speakers.json` đang giữ id chết.
+  (Vẫn chưa làm. Ca thật: tập 4 mới lộ ra «少爷» chính là «顾言».)
+- **Cổng mở lại theo TỪNG MỤC, không theo tập** (`growthPending`). Giữ nguyên luật "chặn một
+  lần" cho đuôi câu nghi — soát xong vẫn còn câu nghi là bình thường (8 → 6, không về 0) — nhưng
+  mục bible còn thiếu mà chưa ai trả lời thì vẫn dừng. Mục đã quyết, **kể cả quyết là BỎ**, được
+  ghi vào `ep<N>.speakers.json` (`terms` + `termsDropped`); không ghi thì cổng hỏi mãi một thứ.
+- **Tên chữ Hán phải CHỌN, không gõ.** Ứng viên lấy bằng `vocativeNames` (regex, không tốn lượt
+  LLM). Bỏ trống thì khoá lấy tên Việt — không khớp chữ trong thoại nên kênh "gọi tên" của B3 im
+  lặng: không đúng thêm được gì, nhưng cũng không gán bừa.
+
+**Hệ quả bắt buộc lên chữ ký checkpoint.** `extend` làm đổi `bible.version`, nên nếu để version
+trong chữ ký thì mỗi lần bible lớn thêm là trả tiền lại cả series. Đã tách:
+
+| | trước | sau | vì sao |
+|---|---|---|---|
+| B2 | `bible.version` | `castSig(bible)` | version gồm cả `address` (B2 không nhận) và BỎ `note` (B2 có nhận) — vừa quá rộng vừa quá lỏng |
+| B2 | — | **không** gồm danh sách thuật ngữ | prompt có gửi, nhưng chỉ để "đừng đề xuất lại"; nó không đụng việc gán người nói, và đề xuất trùng đã bị lọc ở cả trang soát lẫn `extend` |
+| C2 · D2 | `sheet` (có `bibleVersion`) | `sheet` trừ `bibleVersion` | `bibleVersion` là trường duy nhất đổi mà prompt không đổi |
+
+**Khoá của UI phải lên cấp series.** `speakerApply` giờ đọc-sửa-ghi `bible.json`, mà làn `zhvi`
+chạy 2 việc song song — khoá cũ `series:<slug>:ep<N>` để hai tập nạp song song đè nhau, mất lặng
+lẽ một nhân vật. Đổi sang `series:<slug>` (chặn cả `:epN` nhờ luật prefix trong `jobs.js`); nạp
+chỉ là vài thao tác file nên chặn cả series là rẻ.
 
 ### Trang duyệt bible: hỏi gì thì phải đưa đủ bằng chứng cho cái đó
 

@@ -26,7 +26,7 @@ import * as BIBLE from "./bible.js";
 import { sig } from "./ckpt.js";
 import { runPipeline } from "./index.js";
 import { jparse } from "./llm.js";
-import { isVocative, relevantGlossary, repeatedTerms } from "./passes/b-speakers.js";
+import { isVocative, relevantGlossary, repeatedTerms, vocativeNames } from "./passes/b-speakers.js";
 import { LOOK_CONTRAST_SYS, LOOK_SYS, SERIES_SYS } from "./prompts.js";
 import { media, roughVi } from "./review.js";
 import { buildBiblePage } from "./series-page.js";
@@ -321,36 +321,6 @@ function sceneSample(ep, u, byEp, videoRef) {
       id: x.id, spk: x.speaker, zh: x.zh, start: x.start, end: x.end, self: x.id === u.id,
     })),
   };
-}
-
-/**
- * Tên người được GỌI trong thoại («大王，…» / «…，师父») mà dàn nhân vật chưa có.
- *
- * Để làm gì: người duyệt không đọc và không gõ được chữ Hán, nên muốn thêm một nhân vật máy bỏ
- * sót thì phải có sẵn danh sách tên để CHỌN. Đây là nguồn lấy được mà không tốn thêm lượt LLM
- * nào, và lọc theo vị trí gọi tên nên phần lớn là tên người thật chứ không phải thuật ngữ.
- */
-export function vocativeNames(eps, known = [], { max = 12, minCount = 2 } = {}) {
-  const dup = (nm) => known.some((k) => k && (k.includes(nm) || nm.includes(k)));
-  const RE = [/^([一-鿿]{2,4})[，,、]/, /[，,、]([一-鿿]{2,4})[？！。?!]?$/];
-  const hits = new Map();
-  for (const d of eps) {
-    for (const u of d.utts) {
-      for (const re of RE) {
-        const nm = u.zh.match(re)?.[1];
-        if (!nm || dup(nm)) continue;
-        const e = hits.get(nm) || { zh: nm, count: 0, ep: d.ep, line: null };
-        e.count += 1;
-        if (!e.line || u.end - u.start > e.line.end - e.line.start) {
-          e.line = u;
-          e.ep = d.ep;
-        }
-        hits.set(nm, e);
-      }
-    }
-  }
-  return [...hits.values()].filter((x) => x.count >= minCount)
-    .sort((a, b) => b.count - a.count).slice(0, max);
 }
 
 async function describeLook(llm, c, samples, byEp, { model, frames = 3, width = 480 }) {

@@ -63,6 +63,36 @@ export function isVocative(text, name) {
 }
 
 /** Bằng chứng code tự rút ra được, không cần hỏi model: ai bị gọi tên ở dòng nào. */
+/**
+ * Tên người được GỌI trong thoại («大王，…» / «…，师父») mà dàn nhân vật chưa có.
+ *
+ * Để làm gì: người duyệt không đọc và không gõ được chữ Hán, nên muốn thêm một nhân vật máy bỏ
+ * sót thì phải có sẵn danh sách tên để CHỌN. Đây là nguồn lấy được mà không tốn thêm lượt LLM
+ * nào, và lọc theo vị trí gọi tên nên phần lớn là tên người thật chứ không phải thuật ngữ.
+ */
+export function vocativeNames(eps, known = [], { max = 12, minCount = 2 } = {}) {
+  const dup = (nm) => known.some((k) => k && (k.includes(nm) || nm.includes(k)));
+  const RE = [/^([一-鿿]{2,4})[，,、]/, /[，,、]([一-鿿]{2,4})[？！。?!]?$/];
+  const hits = new Map();
+  for (const d of eps) {
+    for (const u of d.utts) {
+      for (const re of RE) {
+        const nm = u.zh.match(re)?.[1];
+        if (!nm || dup(nm)) continue;
+        const e = hits.get(nm) || { zh: nm, count: 0, ep: d.ep, line: null };
+        e.count += 1;
+        if (!e.line || u.end - u.start > e.line.end - e.line.start) {
+          e.line = u;
+          e.ep = d.ep;
+        }
+        hits.set(nm, e);
+      }
+    }
+  }
+  return [...hits.values()].filter((x) => x.count >= minCount)
+    .sort((a, b) => b.count - a.count).slice(0, max);
+}
+
 export function vocativeEvidence(utts, bib) {
   const out = [];
   for (const c of bib.cast) {
@@ -378,7 +408,29 @@ export function applySpeakers(utts, align, bib, labels) {
  * đó chính là đường ÍT chắc nhất: người nói do một lượt LLM đoán, không kênh hình, và
  * không có trang soát. Chỗ chữa đúng là dựng bible (`series init`), không phải soát tay.
  */
-export function reviewNeeded(align, labels = null, { hasBible = true } = {}) {
+/**
+ * Thứ tập này phát hiện ra mà bible CHƯA có: cụm giọng không gán được ai, và thuật ngữ mới.
+ *
+ * "Đã trả lời" tính theo TỪNG MỤC chứ không theo tập: có `ep<N>.speakers.json` nghĩa là người
+ * đã nhìn tập này, nhưng một nhân vật mới xuất hiện ở lần chạy sau thì vẫn phải hỏi. Ngược lại,
+ * mục nào người đã quyết rồi (kể cả quyết là BỎ) thì không hỏi lại — nếu không cổng chặn mãi.
+ */
+export function growthPending(align, labels = null, bible = null) {
+  const doneC = new Set(Object.keys(labels?.clusters || {}));
+  const doneT = new Set([...Object.keys(labels?.terms || {}), ...(labels?.termsDropped || [])]);
+  const clusters = Object.entries(align?.clusters || {})
+    .filter(([spk, c]) => !c.cid && !doneC.has(spk))
+    .map(([spk]) => spk);
+  const terms = Object.keys(align?.newTerms || {})
+    .filter((zh) => !(bible?.terms && zh in bible.terms) && !doneT.has(zh));
+  const bits = [
+    ...(clusters.length ? [`${clusters.length} cụm chưa có tên (${clusters.join(" ")})`] : []),
+    ...(terms.length ? [`${terms.length} thuật ngữ mới`] : []),
+  ];
+  return { need: bits.length > 0, clusters, terms, why: bits.join(", ") };
+}
+
+export function reviewNeeded(align, labels = null, { hasBible = true, bible = null } = {}) {
   if (!hasBible) {
     return {
       need: true, suspects: 0, weak: [], noBible: true,
@@ -393,9 +445,17 @@ export function reviewNeeded(align, labels = null, { hasBible = true } = {}) {
     ...(weak.length ? [`cụm chưa chắc ${weak.join(" ")}`] : []),
     ...(suspects ? [`${suspects} câu cần soi`] : []),
   ];
-  if (labels) return { need: false, suspects, weak, why: `đã có nhãn người soát (${labels.at || "?"})` };
-  if (!bits.length) return { need: false, suspects, weak, why: "máy chắc hết" };
-  return { need: true, suspects, weak, why: bits.join(", ") };
+  const grow = growthPending(align, labels, bible);
+  if (grow.need) bits.push(grow.why);
+  // Đã soát tập này rồi thì chỉ mở cổng lại vì thứ bible còn THIẾU, không vì đuôi câu nghi:
+  // soát xong vẫn còn câu nghi là chuyện bình thường (đo được: 8 -> 6, không về 0).
+  if (labels) {
+    return grow.need
+      ? { need: true, suspects, weak, grow, why: `${grow.why} — tập đã soát, mở lại để bổ sung bible` }
+      : { need: false, suspects, weak, grow, why: `đã có nhãn người soát (${labels.at || "?"})` };
+  }
+  if (!bits.length) return { need: false, suspects, weak, grow, why: "máy chắc hết" };
+  return { need: true, suspects, weak, grow, why: bits.join(", ") };
 }
 
 // ---------- B6: hồ sơ dịch ----------

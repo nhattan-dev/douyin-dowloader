@@ -19,8 +19,20 @@ import * as B from "./passes/b-speakers.js";
 import * as C from "./passes/c-render.js";
 import * as D from "./passes/d-verify.js";
 import * as E from "./passes/e-export.js";
+import { castSig } from "./bible.js";
 import { applyOps } from "./ops.js";
 import * as V from "./vision.js";
+
+/**
+ * Chữ ký của `sheet`: MỌI thứ trừ `bibleVersion`.
+ *
+ * `bibleVersion` là trường duy nhất đổi mà prompt KHÔNG đổi. Để nó trong chữ ký thì thêm một
+ * thuật ngữ ở tập 7 là bắt dịch lại tập 1-6 — trong khi bible lớn thêm là chuyện BÌNH THƯỜNG
+ * từ khi cổng soát ghi ngược được vào bible.
+ */
+const sheetSig = (s) => (s
+  ? { premise: s.premise, characters: s.characters, address: s.address, entities: s.entities }
+  : null);
 
 /** Chữ ký của một câu thoại: đúng những trường mà công đoạn sau thật sự đọc. */
 const uttSig = (utts) => utts.map((u) => [u.id, u.speaker, u.zh, u.start, u.end]);
@@ -144,7 +156,13 @@ export const STAGES = [
         cost: "llm",
         artifact: "b2-align.json",
         when: (ctx) => Boolean(ctx.bible),
-        sig: (ctx) => [uttSig(ctx.utts), ctx.bible.version, ctx.epTitle, ctx.models.cast],
+        // KHÔNG ký theo bible.version: version gồm cả `address` (B2 không nhận) và BỎ `note`
+        // (B2 có nhận) — vừa quá rộng vừa quá lỏng.
+        // Danh sách thuật ngữ cũng KHÔNG vào chữ ký dù prompt có gửi: nó chỉ để model "đừng đề
+        // xuất lại", không đụng tới việc gán người nói. Hệ quả duy nhất là model có thể đề xuất
+        // trùng — mà cả trang soát lẫn `bible.extend` đều lọc theo bible HIỆN TẠI. Để nó vào thì
+        // thêm một thuật ngữ ở tập 7 là chạy lại B2 cho tập 1-6, đổi tiền thật lấy số không.
+        sig: (ctx) => [uttSig(ctx.utts), castSig(ctx.bible), ctx.epTitle, ctx.models.cast],
         run: (ctx) => B.alignCast(ctx.llm, ctx.utts, ctx.bible, {
           model: ctx.models.cast, epTitle: ctx.epTitle,
         }),
@@ -251,7 +269,7 @@ export const STAGES = [
         title: "dịch",
         cost: "llm",
         artifact: "c2-vi.json",
-        sig: (ctx) => [uttSig(ctx.utts), ctx.sheet, ctx.pinned, ctx.cps, ctx.renderSize, ctx.models.render],
+        sig: (ctx) => [uttSig(ctx.utts), sheetSig(ctx.sheet), ctx.pinned, ctx.cps, ctx.renderSize, ctx.models.render],
         async run(ctx) {
           const { vi, ent } = await C.render(ctx.llm, ctx.utts, ctx.sheet, ctx.glossary, {
             cps: ctx.cps, size: ctx.renderSize, model: ctx.models.render, pinned: ctx.pinned,
@@ -282,7 +300,7 @@ export const STAGES = [
           title: `chấm điểm vòng ${r + 1}`,
           cost: "llm",
           artifact: `d2-critic${r + 1}.json`,
-          sig: (c) => [uttSig(c.utts), c.vi, c.sheet, c.models.critic],
+          sig: (c) => [uttSig(c.utts), c.vi, sheetSig(c.sheet), c.models.critic],
           run: (c) => D.critic(c.llm, c.utts, c.vi, c.sheet, c.glossary, {
             model: c.models.critic, pinned: c.pinned,
           }),

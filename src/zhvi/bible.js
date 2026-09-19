@@ -90,3 +90,65 @@ export function proposeTerms(b, mapping, source) {
   }
   return out;
 }
+
+/** Đúng những thứ pass B2 thật sự gửi cho model — dùng làm chữ ký checkpoint. */
+export const castSig = (b) => b.cast.map((c) => [c.id, c.zh, c.vi || "", c.note || "", ...(c.alias || [])]);
+
+/**
+ * Bible LỚN THÊM theo từng tập — đường về của cổng soát.
+ *
+ * Mọi mục vào đây đều do người chốt ở cổng của một tập cụ thể, nên `approved` ngay; máy
+ * không tự trộn gì cả (đề xuất của máy vẫn nằm ở `out/<tập>/proposals.json`).
+ *
+ * Hai thứ CỐ Ý không làm ở đây:
+ * - **Đè lên quyết định cũ.** Thuật ngữ đã chốt khác đi thì từ chối, không thay lặng lẽ ở
+ *   tập thứ 7; muốn sửa thì sửa ở bible-review.
+ * - **Gộp hai nhân vật ĐÃ duyệt.** Gộp trong nháp thì rẻ, gộp sau khi duyệt là migration:
+ *   phải trỏ lại address, alias và mọi ep<N>.speakers.json đang giữ id chết.
+ */
+export function extend(b, { cast = [], terms = {} } = {}, { by = "fleex", ep = null } = {}) {
+  const src = ep ? `cổng soát tập ${ep}` : "cổng soát";
+  const added = { cast: [], terms: [] };
+  const skipped = [];
+  let maxId = Math.max(0, ...b.cast.map((c) => Number(String(c.id).replace(/\D+/g, "")) || 0));
+
+  for (const c of cast) {
+    const vi = String(c.vi || "").trim();
+    if (!vi) continue; // hàng trống: trang luôn xuất mọi ô, kể cả ô chưa gõ gì
+    // Người duyệt không gõ được chữ Hán -> bỏ trống thì khoá lấy tên Việt. Nó không bao giờ
+    // khớp chữ trong thoại, tức kênh "gọi tên" của B3 im lặng: không đúng thêm được gì,
+    // nhưng cũng KHÔNG gán bừa. Cùng luật với `applyReview` của series.
+    const zh = String(c.zh || "").trim() || vi;
+    const hit = charByAlias(b, zh)
+      || b.cast.find((x) => [x.vi, x.viShort].some((n) => n && n.trim().toLowerCase() === vi.toLowerCase()));
+    if (hit) {
+      skipped.push(`nhân vật «${vi}» (${zh}) — đã có ${hit.id} ${hit.zh}`);
+      continue;
+    }
+    maxId += 1;
+    const row = {
+      id: `C${maxId}`, zh, vi,
+      viShort: String(c.viShort || "").trim(),
+      gender: ["male", "female"].includes(c.gender) ? c.gender : "?",
+      role: ["main", "episodic", "mentioned"].includes(c.role) ? c.role : "episodic",
+      alias: [], note: String(c.note || "").trim(), look: String(c.look || "").trim(),
+      source: src, approved: true, reviewedBy: by,
+    };
+    b.cast.push(row);
+    added.cast.push(row);
+  }
+
+  for (const [zh, raw] of Object.entries(terms)) {
+    const vi = String(raw || "").trim();
+    if (!vi) continue;
+    const cur = b.terms[zh];
+    if (cur && String(cur.vi).trim().toLowerCase() !== vi.toLowerCase()) {
+      skipped.push(`thuật ngữ ${zh} — đã chốt «${cur.vi}», bỏ qua đề xuất «${vi}»`);
+      continue;
+    }
+    if (cur) continue;
+    b.terms[zh] = { vi, approved: true, source: src, reviewedBy: by };
+    added.terms.push(`${zh} = ${vi}`);
+  }
+  return { added, skipped };
+}

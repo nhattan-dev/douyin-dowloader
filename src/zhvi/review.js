@@ -13,10 +13,15 @@ import fs from "node:fs/promises";
 import path from "node:path";
 import { promisify } from "node:util";
 
+import * as BIBLE from "./bible.js";
+import { vocativeNames } from "./passes/b-speakers.js";
+
 const pexec = promisify(execFile);
 
 const NA = { ngoai_khung: "ngoài khung", khong_chac: "không chắc", "?parse": "lỗi đọc" };
 const SPECIAL = ["ngoài khung", "nhiều người", "không rõ"];
+// Cụm không phải ai trong bible -> người duyệt khai một nhân vật MỚI ngay tại đây.
+const NEWC = "__new__";
 const LEVEL = {
   human: ["người đã chốt", "#3f9e57"], confirmed: ["chốt", "#3f9e57"],
   single: ["một nguồn", "#c98a2b"], conflict: ["cãi nhau", "#d4622a"],
@@ -170,6 +175,19 @@ table.ch td:first-child{color:var(--dim);width:62px}
 .epttl{margin:22px 0 10px;font-size:16px;font-weight:600;border-bottom:1px solid var(--line);padding-bottom:6px}
 .sub{margin:16px 0 8px;font-size:13px;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
 .lv{font-size:11px;padding:1px 8px;border-radius:99px;color:#fff}
+.nc{display:none;margin-top:8px;padding:8px 10px;border:1px dashed var(--line);border-radius:6px;background:#12151a}
+.row.newpick .nc{display:block}
+.nc label{display:block;font-size:11px;color:var(--dim);margin:5px 0 2px}
+.nc input,.nc select{width:100%;background:#0e1116;color:var(--fg);border:1px solid var(--line);
+      border-radius:5px;padding:4px 7px;font-size:12.5px}
+.trm{display:grid;grid-template-columns:160px minmax(0,1fr) 80px;gap:12px;align-items:center;
+      padding:7px 10px;border-bottom:1px solid var(--line)}
+.trm .tzh{font-size:15px}
+.trm input[type=text]{width:100%;background:#12151a;color:var(--fg);border:1px solid var(--line);
+      border-radius:5px;padding:4px 8px;font-size:13px}
+.trm .dr{font-size:11.5px;color:var(--dim);cursor:pointer;user-select:none}
+.trm.dropped{opacity:.35}
+.trm.dropped input[type=text]{text-decoration:line-through}
 `;
 
 const PAGE_JS = String.raw`
@@ -185,8 +203,17 @@ function paint(){
   });
   document.getElementById('prog').textContent=done+'/'+tot+' đã chốt · cần soi '+sd+'/'+st;
 }
-function onPick(e){const k=e.target.closest('.row').dataset.key;
-  store[k]=Object.assign({},store[k],{v:e.target.value});save()}
+function onPick(e){const r=e.target.closest('.row'),k=r.dataset.key;
+  store[k]=Object.assign({},store[k],{v:e.target.value});
+  r.classList.toggle('newpick',e.target.value==='__new__');save()}
+function onNc(e){const r=e.target.closest('.row'),k=r.dataset.key;
+  const nc=Object.assign({},(store[k]||{}).nc);nc[e.target.dataset.f]=e.target.value;
+  store[k]=Object.assign({},store[k],{nc:nc});localStorage.setItem(KEY,JSON.stringify(store))}
+function onTerm(e){const t=e.target.closest('.trm'),k=t.dataset.k;
+  const cur=Object.assign({},store[k]);
+  if(e.target.classList.contains('tdr')){cur.drop=e.target.checked;t.classList.toggle('dropped',e.target.checked)}
+  else cur.vi=e.target.value;
+  store[k]=cur;localStorage.setItem(KEY,JSON.stringify(store))}
 function onNote(e){const k=e.target.closest('.row').dataset.key;
   store[k]=Object.assign({},store[k],{note:e.target.value});
   localStorage.setItem(KEY,JSON.stringify(store))}
@@ -200,8 +227,27 @@ function exportJson(){
   document.querySelectorAll('.row').forEach(r=>{
     const s=store[r.dataset.key]||{};if(!s.v&&!s.note)return;
     const e=eps[r.dataset.ep]=eps[r.dataset.ep]||{clusters:{},lines:{},notes:{}};
-    if(s.v){if(r.dataset.kind==='cluster')e.clusters[r.dataset.spk]=s.v;else e.lines[r.dataset.id]=s.v}
+    if(s.v&&s.v!=='__new__'){if(r.dataset.kind==='cluster')e.clusters[r.dataset.spk]=s.v;else e.lines[r.dataset.id]=s.v}
     if(s.note)e.notes[(r.dataset.kind==='cluster'?'S:':'#')+(r.dataset.spk||r.dataset.id)]=s.note;
+  });
+  const ep0=function(x){return eps[x]=eps[x]||{clusters:{},lines:{},notes:{}}};
+  // nhân vật người duyệt khai mới: cụm trỏ thẳng vào tên sắp tạo, applyExport tạo TRƯỚC rồi
+  // mới ghi nhãn, nếu không B5 tra bible không thấy
+  document.querySelectorAll('.row.cl').forEach(r=>{
+    const s=store[r.dataset.key]||{};
+    if(s.v!=='__new__'||!s.nc||!(s.nc.vi||'').trim())return;
+    const e=ep0(r.dataset.ep);e.newCast=e.newCast||[];
+    const zh=(s.nc.zh||'').trim()||s.nc.vi.trim();
+    e.newCast.push({spk:r.dataset.spk,zh:zh,vi:s.nc.vi.trim(),
+      gender:s.nc.gender||'?',note:s.nc.note||''});
+    e.clusters[r.dataset.spk]=zh;
+  });
+  // thuật ngữ: KHÔNG sửa gì = đồng ý với máy, nên xuất cả hàng chưa đụng tới
+  document.querySelectorAll('.trm').forEach(t=>{
+    const s=store[t.dataset.k]||{},e=ep0(t.dataset.ep);
+    e.terms=e.terms||{};e.termsDropped=e.termsDropped||[];
+    if(s.drop)e.termsDropped.push(t.dataset.zh);
+    else e.terms[t.dataset.zh]=(s.vi!==undefined?s.vi:t.dataset.vi);
   });
   const b=new Blob([JSON.stringify({by:'fleex',eps:eps},null,1)],{type:'application/json'});
   const a=document.createElement('a');a.href=URL.createObjectURL(b);
@@ -211,9 +257,20 @@ function resetAll(){if(confirm('Xoá hết phán quyết đã lưu?')){store={};
   document.querySelectorAll('.picks input').forEach(i=>i.checked=false)}}
 document.addEventListener('DOMContentLoaded',()=>{
   document.querySelectorAll('.picks input').forEach(i=>{
-    const k=i.closest('.row').dataset.key;
-    if(store[k]&&store[k].v===i.value)i.checked=true;
+    const r=i.closest('.row'),k=r.dataset.key;
+    if(store[k]&&store[k].v===i.value){i.checked=true;
+      if(i.value==='__new__')r.classList.add('newpick')}
     i.addEventListener('change',onPick)});
+  document.querySelectorAll('.ncf').forEach(f=>{
+    const k=f.closest('.row').dataset.key,nc=(store[k]||{}).nc;
+    if(nc&&nc[f.dataset.f]!==undefined)f.value=nc[f.dataset.f];
+    f.addEventListener('input',onNc);f.addEventListener('change',onNc)});
+  document.querySelectorAll('.trm').forEach(t=>{
+    const s=store[t.dataset.k]||{};
+    if(s.vi!==undefined)t.querySelector('.tvi').value=s.vi;
+    if(s.drop){t.querySelector('.tdr').checked=true;t.classList.add('dropped')}
+    t.querySelector('.tvi').addEventListener('input',onTerm);
+    t.querySelector('.tdr').addEventListener('change',onTerm)});
   document.querySelectorAll('.note').forEach(n=>{
     const k=n.closest('.row').dataset.key;
     if(store[k]&&store[k].note)n.value=store[k].note;
@@ -251,17 +308,59 @@ function lbl(bib, zh) {
   return esc(zh);
 }
 
-function picks(bib, key) {
+function picks(bib, key, { withNew = false } = {}) {
   const opts = [...bib.cast.map((c) => c.zh), ...SPECIAL];
-  return opts.map((o) =>
+  const rows = opts.map((o) =>
     `<label><input type="radio" name="${esc(key)}" value="${esc(o)}">`
     + `<span>${SPECIAL.includes(o) ? esc(o) : lbl(bib, o)}</span></label>`).join("");
+  // Không có nút này thì máy bỏ sót một nhân vật là ngõ cụt: trang chỉ cho chọn trong
+  // bible.cast, mà bible chỉ lớn thêm được từ chính chỗ này.
+  return withNew
+    ? rows + `<label><input type="radio" name="${esc(key)}" value="${NEWC}"><span>+ người mới…</span></label>`
+    : rows;
+}
+
+/** Ô khai nhân vật mới cho một cụm. Tên chữ Hán CHỌN từ thoại, vì người duyệt không gõ được. */
+function newCastForm(key, cands, vi) {
+  const opt = (t) => {
+    const line = vi[t.line?.id] || "";
+    return `<option value="${esc(t.zh)}">${esc(t.zh)} · ${t.count} lần`
+      + `${line ? ` · ${esc(line.slice(0, 40))}` : ""}</option>`;
+  };
+  return `<div class="nc">
+  <label>Tên tiếng Việt (bắt buộc)</label>
+  <input class="ncf" data-f="vi" placeholder="vd. Cố Ngôn">
+  <label>Tên chữ Hán — chọn từ tên được GỌI trong tập này</label>
+  <select class="ncf" data-f="zh">
+    <option value="">— không có (khoá sẽ lấy tên tiếng Việt) —</option>
+    ${cands.map(opt).join("")}
+  </select>
+  <label>Giới tính</label>
+  <select class="ncf" data-f="gender">
+    <option value="?">chưa rõ</option><option value="male">nam</option><option value="female">nữ</option>
+  </select>
+  <label>Ghi chú (ai của ai, vai gì)</label>
+  <input class="ncf" data-f="note" placeholder="vd. em gái nữ chính">
+</div>`;
+}
+
+/** Thuật ngữ pass B vừa gặp mà bible chưa có. Không sửa gì = đồng ý với máy. */
+function termRows(ep, newTerms, bib) {
+  const rows = Object.entries(newTerms || {}).filter(([zh]) => !(zh in bib.terms));
+  if (!rows.length) return "";
+  return `<div class="sub">Thuật ngữ mới (${rows.length}) — nạp vào bible dùng chung cả bộ</div>`
+    + rows.map(([zh, vi]) => `<div class="trm" data-k="T:${esc(ep)}|${esc(zh)}" data-ep="${esc(ep)}"
+     data-zh="${esc(zh)}" data-vi="${esc(vi)}">
+  <div class="tzh">${esc(zh)}</div>
+  <div><input type="text" class="tvi" value="${esc(vi)}"></div>
+  <div><label class="dr"><input type="checkbox" class="tdr"> bỏ</label></div>
+</div>`).join("");
 }
 
 const cidName = (bib, cid) => bib.cast.find((c) => c.id === cid)?.zh ?? null;
 
 function renderEp(ep, d, bib) {
-  const { utts, align: al, media: med, vi } = d;
+  const { utts, align: al, media: med, vi, cands = [] } = d;
   const vis = al.vision || {};
   const cc = al.clusters || {};
   const susp = al.suspects || {};
@@ -270,6 +369,7 @@ function renderEp(ep, d, bib) {
   const h = [
     `<h2 class="epttl">Tập ${esc(ep)} — ${utts.length} câu, ${Object.keys(cc).length} cụm giọng, `
     + `${Object.keys(susp).length} câu cần soi</h2>`,
+    termRows(ep, al.newTerms, bib),
     '<div class="sub">1. Đặt tên cụm — sửa ở đây là sửa cả cụm cùng lúc</div>',
   ];
 
@@ -304,7 +404,8 @@ function renderEp(ep, d, bib) {
           <span class="zhname">${esc(c.votes ? JSON.stringify(c.votes) : null)}</span></td></tr>
       <tr><td>vocative</td><td>${c.veto?.length ? esc(c.veto.map((x) => cidName(bib, x) || x).join(", ")) : "—"}</td></tr>
     </table>
-    <div class="picks">${picks(bib, key)}</div>
+    <div class="picks">${picks(bib, key, { withNew: true })}</div>
+    ${newCastForm(key, cands, vi)}
     <input class="note" placeholder="ghi chú…">
   </div>
 </div>`);
@@ -393,7 +494,12 @@ export async function buildReview(ctx, { out = null, thumbs = 3, noRoughVi = fal
   const med = await media(ctx.video, ctx.utts, path.join(dir, "media.json"), { n: thumbs, log: ctx.log });
   const vi = noRoughVi ? {} : await roughVi(ctx.llm, ctx.utts, ctx.bible, path.join(dir, "rough_vi.json"));
   const key = ctx.ep ?? path.basename(dir.replace(/\/+$/, ""));
-  return build({ [key]: { utts: ctx.utts, align: ctx.align, media: med, vi } },
+  // Tên được GỌI trong tập mà bible chưa có — để người duyệt CHỌN khi khai nhân vật mới,
+  // vì họ không gõ được chữ Hán. Thuần regex, không tốn lượt LLM nào.
+  const known = ctx.bible.cast.flatMap((c) => [c.zh, c.vi, c.viShort, ...(c.alias || [])])
+    .concat(Object.keys(ctx.bible.terms || {}));
+  const cands = vocativeNames([{ ep: key, utts: ctx.utts }], known);
+  return build({ [key]: { utts: ctx.utts, align: ctx.align, media: med, vi, cands } },
     ctx.bible, out || path.join(dir, "review.html"), { log: ctx.log });
 }
 
@@ -407,18 +513,46 @@ export async function applyExport(file, seriesDir, ep = null, { log = null } = {
   const d = JSON.parse(await fs.readFile(file, "utf8"));
   const eps = d.eps || { [ep]: d };
   const now = new Date().toISOString().replace(/\.\d+Z$/, "Z");
+  const by = d.by || "fleex";
+  const biblePath = path.join(seriesDir, "bible.json");
+  const bib = await readJson(biblePath);
   const written = [];
+  let grown = false;
+
   for (const [e, v] of Object.entries(eps)) {
+    // Bible lớn thêm TRƯỚC khi ghi nhãn: nhãn cụm trỏ vào tên nhân vật vừa khai, mà B5 tra
+    // tên đó trong bible — tạo sau thì lần chạy tới cụm ấy lại thành "không khớp".
+    const wants = (v.newCast || []).length || Object.keys(v.terms || {}).length;
+    if (wants && !bib) log?.warn?.(`tập ${e}: có đề xuất cho bible nhưng ${biblePath} không đọc được`);
+    if (wants && bib) {
+      const r = BIBLE.extend(bib, { cast: v.newCast || [], terms: v.terms || {} }, { by, ep: e });
+      for (const c of r.added.cast) log?.info?.(`[bible] + nhân vật ${c.id} ${c.vi} (${c.zh}) — tập ${e}`);
+      for (const t of r.added.terms) log?.info?.(`[bible] + thuật ngữ ${t} — tập ${e}`);
+      for (const w of r.skipped) log?.warn?.(`[bible] bỏ qua: ${w}`);
+      grown ||= r.added.cast.length > 0 || r.added.terms.length > 0;
+    }
+
     const dst = path.join(seriesDir, `ep${e}.speakers.json`);
     const old = (await readJson(dst)) || {};
     const out = {
-      ep: e, reviewedBy: d.by || "fleex", at: now,
+      ep: e, reviewedBy: by, at: now,
       clusters: { ...(old.clusters || {}), ...(v.clusters || {}) },
       lines: { ...(old.lines || {}), ...(v.lines || {}) },
       notes: { ...(old.notes || {}), ...(v.notes || {}) },
+      // Mục đã trả lời — kể cả trả lời là BỎ. Không ghi lại thì cổng hỏi mãi một thứ.
+      terms: { ...(old.terms || {}), ...(v.terms || {}) },
+      termsDropped: [...new Set([...(old.termsDropped || []), ...(v.termsDropped || [])])],
     };
     await fs.writeFile(dst, JSON.stringify(out, null, 1), "utf8");
-    written.push(`${dst} (${Object.keys(out.clusters).length} cụm, ${Object.keys(out.lines).length} câu)`);
+    written.push(`${dst} (${Object.keys(out.clusters).length} cụm, ${Object.keys(out.lines).length} câu`
+      + `, ${Object.keys(out.terms).length + out.termsDropped.length} thuật ngữ đã quyết)`);
+  }
+
+  if (grown) {
+    await fs.copyFile(biblePath, biblePath + ".prev");
+    const v = await BIBLE.save(bib, biblePath);
+    log?.info?.(`[bible] ${biblePath} -> version ${v} (${bib.cast.length} nhân vật, `
+      + `${Object.keys(bib.terms).length} thuật ngữ); bản cũ ở .prev`);
   }
   written.forEach((w) => log?.info?.("[+] " + w));
   return written;

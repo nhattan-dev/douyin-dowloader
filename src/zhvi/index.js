@@ -161,7 +161,7 @@ export async function runPipeline({
     if (stopAfter && stage.id === stopAfter) {
       log.info(`dừng sau pass ${stage.id} theo yêu cầu`);
       report.stoppedAfter = stage.id;
-      report.review = { ...reviewNeeded(ctx.align, ctx.labels, { hasBible: Boolean(bib) }), stopped: stage.id === "B" };
+      report.review = { ...reviewNeeded(ctx.align, ctx.labels, { hasBible: Boolean(bib), bible: bib }), stopped: stage.id === "B" };
       break;
     }
 
@@ -169,7 +169,7 @@ export async function runPipeline({
     // ăn `sheet`, mà `sheet` dựng từ speakerMap — sai người nói ở đây thì tiền dịch
     // và cả bảng xưng hô đi theo.
     if (stage.id === "B") {
-      const g = reviewNeeded(ctx.align, ctx.labels, { hasBible: Boolean(bib) });
+      const g = reviewNeeded(ctx.align, ctx.labels, { hasBible: Boolean(bib), bible: bib });
       report.review = { ...g, stopped: false };
       if (g.need && skipReview) log.warn(`bỏ qua cổng người soát (--skip-review): ${g.why}`);
       else if (g.need) {

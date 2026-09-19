@@ -117,7 +117,10 @@ export const recipes = {
 
   speakerApply: {
     plan: async ({ slug, ep }) => ({
-      title: `Nạp nhãn người nói tập ${ep} — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
+      // Khoá cấp SERIES chứ không cấp tập: từ khi cổng soát ghi ngược được vào bible, việc này
+      // đọc-sửa-ghi series/<slug>/bible.json. Hai tập nạp song song (làn zhvi = 2) sẽ đè nhau và
+      // mất lặng lẽ một nhân vật. Nạp chỉ là vài thao tác file nên chặn cả series là rẻ.
+      title: `Nạp nhãn người nói tập ${ep} — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}`], meta: { slug, ep: String(ep) },
     }),
     steps: ({ slug, file }) => [{ label: "nạp nhãn đã soát", argv: zhvi("--apply", file, "--series", `series/${slug}`) }],
     next: ({ slug, ep }) => ({ type: "translate", params: { slug, ep: String(ep) } }),

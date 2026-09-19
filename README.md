@@ -90,6 +90,12 @@ CẤP TẬP  out/<tập>/
                     ┌──────────┬──────────┬────────────────┼──────────┐
                     ▼          ▼          ▼                ▼          ▼
                   tập 1      tập 2      tập 3             …         tập N
+                    │          │          │                │          │
+                    └──────────┴─────┬────┴────────────────┴──────────┘
+                                     │  nhân vật mới · thuật ngữ mới
+                                     │  chốt ở CỔNG SOÁT của chính tập đó
+                                     ▲
+                              bible lớn thêm (chỉ-thêm)
 ```
 
 ```
@@ -197,6 +203,35 @@ Thứ code loại **không biến mất lặng lẽ** — nó thành dòng ⚠ t
                ├─ bible.json cũ ─▶ bible.json.prev
                └─▶ bible.json  +  in sẵn lệnh dịch từng tập (translateCommands)
 ```
+
+### Bible lớn thêm theo từng tập
+
+`series init` dựng bible một lần. Từ đó trở đi bible **lớn thêm ở cổng soát của từng tập** — không
+có lệnh riêng, không có trang riêng.
+
+```
+ pass B tập N ─▶ newTerms  ·  cụm không gán được ai
+                    │
+              review.html  ├ "Thuật ngữ mới"   sửa · bỏ · KHÔNG đụng = đồng ý với máy
+                    │      └ "+ người mới…"    tên Việt + tên Hán CHỌN từ thoại trong tập
+                    │                          (người duyệt không gõ được chữ Hán)
+       zhvi --apply ─┬─▶ bible.extend()   chỉ-thêm, approved ngay
+                     │      thuật ngữ đã chốt khác đi ─▶ TỪ CHỐI, giữ bản cũ
+                     │      gộp 2 nhân vật ĐÃ duyệt   ─▶ không làm ở đây
+                     ├─▶ bible.json        bản cũ sang .prev, version tự tính lại
+                     └─▶ ep<N>.speakers.json   nhớ cả mục đã BỎ
+```
+
+```
+ cổng mở lại theo TỪNG MỤC, không theo tập
+   có ep<N>.speakers.json  ─▶ "người đã nhìn tập này"  ─▶ không chặn vì câu nghi
+   còn mục bible THIẾU mà chưa ai trả lời ─▶ vẫn dừng   (growthPending)
+   mục đã quyết, kể cả quyết BỎ           ─▶ không hỏi lại
+```
+
+Vì bible lớn thêm là chuyện thường, **chữ ký checkpoint của B2/C2/D2 không dùng `bible.version`**:
+B2 ký theo `castSig` (đúng phần nó dùng), C2/D2 ký theo `sheet` trừ `bibleVersion`. Không tách thế
+thì thêm một thuật ngữ ở tập 7 là trả tiền lại cho tập 1–6.
 
 ### Hai ràng buộc khi sửa phần này
 

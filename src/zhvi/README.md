@@ -176,8 +176,37 @@ tả nhầm người đang nghe, hoặc hồ sơ sai giới tính); VLM hết qu
 Look còn là bằng chứng gộp: đo được hai mục máy tách riêng mà look tả đúng đặc điểm của nhân vật khác
 ("có đuôi trắng lớn" = Ngọc Diện) — người duyệt dùng ô "Là cùng một người với".
 
-Chưa làm: bổ sung tập mới vào bible **đã có** (`init` từ chối khi đã có `bible.json`; `--force` dựng lại
-nháp từ đầu). Pass B của tập sau vẫn ghi `proposals.json` như cũ, chỉ chưa có lệnh nạp.
+`init` vẫn từ chối khi đã có `bible.json` (`--force` dựng lại nháp từ đầu) — dựng lại cả series
+không phải đường bổ sung tập mới. Đường đó là **cổng soát từng tập**, xem mục dưới.
+
+## Bible lớn thêm theo từng tập — ở cổng soát, không có lệnh riêng
+
+Tập sau lòi ra nhân vật mới / thuật ngữ mới thì không phải dựng lại bible: `review.html` của tập
+đó hỏi luôn, và `--apply` ghi thẳng vào `bible.json`.
+
+```
+ pass B ─▶ newTerms + cụm không gán được ai
+              │
+         review.html  ├ khối "Thuật ngữ mới"   sửa bản dịch · bỏ · KHÔNG đụng = đồng ý
+              │       └ nút "+ người mới…"     tên Việt + tên Hán CHỌN từ thoại trong tập
+              │
+   --apply ─┬─▶ bible.extend()  chỉ-thêm, approved ngay (người vừa chốt)
+            │       xung đột thuật ngữ ─▶ TỪ CHỐI, giữ bản cũ, ghi warn
+            │       gộp 2 nhân vật đã duyệt ─▶ KHÔNG làm (phải trỏ lại address + ep*.speakers)
+            ├─▶ bible.json  (bản cũ sang .prev, version tự tính lại)
+            └─▶ ep<N>.speakers.json  nhớ cả mục đã BỎ, để cổng không hỏi lại
+```
+
+**Cổng mở lại theo TỪNG MỤC, không theo tập.** Có `ep<N>.speakers.json` vẫn là "người đã nhìn tập
+này", nhưng mục nào bible còn thiếu mà chưa ai trả lời thì cổng dừng tiếp (`growthPending`). Mục đã
+quyết — kể cả quyết là BỎ — không bị hỏi lại.
+
+**Chữ ký B2 KHÔNG gồm `bible.version` lẫn danh sách thuật ngữ.** Bible lớn thêm là chuyện bình
+thường từ đây, nên để version vào chữ ký thì thêm một thuật ngữ ở tập 7 là chạy lại B2 cho tập 1-6.
+B2 chỉ ký theo `castSig` — đúng phần nó dùng để gán người nói. Danh sách thuật ngữ gửi kèm chỉ để
+"đừng đề xuất lại", đề xuất trùng đã bị lọc ở cả trang soát lẫn `extend`.
+
+Chưa làm: gộp hai nhân vật **đã duyệt** (ví dụ tập 4 mới lộ ra «少爷» chính là «顾言»).
 
 ## Model và độ ổn định
 
