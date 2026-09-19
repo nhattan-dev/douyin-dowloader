@@ -1,0 +1,322 @@
+{
+ "premise": "Nam chính xuyên việt vào thân xác một lão già tạp dịch sắp chết, xin chưởng môn Liễu Tử Yên một đạo lữ để thỏa nguyện lâm chung. Tuy nhiên, hắn phát hiện Liễu Tử Yên đang bị công pháp Âm Dương Tà Ma Công phản phệ nặng nề và bí mật của nàng dần hé lộ.",
+ "characters": [
+  {
+   "key": "S0",
+   "zh": "柳紫嫣",
+   "vi": "Liễu Tử Yên",
+   "vi_parts": [
+    [
+     "柳",
+     "Liễu"
+    ],
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "嫣",
+     "Yên"
+    ]
+   ],
+   "gender": "nữ",
+   "role": "Chưởng môn, nữ ma đầu, người nắm giữ bí mật công pháp",
+   "voice": "cao ngạo, lạnh lùng, uy quyền"
+  },
+  {
+   "key": "S1",
+   "zh": "老夫",
+   "vi": "Lão phu",
+   "vi_parts": [
+    [
+     "老",
+     "Lão"
+    ],
+    [
+     "夫",
+     "phu"
+    ]
+   ],
+   "gender": "nam",
+   "role": "Nam chính, xuyên việt giả, tạp dịch, Thi Giải Tiên",
+   "voice": "già dặn, bất cần, có phần cợt nhả nhưng thâm tàng bất lộ"
+  },
+  {
+   "key": "S3",
+   "zh": "旁人",
+   "vi": "Người旁人",
+   "vi_parts": [],
+   "gender": "?",
+   "role": "Nhân vật phụ, đệ tử hoặc người quan sát",
+   "voice": "ngắn gọn, ngạc nhiên"
+  },
+  {
+   "key": "S4",
+   "zh": "柳紫嫣",
+   "vi": "Liễu Tử Yên",
+   "vi_parts": [
+    [
+     "柳",
+     "Liễu"
+    ],
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "嫣",
+     "Yên"
+    ]
+   ],
+   "gender": "nữ",
+   "role": "Chưởng môn (cùng S0), lúc đang chịu phản phệ",
+   "voice": "đau đớn, cố gắng duy trì uy nghiêm, giận dữ"
+  },
+  {
+   "key": "S5",
+   "zh": "老夫",
+   "vi": "Lão phu",
+   "vi_parts": [
+    [
+     "老",
+     "Lão"
+    ],
+    [
+     "夫",
+     "phu"
+    ]
+   ],
+   "gender": "nam",
+   "role": "Nam chính (cùng S1)",
+   "voice": "kiên định, bất chấp nguy hiểm"
+  },
+  {
+   "key": "S6",
+   "zh": "老夫",
+   "vi": "Lão phu",
+   "vi_parts": [
+    [
+     "老",
+     "Lão"
+    ],
+    [
+     "夫",
+     "phu"
+    ]
+   ],
+   "gender": "nam",
+   "role": "Nam chính (cùng S1)",
+   "voice": "thấu hiểu, đề nghị giúp đỡ"
+  }
+ ],
+ "entities": [
+  {
+   "zh": "柳紫嫣",
+   "vi": "Liễu Tử Yên",
+   "vi_parts": [
+    [
+     "柳",
+     "Liễu"
+    ],
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "嫣",
+     "Yên"
+    ]
+   ],
+   "type": "title",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "阴阳邪魔功",
+   "vi": "Âm Dương Tà Ma Công",
+   "vi_parts": [
+    [
+     "阴",
+     "Âm"
+    ],
+    [
+     "阳",
+     "Dương"
+    ],
+    [
+     "邪",
+     "Tà"
+    ],
+    [
+     "魔",
+     "Ma"
+    ],
+    [
+     "功",
+     "Công"
+    ]
+   ],
+   "type": "skill",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "无尽地狱",
+   "vi": "Vô Tận Địa Ngục",
+   "vi_parts": [
+    [
+     "无",
+     "Vô"
+    ],
+    [
+     "尽",
+     "Tận"
+    ],
+    [
+     "地",
+     "Địa"
+    ],
+    [
+     "狱",
+     "Ngục"
+    ]
+   ],
+   "type": "place",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "道侣",
+   "vi": "đạo lữ",
+   "vi_parts": [
+    [
+     "道",
+     "đạo"
+    ],
+    [
+     "侣",
+     "lữ"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "反噬",
+   "vi": "phản phệ",
+   "vi_parts": [
+    [
+     "反",
+     "phản"
+    ],
+    [
+     "噬",
+     "phệ"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  }
+ ],
+ "skipped": [
+  "老夫",
+  "本宫",
+  "掌门",
+  "女魔",
+  "魔头",
+  "难道",
+  "阴阳",
+  "无尽",
+  "尽地",
+  "地狱",
+  "女魔头",
+  "无尽地",
+  "尽地狱",
+  "阳邪",
+  "邪魔",
+  "魔功",
+  "修行",
+  "功法",
+  "阴阳邪",
+  "阳邪魔",
+  "邪魔功",
+  "阴阳邪魔",
+  "阳邪魔功",
+  "百余",
+  "已经",
+  "满足",
+  "临终",
+  "散修",
+  "行者",
+  "门大",
+  "大阵",
+  "修行者",
+  "掌门大",
+  "门大阵",
+  "掌门大阵",
+  "余载",
+  "混元",
+  "可以",
+  "只求",
+  "一名",
+  "年轻",
+  "轻公",
+  "公子",
+  "谢谢",
+  "柳紫",
+  "紫嫣",
+  "魔道",
+  "一直",
+  "为什",
+  "让老",
+  "百余载",
+  "年轻公",
+  "轻公子",
+  "嫣这女",
+  "夫的临"
+ ],
+ "address": [
+  {
+   "from": "S0",
+   "to": "S1",
+   "self": "bản cung",
+   "other": "ngươi",
+   "since": 0,
+   "why": "Liễu Tử Yên là chưởng môn, địa vị cao, tự xưng bản cung, gọi tạp dịch là ngươi."
+  },
+  {
+   "from": "S1",
+   "to": "S0",
+   "self": "lão phu",
+   "other": "chưởng môn",
+   "since": 0,
+   "why": "Nam chính trong thân xác lão già tạp dịch, tự xưng lão phu, gọi S0 là chưởng môn để giữ lễ nghĩa bề ngoài."
+  },
+  {
+   "from": "S4",
+   "to": "S1",
+   "self": "bản cung",
+   "other": "ngươi",
+   "since": 150,
+   "why": "Liễu Tử Yên tiếp tục giữ uy quyền chưởng môn khi đối chất với nam chính."
+  },
+  {
+   "from": "S1",
+   "to": "S4",
+   "self": "lão phu",
+   "other": "ngươi",
+   "since": 195,
+   "why": "Nam chính phát hiện S4 đang yếu thế và chịu phản phệ, chuyển sang xưng hô ngang hàng 'ngươi' khi đối chất trực diện."
+  },
+  {
+   "from": "S1",
+   "to": "S1",
+   "self": "lão phu",
+   "other": "",
+   "since": 0,
+   "why": "Độc thoại nội tâm, tự xưng lão phu."
+  }
+ ]
+}

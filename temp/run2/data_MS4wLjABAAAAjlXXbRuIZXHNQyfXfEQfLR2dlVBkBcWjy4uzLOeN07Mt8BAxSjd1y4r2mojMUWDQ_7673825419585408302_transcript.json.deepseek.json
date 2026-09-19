@@ -1,0 +1,316 @@
+{
+  "cast": [
+    {
+      "id": "C1",
+      "name": "唐僧",
+      "note": "取经团队的师傅，慈悲为怀，但有时固执。"
+    },
+    {
+      "id": "C2",
+      "name": "孙悟空",
+      "note": "大师兄，火眼金睛，能识破妖怪。"
+    },
+    {
+      "id": "C3",
+      "name": "猪八戒",
+      "note": "二师兄，贪吃好色，常与孙悟空斗嘴。"
+    },
+    {
+      "id": "C4",
+      "name": "沙僧",
+      "note": "三师弟，忠厚老实。"
+    },
+    {
+      "id": "C5",
+      "name": "村妇",
+      "note": "白骨精变化的年轻女子，送饭给丈夫。"
+    },
+    {
+      "id": "C6",
+      "name": "老妇",
+      "note": "白骨精变化的年老婆婆，寻找女儿。"
+    },
+    {
+      "id": "C7",
+      "name": "老翁",
+      "note": "白骨精变化的老头，寻找妻女。"
+    },
+    {
+      "id": "C8",
+      "name": "旁白",
+      "note": "叙述故事的人。"
+    }
+  ],
+  "lines": [
+    {
+      "line": 1,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "称呼师傅，说讨斋饭，符合孙悟空性格。"
+    },
+    {
+      "line": 2,
+      "speaker": "C5",
+      "confidence": 0.9,
+      "cue": "自称送饭给丈夫，是村妇角色。"
+    },
+    {
+      "line": 3,
+      "speaker": "C5",
+      "confidence": 0.9,
+      "cue": "继续村妇的话，布施给高僧。"
+    },
+    {
+      "line": 4,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "唐僧称赞村妇贤妻。"
+    },
+    {
+      "line": 5,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空反驳，指出方圆百里无庄稼。"
+    },
+    {
+      "line": 6,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空质问耕什么田。"
+    },
+    {
+      "line": 7,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "猪八戒说猴子不识好歹。"
+    },
+    {
+      "line": 8,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空叫呆子退下。"
+    },
+    {
+      "line": 9,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空指出村妇是妖精。"
+    },
+    {
+      "line": 10,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧说慈悲的话。"
+    },
+    {
+      "line": 11,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧责备孙悟空打死人。"
+    },
+    {
+      "line": 12,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧说取经无用。"
+    },
+    {
+      "line": 13,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空说尔等不知。"
+    },
+    {
+      "line": 14,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空解释是妖精皮囊。"
+    },
+    {
+      "line": 15,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "猪八戒挑拨，说孙悟空打死良家妇女。"
+    },
+    {
+      "line": 16,
+      "speaker": "C6",
+      "confidence": 0.9,
+      "cue": "老妇寻找女儿。"
+    },
+    {
+      "line": 17,
+      "speaker": "C6",
+      "confidence": 0.9,
+      "cue": "老妇继续呼唤女儿。"
+    },
+    {
+      "line": 18,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "猪八戒说老妇寻家来。"
+    },
+    {
+      "line": 19,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "唐僧制止胡说。"
+    },
+    {
+      "line": 20,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "唐僧分析年龄不符。"
+    },
+    {
+      "line": 21,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空喊妖精。"
+    },
+    {
+      "line": 22,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧叫悟空。"
+    },
+    {
+      "line": 23,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧责备孙悟空连伤两命。"
+    },
+    {
+      "line": 24,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "猪八戒劝大师兄认错。"
+    },
+    {
+      "line": 25,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空反问认错？"
+    },
+    {
+      "line": 26,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空提到大闹天宫未认错。"
+    },
+    {
+      "line": 27,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "猪八戒说一家子找上门。"
+    },
+    {
+      "line": 28,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空指出老翁健步如飞。"
+    },
+    {
+      "line": 29,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧说孙悟空满眼妖魔。"
+    },
+    {
+      "line": 30,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧让开。"
+    },
+    {
+      "line": 31,
+      "speaker": "C7",
+      "confidence": 0.9,
+      "cue": "老翁行礼问长老。"
+    },
+    {
+      "line": 32,
+      "speaker": "C7",
+      "confidence": 0.9,
+      "cue": "老翁问是否见过妻小。"
+    },
+    {
+      "line": 33,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空说必须除怪物。"
+    },
+    {
+      "line": 34,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空提到念咒和五行山。"
+    },
+    {
+      "line": 35,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧赶孙悟空走。"
+    },
+    {
+      "line": 36,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧发誓不再相见。"
+    },
+    {
+      "line": 37,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空对沙僧说话。"
+    },
+    {
+      "line": 38,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空叮嘱沙僧。"
+    },
+    {
+      "line": 39,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空说提他名字。"
+    },
+    {
+      "line": 40,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空说切记。"
+    },
+    {
+      "line": 41,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "沙僧应好。"
+    },
+    {
+      "line": 42,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "孙悟空告别回花果山。"
+    },
+    {
+      "line": 43,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "沙僧问师傅如果打死的是妖精。"
+    },
+    {
+      "line": 44,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "唐僧回答杀心太重。"
+    },
+    {
+      "line": 45,
+      "speaker": "NON_SPEECH",
+      "confidence": 0.9,
+      "cue": "无意义音节，可能是音乐或噪音。"
+    }
+  ]
+}

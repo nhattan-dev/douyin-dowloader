@@ -1,0 +1,2369 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 0.6,
+  "end": 2.76,
+  "zh_raw": "赵主管什么风把您。",
+  "zh": "赵主神什么风把您。",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 1,
+  "speaker": "S1",
+  "start": 2.76,
+  "end": 12.88,
+  "zh_raw": "给吹来了，根据杂役部的人事记载，你这会应该是寿终正寝了，倒是令我没想到你居然还如此容光焕奢，想来你还能有一些时日了，林墨。",
+  "zh": "给吹来了，根据杂役部的人事记载，你这会应该是寿终正寝了，倒是令我没想到你居然还如此容光焕奢，想来你大能有一些时日了，林墨。",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "还能",
+    "to": "大能",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 2,
+  "speaker": "S2",
+  "start": 13.8,
+  "end": 19.04,
+  "zh_raw": "也许是上天眷顾我这老头子吧，还能为掌门大人尽最后一份薄力。",
+  "zh": "也许是上品眷顾我这老夫子吧，大能为掌门大阵尽最后一份薄力。",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "上天",
+    "to": "上品",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "还能",
+    "to": "大能",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "老头",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 3,
+  "speaker": "S3",
+  "start": 19.24,
+  "end": 26.76,
+  "zh_raw": "那倒不必了，上面已经指派了其他人来负责紫天宫的杂役事务，皆为出送宗，还有李神安以及好好安享部门便会献出了余生。",
+  "zh": "那倒不必了，上品已经指派了其他人间负责紫天灵根杂役事务，修为准圣人，还有李神安以及好好安享部门便会献出窍余生。",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "皆为出送宗",
+    "to": "皆为出圣宗",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音误识，'chu song zong' → 'chu sheng zong'，宗门名应为'出圣宗'，后文多次出现",
+    "conf": 1
+   },
+   {
+    "from": "上面",
+    "to": "上品",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "出圣",
+    "to": "准圣",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "皆为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "圣宗",
+    "to": "圣人",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "天宫的",
+    "to": "天灵根",
+    "kind": "homophone",
+    "sim": 0.43,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "人来",
+    "to": "人间",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "出了",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "人来",
+    "to": "人间",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "出了",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 4,
+  "speaker": "S3",
+  "start": 27.04,
+  "end": 31.28,
+  "zh_raw": "杂役部不会亏待你的，将来我会主持往生堂，让你体面的离开人世。",
+  "zh": "杂役部不会亏待你的，将来我会主神重生堂，让你位面地离开人世。",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "体面的离开人世",
+    "to": "体面地离开人世",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "语法修正，'地'为状语标志，py 'dimiande' 明确对应 'de' 非 'de'（的）",
+    "conf": 1
+   },
+   {
+    "from": "体面",
+    "to": "位面",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "往生",
+    "to": "重生",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "主持",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "主持",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 5,
+  "speaker": "S4",
+  "start": 32.04,
+  "end": 33.02,
+  "zh_raw": "赵主管，",
+  "zh": "赵主神，",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 6,
+  "speaker": "S4",
+  "start": 33.28,
+  "end": 36.96,
+  "zh_raw": "你说的这个将来是指明天还是后天？",
+  "zh": "你说的这个‘将来’，是指明白，还是后期？",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "你说的这个将来是指明天还是后天？",
+    "to": "你说的这个‘将来’，是指明天，还是后天？",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "增加引号和逗号，强化反讽语气，符合口语强调习惯；py 无冲突",
+    "conf": 1
+   },
+   {
+    "from": "明天",
+    "to": "明白",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "后天",
+    "to": "后期",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "后天",
+    "to": "后期",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 7,
+  "speaker": "S4",
+  "start": 37.48,
+  "end": 41.28,
+  "zh_raw": "回到杂役部最多两天，老夫就得自杀身亡。",
+  "zh": "回到杂役部最多两天，老朽就得自杀身亡。",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 8,
+  "speaker": "S3",
+  "start": 41.52,
+  "end": 49.44,
+  "zh_raw": "明明已经快要入土了，你的脑子倒是还挺好使，你一无修炼天赋，二无精力再履行杂役一职，你于出圣宗宗而言还有何价值？",
+  "zh": "明明已经快要入土了，你的脑子倒是还挺好使，你一无修炼天赋，二无灵力再履行杂役一职，你于准圣人而言，还有何价值？",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "你于出圣宗宗而言还有何价值？",
+    "to": "你于出圣宗而言，还有何价值？",
+    "kind": "homophone",
+    "sim": 0.56,
+    "why": "删冗余'宗'字（重复），补逗号；py 'chushengzongeryan' 中 'zong er' 为连读，'宗'字仅一个，'宗宗'系ASR叠字错误",
+    "conf": 1
+   },
+   {
+    "from": "精力",
+    "to": "灵力",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "出圣",
+    "to": "准圣",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "圣宗",
+    "to": "圣人",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 9,
+  "speaker": "S3",
+  "start": 49.6,
+  "end": 52.68,
+  "zh_raw": "是得给你一个自体面的机会，我会帮你体面把他给我带走。",
+  "zh": "是得给你一个自位面的机缘，我会帮你位面把他给我带走。",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "体面",
+    "to": "位面",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "机会",
+    "to": "机缘",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "机会",
+    "to": "机缘",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 10,
+  "speaker": "S5",
+  "start": 52.96,
+  "end": 62,
+  "zh_raw": "赵主管这里可是紫天宫门口，你若是敢胡来，可得考虑清楚是否能够承受得住掌门大人的怒火，掌门大人最是不喜别人扰他清修。",
+  "zh": "赵主神这里可是紫天尊门口，你若是敢胡来，可得考虑清楚是否能够承受得住掌门大阵的怒火，掌门大阵最是不喜别人扰他邪修。",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "天宫",
+    "to": "天尊",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "清修",
+    "to": "邪修",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "清修",
+    "to": "邪修",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 11,
+  "speaker": "S0",
+  "start": 62.16,
+  "end": 64.24,
+  "zh_raw": "老夫烂命一条无所谓。",
+  "zh": "老朽烂命一条无所谓。",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 12,
+  "speaker": "S0",
+  "start": 64.69,
+  "end": 70.57,
+  "zh_raw": "你可就不一样了，身为往生堂主管，你的命和前途可比老夫金贵呀，",
+  "zh": "你可就不一盏茶——身为重生堂主神，你的命格前途，可比老朽金贵呀！",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "你可就不一样了，身为往生堂主管，你的命和前途可比老夫金贵呀。",
+    "to": "你可就不一样了——身为往生堂主管，你的命和前途，可比老夫金贵呀！",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "增强语气与节奏：破折号表强调，逗号分隔，叹号收束；py 'ya' 尾音上扬，宜用叹号",
+    "conf": 1
+   },
+   {
+    "from": "命和",
+    "to": "命格",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "往生",
+    "to": "重生",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "一样了",
+    "to": "一盏茶",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "一样了",
+    "to": "一盏茶",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 13,
+  "speaker": "S0",
+  "start": 71.09,
+  "end": 74.01,
+  "zh_raw": "好那么好，给我乖乖在这里等着老杂兽，",
+  "zh": "好嘛，好嘛，给我乖乖在这儿等着，老杂役！",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "好那么好，给我乖乖在这里等着老杂兽。",
+    "to": "好嘛，好嘛，给我乖乖在这儿等着，老杂役！",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "'好那么好'为严重误听，py 'haonamehao' 即 'hao ma hao ma'（方言/口语叠用表敷衍）；'老杂兽'系辱骂性误听，全文无此设定，'老杂役'为自称且符合身份；'这儿'比'这里'更口语",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 14,
+  "speaker": "S0",
+  "start": 74.41,
+  "end": 77.25,
+  "zh_raw": "唉老夫身子骨不好，恕老夫不能远送了。",
+  "zh": "唉，老朽身子骨不好，恕老朽不能远送了。",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 15,
+  "speaker": "S0",
+  "start": 78.05,
+  "end": 82.97,
+  "zh_raw": "赵主管名下往生堂的主管而已，不知道的还以为你是什么主管呢。",
+  "zh": "赵主神——重生堂的主神而已，不正道的还修为你是什么主神呢。",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "赵主管名下往生堂的主管而已",
+    "to": "赵主管——往生堂的主管而已",
+    "kind": "drop",
+    "sim": 0,
+    "why": "破折号替代'名下'，消除歧义（非隶属关系，而是职务指代）；py 'zhaozhuguanmingxia' 实为 'zhao zhuguan'（停顿）+ 'wangshengtangdezhuguan'，'名下'系误切",
+    "conf": 1
+   },
+   {
+    "from": "往生",
+    "to": "重生",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "以为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "知道",
+    "to": "正道",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "主管",
+    "to": "主神",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 16,
+  "speaker": "S6",
+  "start": 83.33,
+  "end": 88.05,
+  "zh_raw": "阎王好见小鬼难缠，杂役部那边绝不会就这么算了。",
+  "zh": "妖王好见小鬼难缠，杂役部那边绝不会就这么算了。",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "阎王",
+    "to": "妖王",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 17,
+  "speaker": "S6",
+  "start": 88.61,
+  "end": 93.33,
+  "zh_raw": "老夫不能回去，话又说回来，老夫还是得想办法解决此事。",
+  "zh": "老朽不能回去。话又说回来——老朽还得想法子解决此事。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老夫不能回去，话又说回来，老夫还是得想办法解决此事。",
+    "to": "老夫不能回去。话又说回来——老夫还得想法子解决此事。",
+    "kind": "homophone",
+    "sim": 0.82,
+    "why": "首句句号断开决绝感；破折号引出转折；'还得'比'还是得'更显无奈紧迫；'想法子'比'想办法'更口语化，py 'xiangbanfa' 可对应",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 18,
+  "speaker": "S7",
+  "start": 93.45,
+  "end": 98.25,
+  "zh_raw": "若不是续命丹，老夫现在确实已经驾鹤西去了。",
+  "zh": "若不是续命丹，老朽现在确实已经驾鹤西去啦。",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "驾鹤西去了",
+    "to": "驾鹤西去啦",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "'啦'为语气助词，py 'qule' 尾音轻快上扬，'啦'更贴合；'了'偏陈述，'啦'含感叹",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 19,
+  "speaker": "S7",
+  "start": 99.41,
+  "end": 103.25,
+  "zh_raw": "所以杂役部那边才会提前安排来顶替我的人。",
+  "zh": "所以，杂役部那边才提前安排人间顶替我。",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "所以杂役部那边才会提前安排来顶替我的人。",
+    "to": "所以，杂役部那边才提前安排人来顶替我。",
+    "kind": "homophone",
+    "sim": 0.76,
+    "why": "调整语序更符合中文习惯（'安排人来顶替'）；删'会'字使语气更笃定；py 'caihui' 中 'cai' 为强调，'才'更准",
+    "conf": 1
+   },
+   {
+    "from": "人来",
+    "to": "人间",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "人来",
+    "to": "人间",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 20,
+  "speaker": "S4",
+  "start": 103.41,
+  "end": 110.25,
+  "zh_raw": "本想去找刘紫嫣出面，但仔细想想又不太可能，说不定刘紫嫣那女魔头就在紫天宫里看着呢。",
+  "zh": "本想去找刘紫嫣出窍，但仔细想想又不太可能，说不定刘紫嫣那女魔头就在紫天尊里看着呢。",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "出面",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "天宫",
+    "to": "天尊",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 21,
+  "speaker": "S4",
+  "start": 110.45,
+  "end": 116.17,
+  "zh_raw": "刚才的事基本上算是发生在。她的眼皮子底下了，但直到现在她也没有任何反应。",
+  "zh": "天才的事基本上算是发生在她的眼皮子底下了，但直到现在她也没有任何反应。",
+  "segmentIndexes": [
+   18,
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "刚才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "刚才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 22,
+  "speaker": "S7",
+  "start": 116.53,
+  "end": 116.64,
+  "zh_raw": "那。",
+  "zh": "那。",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 23,
+  "speaker": "S7",
+  "start": 116.72,
+  "end": 123.36,
+  "zh_raw": "那就说明他并不想管此事，或者说他想看老夫自己要如何处理眼下的困局。",
+  "zh": "那就说明——她并不想管此事，或者说，想看看老朽自己怎么解眼下这困局。",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "那就说明他并不想管此事，或者说他想看老夫自己要如何处理眼下的困局。",
+    "to": "那就说明——她并不想管此事，或者说，想看看老夫自己怎么解眼下这困局。",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "'他'→'她'：前文所有指代刘紫嫣均为'她'（u9/u37/u44/u54等），'他'系ASR性别误听；'看看'比'看'更口语；'怎么解'比'要如何处理'简洁有力；'这困局'比'眼下的困局'更凝练，py 'kunju' 前有'zhe'音",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 24,
+  "speaker": "S4",
+  "start": 123.48,
+  "end": 132.56,
+  "zh_raw": "当不当紫天宫的这个御用杂役，老夫是没多大所谓的，现在问题的关键是一旦回到杂役部，那指定没我好果子吃，tnd老夫现在要是筑基期就不用这么麻烦了。",
+  "zh": "当不当紫天灵根这个御用杂役，老朽是没多大所谓的，现在问题的关键是一旦回到杂役部，那指定给我破果子吃，他娘的老朽现在要是渡劫期，就不用这么麻烦了！",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "tnd老夫现在要是筑基期就不用这么麻烦了。",
+    "to": "他娘的老夫现在要是筑基期，就不用这么麻烦了！",
+    "kind": "homophone",
+    "sim": 0.84,
+    "why": "'tnd'为拼音缩写，需还原为口语粗话'他娘的'；补逗号；叹号强化愤懑；py 'tnd' 即 'ta niang de'",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "天宫的",
+    "to": "天灵根",
+    "kind": "homophone",
+    "sim": 0.43,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "没我好",
+    "to": "给我破",
+    "kind": "homophone",
+    "sim": 0.63,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "筑基期",
+    "to": "渡劫期",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "筑基期",
+    "to": "渡劫期",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 25,
+  "speaker": "S8",
+  "start": 133.56,
+  "end": 143.56,
+  "zh_raw": "杂役部本质上就是一群废柴聚集地，但凡有点修炼资质的，谁会被分配来杂役部当杂役弟子，也不过堪堪筑基初期修为，刚才那位赵东海也仅仅只是练气期处。",
+  "zh": "杂役部本质上就是一群废柴聚集地，但凡有点修炼资质的，谁会被分来杂役部当杂役弟子？也不过堪堪筑基后期罢了！天才那位赵东海，还只是炼气期后期。",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "但凡有点修炼资质的，谁会被分配来杂役部当杂役弟子，也不过堪堪筑基初期修为，刚才那位赵东海也仅仅只是练气期处。",
+    "to": "但凡有点修炼资质的，谁会被分来杂役部当杂役弟子？也不过堪堪筑基初期罢了！刚才那位赵东海，还只是练气期初阶。",
+    "kind": "homophone",
+    "sim": 0.82,
+    "why": "首句改问号（反问）；'罢了'收束轻蔑；'初阶'比'处'准确（'chu'→'chu jie'）；'还只是'比'也仅仅只是'更显贬抑；py 'chu' 确为'初'",
+    "conf": 1
+   },
+   {
+    "from": "练气",
+    "to": "炼气",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "初阶",
+    "to": "初期",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "初期",
+    "to": "后期",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "刚才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "刚才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 26,
+  "speaker": "S7",
+  "start": 143.64,
+  "end": 147.88,
+  "zh_raw": "可他们对于现在的老夫来说仍然是不可匹敌之敌。",
+  "zh": "可他们对于现在的老朽来说仍然是不可匹敌之敌。",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 27,
+  "speaker": "S7",
+  "start": 149.63,
+  "end": 153.51,
+  "zh_raw": "是了，杂役不用脑，活该一辈子受欺负。",
+  "zh": "是了——杂役不用脑，活该一辈子受欺负！",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "是了，杂役不用脑，活该一辈子受欺负。",
+    "to": "是了——杂役不用脑，活该一辈子受欺负！",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "破折号强调顿悟；叹号强化自嘲与悲愤；py 'shi le' 后有重音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 28,
+  "speaker": "S3",
+  "start": 153.63,
+  "end": 156.51,
+  "zh_raw": "但这并不代表老夫就是砧板上的鱼肉，任人宰割了。",
+  "zh": "但这并不代表——老朽就是砧板上的鱼肉，任人宰割！",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "但这并不代表老夫就是砧板上的鱼肉，任人宰割了。",
+    "to": "但这并不代表——老夫就是砧板上的鱼肉，任人宰割！",
+    "kind": "homophone",
+    "sim": 0.95,
+    "why": "破折号加强转折气势；叹号收束决绝；py 'le' 尾音短促，宜用叹号",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 29,
+  "speaker": "S3",
+  "start": 156.59,
+  "end": 163.95,
+  "zh_raw": "老夫现在最大的优势就是在掌门刘子嫣手底下做事，其次紫电圣宗百余年杂役部那些见不得光事琐事，老夫可是心知肚楚。",
+  "zh": "老朽现在最大的优势就是在掌门弟子嫣手底下做事，其次，紫丹圣人百余年来，杂役部那些见不得光的琐事，老朽可是心知肚明。",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "其次紫电圣宗百余年杂役部那些见不得光事琐事，老夫可是心知肚楚。",
+    "to": "其次，紫电圣宗百余年来，杂役部那些见不得光的琐事，老夫可是心知肚明。",
+    "kind": "homophone",
+    "sim": 0.88,
+    "why": "补'来'字（'百余年来'）；'的'字补定语；'心知肚明'为正确成语，'肚楚'系'肚明'误听；py 'du chu' → 'du ming'（'明'音更清晰）",
+    "conf": 1
+   },
+   {
+    "from": "电圣",
+    "to": "丹圣",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "圣宗",
+    "to": "圣人",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "刘子",
+    "to": "弟子",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 30,
+  "speaker": "S7",
+  "start": 167.54,
+  "end": 173.66,
+  "zh_raw": "既然他们喜欢把事情做绝，那老夫就把这些事情摆到台面上。",
+  "zh": "既然他们喜欢把事情做绝——那老朽，就把这些事儿，摆到台面上！",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "既然他们喜欢把事情做绝，那老夫就把这些事情摆到台面上。",
+    "to": "既然他们喜欢把事情做绝——那老夫，就把这些事儿，摆到台面上！",
+    "kind": "homophone",
+    "sim": 0.91,
+    "why": "破折号表因果强调；'事儿'比'事情'更口语；双逗号制造节奏；叹号表决心；py 'shier' 即 'shi er'",
+    "conf": 1
+   },
+   {
+    "from": "老夫",
+    "to": "老朽",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 31,
+  "speaker": "S7",
+  "start": 174.34,
+  "end": 181.74,
+  "zh_raw": "这些事平时没人愿意说，可不代表没人知道。",
+  "zh": "这些事儿，平时没人间说——可不代表，没人正道！",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "这些事平时没人愿意说，可不代表没人知道。",
+    "to": "这些事儿，平时没人愿说——可不代表，没人知道！",
+    "kind": "homophone",
+    "sim": 0.91,
+    "why": "'事儿'；逗号分隔；破折号表转折强调；'愿说'比'愿意说'更简练；叹号收束；py 'yuan yi shuo' → 'yuan shuo'",
+    "conf": 1
+   },
+   {
+    "from": "人愿",
+    "to": "人间",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "知道",
+    "to": "正道",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 32,
+  "speaker": "S9",
+  "start": 187.6,
+  "end": 188.2,
+  "zh_raw": "唉。",
+  "zh": "唉。",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 33,
+  "speaker": "S7",
+  "start": 189.48,
+  "end": 190.8,
+  "zh_raw": "总算写完了。",
+  "zh": "总算写完了。",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [],
+  "conf": 1,
+  "note": "林墨内心独白（写举报信）",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 34,
+  "speaker": "S7",
+  "start": 191.04,
+  "end": 195.8,
+  "zh_raw": "只要这封举报信交到刘紫嫣手里，我就不信她还能无事。",
+  "zh": "只要这封举报信交到刘紫嫣手里，我就不信她大能装没事！",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "我就不信她还能无事。",
+    "to": "我就不信她还能装没事！",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "'装没事'补全语义，'无事'单薄，py 'wu shi' 在语境中实为 'zhuang wu shi' 的省略，且'装'字强化讽刺",
+    "conf": 1
+   },
+   {
+    "from": "还能",
+    "to": "大能",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 35,
+  "speaker": "S7",
+  "start": 196.28,
+  "end": 200.76,
+  "zh_raw": "可现在最大的问题是要如何把举报信送到刘紫嫣手里？",
+  "zh": "可现在最大的难题是——怎么把这封举报信，送到刘紫嫣手里？",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "可现在最大的问题是要如何把举报信送到刘紫嫣手里？",
+    "to": "可现在最大的难题是——怎么把这封举报信，送到刘紫嫣手里？",
+    "kind": "homophone",
+    "sim": 0.53,
+    "why": "'难题'比'问题'更重；破折号引出核心；'怎么'比'要如何'口语；'这封'加指示，更具体；py 'nan ti' 更贴合语境",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 36,
+  "speaker": "S7",
+  "start": 200.96,
+  "end": 208.32,
+  "zh_raw": "不需要打杂的时候，按照规矩，身为杂役是不被允许随意进出紫天宫的。",
+  "zh": "不需要打坐的时候，按照规矩，身为杂役是不被允许随意进出紫天灵根。",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "天宫的",
+    "to": "天灵根",
+    "kind": "homophone",
+    "sim": 0.43,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "打杂",
+    "to": "打坐",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 37,
+  "speaker": "S7",
+  "start": 209.24,
+  "end": 211.04,
+  "zh_raw": "这倒是有些麻烦了。",
+  "zh": "这倒有些麻烦……",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "这倒是有些麻烦了。",
+    "to": "这倒有些麻烦……",
+    "kind": "homophone",
+    "sim": 0.69,
+    "why": "删'是'字更简练；省略号表思虑未尽；py 'ma fan le' 尾音下沉，省略号更准",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 38,
+  "speaker": "S7",
+  "start": 213.72,
+  "end": 217.36,
+  "zh_raw": "瞌睡了来枕头，老奴见过圣女。",
+  "zh": "瞌睡了来枕头，老夫见过圣女。",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老奴",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 39,
+  "speaker": "S11",
+  "start": 217.72,
+  "end": 221.08,
+  "zh_raw": "林老头，一阵子不见，你看上去好像精神了不少呢。",
+  "zh": "林老夫，一阵子不见，你气色瞧着，倒好得很呐！",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "林老头，一阵子不见，你看上去好像精神了不少呢。",
+    "to": "林老头，一阵子不见，你气色瞧着，倒好得很呐！",
+    "kind": "homophone",
+    "sim": 0.22,
+    "why": "'气色瞧着'更古风；'倒好得很呐'强化赞叹语气，'呐'为感叹助词，py 'ne' 对应；'精神'稍现代，'气色'更贴合修真语境",
+    "conf": 1
+   },
+   {
+    "from": "老头",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "林老头，一阵子不见，你看上去好像精神了不少呢。",
+    "to": "林老头，一阵子不见，你气色瞧着，倒好得很呐！",
+    "kind": "homophone",
+    "sim": 0.22,
+    "why": "'气色瞧着'更古风；'倒好得很呐'强化赞叹语气，'呐'为感叹助词，py 'ne' 对应；'精神'稍现代，'气色'更贴合修真语境",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 40,
+  "speaker": "S7",
+  "start": 221.36,
+  "end": 223.44,
+  "zh_raw": "圣女可是来找掌门大人？",
+  "zh": "圣女可是来找掌门大阵？",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 41,
+  "speaker": "S11",
+  "start": 224.28,
+  "end": 224.88,
+  "zh_raw": "嗯。",
+  "zh": "嗯。",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 42,
+  "speaker": "S11",
+  "start": 227.58,
+  "end": 228.1,
+  "zh_raw": "你怎么了？",
+  "zh": "你怎么了？",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 43,
+  "speaker": "S11",
+  "start": 228.38,
+  "end": 228.9,
+  "zh_raw": "有事吗？",
+  "zh": "有事吗？",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 44,
+  "speaker": "S7",
+  "start": 229.98,
+  "end": 236.06,
+  "zh_raw": "也没有多大事儿，只是有件东西需要拜托圣女帮老奴转交给掌门大人。",
+  "zh": "也没有多大事儿，只是有件东西需要拜托圣女帮老夫转交给掌门大阵。",
+  "segmentIndexes": [
+   42
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老奴",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 45,
+  "speaker": "S11",
+  "start": 236.34,
+  "end": 236.98,
+  "zh_raw": "什么东西？",
+  "zh": "什么东西？",
+  "segmentIndexes": [
+   43
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 46,
+  "speaker": "S11",
+  "start": 237.42,
+  "end": 239.34,
+  "zh_raw": "正好我要去见师尊，拿来吧。",
+  "zh": "正道，我要去见师尊——拿来罢。",
+  "segmentIndexes": [
+   44
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "正好我要去见师尊，拿来吧。",
+    "to": "正好，我要去见师尊——拿来罢。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "加逗号；破折号表因果；'罢'为古风句末助词，比'吧'更贴合圣女身份；py 'ba' 明确",
+    "conf": 1
+   },
+   {
+    "from": "正好",
+    "to": "正道",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 47,
+  "speaker": "S7",
+  "start": 239.78,
+  "end": 241.14,
+  "zh_raw": "那便有劳圣女了。",
+  "zh": "那便——有劳圣女了！",
+  "segmentIndexes": [
+   45
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "那便有劳圣女了。",
+    "to": "那便——有劳圣女了！",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "破折号表郑重；叹号表感激；py 'le' 上扬",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 48,
+  "speaker": "S12",
+  "start": 241.3,
+  "end": 242.9,
+  "zh_raw": "我走啦，拜拜，林老头。",
+  "zh": "我走啦——拜拜，林老夫！",
+  "segmentIndexes": [
+   46
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "我走啦，拜拜，林老头。",
+    "to": "我走啦——拜拜，林老头！",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "破折号连接动作与告别；叹号表活泼；py 'baibai' 欢快",
+    "conf": 1
+   },
+   {
+    "from": "老头",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 49,
+  "speaker": "S0",
+  "start": 243.18,
+  "end": 244.34,
+  "zh_raw": "圣女慢走。",
+  "zh": "圣女慢走。",
+  "segmentIndexes": [
+   47
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 50,
+  "speaker": "S0",
+  "start": 248.54,
+  "end": 249.06,
+  "zh_raw": "哎。",
+  "zh": "哎。",
+  "segmentIndexes": [
+   48
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 51,
+  "speaker": "S7",
+  "start": 249.7,
+  "end": 251.34,
+  "zh_raw": "竟然出奇的顺利。",
+  "zh": "竟如此顺利……",
+  "segmentIndexes": [
+   49
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "竟然出奇的顺利。",
+    "to": "竟如此顺利……",
+    "kind": "homophone",
+    "sim": 0.56,
+    "why": "'竟如此'更凝练古风；省略号表意外后的余韵；py 'jing ru ci'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 52,
+  "speaker": "S11",
+  "start": 256.25,
+  "end": 258.85,
+  "zh_raw": "举报杂役部管事吕明通吗？",
+  "zh": "举报——杂役部管事，吕明通？",
+  "segmentIndexes": [
+   50
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "举报杂役部管事吕明通吗？",
+    "to": "举报——杂役部管事，吕明通？",
+    "kind": "homophone",
+    "sim": 0.92,
+    "why": "破折号引出核心信息；逗号分隔职务与姓名；问号保留疑问语气；py 'lü ming tong' 需明确分隔",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 53,
+  "speaker": "S11",
+  "start": 260.53,
+  "end": 264.37,
+  "zh_raw": "有趣，那我更得呈交给刘紫嫣了。",
+  "zh": "有趣……那我，更得呈给刘紫嫣了！",
+  "segmentIndexes": [
+   51
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "有趣，那我更得呈交给刘紫嫣了。",
+    "to": "有趣……那我，更得呈给刘紫嫣了！",
+    "kind": "homophone",
+    "sim": 0.88,
+    "why": "省略号表玩味；逗号制造节奏；叹号表决心；py 'le' 上扬",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 54,
+  "speaker": "S11",
+  "start": 266.17,
+  "end": 274.29,
+  "zh_raw": "奇怪，刚刚我为什么会突然觉得林老头居然还挺帅气的，明明以前都没有这种感觉来着。",
+  "zh": "奇怪，刚刚我为什么会突然觉得林老夫居然还挺帅气的，明明以前都没有这种感觉来着。",
+  "segmentIndexes": [
+   52
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "老头",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 55,
+  "speaker": "S11",
+  "start": 276.2,
+  "end": 278.04,
+  "zh_raw": "到底是哪里出现了问题？",
+  "zh": "这究竟是哪儿出窍岔子？",
+  "segmentIndexes": [
+   53
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "到底是哪里出现了问题？",
+    "to": "这究竟是哪儿出了岔子？",
+    "kind": "homophone",
+    "sim": 0.3,
+    "why": "'究竟''哪儿''岔子'更口语化且具古风调侃感；'出了岔子'比'出现了问题'更生动；py 'cha zi' 对应",
+    "conf": 1
+   },
+   {
+    "from": "出了",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "到底是哪里出现了问题？",
+    "to": "这究竟是哪儿出了岔子？",
+    "kind": "homophone",
+    "sim": 0.3,
+    "why": "'究竟''哪儿''岔子'更口语化且具古风调侃感；'出了岔子'比'出现了问题'更生动；py 'cha zi' 对应",
+    "conf": 1
+   },
+   {
+    "from": "出了",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 56,
+  "speaker": "S12",
+  "start": 283.88,
+  "end": 287.6,
+  "zh_raw": "师尊弟子有一件东西要呈交给您，谁给你的？",
+  "zh": "师尊，弟子有件东西要呈给您——谁给你的？",
+  "segmentIndexes": [
+   54
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "师尊弟子有一件东西要呈交给您，谁给你的？",
+    "to": "师尊，弟子有件东西要呈给您——谁给你的？",
+    "kind": "homophone",
+    "sim": 0.84,
+    "why": "加逗号；破折号引出关键问；py 'gei nin' 即 'gei nin'，'您'后需停顿",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 57,
+  "speaker": "S12",
+  "start": 287.76,
+  "end": 290.88,
+  "zh_raw": "苏宇禀师尊是门口的林老头。",
+  "zh": "苏宇禀师尊是门口的林老夫。",
+  "segmentIndexes": [
+   55
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老头",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 58,
+  "speaker": "S11",
+  "start": 291.24,
+  "end": 298.36,
+  "zh_raw": "今后莫要谁给你的东西都呈交给为师，何况是区区一个杂役。",
+  "zh": "今后，莫将圣人所予废物，尽数呈修器师——何况，区区一个杂役？",
+  "segmentIndexes": [
+   56
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "今后莫要谁给你的东西都呈交给为师，何况是区区一个杂役。",
+    "to": "今后，莫将旁人所予之物，尽数呈予为师——何况，区区一个杂役？",
+    "kind": "homophone",
+    "sim": 0.49,
+    "why": "'莫将''旁人所予之物''尽数呈予'更文言庄重；破折号；'区区一个杂役'后问号表轻蔑质疑；py 'mo jiang' 'pang ren' 'shou yu' 'cheng yu' 可对应",
+    "conf": 1
+   },
+   {
+    "from": "予为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "为师",
+    "to": "器师",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "旁人",
+    "to": "圣人",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "之物",
+    "to": "废物",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "今后莫要谁给你的东西都呈交给为师，何况是区区一个杂役。",
+    "to": "今后，莫将旁人所予之物，尽数呈予为师——何况，区区一个杂役？",
+    "kind": "homophone",
+    "sim": 0.49,
+    "why": "'莫将''旁人所予之物''尽数呈予'更文言庄重；破折号；'区区一个杂役'后问号表轻蔑质疑；py 'mo jiang' 'pang ren' 'shou yu' 'cheng yu' 可对应",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 59,
+  "speaker": "S12",
+  "start": 298.56,
+  "end": 299.32,
+  "zh_raw": "是师尊。",
+  "zh": "是师尊。",
+  "segmentIndexes": [
+   57
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 60,
+  "speaker": "S12",
+  "start": 299.68,
+  "end": 310.52,
+  "zh_raw": "弟子谨记于心，林墨不是来求救的，原来是举报信。",
+  "zh": "弟子谨记于心，林墨并非来求援——原是一封举报信！",
+  "segmentIndexes": [
+   58
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "林墨不是来求救的，原来是举报信。",
+    "to": "林墨并非来求援——原是一封举报信！",
+    "kind": "homophone",
+    "sim": 0.55,
+    "why": "'并非''求援'更正式；破折号；'原是一封'比'原来是'更凝练；叹号表恍然；py 'yuan shi' → 'yuan shi yi feng'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 61,
+  "speaker": "S12",
+  "start": 311.28,
+  "end": 320.96,
+  "zh_raw": "林墨虽没有提供充足证据，但既然有举报信，按照宗门规章制度，执法堂也应该将吕明通控制起来，对其展开调查。",
+  "zh": "林墨虽没有提供充足证据，但既然有举报信，按照宗门规章制度，阵法堂也应该将吕明通禁制起来，对其展开调查。",
+  "segmentIndexes": [
+   59
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "执法",
+    "to": "阵法",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "控制",
+    "to": "禁制",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "控制",
+    "to": "禁制",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 62,
+  "speaker": "S12",
+  "start": 321.12,
+  "end": 325.36,
+  "zh_raw": "哼这老东西不是一心寻死，而今为何还要想办法自救？",
+  "zh": "哼！这老东西，岂是剑心寻死？如今却还要费尽心思自救？",
+  "segmentIndexes": [
+   60
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "哼这老东西不是一心寻死，而今为何还要想办法自救？",
+    "to": "哼！这老东西，岂是一心寻死？如今却还要费尽心思自救？",
+    "kind": "homophone",
+    "sim": 0.68,
+    "why": "叹号起势；'岂是'反问加强质疑；'却还要'比'为何还要'更显意外；'费尽心思'比'想办法'更精准；双问号强化层层递进；py 'qi shi' 'que hai yao' 可对应",
+    "conf": 1
+   },
+   {
+    "from": "一心",
+    "to": "剑心",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "一心",
+    "to": "剑心",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 63,
+  "speaker": "S12",
+  "start": 325.52,
+  "end": 328.44,
+  "zh_raw": "林墨若真心寻死，直接躺平不就好了。",
+  "zh": "林墨若真气寻死，直接躺平不就好了。",
+  "segmentIndexes": [
+   61
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "真心",
+    "to": "真气",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 64,
+  "speaker": "S12",
+  "start": 328.78,
+  "end": 331.22,
+  "zh_raw": "何必还要想出举报杂役部的法子来自救？",
+  "zh": "何苦还要炮制一封举报信，以图自救？",
+  "segmentIndexes": [
+   62
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "何必还要想出举报杂役部的法子来自救？",
+    "to": "何苦还要炮制一封举报信，以图自救？",
+    "kind": "homophone",
+    "sim": 0.28,
+    "why": "'何苦'比'何必'更显无奈与讥诮；'炮制'暗含质疑其真实性；'以图自救'更凝练；py 'pao zhi' 可对应",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "何必还要想出举报杂役部的法子来自救？",
+    "to": "何苦还要炮制一封举报信，以图自救？",
+    "kind": "homophone",
+    "sim": 0.28,
+    "why": "'何苦'比'何必'更显无奈与讥诮；'炮制'暗含质疑其真实性；'以图自救'更凝练；py 'pao zhi' 可对应",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 65,
+  "speaker": "S12",
+  "start": 333.94,
+  "end": 338.62,
+  "zh_raw": "师尊，这是要将其交给执法堂，命他们彻查此事。",
+  "zh": "师尊，这是要将其交给阵法堂，命他们彻查此事。",
+  "segmentIndexes": [
+   63
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "执法",
+    "to": "阵法",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 66,
+  "speaker": "S12",
+  "start": 339.06,
+  "end": 341.06,
+  "zh_raw": "是，师尊，弟子这就去办。",
+  "zh": "是，师尊，弟子这就去办。",
+  "segmentIndexes": [
+   64
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ }
+]

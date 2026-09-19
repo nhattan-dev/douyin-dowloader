@@ -1,0 +1,187 @@
+{
+ "model": "qwen-vl-max",
+ "frames": 8,
+ "lines": {
+  "0": {
+   "pred": "青萝",
+   "why": "khẩu hình của nhân vật nữ mặc áo yếm xanh lục, có vằn xanh trên da và tóc đen dài đang cử động miệng trong khi nói câu thoại.",
+   "t": 5.52
+  },
+  "1": {
+   "pred": "猎妖师·霍七",
+   "why": "khung 3 và 4 cho thấy khuôn mặt người đàn ông to lớn đang cười và miệng cử động, phù hợp với lời thoại",
+   "t": 9.16
+  },
+  "2": {
+   "pred": "小钻风",
+   "why": "khung 3 và 4 cho thấy nhân vật nam trẻ với mái tóc dài, râu quai nón, áo giáp da tối màu đang mở miệng nói, phù hợp với đặc điểm của Tiểu Toản Phong",
+   "t": 15.12
+  },
+  "3": {
+   "pred": "小钻风",
+   "why": "khung hình cho thấy nhân vật nam trẻ với tai nhọn, đầu quấn khăn vải xám tối và mặt có vết sẹo/vằn xanh đang cử động miệng khi nói",
+   "t": 19.12
+  },
+  "4": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"The free quota has been exhausted. To continue accessing the model on a paid basis, please complete your",
+   "t": 20.4
+  },
+  "6": {
+   "pred": "小钻风",
+   "why": "khung hình cho thấy miệng nam nhân vật đầu quấn khăn vải xám tối, mặt có vết sẹo đang cử động khi nói",
+   "t": 37.14
+  },
+  "9": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"The free quota has been exhausted. To continue accessing the model on a paid basis, please complete your",
+   "t": 44.54
+  },
+  "10": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"The free quota has been exhausted. To continue accessing the model on a paid basis, please complete your",
+   "t": 49.39
+  },
+  "14": {
+   "pred": "玉面狐狸",
+   "why": "nữ nhân vật mặc váy trắng, có đuôi cáo trắng và trâm bạc hình lá, miệng đang cử động khi nói",
+   "t": 78.32
+  },
+  "16": {
+   "pred": "青萝",
+   "why": "khung hình cho thấy miệng nữ nhân vật tóc đen dài, áo yếm xanh lục, có hình xăm trên da đang cử động khi nói",
+   "t": 85.81
+  },
+  "18": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 101.54
+  },
+  "19": {
+   "pred": "青萝",
+   "why": "nữ nhân vật có tóc đen dài, áo yếm xanh lục, vằn xanh trên da và trang sức rắn, miệng đang cử động trong khung hình",
+   "t": 108.98
+  },
+  "20": {
+   "pred": "蛇泽女妖",
+   "why": "khẩu hình nữ nhân vật tóc đen dài, áo yếm xanh lục, có vằn xanh trên da đang cử động miệng trong các khung cận mặt",
+   "t": 112.5
+  },
+  "21": {
+   "pred": "青萝",
+   "why": "nhân vật nữ có mắt vàng, xăm hình xanh lục trên da, tóc đen dài và trang sức rắn, phù hợp với mô tả của Thanh La",
+   "t": 117.67
+  },
+  "25": {
+   "pred": "青萝",
+   "why": "nhân vật nữ có tóc đen dài, áo yếm xanh lục, hình xăm vằn xanh trên da và mắt vàng đang cử động miệng trong các khung hình",
+   "t": 129.19
+  },
+  "28": {
+   "pred": "青萝",
+   "why": "khung 1-4 thấy rõ nữ nhân vật có tóc đen dài, xăm hình xanh lục, mắt vàng, đang cử động miệng khi nói '多谢恩公', phù hợp với đặc điểm của 青萝",
+   "t": 137.71
+  },
+  "31": {
+   "pred": "玉面狐狸",
+   "why": "nhân vật nữ mặc váy trắng bạc, có trâm bạc hình lá trên tóc, đang cử động miệng trong các khung cận mặt khi nói",
+   "t": 145.42
+  },
+  "35": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"The free quota has been exhausted. To continue accessing the model on a paid basis, please complete your",
+   "t": 170.12
+  },
+  "37": {
+   "pred": "青萝",
+   "why": "khung hình cho thấy nhân vật nữ có tóc đen dài, áo yếm xanh lục và vằn xanh trên da đang cử động miệng khi nói",
+   "t": 176.76
+  },
+  "39": {
+   "pred": "青萝",
+   "why": "nữ nhân vật mặc áo yếm xanh lục, có hình xăm/vằn xanh trên da, đang cử động miệng khi nói",
+   "t": 185.74
+  },
+  "40": {
+   "pred": "小钻风",
+   "why": "khẩu hình của nhân vật nam trẻ với tai nhọn, đầu quấn khăn vải xám tối và áo giáp da rách rưới đang cử động miệng trong các khung hình",
+   "t": 189.18
+  }
+ },
+ "clusters": {
+  "S0": {
+   "votes": {
+    "青萝": 1,
+    "猎妖师·霍七": 1,
+    "小钻风": 2
+   },
+   "probed": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ],
+   "size": 5,
+   "name": "小钻风",
+   "cid": "C1",
+   "split": false,
+   "sure": true
+  },
+  "S2": {
+   "votes": {
+    "小钻风": 1,
+    "蛇泽女妖": 1,
+    "青萝": 3,
+    "玉面狐狸": 1
+   },
+   "probed": [
+    6,
+    20,
+    21,
+    25,
+    31,
+    39
+   ],
+   "size": 16,
+   "name": "青萝",
+   "cid": "C11",
+   "split": false,
+   "sure": true
+  },
+  "S3": {
+   "votes": {
+    "玉面狐狸": 1,
+    "青萝": 4,
+    "小钻风": 1
+   },
+   "probed": [
+    14,
+    16,
+    19,
+    28,
+    37,
+    40
+   ],
+   "size": 17,
+   "name": "青萝",
+   "cid": "C11",
+   "split": false,
+   "sure": true
+  },
+  "S1": {
+   "votes": {},
+   "probed": [
+    9,
+    10,
+    18,
+    35
+   ],
+   "size": 4,
+   "name": null,
+   "cid": null,
+   "split": false,
+   "sure": false
+  }
+ }
+}

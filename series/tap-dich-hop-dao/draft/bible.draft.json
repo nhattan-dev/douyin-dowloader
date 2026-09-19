@@ -1,0 +1,577 @@
+{
+ "schema": 1,
+ "draft": true,
+ "createdAt": "2026-09-15T14:02:33Z",
+ "series": {
+  "id": "tap-dich-hop-dao",
+  "titleZh": "杂役合道",
+  "titleVi": "Tạp Dịch Hợp Đạo",
+  "inputs": {
+   "glossary": "/home/fleex/WorkSpace/Projects/douyind-downloader/glossary.json",
+   "terms": null,
+   "outRoot": "/home/fleex/WorkSpace/Projects/douyind-downloader/out/tap-dich-hop-dao"
+  }
+ },
+ "episodes": [
+  {
+   "ep": "1",
+   "videoId": "7684223620255583538",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAh2JT4E7HOfy83EOOMdhsubUMbtdlmMBUmmwSjSPquC0/7684223620255583538",
+   "duration": 317,
+   "title": "百岁杂役寿元将近，受尽屈辱，却撞见宗主走火入魔",
+   "tags": [
+    "AIGC",
+    "AI动漫",
+    "AI漫剧",
+    "国产动漫",
+    "原创动画"
+   ],
+   "hasStt": true,
+   "use": true,
+   "why": ""
+  },
+  {
+   "ep": "",
+   "videoId": "7684507415122922798",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAh2JT4E7HOfy83EOOMdhsubUMbtdlmMBUmmwSjSPquC0/7684507415122922798",
+   "duration": 10,
+   "title": "杂役合道后续",
+   "tags": [
+    "AI",
+    "AIGC",
+    "AI漫剧",
+    "原创动漫",
+    "杂役合道后续"
+   ],
+   "hasStt": true,
+   "use": false,
+   "why": "chỉ 10s — giống thông báo/trailer hơn là một tập"
+  },
+  {
+   "ep": "2",
+   "videoId": "7684950002791206163",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAh2JT4E7HOfy83EOOMdhsubUMbtdlmMBUmmwSjSPquC0/7684950002791206163",
+   "duration": 341,
+   "title": "就让你们绑一下吧，反正也是你们最后的狂欢了",
+   "tags": [
+    "AI漫剧",
+    "AIGC",
+    "原创动漫",
+    "原创动画",
+    "原创漫剧"
+   ],
+   "hasStt": true,
+   "use": true,
+   "why": ""
+  }
+ ],
+ "cast": [
+  {
+   "id": "C1",
+   "zh": "林墨",
+   "vi": "Lâm Mặc",
+   "viShort": "",
+   "gender": "male",
+   "role": "main",
+   "alias": [
+    "老夫",
+    "老朽",
+    "林老夫",
+    "杂役"
+   ],
+   "note": "Nam chính, xuyên việt/trọng sinh giả, tạp dịch đệ tử già nua của tông môn.",
+   "clusters": {
+    "1": [
+     "S1",
+     "S2",
+     "S5",
+     "S6"
+    ],
+    "2": [
+     "S0",
+     "S2",
+     "S4",
+     "S5",
+     "S6",
+     "S7",
+     "S8",
+     "S9"
+    ]
+   },
+   "lines": 67,
+   "confidence": 0.95,
+   "doubt": "",
+   "samples": [
+    {
+     "ep": "1",
+     "id": 24,
+     "zh": "阴阳邪魔功，阴阳不调，功法便是不完整，难怪这100多年从没听说他找魔道侣。",
+     "start": 159.05,
+     "end": 172.93,
+     "vi": "Âm Dương Tà Ma Công, Âm Dương bất điều, công pháp tất nhiên không hoàn chỉnh, chẳng trách hơn trăm năm qua chưa từng nghe nói hắn tìm đạo lữ ma đạo."
+    },
+    {
+     "ep": "2",
+     "id": 25,
+     "zh": "杂役部本质上就是一群废柴聚集地，但凡有点修炼资质的，谁会被分来杂役部当杂役弟子？也不过堪堪筑基后期罢了！天才那位赵东海，还只是炼气期后期。",
+     "start": 133.56,
+     "end": 143.56,
+     "vi": "Tạp Dịch Bộ về bản chất chính là nơi tập trung của một đám phế vật; hễ có chút tư chất tu luyện thì ai lại bị phân đến Tạp Dịch Bộ làm đệ tử tạp dịch chứ? Chẳng qua cũng chỉ mới ở Trúc Cơ hậu kỳ mà thôi! Thiên tài kia, vị Triệu Đông Hải, thì vẫn chỉ ở Luyện Khí kỳ hậu kỳ."
+    },
+    {
+     "ep": "1",
+     "id": 46,
+     "zh": "掌门大阵，老夫只求一个临终无憾，不能这样，这功法反噬比老夫想的还严重。",
+     "start": 286.57,
+     "end": 295.65,
+     "vi": "Đại trận của tông chủ, lão phu chỉ mong một điều là đến lúc lâm chung không hối tiếc, không thể để như vậy được, công pháp này gây phản phệ còn nghiêm trọng hơn cả những gì lão phu nghĩ."
+    },
+    {
+     "ep": "2",
+     "id": 24,
+     "zh": "当不当紫天灵根这个御用杂役，老朽是没多大所谓的，现在问题的关键是一旦回到杂役部，那指定给我破果子吃，他娘的老朽现在要是渡劫期，就不用这么麻烦了！",
+     "start": 123.48,
+     "end": 132.56,
+     "vi": "Việc có làm hay không làm Tạp Dịch Bộ chuyên phụng sự Tử Thiên, lão phu cũng chẳng quan tâm lắm; vấn đề mấu chốt bây giờ là một khi trở về Tạp Dịch Bộ, nhất định sẽ bị bắt ăn quả đắng. Đáng chết! Nếu bây giờ lão phu đã đạt đến Độ Kiếp kỳ, thì đâu cần phải phiền phức như thế này!"
+    }
+   ],
+   "lookRaw": "Ông già gầy gò, tóc bạc trắng búi cao, râu mép và râu cằm bạc, da nhăn nheo, mặc y phục vải thô màu nâu xám rách rưới kiểu tạp dịch, tay gân guốc.",
+   "look": "ÔNG GIÀ gầy, TÓC BẠC TRẮNG búi cao, râu bạc, da nhăn nheo, Y PHỤC NÂU XÁM RÁCH RƯỚI tạp dịch, tay gân guốc.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nam chính Lâm Mặc xuất hiện lặp lại với ngoại hình ông già tóc bạc, y phục rách ở nhiều khung.",
+   "lookFrames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C2",
+   "zh": "柳紫嫣",
+   "vi": "Liễu Tử Yên",
+   "viShort": "",
+   "gender": "female",
+   "role": "main",
+   "alias": [
+    "刘紫嫣",
+    "掌门",
+    "女魔头",
+    "本宫",
+    "掌门大阵"
+   ],
+   "note": "Chưởng môn tông môn, nữ ma đầu, đang chịu phản phệ từ Âm Dương Tà Ma Công.",
+   "clusters": {
+    "1": [
+     "S0",
+     "S4"
+    ]
+   },
+   "lines": 17,
+   "confidence": 0.9,
+   "doubt": "",
+   "samples": [
+    {
+     "ep": "1",
+     "id": 33,
+     "zh": "我本修为凭我的天尊可以改掉他的弊端，可我高估自己了。",
+     "start": 216.35,
+     "end": 222.87,
+     "vi": "Bản thân ta vốn cho rằng với tu vi của Thiên Tôn mình có thể khắc phục được những khuyết điểm của hắn, nhưng ta đã quá tự cao."
+    },
+    {
+     "ep": "1",
+     "id": 6,
+     "zh": "你这老夫死到临头还惦记这个，果然男人都是一个模样。",
+     "start": 27.32,
+     "end": 33.12,
+     "vi": "Ông già này đến lúc chết rồi mà vẫn còn lo chuyện đó, đúng là đàn ông ai cũng vậy."
+    },
+    {
+     "ep": "1",
+     "id": 30,
+     "zh": "强者强了点，但本宫岂会让肮脏的狗男人玷污我这具身体。",
+     "start": 195.05,
+     "end": 200.53,
+     "vi": "Kẻ mạnh thì có mạnh hơn đôi chút, nhưng bản cung há lại để thứ nam nhân bẩn thỉu kia làm ô uế thân thể này của ta."
+    },
+    {
+     "ep": "1",
+     "id": 0,
+     "zh": "老夫才，你在本宫这里做杂役已有百余载。",
+     "start": 0.68,
+     "end": 6.04,
+     "vi": "Lão phu tài, ngươi làm tạp dịch ở cung ta đã hơn trăm năm rồi."
+    }
+   ],
+   "lookRaw": "Nữ, tóc dài ĐEN TÍM, mắt TÍM, mặc y phục tím đen hở vai, đeo trâm ngọc tím, tua rua tím; da trắng.",
+   "look": "Nữ, TÓC ĐEN TÍM, MẮT TÍM, y phục tím đen hở vai, trâm ngọc tím, tua rua tím, da trắng.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nữ tóc tím mắt tím xuất hiện lặp lại và khớp giới tính, miệng cử động ở mọi khung.",
+   "lookFrames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C3",
+   "zh": "赵主神",
+   "vi": "Triệu Chủ Thần",
+   "viShort": "",
+   "gender": "male",
+   "role": "episodic",
+   "alias": [],
+   "note": "Quản sự Tạp Dịch Bộ, người của Trọng Sinh Đường, âm mưu thanh trừng Lâm Mặc.",
+   "clusters": {
+    "2": [
+     "S1",
+     "S3"
+    ]
+   },
+   "lines": 7,
+   "confidence": 0.9,
+   "doubt": "",
+   "samples": [
+    {
+     "ep": "2",
+     "id": 1,
+     "zh": "给吹来了，根据杂役部的人事记载，你这会应该是寿终正寝了，倒是令我没想到你居然还如此容光焕奢，想来你大能有一些时日了，林墨。",
+     "start": 2.76,
+     "end": 12.88,
+     "vi": "Được thổi đến đây, theo hồ sơ nhân sự của Tạp Dịch Bộ, lẽ ra lúc này ngươi đã qua đời vì tuổi già, thật không ngờ ngươi vẫn còn rạng rỡ như vậy, có lẽ ngươi đã tu luyện được một thời gian rồi, Lâm Mặc."
+    },
+    {
+     "ep": "2",
+     "id": 8,
+     "zh": "明明已经快要入土了，你的脑子倒是还挺好使，你一无修炼天赋，二无灵力再履行杂役一职，你于准圣人而言，还有何价值？",
+     "start": 41.52,
+     "end": 49.44,
+     "vi": "Rõ ràng đã gần đất xa trời rồi, vậy mà đầu óc ngươi vẫn còn khá nhạy bén. Ngươi chẳng có thiên phú tu luyện, lại không có linh lực, chỉ có thể làm tạp dịch; vậy thì đối với một vị Chuẩn Thánh, ngươi còn có giá trị gì nữa?"
+    },
+    {
+     "ep": "2",
+     "id": 3,
+     "zh": "那倒不必了，上品已经指派了其他人间负责紫天灵根杂役事务，修为准圣人，还有李神安以及好好安享部门便会献出窍余生。",
+     "start": 19.24,
+     "end": 26.76,
+     "vi": "Điều đó thì không cần đâu, thượng phẩm đã được phân công cho một nhân gian khác phụ trách các công việc tạp dịch liên quan đến Linh Căn Tử Thiên, tu luyện thành Chuẩn Thánh, còn có Lý Thần An và những người khác sẽ an hưởng phần đời còn lại trong bộ phận."
+    },
+    {
+     "ep": "2",
+     "id": 29,
+     "zh": "老朽现在最大的优势就是在掌门弟子嫣手底下做事，其次，紫丹圣人百余年来，杂役部那些见不得光的琐事，老朽可是心知肚明。",
+     "start": 156.59,
+     "end": 163.95,
+     "vi": "Hiện tại, ưu thế lớn nhất của lão nô là được làm việc dưới trướng đệ tử Trưởng Môn – Yến. Ngoài ra, trong hơn một trăm năm qua, những chuyện vụn vặt không thể lộ ra ánh sáng của Tạp Dịch Bộ, lão nô đều nắm rõ trong lòng."
+    }
+   ],
+   "lookRaw": "Nam trung niên, tóc đen búi cao cài trâm, râu mép và cằm muối tiêu. Áo choàng đen viền đỏ, giáp vai đồng, đai lưng da, bên hông treo thẻ bài TRỌNG SINH ĐƯỜNG.",
+   "look": "Nam trung niên, tóc đen búi cao, râu muối tiêu, áo choàng đen viền đỏ, GIÁP VAI ĐỒNG, THẺ BÀI TRỌNG SINH ĐƯỜNG.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nam áo đen viền đỏ xuất hiện lặp lại ở các khung có miệng cử động, khớp giới tính và trang phục.",
+   "lookFrames": [
+    0,
+    2,
+    3,
+    4,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "id": "C4",
+   "zh": "圣女",
+   "vi": "thánh nữ",
+   "viShort": "",
+   "gender": "female",
+   "role": "episodic",
+   "alias": [],
+   "note": "Thánh nữ của tông môn, đệ tử của Liễu Tử Yên, sư tôn của Tô Vũ.",
+   "clusters": {
+    "2": [
+     "S11"
+    ]
+   },
+   "lines": 11,
+   "confidence": 0.95,
+   "doubt": "",
+   "samples": [
+    {
+     "ep": "2",
+     "id": 54,
+     "zh": "奇怪，刚刚我为什么会突然觉得林老夫居然还挺帅气的，明明以前都没有这种感觉来着。",
+     "start": 266.17,
+     "end": 274.29,
+     "vi": "Kỳ lạ thật, vừa nãy sao tôi lại đột nhiên thấy Lão Lâm hóa ra cũng khá điển trai, rõ ràng trước đây chẳng bao giờ có cảm giác như vậy cả."
+    },
+    {
+     "ep": "2",
+     "id": 58,
+     "zh": "今后，莫将圣人所予废物，尽数呈修器师——何况，区区一个杂役？",
+     "start": 291.24,
+     "end": 298.36,
+     "vi": "Từ nay về sau, chớ đem toàn bộ những thứ phế phẩm mà bậc thánh nhân ban cho dâng hết cho các thợ rèn—huống hồ chi, chỉ là một tên tạp dịch mà thôi?"
+    },
+    {
+     "ep": "2",
+     "id": 53,
+     "zh": "有趣……那我，更得呈给刘紫嫣了！",
+     "start": 260.53,
+     "end": 264.37,
+     "vi": "Thú vị quá… Vậy thì tôi càng phải dâng lên Lưu Tử Yến rồi!"
+    },
+    {
+     "ep": "2",
+     "id": 39,
+     "zh": "林老夫，一阵子不见，你气色瞧着，倒好得很呐！",
+     "start": 217.72,
+     "end": 221.08,
+     "vi": "Lão Lâm, lâu rồi không gặp, trông sắc mặt ông vẫn tốt phết đấy!"
+    }
+   ],
+   "lookRaw": "Nữ, tóc đen dài buộc cao, trâm bạc, hoa tai ngọc, y phục trắng xanh hở vai, viền bạc, tua rua, luôn cầm phong thư.",
+   "look": "Nữ, tóc đen buộc cao, trâm bạc, Y PHỤC TRẮNG XANH hở vai, viền bạc, cầm phong thư, KHÔNG CÓ ẤN TÍM.",
+   "lookSure": true,
+   "lookWhy": "Cùng một nữ nhân mặc y phục trắng xanh, tóc đen buộc cao, xuất hiện lặp lại và khớp giới tính.",
+   "lookFrames": [
+    0,
+    1,
+    2,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C5",
+   "zh": "苏宇",
+   "vi": "Tô Vũ",
+   "viShort": "",
+   "gender": "male",
+   "role": "episodic",
+   "alias": [],
+   "note": "Đệ tử của Thánh nữ, người mang thư tố cáo cho sư tôn.",
+   "clusters": {
+    "2": [
+     "S12"
+    ]
+   },
+   "lines": 11,
+   "confidence": 0.95,
+   "doubt": "ảnh tả là nữ nhưng hồ sơ ghi nam — hoặc máy tả nhầm người đang nghe, hoặc sai giới tính: nghe tiếng + nhìn ảnh rồi sửa một trong hai",
+   "samples": [
+    {
+     "ep": "2",
+     "id": 60,
+     "zh": "弟子谨记于心，林墨并非来求援——原是一封举报信！",
+     "start": 299.68,
+     "end": 310.52,
+     "vi": "Đệ tử khắc sâu trong lòng, Lâm Mặc không phải đến cầu viện—thì ra là một lá thư tố cáo!"
+    },
+    {
+     "ep": "2",
+     "id": 61,
+     "zh": "林墨虽没有提供充足证据，但既然有举报信，按照宗门规章制度，阵法堂也应该将吕明通禁制起来，对其展开调查。",
+     "start": 311.28,
+     "end": 320.96,
+     "vi": "Mặc dù Lâm Mặc không đưa ra đủ bằng chứng, nhưng đã có đơn tố cáo, theo quy định của tông môn, Trận Pháp Đường cũng nên phong tỏa và điều tra Lữ Minh Thông."
+    },
+    {
+     "ep": "2",
+     "id": 65,
+     "zh": "师尊，这是要将其交给阵法堂，命他们彻查此事。",
+     "start": 333.94,
+     "end": 338.62,
+     "vi": "Sư tôn, đây là muốn giao việc này cho Trận Pháp Đường, lệnh cho họ điều tra kỹ lưỡng sự việc."
+    },
+    {
+     "ep": "2",
+     "id": 62,
+     "zh": "哼！这老东西，岂是剑心寻死？如今却还要费尽心思自救？",
+     "start": 321.12,
+     "end": 325.36,
+     "vi": "Hừ! Lão già này, nào có phải là剑心 tự tìm cái chết? Thế mà giờ đây lại còn phải tốn bao tâm tư để tự cứu mình?"
+    }
+   ],
+   "lookRaw": "Nữ, tóc đen dài, trâm cài tím, ấn tím giữa trán, y phục tím đen hở vai, luôn cầm thư.",
+   "look": "Nữ, tóc đen dài, trâm tím, ẤN TÍM GIỮA TRÁN, Y PHỤC TÍM ĐEN hở vai, cầm thư, KHÔNG mặc trắng xanh.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nữ mặc tím đen có ấn trán xuất hiện lặp lại ở các khung có miệng cử động.",
+   "lookFrames": [
+    0,
+    1,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C6",
+   "zh": "旁人",
+   "vi": "người dẫn chuyện",
+   "viShort": "",
+   "gender": "?",
+   "role": "episodic",
+   "alias": [],
+   "note": "Nhân vật phụ hoặc người dẫn chuyện, xuất hiện ngắn ở tập 1.",
+   "clusters": {
+    "1": [
+     "S3"
+    ]
+   },
+   "lines": 4,
+   "confidence": 0.8,
+   "doubt": "",
+   "samples": []
+  }
+ ],
+ "terms": {
+  "阴阳邪魔功": {
+   "vi": "Âm Dương Tà Ma Công",
+   "approved": false,
+   "source": "series init"
+  },
+  "无尽地狱": {
+   "vi": "Vô Tận Địa Ngục",
+   "approved": false,
+   "source": "series init"
+  },
+  "杂役部": {
+   "vi": "Tạp Dịch Bộ",
+   "approved": false,
+   "source": "series init"
+  },
+  "重生堂": {
+   "vi": "Trọng Sinh Đường",
+   "approved": false,
+   "source": "series init"
+  },
+  "紫天灵根": {
+   "vi": "Tử Thiên linh căn",
+   "approved": false,
+   "source": "series init"
+  },
+  "紫天尊": {
+   "vi": "Tử Thiên Tôn",
+   "approved": false,
+   "source": "series init"
+  },
+  "续命丹": {
+   "vi": "Tục Mệnh Đan",
+   "approved": false,
+   "source": "series init"
+  },
+  "阵法堂": {
+   "vi": "Trận Pháp Đường",
+   "approved": false,
+   "source": "series init"
+  },
+  "道侣": {
+   "vi": "đạo lữ",
+   "approved": false,
+   "source": "series init"
+  },
+  "反噬": {
+   "vi": "phản phệ",
+   "approved": false,
+   "source": "series init"
+  }
+ },
+ "address": [
+  {
+   "from": "C1",
+   "to": "C2",
+   "self": "lão phu",
+   "other": "chưởng môn",
+   "fromEp": "1",
+   "why": "Lâm Mặc là tạp dịch già, xưng hô với chưởng môn"
+  },
+  {
+   "from": "C2",
+   "to": "C1",
+   "self": "bản cung",
+   "other": "ngươi",
+   "fromEp": "1",
+   "why": "Liễu Tử Yên là chưởng môn, xưng hô với tạp dịch"
+  },
+  {
+   "from": "C1",
+   "to": "C3",
+   "self": "lão hủ",
+   "other": "ngài",
+   "fromEp": "2",
+   "why": "Lâm Mặc xưng hô với quản sự Triệu Chủ Thần"
+  },
+  {
+   "from": "C3",
+   "to": "C1",
+   "self": "ta",
+   "other": "ngươi",
+   "fromEp": "2",
+   "why": "Triệu Chủ Thần xưng hô với tạp dịch Lâm Mặc"
+  },
+  {
+   "from": "C1",
+   "to": "C4",
+   "self": "lão phu",
+   "other": "Thánh nữ",
+   "fromEp": "2",
+   "why": "Lâm Mặc xưng hô với Thánh nữ"
+  },
+  {
+   "from": "C4",
+   "to": "C1",
+   "self": "ta",
+   "other": "Lâm lão phu",
+   "fromEp": "2",
+   "why": "Thánh nữ xưng hô với Lâm Mặc"
+  },
+  {
+   "from": "C5",
+   "to": "C4",
+   "self": "đệ tử",
+   "other": "sư tôn",
+   "fromEp": "2",
+   "why": "Tô Vũ là đệ tử của Thánh nữ"
+  },
+  {
+   "from": "C4",
+   "to": "C2",
+   "self": "đệ tử",
+   "other": "sư tôn",
+   "fromEp": "2",
+   "why": "Thánh nữ là đệ tử của Liễu Tử Yên"
+  }
+ ],
+ "doubts": [
+  "\"紫天灵根\" và \"紫天尊\" trong tập 2 có thể là lỗi ASR của \"Tử Thiên Tông\" (紫天宗) hoặc một địa danh/cảnh giới đặc biệt, chưa đủ ngữ cảnh khẳng định.",
+  "Cụm S3 tập 2 chứa thoại của cả Triệu Chủ Thần và Lâm Mặc, đã gán cho Triệu Chủ Thần do số câu nhiều hơn.",
+  "\"柳紫嫣\" (tập 1) và \"刘紫嫣\" (tập 2) là cùng một người, đã lấy \"柳紫嫣\" làm chuẩn.",
+  "\"掌门大阵\" xuất hiện nhiều lần trong tập 2, khả năng cao là ASR nhầm của \"掌门大人\" (Chưởng môn đại nhân), đã đưa vào alias của Liễu Tử Yên."
+ ],
+ "version": "3061604d1e33"
+}

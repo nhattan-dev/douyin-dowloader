@@ -1,0 +1,12 @@
+{
+ "A2": {
+  "sig": "74fd95f5be2411ab",
+  "artifact": "a2-ops.json",
+  "at": "2026-09-17T16:41:56.378Z"
+ },
+ "A3": {
+  "sig": "8902eb5367fb85ec",
+  "artifact": "a3-scan.json",
+  "at": "2026-09-17T16:42:06.245Z"
+ }
+}

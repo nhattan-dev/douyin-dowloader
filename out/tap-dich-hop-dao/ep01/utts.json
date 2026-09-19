@@ -1,0 +1,1286 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 0.68,
+  "end": 6.04,
+  "zh_raw": "老奴才，你在本宫这里做杂役已有百余载。",
+  "zh": "老夫才，你在本宫这里做杂役已有百余载。",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老奴",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 1,
+  "speaker": "S0",
+  "start": 7.04,
+  "end": 9.96,
+  "zh_raw": "本宫知道你寿元将尽。",
+  "zh": "本宫正道你混元婴尽。",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "元将",
+    "to": "元婴",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "知道",
+    "to": "正道",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "寿元",
+    "to": "混元",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 2,
+  "speaker": "S1",
+  "start": 10.32,
+  "end": 12.44,
+  "zh_raw": "已经100年了吗？",
+  "zh": "已经100年了吗？",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 3,
+  "speaker": "S0",
+  "start": 12.64,
+  "end": 18,
+  "zh_raw": "念在你兢兢业业捕鱼仔的份上，临死前可还有什么遗憾？",
+  "zh": "念在下兢兢业业捕渔仔的份上，临死前可还有什么遗憾？",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "捕鱼仔",
+    "to": "捕渔仔",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音，'渔'为专业用字，'鱼'是常见误识",
+    "conf": 1
+   },
+   {
+    "from": "在你",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 4,
+  "speaker": "S0",
+  "start": 18.72,
+  "end": 20.08,
+  "zh_raw": "本宫可以满足你。",
+  "zh": "本宫可以满足你。",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 5,
+  "speaker": "S2",
+  "start": 20.32,
+  "end": 26.64,
+  "zh_raw": "老奴不敢奢求其他，只求掌门赐老奴一名伴侣，陪老奴走完最后一程。",
+  "zh": "老夫不敢奢求其他，只求掌门赐老夫一名道侣，陪老夫走完最后一程。",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "掌门赐老奴一名伴侣",
+    "to": "掌门赐老奴一名道侣",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音（dàolǚ vs dàobàn），修真语境中固定用词为'道侣'，非日常'伴侣'",
+    "conf": 1
+   },
+   {
+    "from": "老奴",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 6,
+  "speaker": "S0",
+  "start": 27.32,
+  "end": 33.12,
+  "zh_raw": "你这老奴死到临头还惦记这个，果然男人都是一个模样。",
+  "zh": "你这老夫死到临头还惦记这个，果然男人都是一个模样。",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "老奴",
+    "to": "老夫",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 7,
+  "speaker": "S0",
+  "start": 36.7,
+  "end": 40.34,
+  "zh_raw": "也罢，本宫便赐你一名年轻女子。",
+  "zh": "也罢，本宫便赐你一名年轻公子。",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "女子",
+    "to": "公子",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "女子",
+    "to": "公子",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 8,
+  "speaker": "S1",
+  "start": 41.54,
+  "end": 43.18,
+  "zh_raw": "谢谢谢掌门。",
+  "zh": "谢谢谢掌门。",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 9,
+  "speaker": "S0",
+  "start": 44.02,
+  "end": 44.86,
+  "zh_raw": "不必谢。",
+  "zh": "不必谢。",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 10,
+  "speaker": "S0",
+  "start": 47.42,
+  "end": 52.02,
+  "zh_raw": "去做你该做的事，记住要死就死外面。",
+  "zh": "去做你该做的事，记住要死就死外面。",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 11,
+  "speaker": "S1",
+  "start": 52.02,
+  "end": 53.18,
+  "zh_raw": "是掌门。",
+  "zh": "是掌门。",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 12,
+  "speaker": "S1",
+  "start": 55.03,
+  "end": 58.91,
+  "zh_raw": "穿越者混到我这个地步，也真是失败。",
+  "zh": "穿越者混元我这个地步，也真是失败。",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "混到",
+    "to": "混元",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "混到",
+    "to": "混元",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 13,
+  "speaker": "S1",
+  "start": 70.99,
+  "end": 72.87,
+  "zh_raw": "我是不是忘了什么？",
+  "zh": "我是不是忘了什么？",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 14,
+  "speaker": "S1",
+  "start": 74.71,
+  "end": 78.03,
+  "zh_raw": "是啊，说好给老夫的女人呢。",
+  "zh": "是啊，说好给老夫的女人呢。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 15,
+  "speaker": "S1",
+  "start": 85.88,
+  "end": 89.08,
+  "zh_raw": "七天了，这女魔头还没出来。",
+  "zh": "七天了，这女魔头还没出窍。",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "出来",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "出来",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 16,
+  "speaker": "S1",
+  "start": 89.52,
+  "end": 97.04,
+  "zh_raw": "敢情刘子婴这女魔头在耍老夫，说好满足老夫的临终愿望。",
+  "zh": "敢情柳紫嫣这女魔头在下老夫，说好满足老夫的临终愿望。",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "刘子婴",
+    "to": "柳紫嫣",
+    "kind": "homophone",
+    "sim": 0.78,
+    "why": "py 'liuziyan' 与 'liuziying' 仅'婴/嫣'声调及韵尾微差（ing/eng），且u20明确出现'柳紫嫣'，u15'u16应为同一人，属人名听辨错误",
+    "conf": 1
+   },
+   {
+    "from": "在耍",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "在耍",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 17,
+  "speaker": "S4",
+  "start": 98.04,
+  "end": 99.68,
+  "zh_raw": "眼珠子不要了。",
+  "zh": "眼珠子不要了。",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 18,
+  "speaker": "S3",
+  "start": 106.71,
+  "end": 107.19,
+  "zh_raw": "干。",
+  "zh": "干。",
+  "segmentIndexes": [
+   18
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 19,
+  "speaker": "S1",
+  "start": 107.83,
+  "end": 111.55,
+  "zh_raw": "反正老夫也没多少时间可活了，还怕你个卵啊。",
+  "zh": "反正老夫也没多少时间可活了，还怕你个卵啊。",
+  "segmentIndexes": [
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 20,
+  "speaker": "S1",
+  "start": 122.66,
+  "end": 127.02,
+  "zh_raw": "难道是柳紫嫣这女魔头什么时候有道侣了？",
+  "zh": "难道是柳紫嫣这女魔头什么时候魔道侣了？",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "有道",
+    "to": "魔道",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 21,
+  "speaker": "S1",
+  "start": 128.34,
+  "end": 133.74,
+  "zh_raw": "阴阳邪魔功，难道她这些年一直都没有找到合适的阳修？",
+  "zh": "阴阳邪魔功，难道她这些年一直都没有找到合体的散修？",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "阳修",
+    "to": "散修",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "合适",
+    "to": "合体",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 22,
+  "speaker": "S3",
+  "start": 150.21,
+  "end": 150.77,
+  "zh_raw": "不对。",
+  "zh": "不对。",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 23,
+  "speaker": "S4",
+  "start": 153.65,
+  "end": 157.81,
+  "zh_raw": "本宫本宫就不该修行这阴阳邪魔功。",
+  "zh": "本宫本宫就不该修行者阴阳邪魔功。",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "修行这",
+    "to": "修行者",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 24,
+  "speaker": "S1",
+  "start": 159.05,
+  "end": 172.93,
+  "zh_raw": "阴阳邪魔功，阴阳不调，功法便是不完整，难怪这100多年从没听说他找过道理。",
+  "zh": "阴阳邪魔功，阴阳不调，功法便是不完整，难怪这100多年从没听说他找魔道侣。",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "找过道理",
+    "to": "找过道侣",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "py 'daolü' 再次误为 'daoli'（lǐ），'道理'完全不合修真语境，必为'道侣'",
+    "conf": 1
+   },
+   {
+    "from": "过道",
+    "to": "魔道",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 25,
+  "speaker": "S1",
+  "start": 174.26,
+  "end": 177.26,
+  "zh_raw": "这女魔头好像真的出事了。",
+  "zh": "这女魔头好像真的出事了。",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 26,
+  "speaker": "S3",
+  "start": 179.22,
+  "end": 180.18,
+  "zh_raw": "该死。",
+  "zh": "该死。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 27,
+  "speaker": "S1",
+  "start": 181.5,
+  "end": 186.14,
+  "zh_raw": "她修炼这功法，难道一直都在承受这种反噬？",
+  "zh": "她修炼这功法，难道一直都在承受这种反噬？",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 28,
+  "speaker": "S1",
+  "start": 187.46,
+  "end": 190.3,
+  "zh_raw": "老夫本来是来找她要人的。",
+  "zh": "老夫本来是来找她要人界。",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "人的",
+    "to": "人界",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 29,
+  "speaker": "S1",
+  "start": 191.77,
+  "end": 194.97,
+  "zh_raw": "可现在这到底是怎么回事？",
+  "zh": "可现在这到底是怎么回事？",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 30,
+  "speaker": "S4",
+  "start": 195.05,
+  "end": 200.53,
+  "zh_raw": "强是强了点，但本宫岂会让肮脏的狗男人玷污我这具身体。",
+  "zh": "强者强了点，但本宫岂会让肮脏的狗男人玷污我这具身体。",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "强是",
+    "to": "强者",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 31,
+  "speaker": "S1",
+  "start": 200.61,
+  "end": 204.97,
+  "zh_raw": "作恶多端的女魔头，没想到你也有今天。",
+  "zh": "作恶多端的女魔头，没想到你也有今天。",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 32,
+  "speaker": "S4",
+  "start": 209.49,
+  "end": 212.69,
+  "zh_raw": "本宫当初还是低估了这门功法。",
+  "zh": "本宫当初还是低估了掌门功法。",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "这门",
+    "to": "掌门",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 33,
+  "speaker": "S4",
+  "start": 216.35,
+  "end": 222.87,
+  "zh_raw": "我本以为凭我的天赋可以改掉他的弊端，可我高估自己了。",
+  "zh": "我本修为凭我的天尊可以改掉他的弊端，可我高估自己了。",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "天赋",
+    "to": "天尊",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "以为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 34,
+  "speaker": "S4",
+  "start": 232.62,
+  "end": 233.58,
+  "zh_raw": "找死。",
+  "zh": "找死。",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 35,
+  "speaker": "S3",
+  "start": 237.78,
+  "end": 238.7,
+  "zh_raw": "为什么。",
+  "zh": "为什么。",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 36,
+  "speaker": "S4",
+  "start": 239.66,
+  "end": 241.58,
+  "zh_raw": "灵力竟会自行散去？",
+  "zh": "灵气竟会自行散修？",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "灵力",
+    "to": "灵气",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "散去",
+    "to": "散修",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 37,
+  "speaker": "S1",
+  "start": 245.22,
+  "end": 247.9,
+  "zh_raw": "他为什么还不杀我？",
+  "zh": "他为什么还不杀招？",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "杀我",
+    "to": "杀招",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "杀我",
+    "to": "杀招",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 38,
+  "speaker": "S1",
+  "start": 249.06,
+  "end": 250.82,
+  "zh_raw": "难道他现在杀不了我？",
+  "zh": "难道他现在杀不了我？",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 39,
+  "speaker": "S4",
+  "start": 257.44,
+  "end": 261.96,
+  "zh_raw": "给本宫站住，再往前一步便是无尽地狱。",
+  "zh": "给本宫站住，再往前一步便是无尽地狱。",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 40,
+  "speaker": "S5",
+  "start": 262.4,
+  "end": 267.88,
+  "zh_raw": "无尽地狱对老夫而言，在楚圣宗内的百余载才是真正的无尽地狱。",
+  "zh": "无尽地狱对老夫而言，在准圣人内丹百余天才是真正的无尽地狱。",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "楚圣",
+    "to": "准圣",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "圣宗",
+    "to": "圣人",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "内的",
+    "to": "内丹",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "载才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "载才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 41,
+  "speaker": "S5",
+  "start": 268.36,
+  "end": 272.16,
+  "zh_raw": "老夫身处无尽地狱百余载，又岂会再害怕无尽地狱？",
+  "zh": "老夫身处无尽地狱百余载，又岂会再害怕无尽地狱？",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 42,
+  "speaker": "S6",
+  "start": 272.32,
+  "end": 277.72,
+  "zh_raw": "掌门大人，老夫也理解您要修行的苦衷，所以我也要求您赏赐年轻女子了，",
+  "zh": "掌门大阵，老夫也尸解仙要修行者苦衷，所以我也要求您赏赐年轻公子了，",
+  "segmentIndexes": [
+   42
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "修行的",
+    "to": "修行者",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "理解您",
+    "to": "尸解仙",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "女子",
+    "to": "公子",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "女子",
+    "to": "公子",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 43,
+  "speaker": "S6",
+  "start": 277.76,
+  "end": 279.36,
+  "zh_raw": "让老夫助您修行一次。",
+  "zh": "让老夫助您散修一次。",
+  "segmentIndexes": [
+   42
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "助您修行一次",
+    "to": "助您双修一次",
+    "kind": "homophone",
+    "sim": 0.22,
+    "why": "py 'shuangxiu' 易被听作 'xiuxing'，'双修'是阴阳邪魔功唯一合法修行方式，'助修行'语义模糊且不符合功法设定",
+    "conf": 1
+   },
+   {
+    "from": "双修",
+    "to": "散修",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 44,
+  "speaker": "S6",
+  "start": 279.72,
+  "end": 282.01,
+  "zh_raw": "点当你已经满足了老夫的临终遗愿，",
+  "zh": "况且你已经满足了老夫的临终遗愿，",
+  "segmentIndexes": [
+   43
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "点当",
+    "to": "况且",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "py 'kuangqie' 与 'diandang' 完全无关，但'况且'符合'前已满足遗愿，因此提出新请求'的逻辑连接，且'况'与'点'无音似，此处ASR严重错听，conf:0.3，但'况且'是唯一使语义通顺的选项",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "点当",
+    "to": "况且",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "py 'kuangqie' 与 'diandang' 完全无关，但'况且'符合'前已满足遗愿，因此提出新请求'的逻辑连接，且'况'与'点'无音似，此处ASR严重错听，conf:0.3，但'况且'是唯一使语义通顺的选项",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 45,
+  "speaker": "S6",
+  "start": 281.96,
+  "end": 282.44,
+  "zh_raw": "如何？",
+  "zh": "如何？",
+  "segmentIndexes": [
+   43
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 46,
+  "speaker": "S1",
+  "start": 286.57,
+  "end": 295.65,
+  "zh_raw": "掌门大人，老夫只求一个临终无憾，不能这样，这功法反噬比老夫想的还严重。",
+  "zh": "掌门大阵，老夫只求一个临终无憾，不能这样，这功法反噬比老夫想的还严重。",
+  "segmentIndexes": [
+   44
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 47,
+  "speaker": "S4",
+  "start": 299.29,
+  "end": 302.45,
+  "zh_raw": "阴阳邪魔功难道真的已经。",
+  "zh": "阴阳邪魔功难道真的已经？",
+  "segmentIndexes": [
+   45
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 48,
+  "speaker": "S1",
+  "start": 302.89,
+  "end": 304.21,
+  "zh_raw": "掌门大人？",
+  "zh": "掌门大阵？",
+  "segmentIndexes": [
+   46
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "大人",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 49,
+  "speaker": "S1",
+  "start": 310.51,
+  "end": 316.59,
+  "zh_raw": "掌门一个人修行很难受吧，让老夫来助你修行。",
+  "zh": "掌门一个人修行者难受吧，让老夫来助你修行。",
+  "segmentIndexes": [
+   47
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "修行很",
+    "to": "修行者",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ }
+]

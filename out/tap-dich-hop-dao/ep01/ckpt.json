@@ -1,0 +1,17 @@
+{
+ "A2": {
+  "sig": "329ae8eef1b62015",
+  "artifact": "a2-ops.json",
+  "at": "2026-09-14T16:43:34.840Z"
+ },
+ "A3": {
+  "sig": "70c6cc9df65c2d0b",
+  "artifact": "a3-scan.json",
+  "at": "2026-09-14T16:43:52.576Z"
+ },
+ "B2b": {
+  "sig": "10d4eb333d692ef1",
+  "artifact": "sheet.json",
+  "at": "2026-09-14T16:45:17.958Z"
+ }
+}

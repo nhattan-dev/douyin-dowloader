@@ -1,0 +1,325 @@
+{
+  "cast": [
+    {
+      "id": "C1",
+      "name": "叙述者",
+      "note": "旁白，讲述故事背景和事件"
+    },
+    {
+      "id": "C2",
+      "name": "前辈",
+      "note": "高阶修士，被称呼为前辈，自称本座，赶时间，委托晚辈拍卖妖兽"
+    },
+    {
+      "id": "C3",
+      "name": "晚辈",
+      "note": "低阶修士，称呼对方为前辈，负责拍卖事宜"
+    },
+    {
+      "id": "C4",
+      "name": "尾随者",
+      "note": "金丹境修士，尾随前辈，意图抢劫，自称老夫"
+    },
+    {
+      "id": "C5",
+      "name": "前辈（战斗）",
+      "note": "前辈在战斗中的发言，可能为同一人，但为区分场景暂列"
+    }
+  ],
+  "lines": [
+    {
+      "line": 1,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "旁白，描述铜片"
+    },
+    {
+      "line": 2,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "旁白，时间流逝"
+    },
+    {
+      "line": 3,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "旁白，期望"
+    },
+    {
+      "line": 4,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "称呼前辈，去而复返"
+    },
+    {
+      "line": 5,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "询问吩咐"
+    },
+    {
+      "line": 6,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈介绍妖兽"
+    },
+    {
+      "line": 7,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈指示拍卖"
+    },
+    {
+      "line": 8,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈描述皮毛"
+    },
+    {
+      "line": 9,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈描述内丹"
+    },
+    {
+      "line": 10,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈评价价值"
+    },
+    {
+      "line": 11,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "称呼前辈"
+    },
+    {
+      "line": 12,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "晚辈分析运作"
+    },
+    {
+      "line": 13,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "晚辈估价"
+    },
+    {
+      "line": 14,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈指示"
+    },
+    {
+      "line": 15,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈自称本座，赶时间"
+    },
+    {
+      "line": 16,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "晚辈回应"
+    },
+    {
+      "line": 17,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "晚辈保证"
+    },
+    {
+      "line": 18,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈警告"
+    },
+    {
+      "line": 19,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "晚辈明白"
+    },
+    {
+      "line": 20,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "晚辈承诺保密"
+    },
+    {
+      "line": 21,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "旁白，发现金丹"
+    },
+    {
+      "line": 22,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说跟了这么久"
+    },
+    {
+      "line": 23,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈邀请现身"
+    },
+    {
+      "line": 24,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者夸神识"
+    },
+    {
+      "line": 25,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者承认尾随"
+    },
+    {
+      "line": 26,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者问目的"
+    },
+    {
+      "line": 27,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者叹气"
+    },
+    {
+      "line": 28,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者提同为金丹"
+    },
+    {
+      "line": 29,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者说身家"
+    },
+    {
+      "line": 30,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者自称老夫"
+    },
+    {
+      "line": 31,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者借钱"
+    },
+    {
+      "line": 32,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说命值60万"
+    },
+    {
+      "line": 33,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈骂嚣张"
+    },
+    {
+      "line": 34,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者惊讶"
+    },
+    {
+      "line": 35,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者说敬酒"
+    },
+    {
+      "line": 36,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者说受死"
+    },
+    {
+      "line": 37,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "旁白，宝器"
+    },
+    {
+      "line": 38,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者说翅膀归我"
+    },
+    {
+      "line": 39,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说想要自己拿"
+    },
+    {
+      "line": 40,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说自己来拿"
+    },
+    {
+      "line": 41,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者说不可能"
+    },
+    {
+      "line": 42,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者喊破"
+    },
+    {
+      "line": 43,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者说还给你死"
+    },
+    {
+      "line": 44,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "尾随者问身份"
+    },
+    {
+      "line": 45,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说不堪一击"
+    },
+    {
+      "line": 46,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说老狗肥"
+    },
+    {
+      "line": 47,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "旁白，极北之地"
+    },
+    {
+      "line": 48,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "旁白，上古修士"
+    },
+    {
+      "line": 49,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "前辈说去取乾蓝冰焰"
+    }
+  ]
+}

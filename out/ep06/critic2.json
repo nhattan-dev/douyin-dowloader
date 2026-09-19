@@ -1,0 +1,178 @@
+{
+ "0": {
+  "score": 4,
+  "issue": "Thêm 'se duyên' không có trong bản gốc, nhưng chấp nhận được."
+ },
+ "1": {
+  "score": 5
+ },
+ "2": {
+  "score": 5
+ },
+ "3": {
+  "score": 2,
+  "issue": "Dịch sai '春暖花开的女孩' thành 'sống an nhiên', mất ý ấm áp nở hoa.",
+  "fix": "Nàng hài lòng là tốt, ta mong lấp đầy khuyết thiếu trăm năm trong lòng nàng, để sau này nàng thành một cô gái xuân ấm hoa nở."
+ },
+ "4": {
+  "score": 5
+ },
+ "5": {
+  "score": 5
+ },
+ "6": {
+  "score": 1,
+  "issue": "Sai thuật ngữ: '蛛蛛' phải là 'Toản Toản', không phải 'Toản Toản'."
+ },
+ "7": {
+  "score": 5
+ },
+ "8": {
+  "score": 2,
+  "issue": "Dịch sai '以后跟你们一样' thành 'sau này một nhà', mất ý giống như các ngươi.",
+  "fix": "Địa Dũng phu nhân, sau này cũng giống các ngươi."
+ },
+ "9": {
+  "score": 5
+ },
+ "10": {
+  "score": 5
+ },
+ "11": {
+  "score": 5
+ },
+ "12": {
+  "score": 2,
+  "issue": "Dịch sai '弟弟沉月峡' thành 'đệ đệ ở Trầm Nguyệt Hiệp', sai nghĩa và xưng hô.",
+  "fix": "Một mình đến, đệ đệ ở Trầm Nguyệt Hiệp, ta cùng ngươi đi."
+ },
+ "13": {
+  "score": 5
+ },
+ "14": {
+  "score": 5
+ },
+ "15": {
+  "score": 4,
+  "issue": "Ổn, chỉ hơi thiếu tự nhiên so với thoại phim",
+  "fix": "Hồng Châu, để nàng đợi lâu rồi."
+ },
+ "16": {
+  "score": 3,
+  "issue": "'tiểu yêu dâm' nghe thô và không đúng sắc thái mắng 'sao yêu tinh nhỏ'",
+  "fix": "Động chủ, ngươi đúng là đồ yêu tinh nhỏ."
+ },
+ "17": {
+  "score": 4,
+  "issue": "'ăn cháo đá bát' hơi lệch, 'thuần dương đạo' nên là 'đạo thuần dương'",
+  "fix": "Câu kết mấy kẻ ăn cây táo rào cây sung, mưu hại đạo thuần dương của ta."
+ },
+ "18": {
+  "score": 5
+ },
+ "19": {
+  "score": 2,
+  "issue": "'mở yêu đan ra' sai (phải là 'mở to mắt'), 'trận giết heo' dịch thô, 'đại yêu rốt cuộc hại mình' lệch nghĩa",
+  "fix": "Đại tỷ, mở to mắt nhìn cho rõ, đạo lữ ngươi bày trận sát heo trước, câm miệng, đại yêu rốt cuộc chỉ hại mình thôi."
+ },
+ "20": {
+  "score": 4,
+  "issue": "'Răng nhọn miệng sắc' hơi cứng, nên dùng thành ngữ Việt",
+  "fix": "Miệng lưỡi sắc bén, ta muốn xem ngươi còn tránh được mấy vòng."
+ },
+ "21": {
+  "score": 4,
+  "issue": "'Đoạn Phong Cốc ngươi mãnh' hơi lệch, nên là 'ngươi ở Đoạn Phong Cốc có mãnh'",
+  "fix": "Ngươi ở Đoạn Phong Cốc có mãnh, nhưng cũng đến đây là hết."
+ },
+ "22": {
+  "score": 4,
+  "issue": "'mặc ngươi' thiếu ý 'đi lấy/đi làm'",
+  "fix": "Đừng giết ta, ta nguyện ký khế ước nô lệ, từ nay mặc ngươi sai khiến."
+ },
+ "23": {
+  "score": 5
+ },
+ "24": {
+  "score": 3,
+  "issue": "'đánh ngươi vậy' tối nghĩa, lệch ý 'đánh cái này'",
+  "fix": "Đa tạ ơn không giết, đánh cái này vậy."
+ },
+ "25": {
+  "score": 5
+ },
+ "26": {
+  "score": 5
+ },
+ "27": {
+  "score": 2,
+  "issue": "'một mạch Huyền Âm Nguyệt Châu' sai (phải là 'một chi Huyền Âm Nguyệt Châu'), 'vùng tối sâu hơn, như chính ta trải qua' thêm ý, 'Bạch Diện yêu quân' không nhất quán với 'Ngọc Diện'",
+  "fix": "Ta vốn sống sâu trong Trầm Nguyệt Hiệp, thuộc một chi Huyền Âm Nguyệt Châu, bản thể ta là nhện đen thượng cổ có thể nuốt ánh trăng, mượn nguyệt thực lột xác. Thuở nhỏ phụ vương ta thường bạo hành mẫu thân, ban đầu ta rất sợ, nhưng nhìn lâu, ta phải dùng cả đời chữa lành. Sau ta lại bước vào một vùng tối sâu hơn, như chính ta trải qua. Tu luyện thành công, ta quen Bạch Diện yêu quân, ta rất thích hắn, lúc đó ta tưởng cuối cùng đã gặp người không khiến ta sợ, nhưng hắn luôn đánh ta, đánh xong vài ngày lại khóc lóc xin lỗi, lặp đi lặp lại, ngày qua ngày."
+ },
+ "28": {
+  "score": 5
+ },
+ "29": {
+  "score": 5
+ },
+ "30": {
+  "score": 4,
+  "issue": "ổn, chỉ hơi lệch sắc thái câu hỏi tu từ",
+  "fix": ""
+ },
+ "31": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "32": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "33": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "34": {
+  "score": 2,
+  "issue": "'腰声' dịch thành 'lưng' sai, phải là 'yêu đan' (妖丹)",
+  "fix": "Nghe tin hắn gặp tử kiếp hôm đó, yêu đan của ta trống rỗng."
+ },
+ "35": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "36": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "37": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "38": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "39": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "40": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "41": {
+  "score": 3,
+  "issue": "'元阳' dịch thành 'dương khí' không đúng thuật ngữ, phải là 'nguyên dương'",
+  "fix": "Và này, có ai từng nói với ngươi, nguyên dương của ngươi rất thơm không?"
+ }
+}

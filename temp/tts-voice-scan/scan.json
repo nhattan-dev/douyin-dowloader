@@ -1,0 +1,85 @@
+{
+  "model": "gpt-4o-mini-tts",
+  "text": "Chỉ là lão Tôn vừa xem qua, quanh đây trăm dặm toàn đá đen, chẳng có chút ruộng vườn nào.",
+  "instructions": null,
+  "voices": [
+    {
+      "voice": "echo",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/echo.wav",
+      "matchRate": 1,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây trăm dặm toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "fable",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/fable.wav",
+      "matchRate": 1,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây trăm dặm toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "onyx",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/onyx.wav",
+      "matchRate": 1,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây trăm dặm toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "coral",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/coral.wav",
+      "matchRate": 1,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây trăm dặm toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "verse",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/verse.wav",
+      "matchRate": 1,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây trăm dặm toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "alloy",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/alloy.wav",
+      "matchRate": 0.97,
+      "heard": "Chỉ là lão tôn vừa xem qua quanh đây, chăm dặm toàn đá đen, chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "nova",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/nova.wav",
+      "matchRate": 0.97,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây chăm dặm toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "ash",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/ash.wav",
+      "matchRate": 0.97,
+      "heard": "Chỉ là lão tôn vừa xem qua, quanh đây trong dặm toàn đá đen, chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "marin",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/marin.wav",
+      "matchRate": 0.97,
+      "heard": "Chỉ là lão tôn vừa xem qua quanh đây, chăm dặm toàn đá đen, chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "ballad",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/ballad.wav",
+      "matchRate": 0.94,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây chăm giặc toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "sage",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/sage.wav",
+      "matchRate": 0.925,
+      "heard": "Chỉ là lão tôn vừa xem qua quanh đây, chăm rập toàn đá đen, chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "cedar",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/cedar.wav",
+      "matchRate": 0.925,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây chăm rạp toàn đá đen chẳng có chút ruộng vườn nào."
+    },
+    {
+      "voice": "shimmer",
+      "file": "/home/fleex/WorkSpace/Projects/douyind-downloader/temp/tts-voice-scan/shimmer.wav",
+      "matchRate": 0.881,
+      "heard": "chỉ là lão tôn vừa xem qua quanh đây chăm giọng toàn đá đen chẳng có chút ruộng vừa nào."
+    }
+  ]
+}

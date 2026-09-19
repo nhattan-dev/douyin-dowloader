@@ -1,0 +1,545 @@
+{
+ "premise": "Tiểu Toản Phong đơn thương độc mã đến cứu Hồng Châu, đánh bại Đại tỷ Bàn Ty Động rồi lắng nghe Hồng Châu bộc bạch quá khứ bi thương và thân thế thượng cổ hắc chu của nàng.",
+ "characters": [
+  {
+   "key": "S0",
+   "zh": "小钻风",
+   "vi": "Tiểu Toản Phong",
+   "gender": "male",
+   "role": "nhân vật chính, người xuyên không, tiểu yêu tuần núi ở Sư Đà Lĩnh",
+   "voice": "",
+   "cid": "C1",
+   "guess": false,
+   "level": "confirmed"
+  },
+  {
+   "key": "S1",
+   "zh": "玉面狐狸",
+   "vi": "Ngọc Diện",
+   "gender": "female",
+   "role": "thiếp của Ngưu Ma Vương, về sau đi theo Tiểu Toản Phong",
+   "voice": "",
+   "cid": "C2",
+   "guess": true,
+   "level": "conflict"
+  }
+ ],
+ "address": [
+  {
+   "from": "S0",
+   "to": "S1",
+   "self": "ta",
+   "other": "nàng",
+   "since": 0,
+   "why": "S0 xưng 'ta' với bản thân, gọi S2 là 'nàng' vì quan hệ chưa rõ ràng nhưng có ý tôn trọng v"
+  },
+  {
+   "from": "S1",
+   "to": "S0",
+   "self": "ta",
+   "other": "ngươi",
+   "since": 0,
+   "why": "S2 ban đầu xưng 'ta', gọi S0 là 'ngươi' (hoặc ngầm hiểu) do vị thế cao hơn; sau khi kết đạ"
+  }
+ ],
+ "entities": [
+  {
+   "zh": "魔云洞",
+   "vi": "Ma Vân Động",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "狮驼岭",
+   "vi": "Sư Đà Lĩnh",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "积雷山",
+   "vi": "Tích Lôi Sơn",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "牛魔王",
+   "vi": "Ngưu Ma Vương",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "猪八戒",
+   "vi": "Trư Bát Giới",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "玉面",
+   "vi": "Ngọc Diện",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "小钻风",
+   "vi": "Tiểu Toản Phong",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "月华灵泉",
+   "vi": "Nguyệt Hoa Linh Tuyền",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "九齿钉耙",
+   "vi": "đinh ba chín răng",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "黑角卫",
+   "vi": "Hắc Giác Vệ",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "黑角烙印",
+   "vi": "dấu sừng đen",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "神猴",
+   "vi": "Thần Hầu",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "狐族",
+   "vi": "Hồ tộc",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "西行路",
+   "vi": "đường Tây Hành",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "面首",
+   "vi": "nam sủng",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "色妖",
+   "vi": "yêu quái háo sắc",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "刺客",
+   "vi": "thích khách",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "气息",
+   "vi": "khí tức",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "妖气",
+   "vi": "yêu khí",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "妖力",
+   "vi": "yêu lực",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "妖丹",
+   "vi": "yêu đan",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "气运",
+   "vi": "khí vận",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "天兵",
+   "vi": "thiên binh",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "围剿",
+   "vi": "vây quét",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "收场",
+   "vi": "thu dọn cục diện",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "死劫",
+   "vi": "tử kiếp",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "道侣",
+   "vi": "đạo lữ",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "大妖",
+   "vi": "đại yêu",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "巡山",
+   "vi": "tuần sơn",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "女人",
+   "vi": "nữ nhân",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "废物",
+   "vi": "đồ phế vật",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "结局",
+   "vi": "kết cục",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "祭品",
+   "vi": "tế phẩm",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "亲卫",
+   "vi": "thân vệ",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "宝藏",
+   "vi": "kho báu",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "改命",
+   "vi": "cải mệnh",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "预知",
+   "vi": "dự tri",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "洞府",
+   "vi": "động phủ",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "盘丝洞",
+   "vi": "Bàn Ty Động",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "白骨",
+   "vi": "Bạch Cốt",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "白骨夫人",
+   "vi": "Bạch Cốt Phu Nhân",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "因果",
+   "vi": "Nhân Quả",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "尸解法",
+   "vi": "Thi Giải Pháp",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "御风术",
+   "vi": "Ngự Phong Thuật",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "阳息",
+   "vi": "dương tức",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "阳气",
+   "vi": "dương khí",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "妖帅",
+   "vi": "Yêu Soái",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "洞天",
+   "vi": "Động Thiên",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "金蝉",
+   "vi": "Kim Thiền",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "转世",
+   "vi": "Chuyển Thế",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "心魔",
+   "vi": "tâm ma",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "无底洞",
+   "vi": "Vô Để Động",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "沉月峡",
+   "vi": "Trầm Nguyệt Hiệp",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "玄阴月珠",
+   "vi": "Huyền Âm Nguyệt Châu",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "白木妖君",
+   "vi": "Bạch Mộc Yêu Quân",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "北俱泸州",
+   "vi": "Bắc Câu Lư Châu",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "妖师宫",
+   "vi": "Yêu Sư Cung",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "万妖圣经",
+   "vi": "Vạn Yêu Thánh Kinh",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "西海龙宫",
+   "vi": "Tây Hải Long Cung",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "敖霜",
+   "vi": "Ngao Sương",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "小白龙",
+   "vi": "Tiểu Bạch Long",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "蛇泽",
+   "vi": "Xà Trạch",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "锁天阵",
+   "vi": "Tỏa Thiên Trận",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "断风谷",
+   "vi": "Đoạn Phong Cốc",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "百珍楼",
+   "vi": "Bách Trân Lâu",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "火焰山",
+   "vi": "Hỏa Diệm Sơn",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "太阴芭蕉扇",
+   "vi": "Thái Âm Ba Tiêu Phiến",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "翠云山",
+   "vi": "Thúy Vân Sơn",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "百眼魔君",
+   "vi": "Bách Nhãn Ma Quân",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "临霜城",
+   "vi": "Lâm Sương Thành",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "钻钻",
+   "vi": "Toản Toản",
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  }
+ ],
+ "bibleVersion": "e5de075ac827"
+}

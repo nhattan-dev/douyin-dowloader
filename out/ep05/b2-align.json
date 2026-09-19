@@ -1,0 +1,69 @@
+{
+ "premise": "Tiểu Toản Phong vô tình lạc vào Tây Minh Động Thiên và gặp Địa Dũng Phu Nhân, giúp bà ta phá giải tâm ma và thoát khỏi tử kiếp, khiến bà ta nảy sinh tình cảm và đòi thành thân.",
+ "speakers": [
+  {
+   "speaker": "S0",
+   "cast": "C1",
+   "conf": 0.95,
+   "evidence": [
+    {
+     "line": 25,
+     "type": "selfName",
+     "name": "小钻风"
+    }
+   ]
+  },
+  {
+   "speaker": "S1",
+   "cast": "C1",
+   "conf": 0.4,
+   "evidence": []
+  },
+  {
+   "speaker": "S2",
+   "cast": "C10",
+   "conf": 0.8,
+   "evidence": [
+    {
+     "line": 53,
+     "type": "addressed",
+     "name": "夫人"
+    }
+   ]
+  },
+  {
+   "speaker": "S3",
+   "cast": "C1",
+   "conf": 0.4,
+   "evidence": []
+  },
+  {
+   "speaker": "S4",
+   "cast": "C10",
+   "conf": 0.95,
+   "evidence": [
+    {
+     "line": 28,
+     "type": "selfName",
+     "name": "地涌夫人"
+    }
+   ]
+  },
+  {
+   "speaker": "S5",
+   "cast": "C10",
+   "conf": 0.3,
+   "evidence": []
+  }
+ ],
+ "newTerms": {
+  "西溟洞天": "Tây Minh Động Thiên",
+  "百目妖丹": "Bách Mục Yêu Đan",
+  "半截观音": "Bán Tiệt Quan Âm",
+  "唐僧": "Đường Tăng",
+  "李靖": "Lý Tịnh",
+  "哪吒": "Na Tra",
+  "天庭": "Thiên Đình",
+  "空间折跃": "Nhảy vọt không gian"
+ }
+}

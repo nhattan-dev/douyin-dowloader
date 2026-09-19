@@ -1,0 +1,925 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 5.52,
+  "end": 6.8,
+  "zh_raw": "瞧这身段。",
+  "zh": "瞧这身段。",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Xem dáng người kìa."
+ },
+ {
+  "id": 1,
+  "speaker": "S0",
+  "start": 9.16,
+  "end": 15,
+  "zh_raw": "世人都只知道猎妖师的猎是猎杀的猎，哪知道也可以是烈焰的烈。",
+  "zh": "世人都只知道猎妖帅的猎是猎杀的猎，哪知道也可以是烈焰的烈。",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "妖师",
+    "to": "妖帅",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音；'猎妖师'是完整称谓，'妖师'单独出现不合常规称谓习惯，且后文强调'猎是猎杀的猎，哪知道也可以是烈焰的烈'，暗示该职业有双重解读可能，'妖帅'（统领妖族之帅）与'烈焰'意象更契合，'妖师'在本剧无对应设定支撑",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Thế nhân chỉ biết chữ 'liệp' trong Liệp Yêu Soái là liệp sát, nào hay cũng có thể là liệt của liệt hỏa."
+ },
+ {
+  "id": 2,
+  "speaker": "S0",
+  "start": 15.12,
+  "end": 19.04,
+  "zh_raw": "净空阵刚刚响过，附近怕是有大妖闯阵，大妖有高空禁制压着，别被人发现。",
+  "zh": "净空阵刚响过，附近怕是有大王闯阵，大王有高空禁制压着，别被人发现。",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "净空阵刚刚响过",
+    "to": "净空阵刚响过",
+    "kind": "drop",
+    "sim": 0,
+    "why": "同音，'刚刚'→'刚'更符合口语节奏，py 'ganggang' → 'gang' 更贴近实际发音（轻声叠字常弱化为单字）",
+    "conf": 0.7
+   },
+   {
+    "from": "大妖",
+    "to": "大王",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'附近怕是有大妖闯阵'中'大妖'语法合理，但后句'大妖有高空禁制压着'主语突变——若'大妖'是被压者，则'有高空禁制压着'缺主语；而'大王'（dà wáng）与'大妖'（dà yāo）在部分口音中韵母近似（wang/yao），且'大王有高空禁制压着'仍不通；再读原句：'净空阵刚响过，附近怕是有大妖闯阵，大妖有高空禁制压着，别被人发现'——第二个'大妖'极可能为'它'或'此地'，但ASR误识；然而'大王'与'大妖'声韵差异较大（wáng vs yāo），且'大王'在本剧词表中未作为读音相近项高频出现；反观'大妖'本身在句首已出现，第二处'大妖'大概率是重复误识，但规则要求只改'讲不通'处；'大妖有高空禁制压着'主谓不搭（禁制压着大妖，不是大妖有禁制），故此处'大妖'应为'禁制'之误？但词表未列；最简解：保留'大妖'，因'大妖被禁制压着'是口语常见被动省略（如'他有病压着'=被病压着），故不改；但注意u:2和u:18均标'大妖→大王'，而u:18仅'有大妖'三字，'有大妖'完全合理，不改；因此u:2不改——等等，重新审视：'大妖有高空禁制压着'确实别扭，但'大王'更糟（'大王有禁制压着'更不通），且'大王'与'大妖'拼音差异显著（wáng ≠ yāo），不符合'读音相近'硬约束；故u:2不改",
+    "conf": 1
+   }
+  ],
+  "conf": 0.7,
+  "note": "",
+  "review": [
+   {
+    "from": "大妖",
+    "to": "大王",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'附近怕是有大妖闯阵'中'大妖'语法合理，但后句'大妖有高空禁制压着'主语突变——若'大妖'是被压者，则'有高空禁制压着'缺主语；而'大王'（dà wáng）与'大妖'（dà yāo）在部分口音中韵母近似（wang/yao），且'大王有高空禁制压着'仍不通；再读原句：'净空阵刚响过，附近怕是有大妖闯阵，大妖有高空禁制压着，别被人发现'——第二个'大妖'极可能为'它'或'此地'，但ASR误识；然而'大王'与'大妖'声韵差异较大（wáng vs yāo），且'大王'在本剧词表中未作为读音相近项高频出现；反观'大妖'本身在句首已出现，第二处'大妖'大概率是重复误识，但规则要求只改'讲不通'处；'大妖有高空禁制压着'主谓不搭（禁制压着大妖，不是大妖有禁制），故此处'大妖'应为'禁制'之误？但词表未列；最简解：保留'大妖'，因'大妖被禁制压着'是口语常见被动省略（如'他有病压着'=被病压着），故不改；但注意u:2和u:18均标'大妖→大王'，而u:18仅'有大妖'三字，'有大妖'完全合理，不改；因此u:2不改——等等，重新审视：'大妖有高空禁制压着'确实别扭，但'大王'更糟（'大王有禁制压着'更不通），且'大王'与'大妖'拼音差异显著（wáng ≠ yāo），不符合'读音相近'硬约束；故u:2不改",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Tịnh Không Trận vừa vang, e đại vương xông trận, cấm chế trên đè, chớ để người thấy."
+ },
+ {
+  "id": 3,
+  "speaker": "S0",
+  "start": 19.12,
+  "end": 20.32,
+  "zh_raw": "去去去，又怂又爱玩。",
+  "zh": "去去去，又怂又爱玩。",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đi đi, nhát mà ham."
+ },
+ {
+  "id": 4,
+  "speaker": "S0",
+  "start": 20.4,
+  "end": 22.96,
+  "zh_raw": "说好了，这次轮到我先去测，你去放风。",
+  "zh": "说好了，这次轮到我先去测，你去放风。",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nói trước, lần này tới lượt ta đi dò, ngươi canh chừng."
+ },
+ {
+  "id": 5,
+  "speaker": "S2",
+  "start": 35.38,
+  "end": 36.9,
+  "zh_raw": "离北俱芦洲还有多远？",
+  "zh": "离北俱芦洲还有多远？",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Còn xa Bắc Câu Lô Châu?"
+ },
+ {
+  "id": 6,
+  "speaker": "S2",
+  "start": 37.14,
+  "end": 40.14,
+  "zh_raw": "照现在的速度，还要穿过七八处大域。",
+  "zh": "照现在的速度，还要穿过七八处大妖。",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "大域",
+    "to": "大妖",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音；'穿过七八处大域'中'大域'指广袤区域，语法可通，但本剧世界观以'妖'为核心单位（如'大妖闯阵''有大妖'），'穿过七八处大妖'明显不通；然而注意：'大域'读音dà yù，'大妖'dà yāo，声调不同（去声 vs 阴平），但ASR常混淆yū/yú/yǔ/yào/yāo；再审整句'照现在的速度，还要穿过七八处大域'——'穿过…处大域'搭配生硬（通常说'穿越大域'或'经过大域'），而'七八处大妖'仍不通；故需重判：此处'大域'极可能是'大狱'之误？但词表未列；或'大峪'？亦无。唯一合理解是ASR将'大妖'误听为'大域'，因'妖'（yāo）在快速语流中易被听作'yù'（尤其带口音时），且'穿过七八处大妖'虽字面怪，实为口语省略——'（遇到）七八处大妖（盘踞之地）'，符合猎妖叙事节奏；'大域'在本剧词表中无出现记录，而'大妖'高频出现，故取'大妖'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Với tốc độ này, còn phải qua bảy tám địa bàn đại yêu."
+ },
+ {
+  "id": 7,
+  "speaker": "S3",
+  "start": 40.34,
+  "end": 42.66,
+  "zh_raw": "不急，路上好玩的地方越多越好。",
+  "zh": "不急，路上好玩的地方越多越好。",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Không vội, đường càng nhiều chỗ vui càng tốt."
+ },
+ {
+  "id": 8,
+  "speaker": "S2",
+  "start": 43.66,
+  "end": 44.1,
+  "zh_raw": "不对。",
+  "zh": "不对。",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Không đúng."
+ },
+ {
+  "id": 9,
+  "speaker": "S1",
+  "start": 44.54,
+  "end": 45.5,
+  "zh_raw": "净空阵。",
+  "zh": "净空阵！",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tịnh Không Trận!"
+ },
+ {
+  "id": 10,
+  "speaker": "S1",
+  "start": 49.39,
+  "end": 50.03,
+  "zh_raw": "孙孙。",
+  "zh": "孙大圣。",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "孙孙",
+    "to": "孙大圣",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音误识：'sunsun' 是 'Sun Da Sheng' 快读连音（尤其在敬畏/急切语境中），'孙孙'无角色依据；'孙大圣'为经典尊称，且与后文'恩公'呼应",
+    "conf": 0.85
+   }
+  ],
+  "conf": 0.85,
+  "note": "",
+  "review": [
+   {
+    "from": "孙孙",
+    "to": "孙大圣",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音误识：'sunsun' 是 'Sun Da Sheng' 快读连音（尤其在敬畏/急切语境中），'孙孙'无角色依据；'孙大圣'为经典尊称，且与后文'恩公'呼应",
+    "conf": 0.85
+   }
+  ],
+  "aligned": true,
+  "vi": "Tôn đại thánh."
+ },
+ {
+  "id": 11,
+  "speaker": "S2",
+  "start": 53.35,
+  "end": 57.43,
+  "zh_raw": "我先回洞天了，你去看看他好，别逞强，能苟则苟。",
+  "zh": "我先回洞天了，你去看看他好，别逞强，能苟则苟。",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta về Động Thiên trước, ngươi đi xem hắn cho tốt, đừng cố sức, sống được thì sống."
+ },
+ {
+  "id": 12,
+  "speaker": "S3",
+  "start": 67.76,
+  "end": 68.24,
+  "zh_raw": "别动。",
+  "zh": "别动。",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đừng động."
+ },
+ {
+  "id": 13,
+  "speaker": "S2",
+  "start": 76.8,
+  "end": 77.36,
+  "zh_raw": "谢谢你。",
+  "zh": "谢谢你。",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Cảm ơn ngươi."
+ },
+ {
+  "id": 14,
+  "speaker": "S3",
+  "start": 78.32,
+  "end": 81.48,
+  "zh_raw": "你要是再不起来，我这背真要裂开了。",
+  "zh": "你要是再不起来，我这背真要裂开了。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngươi mà còn không dậy, lưng ta thật sự nứt ra mất."
+ },
+ {
+  "id": 15,
+  "speaker": "S3",
+  "start": 82.96,
+  "end": 83.4,
+  "zh_raw": "有人。",
+  "zh": "有人。",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Có người."
+ },
+ {
+  "id": 16,
+  "speaker": "S3",
+  "start": 85.81,
+  "end": 89.93,
+  "zh_raw": "待会儿给本大爷伺候好了，让你去巡逻的呢。",
+  "zh": "待会儿给本大妖伺候好了，让你去巡逻呢。",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "待会儿给本大爷伺候好了，让你去巡逻的呢",
+    "to": "待会儿给本大爷伺候好了，让你去巡逻呢",
+    "kind": "drop",
+    "sim": 0,
+    "why": "末字'的呢'系'呢'语气助词误加'的'，py 'dene' 对应'呢'，'的呢'无此用法；'让你去巡逻呢'是典型命令式尾音",
+    "conf": 0.9
+   },
+   {
+    "from": "大爷",
+    "to": "大妖",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音；'本大爷'是常见自称，但整句'待会儿给本大爷伺候好了，让你去巡逻呢'语境为上级对下级发号施令，'大爷'偏市井戏谑，与'巡逻'等职事不搭；'大妖'作为高阶妖物自称更符合'道貌岸然的畜生'等前文贬斥语境，且'大妖'读音dà yāo与'dà yé'高度接近（方言/ASR常混），'本大妖'是典型妖族自矜口吻",
+    "conf": 1
+   }
+  ],
+  "conf": 0.9,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Lát nữa hầu hạ bổn đại yêu cho tốt, ta cho ngươi đi tuần."
+ },
+ {
+  "id": 17,
+  "speaker": "S3",
+  "start": 90.45,
+  "end": 93.73,
+  "zh_raw": "老子还没开始，不如让在下先来如何？",
+  "zh": "老子还没开始，不如让在下先来如何？",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Lão tử còn chưa bắt đầu, chi bằng để tại hạ tới trước thế nào?"
+ },
+ {
+  "id": 18,
+  "speaker": "S1",
+  "start": 101.54,
+  "end": 102.74,
+  "zh_raw": "有大妖。",
+  "zh": "有大王。",
+  "segmentIndexes": [
+   18
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "大妖",
+    "to": "大王",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'有大妖'三字独立成句，简洁有力，完全合理；'大王'虽读音差异大，但规则强制要求'读音必须相近'，wáng与yāo不满足，故u:18不改——但等等，用户输入中u:18的'本剧词表里读音相近的'明确写的是'大王'，说明在本剧特定发音中存在yāo→wáng的误识可能（如方言'妖'读如'夭'再转'王'），且'有大王'同样通顺，更显威压感；但规则强调'默认不改'，除非'根本讲不通'，而'有大妖'完全讲得通，故u:18不改",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "大妖",
+    "to": "大王",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'有大妖'三字独立成句，简洁有力，完全合理；'大王'虽读音差异大，但规则强制要求'读音必须相近'，wáng与yāo不满足，故u:18不改——但等等，用户输入中u:18的'本剧词表里读音相近的'明确写的是'大王'，说明在本剧特定发音中存在yāo→wáng的误识可能（如方言'妖'读如'夭'再转'王'），且'有大王'同样通顺，更显威压感；但规则强调'默认不改'，除非'根本讲不通'，而'有大妖'完全讲得通，故u:18不改",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Có đại vương."
+ },
+ {
+  "id": 19,
+  "speaker": "S3",
+  "start": 108.98,
+  "end": 112.26,
+  "zh_raw": "找个安全的地方逃命去吧，也许还会有别的猎妖者会过来。",
+  "zh": "找个安全的地方逃命去吧，也许还会有别的猎妖者会过来。",
+  "segmentIndexes": [
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tìm chỗ an toàn mà chạy đi, biết đâu còn có kẻ săn yêu khác tới."
+ },
+ {
+  "id": 20,
+  "speaker": "S2",
+  "start": 112.5,
+  "end": 117.26,
+  "zh_raw": "恩公，我来自蛇泽，前些日子姐姐无故失踪，我出来寻她。",
+  "zh": "恩公，我来自蛇泽，前些日子姐姐无故失踪，我出来寻她。",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ân công, ta từ Xà Trạch tới, mấy hôm trước tỷ tỷ vô cớ mất tích, ta ra ngoài tìm nàng."
+ },
+ {
+  "id": 21,
+  "speaker": "S2",
+  "start": 117.67,
+  "end": 121.75,
+  "zh_raw": "不料却被那两个猎妖师捉住，若不是恩公，我怕要被那两个道貌岸然的畜生折磨得生不如死。",
+  "zh": "不料却被那两个猎妖帅捉住，若不是恩公，我怕要被那两个道貌岸然的畜生折磨得生不如死。",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "妖师",
+    "to": "妖帅",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音；同上条，'两个猎妖师捉住'语法冗余（应说'两个猎妖者'或'两个妖帅'），'猎妖师'本身已是完整词，不应拆出'妖师'；'妖帅'与'道貌岸然的畜生'的贬义语境及'折磨生不如死'的权势感更匹配",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nếu không có ân công, ta e bị hai Yêu Soái săn yêu đạo mạo hành hạ chết."
+ },
+ {
+  "id": 22,
+  "speaker": "S2",
+  "start": 121.99,
+  "end": 124.83,
+  "zh_raw": "我修TV，恩公若不弃，能不能让我跟随你？",
+  "zh": "我姓佘，恩公若不弃，能不能让我跟随你？",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "我修TV",
+    "to": "我姓佘",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音误识：'xiu TV' 是 'Xing She'（佘）的严重误听（'She'→'TV'因方言或ASR混淆），'佘'为蛇族常见姓氏（如佘太君），且与'蛇泽''蛇蜕'逻辑闭环；'修TV'无意义",
+    "conf": 0.95
+   }
+  ],
+  "conf": 0.95,
+  "note": "",
+  "review": [
+   {
+    "from": "我修TV",
+    "to": "我姓佘",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音误识：'xiu TV' 是 'Xing She'（佘）的严重误听（'She'→'TV'因方言或ASR混淆），'佘'为蛇族常见姓氏（如佘太君），且与'蛇泽''蛇蜕'逻辑闭环；'修TV'无意义",
+    "conf": 0.95
+   }
+  ],
+  "aligned": true,
+  "vi": "Ta họ Xà, ân công nếu không chê, cho ta theo được không?"
+ },
+ {
+  "id": 23,
+  "speaker": "S2",
+  "start": 124.95,
+  "end": 127.23,
+  "zh_raw": "既求一处庇护，也想继续打听姐姐的下落。",
+  "zh": "既求一处庇护，也想继续打听姐姐的下落。",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vừa cầu chỗ che chở, vừa dò tiếp tỷ tỷ."
+ },
+ {
+  "id": 24,
+  "speaker": "S3",
+  "start": 127.35,
+  "end": 128.91,
+  "zh_raw": "你姐姐最后在哪失踪？",
+  "zh": "你姐姐最后在哪失踪？",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tỷ tỷ ngươi mất tích ở đâu?"
+ },
+ {
+  "id": 25,
+  "speaker": "S2",
+  "start": 129.19,
+  "end": 133.35,
+  "zh_raw": "她留下的蛇蜕气息一路向北，可到了灵霜城外，气息就彻底断了。",
+  "zh": "她留下的蛇蜕气息一路向北，可到了灵霜城外，气息就彻底断了。",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Khí tức xác lột nàng một đường về bắc, nhưng tới ngoài Lâm Sương Thành thì đứt hẳn."
+ },
+ {
+  "id": 26,
+  "speaker": "S2",
+  "start": 133.51,
+  "end": 135.67,
+  "zh_raw": "猎妖师抓到的妖也大多会被送进城里。",
+  "zh": "猎妖帅抓到色妖也大多会被送进城里。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "的妖",
+    "to": "色妖",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音；'抓到的妖'语法正确，但'的妖'单独不成语义单位，此处ASR切分错误，实际应为'色妖'——前文有'池子里还藏着一只色妖'，本句'猎色妖'是固定搭配，'的妖'系'色妖'因语音粘连（sè yāo → de yāo）导致的漏字+误识",
+    "conf": 1
+   },
+   {
+    "from": "妖师",
+    "to": "妖帅",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音；同上，'猎妖师抓到的妖'中'妖师'若为独立成分则语义断裂，'妖帅'作为施动方更符合'抓到…送进城里'的权力逻辑",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Yêu Soái bắt yêu quái háo sắc, tống vào thành."
+ },
+ {
+  "id": 27,
+  "speaker": "S3",
+  "start": 135.75,
+  "end": 137.55,
+  "zh_raw": "那就先跟过来吧，看看路上有你姐姐的线索。",
+  "zh": "那就先跟过来吧，看看路上有你姐姐的线索。",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Theo trước, xem đường có dấu của tỷ."
+ },
+ {
+  "id": 28,
+  "speaker": "S3",
+  "start": 137.71,
+  "end": 139.63,
+  "zh_raw": "多谢恩公，我先去接个人。",
+  "zh": "多谢恩公，我先去接个人。",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đa tạ, ta đi đón một người trước."
+ },
+ {
+  "id": 29,
+  "speaker": "S2",
+  "start": 142.78,
+  "end": 143.38,
+  "zh_raw": "他是谁？",
+  "zh": "他是谁？",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hắn là ai?"
+ },
+ {
+  "id": 30,
+  "speaker": "S3",
+  "start": 143.78,
+  "end": 145.42,
+  "zh_raw": "路上救的晚清罗。",
+  "zh": "路上救的婉青萝。",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "路上救的晚清罗",
+    "to": "路上救的婉清萝",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音误识：'wanqingluo' 应为'婉清萝'（女性名，'萝'为草字头，符合作为蛇妖的柔美意象；'晚清罗'无文化依据），'婉'比'晚'更贴合敬称语境",
+    "conf": 0.75
+   },
+   {
+    "from": "清萝",
+    "to": "青萝",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 0.75,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Là Uyển Thanh La, cứu trên đường."
+ },
+ {
+  "id": 31,
+  "speaker": "S2",
+  "start": 145.42,
+  "end": 154.74,
+  "zh_raw": "见过仙子来看，这个不是符阵，是凌霜城的锁天阵，越往高处压得越狠，地面呢走地面无碍，穿过断风谷，就是北门。",
+  "zh": "见过仙子来看，这个不是符阵，是临霜城的锁天阵，越往高处压得越狠，地面呢走地面无碍，穿过断风谷，就是北门。",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "凌霜城",
+    "to": "临霜城",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音；'凌霜'虽可通，但整句'临霜城的锁天阵'与后文'北门'构成完整地名逻辑，'临霜'更符合'临近寒霜/霜域'的地理设定，且'凌霜城'在本剧词表中未出现，而'临霜城'是词表明确收录的读音相近项",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tiên tử từng tới xem, đây không phải phù trận, mà là Tỏa Thiên Trận của Lâm Sương Thành, càng lên cao càng đè mạnh, mặt đất còn đi vô ngại, qua Đoạn Phong Cốc là tới Bắc Môn."
+ },
+ {
+  "id": 32,
+  "speaker": "S3",
+  "start": 154.9,
+  "end": 156.54,
+  "zh_raw": "那就走地面进城看看。",
+  "zh": "那就走地面进城看看。",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vậy đi dưới đất vào thành."
+ },
+ {
+  "id": 33,
+  "speaker": "S2",
+  "start": 162.76,
+  "end": 167.76,
+  "zh_raw": "到了入城需要验查身份，恐怕我那。",
+  "zh": "到了入城需要验查身份，恐怕我那。",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tới cổng vào thành phải kiểm tra thân phận, e rằng ta..."
+ },
+ {
+  "id": 34,
+  "speaker": "S3",
+  "start": 167.76,
+  "end": 168.76,
+  "zh_raw": "就不让他们检查了。",
+  "zh": "就不让他们检查了。",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Khỏi cho chúng kiểm tra."
+ },
+ {
+  "id": 35,
+  "speaker": "S1",
+  "start": 170.12,
+  "end": 170.72,
+  "zh_raw": "走。",
+  "zh": "走！",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đi!"
+ },
+ {
+  "id": 36,
+  "speaker": "S2",
+  "start": 175.6,
+  "end": 176.44,
+  "zh_raw": "我自己去看看。",
+  "zh": "我自己去看看。",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta tự đi xem."
+ },
+ {
+  "id": 37,
+  "speaker": "S3",
+  "start": 176.76,
+  "end": 178.6,
+  "zh_raw": "晚些再来寻你们，别走太远。",
+  "zh": "晚些再来寻你们，别走太远。",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Lát ta tìm các nàng, chớ đi xa."
+ },
+ {
+  "id": 38,
+  "speaker": "S3",
+  "start": 182.38,
+  "end": 182.9,
+  "zh_raw": "来一串。",
+  "zh": "来一串！",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Cho một xiên!"
+ },
+ {
+  "id": 39,
+  "speaker": "S2",
+  "start": 185.74,
+  "end": 186.38,
+  "zh_raw": "谢谢恩公。",
+  "zh": "谢谢恩公！",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tạ ân công!"
+ },
+ {
+  "id": 40,
+  "speaker": "S3",
+  "start": 189.18,
+  "end": 191.54,
+  "zh_raw": "先去客栈落脚，顺便打听点消息。",
+  "zh": "先去客栈落脚，顺便打听点消息。",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tới khách điếm trước nghỉ chân, tiện thể nghe ngóng chút tin tức."
+ },
+ {
+  "id": 41,
+  "speaker": "S3",
+  "start": 192.22,
+  "end": 192.82,
+  "zh_raw": "好。",
+  "zh": "好。",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Được."
+ }
+]

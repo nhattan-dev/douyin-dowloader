@@ -1,0 +1,45 @@
+{
+ "A-repair/qwen-plus": [
+  2,
+  4668,
+  4536,
+  81.4,
+  0
+ ],
+ "B-vision/qwen-vl-max": [
+  16,
+  60988,
+  879,
+  57.1,
+  0
+ ],
+ "B-align/qwen3.7-max": [
+  1,
+  2453,
+  8545,
+  104.3,
+  8207
+ ],
+ "C-render/deepseek-flash@none": [
+  1,
+  2303,
+  1041,
+  5.5,
+  0
+ ],
+ "D-critic/deepseek-flash@none": [
+  6,
+  9662,
+  3257,
+  16.6,
+  0
+ ],
+ "D-fix/deepseek-flash@low": [
+  2,
+  5544,
+  14562,
+  58.5,
+  13788
+ ],
+ "_costUSD": 0.157
+}

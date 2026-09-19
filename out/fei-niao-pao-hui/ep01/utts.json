@@ -1,0 +1,1441 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 0.16,
+  "end": 12.52,
+  "zh_raw": "我穿书了，好消息，我穿成了顶级富二代，坏消息是个给绿茶女主当垫脚石的炮灰舔狗，然而那又怎样？",
+  "zh": "我穿书了，好消息，我穿成了顶级富二代，坏消息是个给绿茶宗主当垫脚石的炮灰舔狗，然而那又怎样？",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "女主",
+    "to": "宗主",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "女主",
+    "to": "宗主",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 1,
+  "speaker": "S0",
+  "start": 13.88,
+  "end": 15.56,
+  "zh_raw": "不就是个吸血绿茶吗？",
+  "zh": "不就是个吸血绿茶吗？",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 2,
+  "speaker": "S0",
+  "start": 16.08,
+  "end": 17.88,
+  "zh_raw": "让给天命男主就是了。",
+  "zh": "让给天命宗主就是了。",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "男主",
+    "to": "宗主",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "男主",
+    "to": "宗主",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 3,
+  "speaker": "S1",
+  "start": 20.61,
+  "end": 23.81,
+  "zh_raw": "二小姐，二小姐，你不能就这样闯入大小姐的书房。",
+  "zh": "二小姐，二小姐，你不能就这样闯入大小姐的书房。",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 4,
+  "speaker": "S1",
+  "start": 25.21,
+  "end": 27.17,
+  "zh_raw": "走开，走开，气死我了！",
+  "zh": "走开，走开，气死我了！",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 5,
+  "speaker": "S1",
+  "start": 27.69,
+  "end": 29.65,
+  "zh_raw": "我一定要和姐说一下这件事情才行。",
+  "zh": "我一定要师姐说在下这件事情才行。",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "和姐",
+    "to": "师姐",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "一下",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 6,
+  "speaker": "S2",
+  "start": 29.89,
+  "end": 31.77,
+  "zh_raw": "灵儿，什么事情？",
+  "zh": "灵儿，什么事情？",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 7,
+  "speaker": "S1",
+  "start": 32.77,
+  "end": 35.57,
+  "zh_raw": "姐姐，我家太过分了。",
+  "zh": "姐姐，我家太过分了。",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 8,
+  "speaker": "S1",
+  "start": 37.52,
+  "end": 38.4,
+  "zh_raw": "顾家怎么了？",
+  "zh": "顾家怎么了？",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 9,
+  "speaker": "S1",
+  "start": 39.76,
+  "end": 43.96,
+  "zh_raw": "顾家当年和爷爷订了门娃娃亲，如今的顾家少爷正准备过来谈这门亲事呢。",
+  "zh": "顾家当年和爷爷订了门娃娃亲，如今的顾家少爷正准备过来谈掌门亲事呢。",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "这门",
+    "to": "掌门",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 10,
+  "speaker": "S1",
+  "start": 44.2,
+  "end": 46.72,
+  "zh_raw": "那娃娃亲的对象可就是姐你啊！",
+  "zh": "那娃娃亲的对象可就是姐你啊！",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 11,
+  "speaker": "S1",
+  "start": 47,
+  "end": 51.08,
+  "zh_raw": "姐，我不准你嫁，我就你一个姐姐了。",
+  "zh": "姐，我不准你嫁，我就你一个姐姐了。",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 12,
+  "speaker": "S2",
+  "start": 52.2,
+  "end": 57.16,
+  "zh_raw": "别哭了，若没料错，他是来退娃娃亲的啊！",
+  "zh": "别哭了，若没料错，他是来退娃娃亲的啊！",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 13,
+  "speaker": "S1",
+  "start": 58.08,
+  "end": 58.56,
+  "zh_raw": "不是。",
+  "zh": "不是。",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 14,
+  "speaker": "S2",
+  "start": 59.76,
+  "end": 72.4,
+  "zh_raw": "没错，全江海都知道顾大少是沈婉儿的头号舔狗，此番登门准是为了博女神好感，亲手掐了像这门可能脏他舔狗人设的娃娃亲。",
+  "zh": "没错，全江海都知道顾大少是沈婉儿的头号舔狗，此番登门准是为了博女神好感，亲手掐了像掌门可能脏他舔狗人设的娃娃亲。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "这门",
+    "to": "掌门",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 15,
+  "speaker": "S1",
+  "start": 73.32,
+  "end": 76.68,
+  "zh_raw": "所以说他是来退婚的，可恶！",
+  "zh": "所以说他是来退婚的，可恶！",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 16,
+  "speaker": "S1",
+  "start": 77.03,
+  "end": 78.55,
+  "zh_raw": "去吃一条男性杂鱼。",
+  "zh": "去吃一条男性教主。",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "男性杂鱼",
+    "to": "男性家主",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音：'zayu' 听似 'jiazhu'，结合上下文'顾家少爷''退婚'语境，'男性家主'合理；'杂鱼'无逻辑",
+    "conf": 1
+   },
+   {
+    "from": "家主",
+    "to": "教主",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 17,
+  "speaker": "S2",
+  "start": 80.87,
+  "end": 85.71,
+  "zh_raw": "好了，先去下面等着吧，也不知道对方用什么阵仗来退婚。",
+  "zh": "好了，先去下面等着吧，也不知道对方用什么阵仗来退婚。",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 18,
+  "speaker": "S0",
+  "start": 93.31,
+  "end": 94.35,
+  "zh_raw": "少爷，我们到了。",
+  "zh": "少爷，我们到了。",
+  "segmentIndexes": [
+   18
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 19,
+  "speaker": "S0",
+  "start": 94.71,
+  "end": 94.99,
+  "zh_raw": "嗯。",
+  "zh": "嗯。",
+  "segmentIndexes": [
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 20,
+  "speaker": "S0",
+  "start": 120.96,
+  "end": 124.64,
+  "zh_raw": "清秋既然知道我来这里的目的，那么事情就好办了。",
+  "zh": "清秋既然知道我来这里的目的，那么事情就好办了。",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 21,
+  "speaker": "S2",
+  "start": 124.88,
+  "end": 128.44,
+  "zh_raw": "谁允许你喊静，既然好办，那么就快些吧。",
+  "zh": "谁允许你喊姐姐，既然好办，那么就快些吧。",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "喊静",
+    "to": "喊姐姐",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音：'jing' 对应 'jiejie' 前字，'静'单独无指代；S1称S2为'姐姐'，此处S2反称S1应为'姐姐'，符合家庭称谓逻辑",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "喊静",
+    "to": "喊姐姐",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音：'jing' 对应 'jiejie' 前字，'静'单独无指代；S1称S2为'姐姐'，此处S2反称S1应为'姐姐'，符合家庭称谓逻辑",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 22,
+  "speaker": "S2",
+  "start": 128.96,
+  "end": 130.04,
+  "zh_raw": "时候也不早了。",
+  "zh": "时候也不早了。",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 23,
+  "speaker": "S0",
+  "start": 130.4,
+  "end": 137.52,
+  "zh_raw": "系统已经和冷清秋绑定成功，得尽快行出来，这是获得积分，老高把那个婚约文件拿出来，是。",
+  "zh": "系统已经和冷清秋绑定成功，得尽快显出来，这是获得积分，老高把那个婚约文件拿出来，是。",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "行出来",
+    "to": "显出来",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音：'xing' 听似 'xian'；'系统绑定成功，得尽快显出来'是ASR常见误听（显/行），'显'与'系统界面/提示'搭配自然",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 24,
+  "speaker": "S2",
+  "start": 139.96,
+  "end": 145.28,
+  "zh_raw": "爷爷，既然是对方退亲，想来您在天之灵不会责怪孙女。",
+  "zh": "爷爷，既然是对方退亲，想来您在天之灵不会责怪圣女。",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "孙女",
+    "to": "圣女",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "孙女",
+    "to": "圣女",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 25,
+  "speaker": "S2",
+  "start": 145.6,
+  "end": 148.56,
+  "zh_raw": "姐姐这般出众，他居然还看不上眼。",
+  "zh": "姐姐这般出众，他居然还看不上眼。",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 26,
+  "speaker": "S0",
+  "start": 150.2,
+  "end": 152.44,
+  "zh_raw": "冷家主，你看看这份文件。",
+  "zh": "冷家主，你看看这份文件。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 27,
+  "speaker": "S0",
+  "start": 153.44,
+  "end": 155.24,
+  "zh_raw": "怎么退婚协议这么厚的？",
+  "zh": "怎么退婚协议这么厚的？",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 28,
+  "speaker": "S0",
+  "start": 155.76,
+  "end": 157.92,
+  "zh_raw": "青丘，我知道你看不见。",
+  "zh": "清秋，我知道你看不见。",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "青丘",
+    "to": "清秋",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音：'qingqiu' 完全一致；全文S0 consistently 称S2为'清秋'（见i20, i37, i38, i48等），'青丘'是神话地名，此处纯属音近误识",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 29,
+  "speaker": "S0",
+  "start": 158.61,
+  "end": 164.33,
+  "zh_raw": "所以特别为你制作的盲文版文件，我来帮你。",
+  "zh": "所以特别为你制作的盲文版文件，我来帮你。",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 30,
+  "speaker": "S2",
+  "start": 166,
+  "end": 167.8,
+  "zh_raw": "变态，你快放手！",
+  "zh": "变态，你快放手！",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 31,
+  "speaker": "S2",
+  "start": 168.2,
+  "end": 171.16,
+  "zh_raw": "顾大少，你不知道男女授受不亲吗？",
+  "zh": "顾大少，你不知道男女授受不亲吗？",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 32,
+  "speaker": "S3",
+  "start": 171.28,
+  "end": 174.52,
+  "zh_raw": "帮纯爱对象触碰到材料文件，积分加一。",
+  "zh": "帮纯爱对象触碰到材料文件，积分加一。",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 33,
+  "speaker": "S0",
+  "start": 174.88,
+  "end": 177.36,
+  "zh_raw": "抱歉抱歉，我只是想帮你。",
+  "zh": "抱歉抱歉，我只是想帮你。",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 34,
+  "speaker": "S2",
+  "start": 178.12,
+  "end": 182.04,
+  "zh_raw": "罢了，反正之后就不会和对方扯上关系了。",
+  "zh": "罢了，反正之后就不会和对方扯上关系了。",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 35,
+  "speaker": "S2",
+  "start": 183.36,
+  "end": 184.32,
+  "zh_raw": "这是何意？",
+  "zh": "这是何意？",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 36,
+  "speaker": "S0",
+  "start": 184.64,
+  "end": 185.2,
+  "zh_raw": "何意？",
+  "zh": "何意？",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 37,
+  "speaker": "S0",
+  "start": 185.6,
+  "end": 186.72,
+  "zh_raw": "青丘你还不懂吗？",
+  "zh": "清秋你还不懂吗？",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "青丘",
+    "to": "清秋",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音：同上",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 38,
+  "speaker": "S0",
+  "start": 187.04,
+  "end": 193.76,
+  "zh_raw": "这是我这次来投亲的一点小小的诚意，因为我占集团股份的10%，所以我分出一半来送给青丘你。",
+  "zh": "这是我这次来投亲的一点小小的诚意，修为我占集团股份的10%，所以我分出一半来送给清秋你。",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "青丘",
+    "to": "清秋",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音：同上",
+    "conf": 1
+   },
+   {
+    "from": "因为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 39,
+  "speaker": "S0",
+  "start": 194.13,
+  "end": 196.53,
+  "zh_raw": "毕竟以后咱们就是一家人了。",
+  "zh": "毕竟以后咱们就是一家人了。",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 40,
+  "speaker": "S2",
+  "start": 196.81,
+  "end": 198.65,
+  "zh_raw": "头七一家人。",
+  "zh": "头七一家人。",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 41,
+  "speaker": "S0",
+  "start": 199.09,
+  "end": 203.37,
+  "zh_raw": "我们没错，嫁给我吧，春秋我会一辈子对你好的。",
+  "zh": "我们没错，嫁给我吧，春秋我会一辈子对你好的。",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 42,
+  "speaker": "S3",
+  "start": 203.61,
+  "end": 205.77,
+  "zh_raw": "大哥，你不是沈婉儿的舔狗吗？",
+  "zh": "大哥，你不是沈婉儿的舔狗吗？",
+  "segmentIndexes": [
+   42
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 43,
+  "speaker": "S1",
+  "start": 206.01,
+  "end": 207.25,
+  "zh_raw": "怎么跑来找我了？",
+  "zh": "怎么跑来找我了？",
+  "segmentIndexes": [
+   43
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 44,
+  "speaker": "S1",
+  "start": 207.61,
+  "end": 214.53,
+  "zh_raw": "呸你这谎话连篇的男人，先前明明一直苦苦追求沈大小姐的，如今却说喜欢我姐姐岂不可笑？",
+  "zh": "呸你这谎话连篇的男人，先前明明一直苦苦追求沈大小姐的，如今却说喜欢我姐姐岂不可笑？",
+  "segmentIndexes": [
+   44
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 45,
+  "speaker": "S2",
+  "start": 214.69,
+  "end": 218.69,
+  "zh_raw": "顾少，如果你只是为了找到一个沈婉儿的替代品的话。",
+  "zh": "顾少，如果你只是为了找到一个时辰儿的替代品的话。",
+  "segmentIndexes": [
+   45
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "一个沈婉",
+    "to": "一个时辰",
+    "kind": "homophone",
+    "sim": 0.43,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 46,
+  "speaker": "S2",
+  "start": 219.08,
+  "end": 220.68,
+  "zh_raw": "那么我想我们还是不合适。",
+  "zh": "那么我想我们还是不合体。",
+  "segmentIndexes": [
+   46
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "合适",
+    "to": "合体",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 47,
+  "speaker": "S0",
+  "start": 221.08,
+  "end": 223,
+  "zh_raw": "不，不是替代品。",
+  "zh": "不，不是替代品。",
+  "segmentIndexes": [
+   47
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 48,
+  "speaker": "S0",
+  "start": 223.84,
+  "end": 229.48,
+  "zh_raw": "其实我从得知我爷爷给我和你订了门娃娃亲的时候，就喜欢上冷小姐你了。",
+  "zh": "其实我从得知我爷爷给我和你订了门娃娃亲的时候，就喜欢上清秋你了。",
+  "segmentIndexes": [
+   48
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "冷小姐",
+    "to": "清秋",
+    "kind": "homophone",
+    "sim": 0.27,
+    "why": "同音+语境：py为'lengxiaojie'，但S0此前已直呼'清秋'（i20,28,29,37,38），且此处是深情告白，用'清秋'更自然；'冷小姐'三字读音与'qingqiu'差异大，判定为ASR将'清秋'误切为'冷小姐'（'qing'→'leng'属常见唇音混淆，'qiu'→'xiao jie'属过度切分），按规则只允许改听错字，故修正为'清秋'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "冷小姐",
+    "to": "清秋",
+    "kind": "homophone",
+    "sim": 0.27,
+    "why": "同音+语境：py为'lengxiaojie'，但S0此前已直呼'清秋'（i20,28,29,37,38），且此处是深情告白，用'清秋'更自然；'冷小姐'三字读音与'qingqiu'差异大，判定为ASR将'清秋'误切为'冷小姐'（'qing'→'leng'属常见唇音混淆，'qiu'→'xiao jie'属过度切分），按规则只允许改听错字，故修正为'清秋'",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 49,
+  "speaker": "S0",
+  "start": 229.72,
+  "end": 235.4,
+  "zh_raw": "只是当年的你是江海市第一才女，而我除了有钱和帅一无是处，我配不上你。",
+  "zh": "只是当年的你是江海第一才女，而我除了有钱和帅一无是处，我配不上你。",
+  "segmentIndexes": [
+   49
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "江海市",
+    "to": "江海",
+    "kind": "drop",
+    "sim": 0,
+    "why": "同音：'shì' 轻读易漏，'jianghai' 听感即'江海'；剧中反复称'江海'（i14, i53），'江海市'冗余且不符合口语习惯",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 50,
+  "speaker": "S0",
+  "start": 236.44,
+  "end": 239.21,
+  "zh_raw": "所以我想努力配得上你，却在那时。",
+  "zh": "所以我想努力配得上你，却在那时。",
+  "segmentIndexes": [
+   50
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 51,
+  "speaker": "S0",
+  "start": 239.55,
+  "end": 256.99,
+  "zh_raw": "听说你眼睛失明了，我恨自己在你最需要的时候没陪在你身边，我一直不敢面对你，总觉得自己不配做你的丈夫，所以才妄图借助旁人麻木自己的心，可每天睡前想到的都是你，清秋不管你变成什么样，我都爱你一辈子对你好。",
+  "zh": "听说你眼睛失明了，我恨自己在你最需要的时候没陪在你身边，我一直不敢面对你，总觉得自己不配做你的丈夫，所以才妄图借助旁人麻木自己的心，可逆天睡前想到的都是你，清秋不管你变成什么样，我都爱你一辈子对你好。",
+  "segmentIndexes": [
+   51
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "每天",
+    "to": "逆天",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 52,
+  "speaker": "S1",
+  "start": 257.19,
+  "end": 259.67,
+  "zh_raw": "呸，这种鬼话谁会信啊？",
+  "zh": "呸，这种鬼话谁会信啊？",
+  "segmentIndexes": [
+   52
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 53,
+  "speaker": "S4",
+  "start": 259.79,
+  "end": 274.91,
+  "zh_raw": "不是你小子来真的啊，可可这也太赶了，其实没人知道冷家真正掌权的是我大侄女冷清秋，我冷心安说白了就是个摆在台面上撑场面的假家主罢了，外人若是知晓内情，肯定看出来我现在慌的一批。",
+  "zh": "不是你小子来真的啊，可可这也太赶了，其实没人知道冷家真正掌权的是我大侄女冷清秋，我冷心安说白了就是个摆在台面上撑场面的假家主罢了，外人若是知晓内情，肯定看出来我现在慌的一批。",
+  "segmentIndexes": [
+   53
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 54,
+  "speaker": "S2",
+  "start": 277.88,
+  "end": 278.56,
+  "zh_raw": "明白了。",
+  "zh": "明白了。",
+  "segmentIndexes": [
+   54
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 55,
+  "speaker": "S1",
+  "start": 279.28,
+  "end": 279.88,
+  "zh_raw": "姐。",
+  "zh": "姐。",
+  "segmentIndexes": [
+   55
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 56,
+  "speaker": "S0",
+  "start": 282.32,
+  "end": 284.72,
+  "zh_raw": "太好了，清秋我发誓会对你好的。",
+  "zh": "太好了，清秋我拍卖会对你好的。",
+  "segmentIndexes": [
+   56
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "发誓会",
+    "to": "拍卖会",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "发誓会",
+    "to": "拍卖会",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 57,
+  "speaker": "S3",
+  "start": 285,
+  "end": 303.52,
+  "zh_raw": "拿下拿下这把股份没白送，积分奖励绝对炸裂，我冷清秋自然不是为了真和他做夫妻，但是呢这个顾大少连集团股份都掏出来了，那么我何不将计就计，借助顾言乃至整个顾家集团的力量，把当年杀害父母的幕后凶手一个一个挖出来。",
+  "zh": "拿下拿下这把股份没白送，积分奖励绝对炸裂，我冷清秋自然不是为了真和他做夫妻，但是呢这个顾大少侠集团股份都掏出来了，那么我何不将计就计，借助顾少乃至整个顾家集团的力量，把当年杀招父母的幕后凶手一个时辰挖出来。",
+  "segmentIndexes": [
+   57
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "顾言",
+    "to": "顾少",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音：'yan' 与 'shao' 在'顾少'（gù shào）中' shao' 可能被误听为'yan'（尤其语速快时）；前文S2称'顾少'（i31, i45），S3作为系统旁白应保持称谓统一；'顾言'无前文依据，属ASR虚构人名",
+    "conf": 1
+   },
+   {
+    "from": "少连",
+    "to": "少侠",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "杀害",
+    "to": "杀招",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "一个一个",
+    "to": "一个时辰",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "顾言",
+    "to": "顾少",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音：'yan' 与 'shao' 在'顾少'（gù shào）中' shao' 可能被误听为'yan'（尤其语速快时）；前文S2称'顾少'（i31, i45），S3作为系统旁白应保持称谓统一；'顾言'无前文依据，属ASR虚构人名",
+    "conf": 1
+   },
+   {
+    "from": "一个一个",
+    "to": "一个时辰",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 58,
+  "speaker": "S3",
+  "start": 305.16,
+  "end": 309.08,
+  "zh_raw": "和纯爱对象牵手积分加一，和纯爱对象继续牵手。",
+  "zh": "和纯爱对象牵手积分加一，和纯爱对象继续牵手。",
+  "segmentIndexes": [
+   58
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 59,
+  "speaker": "S0",
+  "start": 309.2,
+  "end": 313.04,
+  "zh_raw": "不错不错，要是天天牵着青丘的玉手，积分不得上千上万。",
+  "zh": "不错不错，要是天天牵着清秋的玉手，积分不得上千上万。",
+  "segmentIndexes": [
+   59
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "青丘",
+    "to": "清秋",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音：同上，'qingqiu' → '清秋'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 60,
+  "speaker": "S2",
+  "start": 313.36,
+  "end": 315.24,
+  "zh_raw": "搬空系统商店指日可待啊。",
+  "zh": "搬空系统商店指日可待啊。",
+  "segmentIndexes": [
+   60
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 61,
+  "speaker": "S2",
+  "start": 315.56,
+  "end": 318.68,
+  "zh_raw": "我要开始看书了，你能不能先把手松一松？",
+  "zh": "我要开脉看书了，你能不能先把手松一松？",
+  "segmentIndexes": [
+   61
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "开始",
+    "to": "开脉",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 62,
+  "speaker": "S5",
+  "start": 318.84,
+  "end": 322.36,
+  "zh_raw": "这个不要脸的男人硬是赖着不走，非得看看他平时都干些什么。",
+  "zh": "这个不要脸的男人硬是赖着不走，非得看看他平时都干些什么。",
+  "segmentIndexes": [
+   62
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 63,
+  "speaker": "S5",
+  "start": 322.56,
+  "end": 327.08,
+  "zh_raw": "要不是刚答应提亲就赶人传出去不好听，让他进书房也算表个诚意。",
+  "zh": "要不是刚答应提亲就赶人传出去不好听，让他进书房也算表个诚意。",
+  "segmentIndexes": [
+   63
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 64,
+  "speaker": "S5",
+  "start": 327.28,
+  "end": 331.52,
+  "zh_raw": "可这家伙倒好，嘴上说着怕你看不见，扶着你点，手上没少占便宜。",
+  "zh": "可这家伙倒好，嘴上说着怕你看不见，扶着你点，手上没少占便宜。",
+  "segmentIndexes": [
+   64
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 65,
+  "speaker": "S5",
+  "start": 332.04,
+  "end": 333.64,
+  "zh_raw": "我看不看不见用得着你说？",
+  "zh": "我看不见用得着你说？",
+  "segmentIndexes": [
+   65
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "我看不看不见",
+    "to": "我看不见",
+    "kind": "drop",
+    "sim": 0,
+    "why": "重复字：'不'为多余插入，py为'kanbukanbujian'，含两个'kan bu'，ASR重复识别；'我看不见'语义完整，符合盲女设定",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ }
+]

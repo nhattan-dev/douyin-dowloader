@@ -1,0 +1,42 @@
+{
+  "name": "douyin-downloader",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "description": "Douyin scraper → audio → STT pipeline (feeds LangDub)",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "login": "node --env-file-if-exists=.env src/cli.js login",
+    "doctor": "node --env-file-if-exists=.env src/cli.js doctor",
+    "collect": "node --env-file-if-exists=.env src/cli.js collect",
+    "fetch": "node --env-file-if-exists=.env src/cli.js fetch",
+    "stt": "node --env-file-if-exists=.env src/cli.js stt",
+    "all": "node --env-file-if-exists=.env src/cli.js all",
+    "inspect": "node --env-file-if-exists=.env src/cli.js inspect",
+    "compare": "node --env-file-if-exists=.env src/cli.js compare",
+    "status": "node --env-file-if-exists=.env src/cli.js status",
+    "apikey": "node scripts/apikey-csv-to-env.js",
+    "voice": "node scripts/extract-voice.js",
+    "voice-convert": "node --env-file-if-exists=.env scripts/voice-convert.mjs",
+    "voice-clone-probe": "node --env-file-if-exists=.env scripts/voice-clone-probe.mjs",
+    "voice-judge": "node --env-file-if-exists=.env scripts/voice-judge.mjs",
+    "vieneu-probe": "node --env-file-if-exists=.env scripts/vieneu-clone-probe.mjs",
+    "tts-voice-scan": "node --env-file-if-exists=.env scripts/tts-voice-scan.mjs",
+    "probe": "node --env-file-if-exists=.env src/cli.js probe",
+    "prune": "node --env-file-if-exists=.env src/cli.js prune",
+    "translate": "node --env-file-if-exists=.env src/cli.js translate",
+    "translate-compare": "node --env-file-if-exists=.env src/cli.js translate-compare",
+    "probe-translate": "node --env-file-if-exists=.env src/cli.js probe-translate",
+    "review-speakers": "node --use-env-proxy --env-file-if-exists=.env src/cli.js review-speakers",
+    "zhvi": "node --env-file-if-exists=.env src/zhvi/cli.js",
+    "ui": "node src/ui/server.js"
+  },
+  "dependencies": {
+    "@node-rs/jieba": "^2.0.3",
+    "openai": "^4.77.0",
+    "pinyin-pro": "^3.29.4",
+    "playwright": "^1.49.0"
+  }
+}

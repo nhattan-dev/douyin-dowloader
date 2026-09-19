@@ -1,0 +1,331 @@
+{
+  "cast": [
+    {
+      "id": "C1",
+      "name": "师傅",
+      "note": "Người dẫn dắt, có thể là thầy hoặc trưởng lão."
+    },
+    {
+      "id": "C2",
+      "name": "长老",
+      "note": "Một nhân vật có địa vị cao, có thể là người lớn tuổi."
+    },
+    {
+      "id": "C3",
+      "name": "小娘子",
+      "note": "Một cô gái trẻ, có thể là vợ của một nhân vật khác."
+    },
+    {
+      "id": "C4",
+      "name": "老孙",
+      "note": "Một nhân vật nam, có thể là một con khỉ, thường được gọi là Ngọc Hoàng."
+    },
+    {
+      "id": "C5",
+      "name": "哥",
+      "note": "Một nhân vật nam, có thể là anh trai của một nhân vật khác."
+    },
+    {
+      "id": "C6",
+      "name": "呆子",
+      "note": "Một nhân vật nam, có thể là một người ngốc nghếch."
+    },
+    {
+      "id": "C7",
+      "name": "妖精",
+      "note": "Một nhân vật phản diện, có thể là yêu quái."
+    },
+    {
+      "id": "C8",
+      "name": "大师兄",
+      "note": "Một nhân vật nam, có thể là anh cả trong nhóm."
+    },
+    {
+      "id": "C9",
+      "name": "沙师弟",
+      "note": "Một nhân vật nam, có thể là một người bạn đồng hành."
+    },
+    {
+      "id": "C10",
+      "name": "女儿",
+      "note": "Một nhân vật nữ, có thể là con gái của một nhân vật khác."
+    },
+    {
+      "id": "C11",
+      "name": "NON_SPEECH",
+      "note": "Âm thanh không phải lời thoại."
+    }
+  ],
+  "lines": [
+    {
+      "line": 1,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Xưng hô '师傅'."
+    },
+    {
+      "line": 2,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "Xưng hô '长老'."
+    },
+    {
+      "line": 3,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc phục vụ cho '高僧'."
+    },
+    {
+      "line": 4,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "Nói về việc khen ngợi."
+    },
+    {
+      "line": 5,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc không thấy ruộng."
+    },
+    {
+      "line": 6,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Hỏi về chồng của 小娘子."
+    },
+    {
+      "line": 7,
+      "speaker": "C5",
+      "confidence": 0.9,
+      "cue": "Xưng hô '哥'."
+    },
+    {
+      "line": 8,
+      "speaker": "C6",
+      "confidence": 0.9,
+      "cue": "Xưng hô '呆子'."
+    },
+    {
+      "line": 9,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc không nên tin tưởng."
+    },
+    {
+      "line": 10,
+      "speaker": "NON_SPEECH",
+      "confidence": 0.1,
+      "cue": "Im lặng."
+    },
+    {
+      "line": 11,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Hỏi về việc giết người vô tội."
+    },
+    {
+      "line": 12,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "Hỏi về việc lấy kinh."
+    },
+    {
+      "line": 13,
+      "speaker": "C4",
+      "confidence": 0.7,
+      "cue": "Nói về sự không biết."
+    },
+    {
+      "line": 14,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về '妖精'."
+    },
+    {
+      "line": 15,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "Nói về việc chồng đã giết người."
+    },
+    {
+      "line": 16,
+      "speaker": "C10",
+      "confidence": 0.9,
+      "cue": "Gọi tên '女儿'."
+    },
+    {
+      "line": 17,
+      "speaker": "C10",
+      "confidence": 0.9,
+      "cue": "Gọi tên '女儿'."
+    },
+    {
+      "line": 18,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "Nói về việc mẹ của 女儿."
+    },
+    {
+      "line": 19,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc không nên nói bậy."
+    },
+    {
+      "line": 20,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về tuổi tác."
+    },
+    {
+      "line": 21,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về '妖精'."
+    },
+    {
+      "line": 22,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Gọi tên '悟空'."
+    },
+    {
+      "line": 23,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về việc không có lòng từ bi."
+    },
+    {
+      "line": 24,
+      "speaker": "C8",
+      "confidence": 0.9,
+      "cue": "Nói với 大师兄."
+    },
+    {
+      "line": 25,
+      "speaker": "C8",
+      "confidence": 0.9,
+      "cue": "Nói về việc nhận lỗi."
+    },
+    {
+      "line": 26,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc không nhận lỗi."
+    },
+    {
+      "line": 27,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về việc gia đình đến."
+    },
+    {
+      "line": 28,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về tình trạng xung quanh."
+    },
+    {
+      "line": 29,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc nhìn thấy yêu quái."
+    },
+    {
+      "line": 30,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc yêu cầu tránh đường."
+    },
+    {
+      "line": 31,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "Chào hỏi '长老'."
+    },
+    {
+      "line": 32,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Hỏi về gia đình."
+    },
+    {
+      "line": 33,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về việc tiêu diệt yêu quái."
+    },
+    {
+      "line": 34,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về việc giết yêu quái."
+    },
+    {
+      "line": 35,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc không muốn làm đồ đệ."
+    },
+    {
+      "line": 36,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc không muốn gặp lại."
+    },
+    {
+      "line": 37,
+      "speaker": "C9",
+      "confidence": 0.9,
+      "cue": "Nói về 沙师弟."
+    },
+    {
+      "line": 38,
+      "speaker": "C9",
+      "confidence": 0.9,
+      "cue": "Nói về việc cẩn thận."
+    },
+    {
+      "line": 39,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc nhắc tên."
+    },
+    {
+      "line": 40,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc nhớ kỹ."
+    },
+    {
+      "line": 41,
+      "speaker": "C3",
+      "confidence": 0.9,
+      "cue": "Nói về việc đồng ý."
+    },
+    {
+      "line": 42,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc trở về."
+    },
+    {
+      "line": 43,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về 大师兄."
+    },
+    {
+      "line": 44,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về việc không thể đi."
+    },
+    {
+      "line": 45,
+      "speaker": "NON_SPEECH",
+      "confidence": 0.1,
+      "cue": "Âm thanh không phải lời thoại."
+    }
+  ]
+}

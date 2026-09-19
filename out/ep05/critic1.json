@@ -1,0 +1,267 @@
+{
+ "0": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "1": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "2": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "3": {
+  "score": 4,
+  "issue": "'hồn phách' lặp hai lần hơi cứng, 'vật dẫn' ổn nhưng '载体' nên là 'thể xác/thân thể'",
+  "fix": "Phát hiện hồn phách dị giới, dung hợp với thân thể hoàn tất."
+ },
+ "4": {
+  "score": 3,
+  "issue": "'Bách Mục yêu đan' phiên âm Hán-Việt khó hiểu; 'không gian chuyển diệt' ở câu 9 cũng lạ; 'khai mở trị liệu' lệch nghĩa '疗愈开启'",
+  "fix": "Tây Minh Động Thiên nhận chủ, phát hiện yêu đan Bách Mục và Kinh Mạch tổn thương, trong Động Thiên có thể cách ly thiên cơ Nhân Quả thần thức ngoại giới dò xét, mở trị liệu, thương thế khôi phục hoàn tất, đồng thời nhận gấp đôi yêu lực gia trì."
+ },
+ "5": {
+  "score": 4,
+  "issue": "'Ngươi cũng thật biết kéo người' hơi tối nghĩa, '拉人' ý là 'lôi kéo người'",
+  "fix": "Ngươi cũng thật biết lôi kéo người, thương lành rồi."
+ },
+ "6": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "7": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "8": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "9": {
+  "score": 2,
+  "issue": "'không gian chuyển diệt' vô nghĩa, '折跃' là 'gấp khúc/dịch chuyển'",
+  "fix": "Chủ nhân Động Thiên nhận được thần thông không gian dịch chuyển."
+ },
+ "10": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "11": {
+  "score": 4,
+  "issue": "'Lại đây' dễ hiểu nhầm là gọi người, '再来' ở đây là 'làm lại/lại nào'",
+  "fix": "Lại nào, đây mới gọi là thần thông."
+ },
+ "12": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "13": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "14": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "15": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "16": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "17": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "18": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "19": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "20": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "21": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "22": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "23": {
+  "score": 4,
+  "issue": "'Nghe lâu như vậy rồi' hơi lệch, '听了这么久' là nghe lén đã lâu, sắc thái thách thức nhẹ",
+  "fix": ""
+ },
+ "24": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "25": {
+  "score": 4,
+  "issue": "Trật tự từ kiểu Trung 'Tiểu yêu tuần sơn Sư Đà Lĩnh Tiểu Toản Phong', nên đảo thành 'Tiểu Toản Phong, tiểu yêu tuần sơn ở Sư Đà Lĩnh'",
+  "fix": "Tiểu Toản Phong, tiểu yêu tuần sơn ở Sư Đà Lĩnh, lỡ bước vào quý địa."
+ },
+ "26": {
+  "score": 4,
+  "issue": "'Vô ý quấy nhiễu' dịch sát chữ, tiếng Việt nên là 'Không cố ý quấy nhiễu'",
+  "fix": "Không cố ý quấy nhiễu, vào thì dễ, nhưng muốn ra phải xem ta có đáp ứng không."
+ },
+ "27": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "28": {
+  "score": 4,
+  "issue": "'Miệng lưỡi trơn tru' ổn nhưng '油嘴滑舌' mang sắc thái trách yêu, có thể dùng 'Miệng lưỡi dẻo quẹo'",
+  "fix": ""
+ },
+ "29": {
+  "score": 3,
+  "issue": "'姑且陪我说说话，我心情好了' dịch mất ý điều kiện: 'tâm tình ta tốt lên' không phải mệnh lệnh/kết quả; câu gốc là 'ngươi bồi ta nói chuyện, [để] tâm tình ta tốt lên'",
+  "fix": "Bán Tiệt Quan Âm, thì ra là ngươi? Cứ bồi ta nói chuyện đi, cho tâm tình ta tốt lên."
+ },
+ "30": {
+  "score": 4,
+  "issue": "'Kim Thiền Tử Chuyển Thế' viết hoa sai, nên là 'Kim Thiền Tử chuyển thế'; 'mà ngươi hằng nhớ' hơi lệch so với 'trong lòng ngươi nhớ'",
+  "fix": "Biết đâu sẽ thả ngươi đi, phu nhân sau này nếu gặp một hòa thượng từ Đông Thổ đến, tốt nhất tránh xa hắn, hòa thượng tên Đường Tăng, cũng là Kim Thiền Tử chuyển thế mà trong lòng ngươi hằng nhớ."
+ },
+ "31": {
+  "score": 5
+ },
+ "32": {
+  "score": 5
+ },
+ "33": {
+  "score": 5
+ },
+ "34": {
+  "score": 5
+ },
+ "35": {
+  "score": 4,
+  "issue": "'下线' ở đây nghĩa là xuống trần/hạ phàm, dịch 'xuống trần' ổn nhưng 'đích thân xuống trần' hơi lệch sắc thái so với 'đích thân ra tay'",
+  "fix": "Cuối cùng Lý Tĩnh, Na Tra đích thân hạ phàm, đưa ngươi lên Thiên Đình chịu phạt."
+ },
+ "36": {
+  "score": 5
+ },
+ "37": {
+  "score": 5
+ },
+ "38": {
+  "score": 5
+ },
+ "39": {
+  "score": 5
+ },
+ "40": {
+  "score": 5
+ },
+ "41": {
+  "score": 4,
+  "issue": "'针灯' là 'đèn kim'/'đèn châm', dịch 'ngọn đèn' mất chi tiết '针'",
+  "fix": "500 năm trước, Kim Thiền Tử cứu ta đã tặng ta ngọn đèn kim này."
+ },
+ "42": {
+  "score": 2,
+  "issue": "Sai nghĩa: '我一直舍不得点' là 'ta vẫn không nỡ thắp (đèn)', không phải 'không nỡ thắp phu nhân'; '夫人' ở đây là tiếng gọi, không phải tân ngữ của 'thắp'",
+  "fix": "Ta vẫn luôn không nỡ thắp, phu nhân, Động Thiên chỉ muốn nếm thử mùi vị trong ngọn đèn này."
+ },
+ "43": {
+  "score": 4,
+  "issue": "'小白毛' dịch 'tiểu bạch mao' là phiên âm Hán-Việt, người Việt nghe không tự nhiên",
+  "fix": "Kim Thiền Tử, đồ lông trắng nhỏ, ta để ngươi đợi lâu rồi."
+ },
+ "44": {
+  "score": 5
+ },
+ "45": {
+  "score": 4,
+  "issue": "ổn, chỉ hơi lặp 'ngươi' nhưng đúng nghĩa",
+  "fix": ""
+ },
+ "46": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "47": {
+  "score": 4,
+  "issue": "'để ngươi vào tử kiếp' hơi cứng, nhưng đúng nghĩa",
+  "fix": ""
+ },
+ "48": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "49": {
+  "score": 2,
+  "issue": "dịch thiếu '西' (Tây), '西死劫' là tử kiếp phía Tây, bản dịch bỏ mất",
+  "fix": "Tâm ma tan rồi, tử kiếp phía Tây của ngươi cũng tự động giải trừ."
+ },
+ "50": {
+  "score": 4,
+  "issue": "ổn, 'vừa quen' hơi lệch 'vừa mới quen' nhưng chấp nhận",
+  "fix": ""
+ },
+ "51": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "52": {
+  "score": 2,
+  "issue": "'恩与念都不该欠500年' dịch sai cấu trúc, '500年' bị tách rời vô nghĩa; '二度逢' dịch 'tái ngộ lần hai' ổn nhưng ý gốc là 'lần thứ hai gặp lại'",
+  "fix": "Ngươi nói đúng, ân và niệm đều không nên thiếu nợ 500 năm, có ân thì nên báo ngay tại chỗ, khỏi phải gặp lại lần hai."
+ },
+ "53": {
+  "score": 3,
+  "issue": "'既然无事' là 'đã không sao rồi thì...' mang sắc thái suy đoán, dịch thành câu hỏi mất sắc thái",
+  "fix": "Phu nhân đã không sao rồi thì..."
+ },
+ "54": {
+  "score": 4,
+  "issue": "ổn, nhưng '我先告辞回去' nên là 'ta cáo từ về trước' đã đúng",
+  "fix": ""
+ },
+ "55": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "56": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ }
+}

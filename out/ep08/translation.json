@@ -1,0 +1,766 @@
+{
+ "videoId": "7667021464205282575",
+ "provider": "zhvi-5pass",
+ "from": "zh",
+ "to": "vi",
+ "translatedAt": "2026-09-14T15:45:46Z",
+ "degradedModel": false,
+ "glossary": true,
+ "glossaryProtect": false,
+ "models": {
+  "repair": "qwen-plus",
+  "cast": "qwen3.7-max",
+  "render": "deepseek-flash@none",
+  "critic": "deepseek-flash@none",
+  "fix": "deepseek-flash@low",
+  "mt": "qwen-mt-plus",
+  "vision": "qwen-vl-max"
+ },
+ "pinnedTerms": true,
+ "cps": 4.5,
+ "bibleVersion": "e5de075ac827",
+ "ep": "8",
+ "speakerChannels": [
+  "cluster",
+  "vocative",
+  "text",
+  "vision"
+ ],
+ "speakerReviewed": false,
+ "speakerSuspect": 42,
+ "speakerAliases": {},
+ "sourceSegments": 42,
+ "alignmentWarnings": [],
+ "unit": "repaired-utterance",
+ "mergeMaxGapSec": null,
+ "speakers": [
+  "小钻风",
+  "青萝",
+  "玉面狐狸"
+ ],
+ "segments": [
+  {
+   "index": "0",
+   "start": 5.52,
+   "end": 6.8,
+   "zh": "瞧这身段。",
+   "vi": "Xem dáng người kìa.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    0
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "1",
+   "start": 9.16,
+   "end": 15,
+   "zh": "世人都只知道猎妖帅的猎是猎杀的猎，哪知道也可以是烈焰的烈。",
+   "vi": "Thế nhân chỉ biết chữ 'liệp' trong Liệp Yêu Soái là liệp sát, nào hay cũng có thể là liệt của liệt hỏa.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    1
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "2",
+   "start": 15.12,
+   "end": 19.04,
+   "zh": "净空阵刚响过，附近怕是有大王闯阵，大王有高空禁制压着，别被人发现。",
+   "vi": "Tịnh Không Trận vừa vang, e đại vương xông trận, cấm chế trên đè, chớ để người thấy.",
+   "speaker": "小钻风",
+   "vote": 0.7,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    2
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "3",
+   "start": 19.12,
+   "end": 20.32,
+   "zh": "去去去，又怂又爱玩。",
+   "vi": "Đi đi, nhát mà ham.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    3
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "4",
+   "start": 20.4,
+   "end": 22.96,
+   "zh": "说好了，这次轮到我先去测，你去放风。",
+   "vi": "Nói trước, lần này tới lượt ta đi dò, ngươi canh chừng.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    4
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "5",
+   "start": 35.38,
+   "end": 36.9,
+   "zh": "离北俱芦洲还有多远？",
+   "vi": "Còn xa Bắc Câu Lô Châu?",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    5
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "6",
+   "start": 37.14,
+   "end": 40.14,
+   "zh": "照现在的速度，还要穿过七八处大妖。",
+   "vi": "Với tốc độ này, còn phải qua bảy tám địa bàn đại yêu.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    6
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "7",
+   "start": 40.34,
+   "end": 42.66,
+   "zh": "不急，路上好玩的地方越多越好。",
+   "vi": "Không vội, đường càng nhiều chỗ vui càng tốt.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    7
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "8",
+   "start": 43.66,
+   "end": 44.1,
+   "zh": "不对。",
+   "vi": "Không đúng.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    8
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "9",
+   "start": 44.54,
+   "end": 45.5,
+   "zh": "净空阵！",
+   "vi": "Tịnh Không Trận!",
+   "speaker": "玉面狐狸",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    9
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "10",
+   "start": 49.39,
+   "end": 50.03,
+   "zh": "孙大圣。",
+   "vi": "Tôn đại thánh.",
+   "speaker": "玉面狐狸",
+   "vote": 0.85,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    10
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "11",
+   "start": 53.35,
+   "end": 57.43,
+   "zh": "我先回洞天了，你去看看他好，别逞强，能苟则苟。",
+   "vi": "Ta về Động Thiên trước, ngươi đi xem hắn cho tốt, đừng cố sức, sống được thì sống.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    11
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "12",
+   "start": 67.76,
+   "end": 68.24,
+   "zh": "别动。",
+   "vi": "Đừng động.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    12
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "13",
+   "start": 76.8,
+   "end": 77.36,
+   "zh": "谢谢你。",
+   "vi": "Cảm ơn ngươi.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    13
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "14",
+   "start": 78.32,
+   "end": 81.48,
+   "zh": "你要是再不起来，我这背真要裂开了。",
+   "vi": "Ngươi mà còn không dậy, lưng ta thật sự nứt ra mất.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    14
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "15",
+   "start": 82.96,
+   "end": 83.4,
+   "zh": "有人。",
+   "vi": "Có người.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    15
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "16",
+   "start": 85.81,
+   "end": 89.93,
+   "zh": "待会儿给本大妖伺候好了，让你去巡逻呢。",
+   "vi": "Lát nữa hầu hạ bổn đại yêu cho tốt, ta cho ngươi đi tuần.",
+   "speaker": "小钻风",
+   "vote": 0.9,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    16
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "17",
+   "start": 90.45,
+   "end": 93.73,
+   "zh": "老子还没开始，不如让在下先来如何？",
+   "vi": "Lão tử còn chưa bắt đầu, chi bằng để tại hạ tới trước thế nào?",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    17
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "18",
+   "start": 101.54,
+   "end": 102.74,
+   "zh": "有大王。",
+   "vi": "Có đại vương.",
+   "speaker": "玉面狐狸",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    18
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "19",
+   "start": 108.98,
+   "end": 112.26,
+   "zh": "找个安全的地方逃命去吧，也许还会有别的猎妖者会过来。",
+   "vi": "Tìm chỗ an toàn mà chạy đi, biết đâu còn có kẻ săn yêu khác tới.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    19
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "20",
+   "start": 112.5,
+   "end": 117.26,
+   "zh": "恩公，我来自蛇泽，前些日子姐姐无故失踪，我出来寻她。",
+   "vi": "Ân công, ta từ Xà Trạch tới, mấy hôm trước tỷ tỷ vô cớ mất tích, ta ra ngoài tìm nàng.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    20
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "21",
+   "start": 117.67,
+   "end": 121.75,
+   "zh": "不料却被那两个猎妖帅捉住，若不是恩公，我怕要被那两个道貌岸然的畜生折磨得生不如死。",
+   "vi": "Nếu không có ân công, ta e bị hai Yêu Soái săn yêu đạo mạo hành hạ chết.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    21
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "22",
+   "start": 121.99,
+   "end": 124.83,
+   "zh": "我姓佘，恩公若不弃，能不能让我跟随你？",
+   "vi": "Ta họ Xà, ân công nếu không chê, cho ta theo được không?",
+   "speaker": "青萝",
+   "vote": 0.95,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    22
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "23",
+   "start": 124.95,
+   "end": 127.23,
+   "zh": "既求一处庇护，也想继续打听姐姐的下落。",
+   "vi": "Vừa cầu chỗ che chở, vừa dò tiếp tỷ tỷ.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    23
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "24",
+   "start": 127.35,
+   "end": 128.91,
+   "zh": "你姐姐最后在哪失踪？",
+   "vi": "Tỷ tỷ ngươi mất tích ở đâu?",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    24
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "25",
+   "start": 129.19,
+   "end": 133.35,
+   "zh": "她留下的蛇蜕气息一路向北，可到了灵霜城外，气息就彻底断了。",
+   "vi": "Khí tức xác lột nàng một đường về bắc, nhưng tới ngoài Lâm Sương Thành thì đứt hẳn.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    25
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "26",
+   "start": 133.51,
+   "end": 135.67,
+   "zh": "猎妖帅抓到色妖也大多会被送进城里。",
+   "vi": "Yêu Soái bắt yêu quái háo sắc, tống vào thành.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    26
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "27",
+   "start": 135.75,
+   "end": 137.55,
+   "zh": "那就先跟过来吧，看看路上有你姐姐的线索。",
+   "vi": "Theo trước, xem đường có dấu của tỷ.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    27
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "28",
+   "start": 137.71,
+   "end": 139.63,
+   "zh": "多谢恩公，我先去接个人。",
+   "vi": "Đa tạ, ta đi đón một người trước.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    28
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "29",
+   "start": 142.78,
+   "end": 143.38,
+   "zh": "他是谁？",
+   "vi": "Hắn là ai?",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    29
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "30",
+   "start": 143.78,
+   "end": 145.42,
+   "zh": "路上救的婉青萝。",
+   "vi": "Là Uyển Thanh La, cứu trên đường.",
+   "speaker": "小钻风",
+   "vote": 0.75,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    30
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "31",
+   "start": 145.42,
+   "end": 154.74,
+   "zh": "见过仙子来看，这个不是符阵，是临霜城的锁天阵，越往高处压得越狠，地面呢走地面无碍，穿过断风谷，就是北门。",
+   "vi": "Tiên tử từng tới xem, đây không phải phù trận, mà là Tỏa Thiên Trận của Lâm Sương Thành, càng lên cao càng đè mạnh, mặt đất còn đi vô ngại, qua Đoạn Phong Cốc là tới Bắc Môn.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    31
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "32",
+   "start": 154.9,
+   "end": 156.54,
+   "zh": "那就走地面进城看看。",
+   "vi": "Vậy đi dưới đất vào thành.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    32
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "33",
+   "start": 162.76,
+   "end": 167.76,
+   "zh": "到了入城需要验查身份，恐怕我那。",
+   "vi": "Tới cổng vào thành phải kiểm tra thân phận, e rằng ta...",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    33
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "34",
+   "start": 167.76,
+   "end": 168.76,
+   "zh": "就不让他们检查了。",
+   "vi": "Khỏi cho chúng kiểm tra.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    34
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "35",
+   "start": 170.12,
+   "end": 170.72,
+   "zh": "走！",
+   "vi": "Đi!",
+   "speaker": "玉面狐狸",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm single"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    35
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "36",
+   "start": 175.6,
+   "end": 176.44,
+   "zh": "我自己去看看。",
+   "vi": "Ta tự đi xem.",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    36
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "37",
+   "start": 176.76,
+   "end": 178.6,
+   "zh": "晚些再来寻你们，别走太远。",
+   "vi": "Lát ta tìm các nàng, chớ đi xa.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict",
+    "hình gọi tên khác"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    37
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "38",
+   "start": 182.38,
+   "end": 182.9,
+   "zh": "来一串！",
+   "vi": "Cho một xiên!",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    38
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "39",
+   "start": 185.74,
+   "end": 186.38,
+   "zh": "谢谢恩公！",
+   "vi": "Tạ ân công!",
+   "speaker": "青萝",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    39
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "40",
+   "start": 189.18,
+   "end": 191.54,
+   "zh": "先去客栈落脚，顺便打听点消息。",
+   "vi": "Tới khách điếm trước nghỉ chân, tiện thể nghe ngóng chút tin tức.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    40
+   ],
+   "speakerSource": "qwen"
+  },
+  {
+   "index": "41",
+   "start": 192.22,
+   "end": 192.82,
+   "zh": "好。",
+   "vi": "Được.",
+   "speaker": "小钻风",
+   "vote": 1,
+   "speakerSuspect": [
+    "cụm conflict"
+   ],
+   "needsReview": true,
+   "segmentIndexes": [
+    41
+   ],
+   "speakerSource": "qwen"
+  }
+ ]
+}

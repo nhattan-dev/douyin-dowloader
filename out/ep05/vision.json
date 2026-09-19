@@ -1,0 +1,250 @@
+{
+ "model": "qwen-vl-max",
+ "frames": 8,
+ "lines": {
+  "3": {
+   "pred": "小钻风",
+   "why": "khung 1 và 2 cho thấy nhân vật có tai nhọn, đầu quấn khăn vải xám tối, mặt có vết sẹo/vằn xanh, đang cử động miệng khi nói",
+   "t": 21.43
+  },
+  "4": {
+   "pred": "小钻风",
+   "why": "khung 1, 2, 6, 7, 8 có mặt nhân vật nam trẻ với tai nhọn, khăn vải xám, áo giáp da rách rưới và vết sẹo trên mặt đang cử động miệng",
+   "t": 26.11
+  },
+  "7": {
+   "pred": "白骨夫人",
+   "why": "khẩu hình của nhân vật nữ có mũ miện bạc/xương chĩa nhọn và váy voan trắng xám đang cử động miệng trong các khung đầu, phù hợp với đặc điểm Bạch Cốt Phu Nhân",
+   "t": 47.61
+  },
+  "9": {
+   "pred": "小钻风",
+   "why": "khung 1 và 2 cho thấy nhân vật nam trẻ với khăn quấn đầu và áo giáp rách rưới đang mở miệng nói, phù hợp với đặc điểm của Tiểu Toản Phong",
+   "t": 57.85
+  },
+  "10": {
+   "pred": "小钻风",
+   "why": "khung 1 và 2 cho thấy miệng nhân vật nam trẻ với tai nhọn và khăn quấn đầu đang mở, khớp với mô tả Tiểu Toản Phong",
+   "t": 62.45
+  },
+  "11": {
+   "pred": "小钻风",
+   "why": "khung hình cuối cùng cho thấy nhân vật có tai nhọn, đầu quấn khăn vải xám tối, mặc áo giáp da rách rưới và đang cử động miệng khi nói",
+   "t": 67.93
+  },
+  "12": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 75.89
+  },
+  "15": {
+   "pred": "玉面狐狸",
+   "why": "khẩu hình miệng mở và khép trong các khung, kết hợp với đặc điểm trang phục và phụ kiện phù hợp với Ngọc Diện Hồ Ly",
+   "t": 103.56
+  },
+  "17": {
+   "pred": "白猫老鼠精",
+   "why": "khung 5-7 thấy rõ mặt nữ nhân vật nhỏ đang cử động miệng, có tên chữ trên màn hình là '白猫老鼠精'",
+   "t": 122.33
+  },
+  "21": {
+   "pred": "刘小思",
+   "why": "khung hình cho thấy miệng người đàn ông mặc áo trắng đang cử động khi nói, và nhân vật nữ nhỏ tuổi bên cạnh là Lưu Tiểu Tư",
+   "t": 134.41
+  },
+  "23": {
+   "pred": "玉面狐狸",
+   "why": "khung 1-4 chỉ thấy mắt và trang sức trên trán, không có miệng; khung 5-8 là cảnh chèn và nhân vật nam ở ngoài khung, nhưng không có cử động miệng nào trong các khung này",
+   "t": 144.66
+  },
+  "26": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"The free quota has been exhausted. To continue accessing the model on a paid basis, please complete your",
+   "t": 154.8
+  },
+  "28": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 160.66
+  },
+  "29": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 168.15
+  },
+  "30": {
+   "pred": "玉面狐狸",
+   "why": "khung 5 và 6 cho thấy miệng nữ nhân vật đang cử động, có trâm cài hình lá/hoa và tóc búi, phù hợp với đặc điểm của 玉面狐狸",
+   "t": 173.2
+  },
+  "32": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 182.16
+  },
+  "33": {
+   "pred": "ngoai_khung",
+   "why": "tất cả các khung đều là hình minh họa trừu tượng, không có mặt người nào đang cử động miệng",
+   "t": 185.4
+  },
+  "35": {
+   "pred": "ngoai_khung",
+   "why": "không có khung nào hiển thị rõ mặt nhân vật đang cử động miệng",
+   "t": 191.64
+  },
+  "41": {
+   "pred": "玉面狐狸",
+   "why": "khung cuối có miệng nữ nhân vật đang mở, tay cầm đèn, phù hợp với đặc điểm Ngọc Diện Hồ Ly",
+   "t": 204.6
+  },
+  "42": {
+   "pred": "玉面狐狸",
+   "why": "khẩu hình nữ nhân vật có đuôi cáo trắng, trâm bạc hình lá, đang cử động miệng trong các khung cận mặt",
+   "t": 207.85
+  },
+  "43": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 217.38
+  },
+  "44": {
+   "pred": "?parse",
+   "why": "qwen-vl-max failed sau 4 lượt: 403 {\"error\":{\"message\":\"Free quota exhausted. To continue accessing the model on a paid basis, please add funds or disable the \\",
+   "t": 222.63
+  },
+  "45": {
+   "pred": "青萝",
+   "why": "khung 1 có mặt nữ nhân vật với trang phục xanh lục, hình xăm trên tay và trang sức tóc đặc trưng của Thanh La, miệng đang mở khi phát âm",
+   "t": 229.63
+  },
+  "47": {
+   "pred": "心魔金蝉子",
+   "why": "khung 4-8 cận mặt nhân vật mặc áo trắng, trọc đầu, có hình xăm trên trán, miệng đang cử động khi nói",
+   "t": 244.91
+  },
+  "48": {
+   "pred": "ngoai_khung",
+   "why": "không có khung nào hiển thị rõ mặt người đang cử động miệng",
+   "t": 263.98
+  },
+  "51": {
+   "pred": "小钻风",
+   "why": "khung hình cho thấy miệng nhân vật nam trẻ với tai nhọn, đầu quấn khăn vải xám tối đang cử động khi nói",
+   "t": 313.4
+  },
+  "52": {
+   "pred": "玉面狐狸",
+   "why": "khung cuối cùng thấy rõ miệng nữ nhân vật có trâm bạc hình lá/hoa và đuôi cáo trắng đang mở, là 玉面狐狸",
+   "t": 315.44
+  },
+  "56": {
+   "pred": "玉面狐狸",
+   "why": "người phụ nữ có đuôi cáo trắng và trang phục đặc trưng của Ngọc Diện Hồ Ly đang cử động miệng",
+   "t": 332.08
+  }
+ },
+ "clusters": {
+  "S0": {
+   "votes": {
+    "小钻风": 2,
+    "玉面狐狸": 1,
+    "青萝": 1,
+    "心魔金蝉子": 1
+   },
+   "probed": [
+    11,
+    30,
+    33,
+    35,
+    45,
+    47,
+    51
+   ],
+   "size": 21,
+   "name": "小钻风",
+   "cid": "C1",
+   "split": false,
+   "sure": true
+  },
+  "S1": {
+   "votes": {
+    "小钻风": 3,
+    "白骨夫人": 1
+   },
+   "probed": [
+    3,
+    4,
+    7,
+    9,
+    48
+   ],
+   "size": 10,
+   "name": "小钻风",
+   "cid": "C1",
+   "split": false,
+   "sure": true
+  },
+  "S2": {
+   "votes": {
+    "小钻风": 1,
+    "玉面狐狸": 6
+   },
+   "probed": [
+    10,
+    15,
+    23,
+    41,
+    42,
+    52,
+    56
+   ],
+   "size": 13,
+   "name": "玉面狐狸",
+   "cid": "C2",
+   "split": false,
+   "sure": true
+  },
+  "S3": {
+   "votes": {},
+   "probed": [
+    12,
+    32
+   ],
+   "size": 2,
+   "name": null,
+   "cid": null,
+   "split": false,
+   "sure": false
+  },
+  "S4": {
+   "votes": {
+    "白猫老鼠精": 1,
+    "刘小思": 1
+   },
+   "probed": [
+    17,
+    21,
+    26,
+    28,
+    29
+   ],
+   "size": 9,
+   "name": null,
+   "cid": null,
+   "split": false,
+   "sure": false
+  },
+  "S5": {
+   "votes": {},
+   "probed": [
+    43,
+    44
+   ],
+   "size": 2,
+   "name": null,
+   "cid": null,
+   "split": false,
+   "sure": false
+  }
+ }
+}

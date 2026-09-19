@@ -1,0 +1,589 @@
+{
+ "premise": "Lâm Mặc, một tạp dịch đệ tử già nua nhưng thực chất là trọng sinh giả, đang phải đối mặt với âm mưu thanh trừng từ Triệu Chủ Thần của Tạp Dịch Bộ. Để tự cứu mình, ông quyết định lợi dụng những bí mật đen tối của tông môn và gửi thư tố cáo đến Chưởng môn Lưu Tử Yên thông qua Thánh nữ.",
+ "characters": [
+  {
+   "key": "S0",
+   "zh": "林墨",
+   "vi": "Lâm Mặc",
+   "vi_parts": [
+    [
+     "林",
+     "Lâm"
+    ],
+    [
+     "墨",
+     "Mặc"
+    ]
+   ],
+   "gender": "nam",
+   "role": "Tạp dịch đệ tử, trọng sinh giả",
+   "voice": "Giọng già dặn, thâm trầm, mưu mô"
+  },
+  {
+   "key": "S1",
+   "zh": "赵主神",
+   "vi": "Triệu Chủ Thần",
+   "vi_parts": [
+    [
+     "赵",
+     "Triệu"
+    ],
+    [
+     "主",
+     "Chủ"
+    ],
+    [
+     "神",
+     "Thần"
+    ]
+   ],
+   "gender": "nam",
+   "role": "Quản sự Tạp Dịch Bộ, Chủ Thần Trọng Sinh Đường",
+   "voice": "Giọng hống hách, ngạo mạn, khinh thường"
+  },
+  {
+   "key": "S11",
+   "zh": "圣女",
+   "vi": "thánh nữ",
+   "vi_parts": [
+    [
+     "圣",
+     "thánh"
+    ],
+    [
+     "女",
+     "nữ"
+    ]
+   ],
+   "gender": "nữ",
+   "role": "Thánh nữ, đệ tử của Lưu Tử Yên, sư tôn của Tô Vũ",
+   "voice": "Giọng thanh lãnh, uy nghiêm"
+  },
+  {
+   "key": "S12",
+   "zh": "苏宇",
+   "vi": "Tô Vũ",
+   "vi_parts": [
+    [
+     "苏",
+     "Tô"
+    ],
+    [
+     "宇",
+     "Vũ"
+    ]
+   ],
+   "gender": "nam",
+   "role": "Đệ tử của Thánh nữ",
+   "voice": "Giọng cung kính, lễ phép"
+  },
+  {
+   "key": "S_LZY",
+   "zh": "刘紫嫣",
+   "vi": "Lưu Tử Yên",
+   "vi_parts": [
+    [
+     "刘",
+     "Lưu"
+    ],
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "嫣",
+     "Yên"
+    ]
+   ],
+   "gender": "nữ",
+   "role": "Chưởng môn / Đại năng được nhắc đến",
+   "voice": "(không có thoại trực tiếp)"
+  }
+ ],
+ "entities": [
+  {
+   "zh": "杂役部",
+   "vi": "Tạp Dịch Bộ",
+   "vi_parts": [
+    [
+     "杂",
+     "Tạp"
+    ],
+    [
+     "役",
+     "Dịch"
+    ],
+    [
+     "部",
+     "Bộ"
+    ]
+   ],
+   "type": "org",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "主神",
+   "vi": "Chủ Thần",
+   "vi_parts": [
+    [
+     "主",
+     "Chủ"
+    ],
+    [
+     "神",
+     "Thần"
+    ]
+   ],
+   "type": "title",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "掌门",
+   "vi": "chưởng môn",
+   "vi_parts": [
+    [
+     "掌",
+     "chưởng"
+    ],
+    [
+     "门",
+     "môn"
+    ]
+   ],
+   "type": "title",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "大阵",
+   "vi": "đại trận",
+   "vi_parts": [
+    [
+     "大",
+     "đại"
+    ],
+    [
+     "阵",
+     "trận"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "紫天",
+   "vi": "Tử Thiên",
+   "vi_parts": [
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "天",
+     "Thiên"
+    ]
+   ],
+   "type": "place",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "圣女",
+   "vi": "thánh nữ",
+   "vi_parts": [
+    [
+     "圣",
+     "thánh"
+    ],
+    [
+     "女",
+     "nữ"
+    ]
+   ],
+   "type": "title",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "刘紫嫣",
+   "vi": "Lưu Tử Yên",
+   "vi_parts": [
+    [
+     "刘",
+     "Lưu"
+    ],
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "嫣",
+     "Yên"
+    ]
+   ],
+   "type": "person",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "林墨",
+   "vi": "Lâm Mặc",
+   "vi_parts": [
+    [
+     "林",
+     "Lâm"
+    ],
+    [
+     "墨",
+     "Mặc"
+    ]
+   ],
+   "type": "person",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "赵主神",
+   "vi": "Triệu Chủ Thần",
+   "vi_parts": [
+    [
+     "赵",
+     "Triệu"
+    ],
+    [
+     "主",
+     "Chủ"
+    ],
+    [
+     "神",
+     "Thần"
+    ]
+   ],
+   "type": "person",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "灵根",
+   "vi": "linh căn",
+   "vi_parts": [
+    [
+     "灵",
+     "linh"
+    ],
+    [
+     "根",
+     "căn"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "出窍",
+   "vi": "xuất khiếu",
+   "vi_parts": [
+    [
+     "出",
+     "xuất"
+    ],
+    [
+     "窍",
+     "khiếu"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "重生",
+   "vi": "Trọng Sinh",
+   "vi_parts": [
+    [
+     "重",
+     "Trọng"
+    ],
+    [
+     "生",
+     "Sinh"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "位面",
+   "vi": "Vị Diện",
+   "vi_parts": [
+    [
+     "位",
+     "Vị"
+    ],
+    [
+     "面",
+     "Diện"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "后期",
+   "vi": "Hậu Kỳ",
+   "vi_parts": [
+    [
+     "后",
+     "Hậu"
+    ],
+    [
+     "期",
+     "Kỳ"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "正道",
+   "vi": "Chính đạo",
+   "vi_parts": [
+    [
+     "正",
+     "Chính"
+    ],
+    [
+     "道",
+     "đạo"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "天灵根",
+   "vi": "thiên linh căn",
+   "vi_parts": [
+    [
+     "天",
+     "thiên"
+    ],
+    [
+     "灵",
+     "linh"
+    ],
+    [
+     "根",
+     "căn"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "重生堂",
+   "vi": "Trọng Sinh Đường",
+   "vi_parts": [
+    [
+     "重",
+     "Trọng"
+    ],
+    [
+     "生",
+     "Sinh"
+    ],
+    [
+     "堂",
+     "Đường"
+    ]
+   ],
+   "type": "org",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "紫天灵根",
+   "vi": "Tử Thiên linh căn",
+   "vi_parts": [
+    [
+     "紫",
+     "Tử"
+    ],
+    [
+     "天",
+     "Thiên"
+    ],
+    [
+     "灵",
+     "linh"
+    ],
+    [
+     "根",
+     "căn"
+    ]
+   ],
+   "type": "place",
+   "policy": "hanviet",
+   "case": "proper"
+  },
+  {
+   "zh": "修为",
+   "vi": "tu vi",
+   "vi_parts": [
+    [
+     "修",
+     "tu"
+    ],
+    [
+     "为",
+     "vi"
+    ]
+   ],
+   "type": "term",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "准圣",
+   "vi": "Chuẩn Thánh",
+   "vi_parts": [
+    [
+     "准",
+     "Chuẩn"
+    ],
+    [
+     "圣",
+     "Thánh"
+    ]
+   ],
+   "type": "title",
+   "policy": "hanviet",
+   "case": "common"
+  },
+  {
+   "zh": "天尊",
+   "vi": "Thiên Tôn",
+   "vi_parts": [
+    [
+     "天",
+     "Thiên"
+    ],
+    [
+     "尊",
+     "Tôn"
+    ]
+   ],
+   "type": "title",
+   "policy": "hanviet",
+   "case": "proper"
+  }
+ ],
+ "skipped": [
+  "杂役",
+  "老朽",
+  "役部",
+  "老夫",
+  "举报",
+  "师尊",
+  "门大",
+  "刘紫",
+  "紫嫣",
+  "弟子",
+  "报信",
+  "掌门大",
+  "门大阵",
+  "举报信",
+  "掌门大阵",
+  "赵主",
+  "封举",
+  "林老",
+  "东西",
+  "封举报",
+  "林老夫",
+  "封举报信",
+  "已经",
+  "天灵",
+  "生堂",
+  "此事",
+  "朽现",
+  "嫣手",
+  "事儿",
+  "紫天灵",
+  "老朽现",
+  "应该",
+  "居然",
+  "如此",
+  "回到",
+  "到杂",
+  "明明",
+  "修炼",
+  "门口"
+ ],
+ "address": [
+  {
+   "from": "S0",
+   "to": "S1",
+   "self": "lão hủ",
+   "other": "ngài",
+   "since": 0,
+   "why": "Lâm Mặc là tạp dịch già, Triệu là quản sự, xưng hô kính trọng bề trên nhưng ẩn chứa sự đối đầu"
+  },
+  {
+   "from": "S1",
+   "to": "S0",
+   "self": "ta",
+   "other": "ngươi",
+   "since": 0,
+   "why": "Triệu Chủ Thần hống hách, coi thường Lâm Mặc"
+  },
+  {
+   "from": "S0",
+   "to": "S11",
+   "self": "lão phu",
+   "other": "Thánh nữ",
+   "since": 213,
+   "why": "Lâm Mặc xưng lão phu với Thánh nữ, giữ lễ phép xã giao"
+  },
+  {
+   "from": "S11",
+   "to": "S0",
+   "self": "ta",
+   "other": "Lâm lão phu",
+   "since": 213,
+   "why": "Thánh nữ gọi Lâm Mặc bằng tên kèm kính xưng lão phu do thấy lạ lùng"
+  },
+  {
+   "from": "S12",
+   "to": "S11",
+   "self": "đệ tử",
+   "other": "sư tôn",
+   "since": 283,
+   "why": "Tô Vũ là đệ tử, Thánh nữ là sư tôn"
+  },
+  {
+   "from": "S11",
+   "to": "S12",
+   "self": "ta",
+   "other": "ngươi",
+   "since": 283,
+   "why": "Sư tôn gọi đệ tử"
+  },
+  {
+   "from": "S11",
+   "to": "S_LZY",
+   "self": "đệ tử",
+   "other": "sư tôn",
+   "since": 227,
+   "why": "Thánh nữ xưng đệ tử với Lưu Tử Yên (sư tôn/chưởng môn)"
+  }
+ ]
+}

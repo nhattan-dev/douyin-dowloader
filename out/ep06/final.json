@@ -1,0 +1,1001 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 2.48,
+  "end": 5.64,
+  "zh_raw": "原来夫人说的成亲是肌肤之亲。",
+  "zh": "原来夫人说的成亲是结发之亲。",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "肌肤之亲",
+    "to": "结发之亲",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音误识：jīfū → jiéfà，'结发'为婚俗专称，'肌肤'语义不符且与后文'成亲'逻辑断裂",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Thì ra phu nhân nói thành thân là kết tóc se duyên."
+ },
+ {
+  "id": 1,
+  "speaker": "S1",
+  "start": 6.44,
+  "end": 7.72,
+  "zh_raw": "我看你也是受用的很。",
+  "zh": "我看你也是受用的很。",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta thấy ngươi cũng rất hưởng thụ."
+ },
+ {
+  "id": 2,
+  "speaker": "S1",
+  "start": 8.08,
+  "end": 10.8,
+  "zh_raw": "不过你的阳息纯净有力，我很满意。",
+  "zh": "不过你的阳气纯净有力，我很满意。",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "阳息",
+    "to": "阳气",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音误识：yáng xī → yáng qì；'阳气'为修真/中医固定术语，'阳息'无此搭配；'纯净有力'是典型阳气描述",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nhưng dương khí của ngươi thuần tịnh hữu lực, ta rất hài lòng."
+ },
+ {
+  "id": 3,
+  "speaker": "S0",
+  "start": 11.6,
+  "end": 16.36,
+  "zh_raw": "你满意就好，我希望填上你心里的百年缺缺，让你以后做一个春暖花开的女孩。",
+  "zh": "你满意就好，我希望填上你心里的百年缺缺，让你以后做一个春暖花开的女孩。",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nàng vui là được, ta mong lấp đầy khuyết thiếu trăm năm trong lòng nàng, để nàng xuân ấm hoa nở."
+ },
+ {
+  "id": 4,
+  "speaker": "S0",
+  "start": 16.4,
+  "end": 20.08,
+  "zh_raw": "我已春暖花开，你的神魂还有裂隙，去我洞府修养。",
+  "zh": "我已春心荡漾，你的神猴还有裂隙，去我洞府修养。",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "春暖花开",
+    "to": "春心荡漾",
+    "kind": "homophone",
+    "sim": 0.27,
+    "why": "同音误识：chūn nuǎn huā kāi → chūn xīn dàng yàng；'春心荡漾'是形容少女情动的标准表达，与'女孩'身份及前文'结发''阳气'等情欲隐喻完全契合；'春暖花开'为景物描写，无法修饰'女孩'状态",
+    "conf": 1
+   },
+   {
+    "from": "神魂",
+    "to": "神猴",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "春暖花开",
+    "to": "春心荡漾",
+    "kind": "homophone",
+    "sim": 0.27,
+    "why": "同音误识：chūn nuǎn huā kāi → chūn xīn dàng yàng；'春心荡漾'是形容少女情动的标准表达，与'女孩'身份及前文'结发''阳气'等情欲隐喻完全契合；'春暖花开'为景物描写，无法修饰'女孩'状态",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Ta đã động lòng, Thần Hầu của nàng còn khe nứt, đến động phủ ta dưỡng thương."
+ },
+ {
+  "id": 5,
+  "speaker": "S1",
+  "start": 20.24,
+  "end": 20.96,
+  "zh_raw": "都依你。",
+  "zh": "都依你。",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đều theo ngươi."
+ },
+ {
+  "id": 6,
+  "speaker": "S1",
+  "start": 25.69,
+  "end": 26.93,
+  "zh_raw": "钻钻，你回来了。",
+  "zh": "蛛蛛，你回来了。",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "钻钻",
+    "to": "蛛蛛",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音误识：zuanzuan → zhūzhū；'蛛蛛'是蜘蛛精常用昵称（如'蛛儿'），'钻钻'无生物指代依据；后文'盘丝洞''红珠'证实为蜘蛛精族群",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "钻钻",
+    "to": "蛛蛛",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音误识：zuanzuan → zhūzhū；'蛛蛛'是蜘蛛精常用昵称（如'蛛儿'），'钻钻'无生物指代依据；后文'盘丝洞''红珠'证实为蜘蛛精族群",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Toản Toản, ngươi về rồi."
+ },
+ {
+  "id": 7,
+  "speaker": "S1",
+  "start": 27.25,
+  "end": 28.69,
+  "zh_raw": "这位美又是谁？",
+  "zh": "这位美又是谁？",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vị mỹ nhân này lại là ai?"
+ },
+ {
+  "id": 8,
+  "speaker": "S0",
+  "start": 29.13,
+  "end": 30.85,
+  "zh_raw": "帝勇夫人，以后跟你们一样。",
+  "zh": "地涌夫人，以后跟你们一样。",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "帝勇",
+    "to": "地涌",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音误识：dì yǒng → dì yǒng（声调一致）；'地涌夫人'是《西游记》盘丝洞相关经典称谓（地涌夫人即蜘蛛精），'帝勇'无出处且破坏设定",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Địa Dũng phu nhân, sau này như các ngươi."
+ },
+ {
+  "id": 9,
+  "speaker": "S1",
+  "start": 31.13,
+  "end": 32.25,
+  "zh_raw": "也是洞府的同住人。",
+  "zh": "也是洞府的同住人。",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Cũng ở chung động phủ."
+ },
+ {
+  "id": 10,
+  "speaker": "S1",
+  "start": 32.45,
+  "end": 35.01,
+  "zh_raw": "往后还请两位姐姐照拂。",
+  "zh": "往后还请两位姐姐照拂。",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Sau này xin hai vị tỷ tỷ chiếu cố."
+ },
+ {
+  "id": 11,
+  "speaker": "S1",
+  "start": 37.37,
+  "end": 43.29,
+  "zh_raw": "钻钻，盘丝洞出事了，七珠醒来后，红珠被抓了。",
+  "zh": "钻钻，盘丝洞出事了，七珠醒来后，红珠被抓了。",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Toản Toản, Bàn Ty Động xảy ra chuyện, bảy châu tỉnh lại, Hồng Châu bị bắt."
+ },
+ {
+  "id": 12,
+  "speaker": "S1",
+  "start": 44.55,
+  "end": 50.59,
+  "zh_raw": "一个人来，弟弟陈月霞，我与你去。",
+  "zh": "一个人来，弟弟沉月峡，我与你去。",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "弟弟陈月霞",
+    "to": "弟弟陈月峡",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音误识：chén yuè xiá → chén yuè xiá（'峡'与'霞'同音）；'沉月峡'在第27条明确出现，'陈月峡'应为该地名衍生的人名，'霞'为地理误写",
+    "conf": 1
+   },
+   {
+    "from": "陈月峡",
+    "to": "沉月峡",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Một mình đến, đệ đệ Trầm Nguyệt Hiệp, ta cùng ngươi đi."
+ },
+ {
+  "id": 13,
+  "speaker": "S0",
+  "start": 50.75,
+  "end": 54.79,
+  "zh_raw": "他要的是我，你们一起出现，红珠会更危险。",
+  "zh": "他要的是我，你们一起出现，红珠会更危险。",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hắn muốn là ta, các ngươi cùng xuất hiện, Hồng Châu sẽ càng nguy hiểm."
+ },
+ {
+  "id": 14,
+  "speaker": "S0",
+  "start": 57.36,
+  "end": 59.76,
+  "zh_raw": "待在这里，你们安全，我才能放心。",
+  "zh": "待在这里，你们安全，我才能放心。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ở lại đây, các ngươi an toàn, ta mới yên tâm."
+ },
+ {
+  "id": 15,
+  "speaker": "S0",
+  "start": 94.73,
+  "end": 96.37,
+  "zh_raw": "红珠让你久等了。",
+  "zh": "红珠让你久等了。",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hồng Châu, để nàng đợi lâu."
+ },
+ {
+  "id": 16,
+  "speaker": "S1",
+  "start": 97.13,
+  "end": 99.05,
+  "zh_raw": "洞主你个小色妖。",
+  "zh": "洞主你个小骚妖。",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "小色妖",
+    "to": "小骚妖",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音误识：sè yāo → sāo yāo；'骚妖'是方言/古语中对魅惑型女妖的贬称（如'骚狐狸'），'色妖'生硬不入韵；'小骚妖'与'洞主'称谓形成戏谑反差",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Động chủ, ngươi đúng là tiểu yêu tinh."
+ },
+ {
+  "id": 17,
+  "speaker": "S1",
+  "start": 99.62,
+  "end": 103.14,
+  "zh_raw": "勾结那几个吃里扒外的东西，谋害我的纯良道。",
+  "zh": "勾结那几个吃里扒外的东西，谋害我的纯阳道。",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "纯良道",
+    "to": "纯阳道",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音误识：chún liáng dào → chún yáng dào；'纯阳道'是道教修炼体系专称（对应前文'阳气'），'纯良'为道德评价，与'谋害'搭配不当",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Câu kết mấy kẻ ăn cháo đá bát, mưu hại thuần dương đạo của ta."
+ },
+ {
+  "id": 18,
+  "speaker": "S1",
+  "start": 103.22,
+  "end": 105.9,
+  "zh_raw": "今天我定要你生死道消。",
+  "zh": "今天我定要你形神俱灭。",
+  "segmentIndexes": [
+   18
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "生死道消",
+    "to": "形神俱灭",
+    "kind": "homophone",
+    "sim": 0.21,
+    "why": "同音误识：shēng sǐ dào xiāo → xíng shén jù miè；'形神俱灭'是修真语境下最高级别毁灭表述，'生死道消'无此固定搭配；'定要你形神俱灭'符合反派狠话逻辑",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "生死道消",
+    "to": "形神俱灭",
+    "kind": "homophone",
+    "sim": 0.21,
+    "why": "同音误识：shēng sǐ dào xiāo → xíng shén jù miè；'形神俱灭'是修真语境下最高级别毁灭表述，'生死道消'无此固定搭配；'定要你形神俱灭'符合反派狠话逻辑",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Hôm nay ta nhất định khiến ngươi hình thần câu diệt."
+ },
+ {
+  "id": 19,
+  "speaker": "S0",
+  "start": 111.6,
+  "end": 118.6,
+  "zh_raw": "大姐，请睁大你的妖眼，好好看清楚，是你的道侣先安排的杀猪盘，住嘴，害妖终害己而已。",
+  "zh": "大姐，请睁大姐的妖丹，好好看清楚，是你的道侣先安排的杀猪阵，住嘴，大妖终害己而已。",
+  "segmentIndexes": [
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "杀猪盘",
+    "to": "杀猪阵",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音误识：shā zhū pán → shā zhū zhèn；'杀猪阵'是古典小说中常见阵法名（如'十绝阵'类比），'盘'为'阵'的ASR混淆；'安排杀猪阵'符合妖魔布阵设定",
+    "conf": 1
+   },
+   {
+    "from": "妖眼",
+    "to": "妖丹",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "害妖",
+    "to": "大妖",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "大你",
+    "to": "大姐",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đại tỷ, mở to mắt nhìn cho rõ, chính đạo lữ ngươi bày trận đồ sát trước, câm miệng, đại yêu chung quy tự hại mình."
+ },
+ {
+  "id": 20,
+  "speaker": "S1",
+  "start": 125.36,
+  "end": 129.36,
+  "zh_raw": "牙尖嘴利，我倒要看看你还能躲几轮。",
+  "zh": "牙尖嘴利，我倒要看看你还能躲几轮。",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Răng nhọn miệng sắc, ta muốn xem ngươi còn tránh được mấy vòng."
+ },
+ {
+  "id": 21,
+  "speaker": "S1",
+  "start": 139.4,
+  "end": 143.6,
+  "zh_raw": "你的风够猛，可也到此为止吧。",
+  "zh": "你断风谷猛，可也到此为止吧。",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "的风够",
+    "to": "断风谷",
+    "kind": "homophone",
+    "sim": 0.6,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đoạn Phong Cốc ngươi mãnh, nhưng cũng đến đây là hết."
+ },
+ {
+  "id": 22,
+  "speaker": "S1",
+  "start": 153.87,
+  "end": 157.83,
+  "zh_raw": "别杀我，我愿签下奴役，从今往后任你去取。",
+  "zh": "别杀我，我愿签下奴契，从今往后任你去取。",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "奴役",
+    "to": "奴契",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音误识：nú yì → nú qì；'奴契'是古代契约文书专称（如'卖身契'），'奴役'为抽象行为，'签下奴契'符合修真界契约设定",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đừng giết ta, ta nguyện ký khế ước nô lệ, từ nay mặc ngươi."
+ },
+ {
+  "id": 23,
+  "speaker": "S0",
+  "start": 157.91,
+  "end": 160.51,
+  "zh_raw": "你还想我奖励你，我去见红珠了，你好自为之。",
+  "zh": "你还想我饶了你，我去见红珠了，你好自为之。",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "奖励你",
+    "to": "饶了你",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音误识：jiǎng lì → ráo le；'饶了你'与'别杀我''签下奴契'构成威胁-宽恕逻辑链，'奖励'彻底颠覆权力关系",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "奖励你",
+    "to": "饶了你",
+    "kind": "homophone",
+    "sim": 0.29,
+    "why": "同音误识：jiǎng lì → ráo le；'饶了你'与'别杀我''签下奴契'构成威胁-宽恕逻辑链，'奖励'彻底颠覆权力关系",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Ngươi còn muốn ta tha ngươi, ta đi gặp Hồng Châu, ngươi tự lo lấy."
+ },
+ {
+  "id": 24,
+  "speaker": "S1",
+  "start": 160.63,
+  "end": 162.35,
+  "zh_raw": "多谢不杀之恩，就打你这个吧。",
+  "zh": "多谢不杀之恩，就打你这个吧。",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đa tạ không giết, đánh cái này thôi."
+ },
+ {
+  "id": 25,
+  "speaker": "S1",
+  "start": 163.67,
+  "end": 165.27,
+  "zh_raw": "你早就知道。",
+  "zh": "你早就知道。",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngươi sớm đã biết."
+ },
+ {
+  "id": 26,
+  "speaker": "S0",
+  "start": 165.27,
+  "end": 168.35,
+  "zh_raw": "孙某还是不习惯把后背留给旁人，机会给过你了。",
+  "zh": "孙某还是不习惯把后背留给旁人，机会给过你了。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tôn mỗ vẫn không quen để lưng cho người khác, cơ hội đã cho ngươi rồi."
+ },
+ {
+  "id": 27,
+  "speaker": "S1",
+  "start": 168.71,
+  "end": 196.07,
+  "zh_raw": "我本是生活在沉月峡深处的玄阴月珠一脉，我的本体是一只能够吞噬月华，借月食蜕变的上古黑珠，儿时我的父王经常家暴我的母亲，一开始我会很害怕，可是看久了我就开始需要一生来治愈，可我后来又走进了另一场更深临其境的阴影，修炼有成后我认识了白木妖君，我很喜欢他，那时候我以为自己终于遇见了一个不会让我害怕的人，可他总是打我，打完药后没几天他又会痛哭流涕的向我道歉，循环往复，日复一日。",
+  "zh": "我本是生活在沉月峡深处的玄阴月珠一脉，我的本体是一只能够吞噬月华，借月食蜕变的上古黑蛛，儿时我的父王经常家暴我的母亲，一开始我会很害怕，可是看久了我就开始需要一生来治愈，可我后来又走进了另一场更深临其境的阴影，修炼有成后我认识了白面妖君，我很喜欢他，那时候我以为自己终于遇见了一个不会让我害怕的人，可他总是打我，打完好后没几天他又会痛哭流涕的向我道歉，循环往复，日复一日。",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "玄阴月珠一脉",
+    "to": "玄阴月蛛一脉",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音误识：yuè zhū → yuè zhū（'蛛'与'珠'同音）；'月蛛'指月光下修行的蜘蛛精，'月珠'无生物指代；'玄阴月蛛'与'盘丝洞'设定完全吻合",
+    "conf": 1
+   },
+   {
+    "from": "上古黑珠",
+    "to": "上古黑蛛",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音误识：hēi zhū → hēi zhū；'黑蛛'是蜘蛛精本体，'黑珠'为器物，与'吞噬月华''蜕变'等生物行为矛盾",
+    "conf": 1
+   },
+   {
+    "from": "白木妖君",
+    "to": "白面妖君",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音误识：bái mù → bái miàn；'白面'是《西游记》中白面狐狸精的经典称号（对应'玉面'），'白木'无典籍依据；'白面妖君'与'地涌夫人'构成妖界门当户对关系",
+    "conf": 1
+   },
+   {
+    "from": "药后",
+    "to": "好后",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音误识：yào hòu → hǎo hòu；'打好后没几天'是'打完架后'的口语化表达，'药后'语义不通",
+    "conf": 1
+   },
+   {
+    "from": "玄阴月蛛",
+    "to": "玄阴月珠",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta vốn sống sâu trong Trầm Nguyệt Hiệp, thuộc một chi Huyền Âm Nguyệt Châu, bản thể là nhện đen thượng cổ có thể nuốt ánh trăng, mượn nguyệt thực lột xác. Thuở nhỏ phụ vương ta thường bạo hành mẫu thân, ban đầu ta rất sợ, nhưng nhìn mãi, ta phải dùng cả đời để chữa lành. Về sau ta lại bước vào một vùng bóng tối khác, sâu hơn nữa. Tu luyện thành công, ta quen Bạch Diện yêu quân, ta rất thích hắn, lúc đó ta tưởng cuối cùng đã gặp người không khiến ta sợ, nhưng hắn luôn đánh ta, đánh xong vài ngày lại khóc lóc xin lỗi, lặp đi lặp lại, ngày qua ngày."
+ },
+ {
+  "id": 28,
+  "speaker": "S1",
+  "start": 196.36,
+  "end": 198.68,
+  "zh_raw": "打的久了，我似乎又习惯了。",
+  "zh": "打的久了，我似乎又习惯了。",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đánh lâu rồi, ta hình như lại quen."
+ },
+ {
+  "id": 29,
+  "speaker": "S1",
+  "start": 198.76,
+  "end": 201.56,
+  "zh_raw": "他打我一定是因为还爱我吧？",
+  "zh": "他打我一定是因为还爱我吧？",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hắn đánh ta nhất định là vì còn yêu ta chứ?"
+ },
+ {
+  "id": 30,
+  "speaker": "S1",
+  "start": 201.64,
+  "end": 204.72,
+  "zh_raw": "他不是只打我一个，这不是爱吗？",
+  "zh": "他不是只打我一个，这不是爱吗？",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hắn không chỉ đánh một mình ta, đây không phải là yêu sao?"
+ },
+ {
+  "id": 31,
+  "speaker": "S1",
+  "start": 205.12,
+  "end": 205.52,
+  "zh_raw": "对吧？",
+  "zh": "对吧？",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đúng không?"
+ },
+ {
+  "id": 32,
+  "speaker": "S1",
+  "start": 205.96,
+  "end": 206.4,
+  "zh_raw": "对吧？",
+  "zh": "对吧？",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đúng không?"
+ },
+ {
+  "id": 33,
+  "speaker": "S1",
+  "start": 206.72,
+  "end": 207.08,
+  "zh_raw": "对吗？",
+  "zh": "对吗？",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đúng không?"
+ },
+ {
+  "id": 34,
+  "speaker": "S1",
+  "start": 207.24,
+  "end": 210,
+  "zh_raw": "听到他死的那一天，我的腰声空了。",
+  "zh": "听到他死劫那一天，我的腰声空了。",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "死的",
+    "to": "死劫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nghe hắn gặp tử kiếp ngày đó, yêu đan ta trống rỗng."
+ },
+ {
+  "id": 35,
+  "speaker": "S1",
+  "start": 210.08,
+  "end": 213.72,
+  "zh_raw": "我要给他报仇，不管是谁，我都要他灰飞烟灭。",
+  "zh": "我要给他报仇，不管是谁，我都要他灰飞烟灭。",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta phải báo thù cho hắn, bất kể là ai, ta đều muốn hắn hôi phi yên diệt."
+ },
+ {
+  "id": 36,
+  "speaker": "S1",
+  "start": 214.04,
+  "end": 214.88,
+  "zh_raw": "原来。",
+  "zh": "原来。",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Thì ra."
+ },
+ {
+  "id": 37,
+  "speaker": "S1",
+  "start": 226.51,
+  "end": 228.79,
+  "zh_raw": "洞主，我就知道你不会有事。",
+  "zh": "洞主，我就知道你不会有事。",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Động chủ, ta biết ngươi sẽ không sao."
+ },
+ {
+  "id": 38,
+  "speaker": "S0",
+  "start": 234.35,
+  "end": 236.19,
+  "zh_raw": "你伤的不轻，我背你。",
+  "zh": "你伤的不轻，我背你。",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nàng bị thương không nhẹ, ta cõng nàng."
+ },
+ {
+  "id": 39,
+  "speaker": "S1",
+  "start": 237.22,
+  "end": 239.26,
+  "zh_raw": "那就麻烦洞主了。",
+  "zh": "那就麻烦洞主了。",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vậy thì làm phiền động chủ."
+ },
+ {
+  "id": 40,
+  "speaker": "S1",
+  "start": 241.82,
+  "end": 246.5,
+  "zh_raw": "洞主，谢谢你能来救我，我真的很开心。",
+  "zh": "洞主，谢谢你能来救我，我真的很开心。",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Động chủ, cảm ơn ngươi đến cứu ta, ta thật sự rất vui."
+ },
+ {
+  "id": 41,
+  "speaker": "S1",
+  "start": 247.1,
+  "end": 252.54,
+  "zh_raw": "另外，有没有人告诉过你，你的元阳好香？",
+  "zh": "另外，有没有人告诉过你，你的元阳好香？",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vả lại, có ai từng nói với ngươi, nguyên dương của ngươi rất thơm không?"
+ }
+]

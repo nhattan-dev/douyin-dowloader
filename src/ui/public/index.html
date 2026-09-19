@@ -1,0 +1,32 @@
+<!doctype html>
+<html lang="vi">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Xưởng dịch</title>
+<link rel="icon" href="/favicon.svg">
+<link rel="stylesheet" href="/app.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="side">
+    <a class="brand" href="#/"><span class="logo">译</span><span>Xưởng dịch</span></a>
+    <nav class="nav">
+      <a href="#/" data-nav="home">Chờ bạn <span class="count act" id="nInbox"></span></a>
+      <a href="#/users" data-nav="users">Tác giả &amp; video</a>
+      <a href="#/series" data-nav="series">Series</a>
+      <a href="#/jobs" data-nav="jobs">Việc chạy nền <span class="count run" id="nJobs"></span></a>
+    </nav>
+    <div class="side-jobs" id="sideJobs"></div>
+    <div class="side-foot">
+      <span id="conn" class="conn">đang kết nối…</span>
+      <button class="linkbtn" id="notifBtn" data-act="notify" hidden>Bật thông báo</button>
+    </div>
+  </aside>
+  <main id="main" class="main"></main>
+</div>
+<div id="toasts" class="toasts" aria-live="polite"></div>
+<dialog id="dlg" class="dlg"></dialog>
+<script type="module" src="/app.js"></script>
+</body>
+</html>

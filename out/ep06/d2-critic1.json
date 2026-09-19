@@ -1,0 +1,212 @@
+{
+ "0": {
+  "score": 4,
+  "issue": "'kết tóc se duyên' hơi thêm ý so với 'kết phát chi thân', nhưng chấp nhận được",
+  "fix": ""
+ },
+ "1": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "2": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "3": {
+  "score": 3,
+  "issue": "'xuân noãn hoa khai' là Hán-Việt cứng, không phải thoại Việt; 'nữ hài' cũng cứng",
+  "fix": "Nàng hài lòng là tốt, ta mong lấp đầy khoảng trống trăm năm trong lòng nàng, để sau này nàng sống như hoa nở mùa xuân."
+ },
+ "4": {
+  "score": 3,
+  "issue": "'xuân tâm dập dờn' Hán-Việt cứng; 'Thần Hầu' đúng thuật ngữ nhưng câu nghe không tự nhiên",
+  "fix": "Ta đã động lòng, Thần Hầu của ngươi còn có khe nứt, đến động phủ ta dưỡng thương."
+ },
+ "5": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "6": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "7": {
+  "score": 4,
+  "issue": "'mỹ nhân' ổn nhưng 'lại là ai' hơi lệch nhẹ so với 'lại là ai nữa'",
+  "fix": ""
+ },
+ "8": {
+  "score": 3,
+  "issue": "'Địa Dũng phu nhân' phiên âm Hán-Việt, không rõ nghĩa với khán giả Việt; nên giữ nguyên hoặc dịch thoát",
+  "fix": "Địa Dũng phu nhân, sau này sẽ ở cùng các ngươi."
+ },
+ "9": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "10": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "11": {
+  "score": 4,
+  "issue": "'bảy châu tỉnh lại' hơi tối nghĩa, nhưng đúng nguyên văn",
+  "fix": ""
+ },
+ "12": {
+  "score": 2,
+  "issue": "Sai nghĩa: '弟弟沉月峡' không phải 'đệ đệ Trầm Nguyệt Hiệp'; câu gốc ý là 'một mình đến, đệ đệ ở Trầm Nguyệt Hiệp, ta cùng ngươi đi'",
+  "fix": "Một mình hắn đến, đệ đệ ở Trầm Nguyệt Hiệp, ta cùng ngươi đi."
+ },
+ "13": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "14": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "15": {
+  "score": 4,
+  "issue": "Thiếu 'để nàng đợi lâu' ổn, nhưng 'Hồng Châu' gọi tên trực tiếp hơi lệch so với '红珠' xưng hô; chấp nhận được",
+  "fix": ""
+ },
+ "16": {
+  "score": 3,
+  "issue": "'tiểu tao yêu' là phiên âm nửa vời, nghe không tự nhiên; 'sao' trong 'sao' 骚 là 'dâm'/'lẳng lơ'",
+  "fix": "Động chủ, ngươi đúng là con yêu tinh lẳng lơ."
+ },
+ "17": {
+  "score": 4,
+  "issue": "'ăn cháo đá bát' ổn nhưng 'thuần dương đạo' giữ nguyên Hán-Việt hơi cứng; 'câu kết' đúng",
+  "fix": ""
+ },
+ "18": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "19": {
+  "score": 2,
+  "issue": "'sắp đặt sát trư trận' sai nghĩa (杀猪阵 = trận giết heo, ý chỉ bẫy giết); 'hảo hảo' còn Hán-Việt; 'đại tỷ yêu đan' lặp 'đại tỷ' thừa; 'câm miệng' đặt sai vị trí",
+  "fix": "Đại tỷ, xin mở yêu đan của đại tỷ ra, nhìn cho thật rõ, chính đạo lữ của ngươi đã bày trận giết heo trước. Câm miệng, đại yêu rốt cuộc chỉ hại mình thôi."
+ },
+ "20": {
+  "score": 4,
+  "issue": "'Răng nhọn miệng sắc' dịch sát chữ, thành ngữ Việt nên là 'miệng lưỡi sắc bén'",
+  "fix": "Miệng lưỡi sắc bén, ta muốn xem ngươi còn tránh được mấy vòng."
+ },
+ "21": {
+  "score": 4,
+  "issue": "'Đoạn Phong Cốc ngươi mãnh' hơi tối nghĩa, nên rõ 'ngươi ở Đoạn Phong Cốc có mãnh'",
+  "fix": "Ngươi ở Đoạn Phong Cốc có mãnh, nhưng cũng đến đây là hết."
+ },
+ "22": {
+  "score": 3,
+  "issue": "'nô khế' giữ Hán-Việt, nên dịch 'khế ước nô lệ'; 'mặc ngươi sai khiến' thêm ý 'sai khiến' không có trong gốc (任你去取 = mặc ngươi lấy/điều khiển)",
+  "fix": "Đừng giết ta, ta nguyện ký khế ước nô lệ, từ nay về sau mặc ngươi định đoạt."
+ },
+ "23": {
+  "score": 4,
+  "issue": "'ngươi tự lo lấy' ổn, nhưng '你好自为之' mang sắc thái cảnh cáo, dịch 'ngươi liệu hồn đấy' sát hơn",
+  "fix": "Ngươi còn muốn ta tha ngươi à? Ta đi gặp Hồng Châu đây, ngươi liệu hồn đấy."
+ },
+ "24": {
+  "score": 3,
+  "issue": "'đánh ngươi cái này' tối nghĩa, '就打你这个吧' ý là 'thì đánh ngươi cái này vậy' (ra tay)",
+  "fix": "Đa tạ ơn không giết, vậy thì đánh ngươi cái này."
+ },
+ "25": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "26": {
+  "score": 4,
+  "issue": "'Tôn mỗ' giữ Hán-Việt, nhân vật xưng 'ta' tự nhiên hơn; 'để lưng cho người khác' ổn",
+  "fix": "Ta vẫn không quen để lưng cho người khác, cơ hội đã cho ngươi rồi."
+ },
+ "27": {
+  "score": 2,
+  "issue": "'hắc chu' phiên âm vô nghĩa (nên 'nhện đen'); 'nguyệt hoa' 'nguyệt thực' giữ Hán-Việt cứng; 'Bạch Diện yêu quân' phiên âm nửa vời; 'cần cả đời để chữa lành' dịch sai ý (需要一生来治愈 = phải dùng cả đời để chữa lành vết thương); 'sâu hơn, như chính mình trải qua' lệch nghĩa 临其境",
+  "fix": "Ta vốn sống ở sâu trong Trầm Nguyệt Hiệp, thuộc một mạch Huyền Âm Nguyệt Châu. Bản thể ta là một con nhện đen thượng cổ có thể nuốt ánh trăng, mượn nguyệt thực mà lột xác. Thuở nhỏ phụ vương ta thường bạo hành mẫu thân ta, ban đầu ta rất sợ, nhưng nhìn lâu rồi ta lại phải dùng cả đời để chữa lành. Về sau ta lại bước vào một bóng tối khác, sâu hơn, như chính ta trải qua. Tu luyện thành công, ta quen Bạch Diện yêu quân, ta rất thích hắn. Lúc đó ta tưởng mình cuối cùng đã gặp một người không khiến ta sợ, nhưng hắn luôn đánh ta, đánh xong mấy ngày sau lại khóc lóc xin lỗi ta, lặp đi lặp lại, ngày này qua ngày khác."
+ },
+ "28": {
+  "score": 4,
+  "issue": "'Đánh lâu rồi' ổn, nhưng '打的久了' ý là 'bị đánh lâu rồi'",
+  "fix": "Bị đánh lâu rồi, ta hình như lại quen."
+ },
+ "29": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "30": {
+  "score": 4,
+  "issue": "ổn, chỉ hơi lệch sắc thái tự vấn",
+  "fix": ""
+ },
+ "31": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "32": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "33": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "34": {
+  "score": 2,
+  "issue": "'腰声' dịch thành 'lòng' sai nghĩa, mất ý 'eo/lưng'",
+  "fix": "Nghe tin hắn tử kiếp ngày đó, eo ta trống rỗng."
+ },
+ "35": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "36": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "37": {
+  "score": 3,
+  "issue": "xưng hô sai: S1->S0 phải gọi 'ngươi', nhưng 'ngươi' ở đây đúng; tuy nhiên 'động chủ' không có trong bảng xưng hô, cần giữ nguyên",
+  "fix": ""
+ },
+ "38": {
+  "score": 3,
+  "issue": "xưng hô sai: S0->S1 phải gọi 'nàng', không dùng 'ngươi'",
+  "fix": "Nàng bị thương không nhẹ, ta cõng nàng."
+ },
+ "39": {
+  "score": 3,
+  "issue": "xưng hô sai: S1->S0 phải tự xưng 'ta', gọi 'ngươi'; 'động chủ' không đúng bảng",
+  "fix": "Vậy làm phiền ngươi."
+ },
+ "40": {
+  "score": 3,
+  "issue": "xưng hô sai: S1->S0 phải gọi 'ngươi', không dùng 'động chủ'",
+  "fix": "Ngươi, cảm ơn ngươi đến cứu ta, ta thật sự rất vui."
+ },
+ "41": {
+  "score": 3,
+  "issue": "xưng hô sai: S1->S0 phải gọi 'ngươi', không dùng 'ngươi'? thực ra 'ngươi' đúng; nhưng 'nguyên dương' không có trong thuật ngữ, nên dùng 'dương khí'",
+  "fix": "Ngoài ra, có ai từng nói với ngươi, dương khí của ngươi rất thơm không?"
+ }
+}

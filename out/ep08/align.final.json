@@ -1,0 +1,238 @@
+{
+ "speakerMap": {
+  "S0": "C1",
+  "S2": "C11",
+  "S3": "C1",
+  "S1": "C2"
+ },
+ "clusters": {
+  "S0": {
+   "cid": "C1",
+   "level": "single",
+   "why": "chỉ có kênh hình",
+   "text": null,
+   "textVerified": false,
+   "vision": "C1",
+   "visionSure": true,
+   "veto": [],
+   "size": 5,
+   "votes": {
+    "青萝": 1,
+    "猎妖师·霍七": 1,
+    "小钻风": 2
+   },
+   "probed": [
+    0,
+    1,
+    2,
+    3,
+    4
+   ]
+  },
+  "S2": {
+   "cid": "C11",
+   "level": "conflict",
+   "why": "text=C15 nhưng hình=C11 -> theo hình",
+   "text": "C15",
+   "textVerified": false,
+   "vision": "C11",
+   "visionSure": true,
+   "veto": [],
+   "size": 16,
+   "votes": {
+    "小钻风": 1,
+    "蛇泽女妖": 1,
+    "青萝": 3,
+    "玉面狐狸": 1
+   },
+   "probed": [
+    6,
+    20,
+    21,
+    25,
+    31,
+    39
+   ]
+  },
+  "S3": {
+   "cid": "C1",
+   "level": "conflict",
+   "why": "text=C1 nhưng hình=C11 -> theo text (có trích dẫn)",
+   "text": "C1",
+   "textVerified": true,
+   "vision": "C11",
+   "visionSure": true,
+   "veto": [],
+   "size": 17,
+   "votes": {
+    "玉面狐狸": 1,
+    "青萝": 4,
+    "小钻风": 1
+   },
+   "probed": [
+    14,
+    16,
+    19,
+    28,
+    37,
+    40
+   ]
+  },
+  "S1": {
+   "cid": "C2",
+   "level": "single",
+   "why": "chỉ có kênh text, không trích dẫn được",
+   "text": "C2",
+   "textVerified": false,
+   "vision": null,
+   "visionSure": false,
+   "veto": [],
+   "size": 4,
+   "votes": {},
+   "probed": [
+    9,
+    10,
+    18,
+    35
+   ]
+  }
+ },
+ "suspects": {
+  "0": [
+   "cụm single",
+   "hình gọi tên khác"
+  ],
+  "1": [
+   "cụm single"
+  ],
+  "2": [
+   "cụm single"
+  ],
+  "3": [
+   "cụm single"
+  ],
+  "4": [
+   "cụm single"
+  ],
+  "5": [
+   "cụm conflict"
+  ],
+  "6": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "7": [
+   "cụm conflict"
+  ],
+  "8": [
+   "cụm conflict"
+  ],
+  "9": [
+   "cụm single"
+  ],
+  "10": [
+   "cụm single"
+  ],
+  "11": [
+   "cụm conflict"
+  ],
+  "12": [
+   "cụm conflict"
+  ],
+  "13": [
+   "cụm conflict"
+  ],
+  "14": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "15": [
+   "cụm conflict"
+  ],
+  "16": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "17": [
+   "cụm conflict"
+  ],
+  "18": [
+   "cụm single"
+  ],
+  "19": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "20": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "21": [
+   "cụm conflict"
+  ],
+  "22": [
+   "cụm conflict"
+  ],
+  "23": [
+   "cụm conflict"
+  ],
+  "24": [
+   "cụm conflict"
+  ],
+  "25": [
+   "cụm conflict"
+  ],
+  "26": [
+   "cụm conflict"
+  ],
+  "27": [
+   "cụm conflict"
+  ],
+  "28": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "29": [
+   "cụm conflict"
+  ],
+  "30": [
+   "cụm conflict"
+  ],
+  "31": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "32": [
+   "cụm conflict"
+  ],
+  "33": [
+   "cụm conflict"
+  ],
+  "34": [
+   "cụm conflict"
+  ],
+  "35": [
+   "cụm single"
+  ],
+  "36": [
+   "cụm conflict"
+  ],
+  "37": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "38": [
+   "cụm conflict"
+  ],
+  "39": [
+   "cụm conflict"
+  ],
+  "40": [
+   "cụm conflict"
+  ],
+  "41": [
+   "cụm conflict"
+  ]
+ },
+ "human": null
+}

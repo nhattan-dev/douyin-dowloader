@@ -1,0 +1,223 @@
+{
+ "key": "541913fd65b0de9c",
+ "value": {
+  "series": {
+   "titleZh": "杂役合道",
+   "titleVi": "Tạp Dịch Hợp Đạo"
+  },
+  "cast": [
+   {
+    "id": "C1",
+    "zh": "林墨",
+    "vi": "Lâm Mặc",
+    "viShort": "",
+    "gender": "male",
+    "role": "main",
+    "alias": [
+     "老夫",
+     "老朽",
+     "林老夫",
+     "杂役"
+    ],
+    "note": "Nam chính, xuyên việt/trọng sinh giả, tạp dịch đệ tử già nua của tông môn.",
+    "clusters": {
+     "1": [
+      "S1",
+      "S2",
+      "S5",
+      "S6"
+     ],
+     "2": [
+      "S0",
+      "S2",
+      "S4",
+      "S5",
+      "S6",
+      "S7",
+      "S8",
+      "S9"
+     ]
+    },
+    "confidence": 0.95,
+    "doubt": ""
+   },
+   {
+    "id": "C2",
+    "zh": "柳紫嫣",
+    "vi": "Liễu Tử Yên",
+    "viShort": "",
+    "gender": "female",
+    "role": "main",
+    "alias": [
+     "刘紫嫣",
+     "掌门",
+     "女魔头",
+     "本宫",
+     "掌门大阵"
+    ],
+    "note": "Chưởng môn tông môn, nữ ma đầu, đang chịu phản phệ từ Âm Dương Tà Ma Công.",
+    "clusters": {
+     "1": [
+      "S0",
+      "S4"
+     ]
+    },
+    "confidence": 0.9,
+    "doubt": ""
+   },
+   {
+    "id": "C3",
+    "zh": "赵主神",
+    "vi": "Triệu Chủ Thần",
+    "viShort": "",
+    "gender": "male",
+    "role": "episodic",
+    "alias": [],
+    "note": "Quản sự Tạp Dịch Bộ, người của Trọng Sinh Đường, âm mưu thanh trừng Lâm Mặc.",
+    "clusters": {
+     "2": [
+      "S1",
+      "S3"
+     ]
+    },
+    "confidence": 0.9,
+    "doubt": ""
+   },
+   {
+    "id": "C4",
+    "zh": "圣女",
+    "vi": "thánh nữ",
+    "viShort": "",
+    "gender": "female",
+    "role": "episodic",
+    "alias": [],
+    "note": "Thánh nữ của tông môn, đệ tử của Liễu Tử Yên, sư tôn của Tô Vũ.",
+    "clusters": {
+     "2": [
+      "S11"
+     ]
+    },
+    "confidence": 0.95,
+    "doubt": ""
+   },
+   {
+    "id": "C5",
+    "zh": "苏宇",
+    "vi": "Tô Vũ",
+    "viShort": "",
+    "gender": "male",
+    "role": "episodic",
+    "alias": [],
+    "note": "Đệ tử của Thánh nữ, người mang thư tố cáo cho sư tôn.",
+    "clusters": {
+     "2": [
+      "S12"
+     ]
+    },
+    "confidence": 0.95,
+    "doubt": ""
+   },
+   {
+    "id": "C6",
+    "zh": "旁人",
+    "vi": "người dẫn chuyện",
+    "viShort": "",
+    "gender": "?",
+    "role": "episodic",
+    "alias": [],
+    "note": "Nhân vật phụ hoặc người dẫn chuyện, xuất hiện ngắn ở tập 1.",
+    "clusters": {
+     "1": [
+      "S3"
+     ]
+    },
+    "confidence": 0.8,
+    "doubt": ""
+   }
+  ],
+  "terms": {
+   "阴阳邪魔功": "Âm Dương Tà Ma Công",
+   "无尽地狱": "Vô Tận Địa Ngục",
+   "杂役部": "Tạp Dịch Bộ",
+   "重生堂": "Trọng Sinh Đường",
+   "紫天灵根": "Tử Thiên linh căn",
+   "紫天尊": "Tử Thiên Tôn",
+   "续命丹": "Tục Mệnh Đan",
+   "阵法堂": "Trận Pháp Đường",
+   "道侣": "đạo lữ",
+   "反噬": "phản phệ"
+  },
+  "address": [
+   {
+    "from": "C1",
+    "to": "C2",
+    "self": "lão phu",
+    "other": "chưởng môn",
+    "fromEp": "1",
+    "why": "Lâm Mặc là tạp dịch già, xưng hô với chưởng môn"
+   },
+   {
+    "from": "C2",
+    "to": "C1",
+    "self": "bản cung",
+    "other": "ngươi",
+    "fromEp": "1",
+    "why": "Liễu Tử Yên là chưởng môn, xưng hô với tạp dịch"
+   },
+   {
+    "from": "C1",
+    "to": "C3",
+    "self": "lão hủ",
+    "other": "ngài",
+    "fromEp": "2",
+    "why": "Lâm Mặc xưng hô với quản sự Triệu Chủ Thần"
+   },
+   {
+    "from": "C3",
+    "to": "C1",
+    "self": "ta",
+    "other": "ngươi",
+    "fromEp": "2",
+    "why": "Triệu Chủ Thần xưng hô với tạp dịch Lâm Mặc"
+   },
+   {
+    "from": "C1",
+    "to": "C4",
+    "self": "lão phu",
+    "other": "Thánh nữ",
+    "fromEp": "2",
+    "why": "Lâm Mặc xưng hô với Thánh nữ"
+   },
+   {
+    "from": "C4",
+    "to": "C1",
+    "self": "ta",
+    "other": "Lâm lão phu",
+    "fromEp": "2",
+    "why": "Thánh nữ xưng hô với Lâm Mặc"
+   },
+   {
+    "from": "C5",
+    "to": "C4",
+    "self": "đệ tử",
+    "other": "sư tôn",
+    "fromEp": "2",
+    "why": "Tô Vũ là đệ tử của Thánh nữ"
+   },
+   {
+    "from": "C4",
+    "to": "C2",
+    "self": "đệ tử",
+    "other": "sư tôn",
+    "fromEp": "2",
+    "why": "Thánh nữ là đệ tử của Liễu Tử Yên"
+   }
+  ],
+  "doubts": [
+   "\"紫天灵根\" và \"紫天尊\" trong tập 2 có thể là lỗi ASR của \"Tử Thiên Tông\" (紫天宗) hoặc một địa danh/cảnh giới đặc biệt, chưa đủ ngữ cảnh khẳng định.",
+   "Cụm S3 tập 2 chứa thoại của cả Triệu Chủ Thần và Lâm Mặc, đã gán cho Triệu Chủ Thần do số câu nhiều hơn.",
+   "\"柳紫嫣\" (tập 1) và \"刘紫嫣\" (tập 2) là cùng một người, đã lấy \"柳紫嫣\" làm chuẩn.",
+   "\"掌门大阵\" xuất hiện nhiều lần trong tập 2, khả năng cao là ASR nhầm của \"掌门大人\" (Chưởng môn đại nhân), đã đưa vào alias của Liễu Tử Yên."
+  ]
+ }
+}

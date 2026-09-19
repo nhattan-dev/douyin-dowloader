@@ -1,0 +1,320 @@
+{
+  "cast": [
+    {
+      "id": "C1",
+      "name": "前辈/本座",
+      "note": "高阶修士，可能是金丹后期或元婴，拥有铜片，赶时间，实力强大"
+    },
+    {
+      "id": "C2",
+      "name": "晚辈/道友",
+      "note": "低阶修士，负责拍卖，被前辈吩咐，后遇劫匪"
+    },
+    {
+      "id": "C3",
+      "name": "劫匪/老夫",
+      "note": "金丹境修士，想抢劫，被反杀"
+    },
+    {
+      "id": "C4",
+      "name": "旁白",
+      "note": "叙述者"
+    }
+  ],
+  "lines": [
+    {
+      "line": 1,
+      "speaker": "C1",
+      "confidence": 0.7,
+      "cue": "感叹铜片不简单，可能是前辈"
+    },
+    {
+      "line": 2,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "旁白叙述时间流逝"
+    },
+    {
+      "line": 3,
+      "speaker": "C1",
+      "confidence": 0.6,
+      "cue": "希望开启新功能，可能是前辈"
+    },
+    {
+      "line": 4,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "称呼前辈，晚辈口吻"
+    },
+    {
+      "line": 5,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "询问前辈吩咐"
+    },
+    {
+      "line": 6,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "前辈介绍妖兽"
+    },
+    {
+      "line": 7,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "前辈吩咐拍卖"
+    },
+    {
+      "line": 8,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "描述皮毛完好"
+    },
+    {
+      "line": 9,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "描述内丹还在"
+    },
+    {
+      "line": 10,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "评价价值连城"
+    },
+    {
+      "line": 11,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "称呼前辈"
+    },
+    {
+      "line": 12,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈分析运作得当"
+    },
+    {
+      "line": 13,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "估计拍卖价格"
+    },
+    {
+      "line": 14,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "前辈说能卖多少是多少"
+    },
+    {
+      "line": 15,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "自称本座赶时间"
+    },
+    {
+      "line": 16,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "晚辈回应前辈放心"
+    },
+    {
+      "line": 17,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "晚辈保证办妥"
+    },
+    {
+      "line": 18,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "前辈叮嘱不得声张"
+    },
+    {
+      "line": 19,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "晚辈明白"
+    },
+    {
+      "line": 20,
+      "speaker": "C2",
+      "confidence": 0.9,
+      "cue": "晚辈保证不泄露"
+    },
+    {
+      "line": 21,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "旁白叙述发现金丹"
+    },
+    {
+      "line": 22,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说跟了这么久"
+    },
+    {
+      "line": 23,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪叫道友出来"
+    },
+    {
+      "line": 24,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈夸神识敏锐"
+    },
+    {
+      "line": 25,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈指出尾随"
+    },
+    {
+      "line": 26,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈问想干什么"
+    },
+    {
+      "line": 27,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪叹气"
+    },
+    {
+      "line": 28,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说同为金丹"
+    },
+    {
+      "line": 29,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说身家不菲"
+    },
+    {
+      "line": 30,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪自称老夫手头紧"
+    },
+    {
+      "line": 31,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪要借灵石"
+    },
+    {
+      "line": 32,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈说命只值60万"
+    },
+    {
+      "line": 33,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈骂心近金丹嚣张"
+    },
+    {
+      "line": 34,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪惊讶"
+    },
+    {
+      "line": 35,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说敬酒不吃"
+    },
+    {
+      "line": 36,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说受死"
+    },
+    {
+      "line": 37,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "旁白叙述极品宝器"
+    },
+    {
+      "line": 38,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说翅膀归我"
+    },
+    {
+      "line": 39,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈说想要自己来拿"
+    },
+    {
+      "line": 40,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈挑衅"
+    },
+    {
+      "line": 41,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说不可能"
+    },
+    {
+      "line": 42,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪喊破"
+    },
+    {
+      "line": 43,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪说还给你死"
+    },
+    {
+      "line": 44,
+      "speaker": "C3",
+      "confidence": 0.8,
+      "cue": "劫匪问你是谁"
+    },
+    {
+      "line": 45,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈说粉碎不堪一击"
+    },
+    {
+      "line": 46,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "晚辈说老狗肥"
+    },
+    {
+      "line": 47,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "旁白叙述极北之地"
+    },
+    {
+      "line": 48,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "旁白叙述上古修士"
+    },
+    {
+      "line": 49,
+      "speaker": "C1",
+      "confidence": 0.8,
+      "cue": "前辈说该去取乾蓝冰焰"
+    }
+  ]
+}

@@ -1,0 +1,114 @@
+{
+ "model": "qwen-vl-max",
+ "frames": 8,
+ "lines": {
+  "2": {
+   "pred": "玉面狐狸",
+   "why": "nữ nhân vật có đuôi cáo trắng, trâm bạc hình lá, đang cử động miệng trong khung",
+   "t": 8.08
+  },
+  "3": {
+   "pred": "小钻风",
+   "why": "nhân vật nam có tai nhọn và khăn quấn đầu đang cử động miệng trong các khung hình",
+   "t": 11.6
+  },
+  "4": {
+   "pred": "玉面狐狸",
+   "why": "nữ nhân vật có đuôi cáo trắng, trang phục lụa trắng bạc, trâm cài hình lá/hoa, đang cử động miệng khi nói",
+   "t": 16.4
+  },
+  "12": {
+   "pred": "小钻风",
+   "why": "khung hình cuối cùng có nhân vật nam trẻ với tai nhọn, đầu quấn khăn vải xám tối, mặt có vết sẹo/vằn xanh, đang mở miệng nói",
+   "t": 44.55
+  },
+  "13": {
+   "pred": "小钻风",
+   "why": "nhân vật nam trẻ với khăn quấn đầu, áo giáp da rách rưới và vết sẹo trên mặt đang cử động miệng trong các khung hình",
+   "t": 50.75
+  },
+  "19": {
+   "pred": "小钻风",
+   "why": "khung 1-4 rõ ràng thấy miệng nhân vật nam trẻ với tai nhọn, khăn đầu xám và sẹo mặt đang cử động khi nói",
+   "t": 111.6
+  },
+  "21": {
+   "pred": "白骨夫人",
+   "why": "nhân vật nữ đội mũ miện xương nhọn, váy voan trắng xám, có hình dáng bộ xương, miệng mở khi nói",
+   "t": 139.4
+  },
+  "26": {
+   "pred": "白骨夫人",
+   "why": "khung 7 và 8 là cận mặt nữ nhân vật có mũ miện, trang sức phức tạp, máu chảy từ mắt, không có đuôi, phù hợp với đặc điểm Bạch Cốt Phu Nhân",
+   "t": 165.27
+  },
+  "27": {
+   "pred": "khong_chac",
+   "why": "không có khung nào hiển thị rõ mặt nhân vật đang cử động miệng",
+   "t": 168.71
+  },
+  "30": {
+   "pred": "白骨夫人",
+   "why": "mặt nữ nhân vật ở giữa có mũ miện xương nhọn và biểu cảm miệng cử động rõ ràng khi nói",
+   "t": 201.64
+  },
+  "38": {
+   "pred": "小钻风",
+   "why": "nhân vật nam có tai nhọn, đầu quấn khăn vải xám tối, mặt có vết sẹo/vằn xanh, đang cử động miệng trong các khung hình",
+   "t": 234.35
+  },
+  "40": {
+   "pred": "玉面狐狸",
+   "why": "khẩu hình của nữ nhân vật mặc váy đỏ, tóc búi cài trâm đỏ, đang nói trong khi ôm người đàn ông",
+   "t": 241.82
+  },
+  "41": {
+   "pred": "玉面狐狸",
+   "why": "khẩu hình của nữ nhân vật có trang sức đỏ và tóc búi cài trâm, đang cử động miệng trong các khung hình",
+   "t": 247.1
+  }
+ },
+ "clusters": {
+  "S0": {
+   "votes": {
+    "小钻风": 4,
+    "玉面狐狸": 1,
+    "白骨夫人": 1
+   },
+   "probed": [
+    3,
+    4,
+    13,
+    19,
+    26,
+    38
+   ],
+   "size": 11,
+   "name": "小钻风",
+   "cid": "C1",
+   "split": false,
+   "sure": true
+  },
+  "S1": {
+   "votes": {
+    "玉面狐狸": 3,
+    "小钻风": 1,
+    "白骨夫人": 2
+   },
+   "probed": [
+    2,
+    12,
+    21,
+    27,
+    30,
+    40,
+    41
+   ],
+   "size": 31,
+   "name": "玉面狐狸",
+   "cid": "C2",
+   "split": false,
+   "sure": true
+  }
+ }
+}

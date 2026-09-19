@@ -1,0 +1,212 @@
+{
+ "0": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "1": {
+  "score": 4,
+  "issue": "'Liệp Yêu Soái' chưa khớp thuật ngữ 'Yêu Soái'; sắc thái chơi chữ ổn",
+  "fix": "Thế nhân chỉ biết chữ 'liệp' trong Yêu Soái là liệp sát, nào hay cũng có thể là liệt của liệt hỏa."
+ },
+ "2": {
+  "score": 3,
+  "issue": "'Tịnh Không Trận' không có trong bảng thuật ngữ (bảng ghi Tỏa Thiên Trận); 'đại vương' dịch từ 大王 ổn nhưng 'xông trận' hơi lệch",
+  "fix": "Tịnh Không Trận vừa vang, quanh đây e có đại vương xông vào trận, đại vương bị cấm chế trên cao đè, đừng để bị phát hiện."
+ },
+ "3": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "4": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "5": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "6": {
+  "score": 4,
+  "issue": "'xuyên qua bảy tám chỗ đại yêu' hơi tối nghĩa, nhưng sát gốc",
+  "fix": ""
+ },
+ "7": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "8": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "9": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "10": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "11": {
+  "score": 4,
+  "issue": "'sống được thì sống' hơi mất sắc thái 'có thể nấp thì nấp' của 苟",
+  "fix": "Ta về Động Thiên trước, ngươi đi xem hắn cho tốt, đừng cố sức, nấp được thì nấp."
+ },
+ "12": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "13": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "14": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "15": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "16": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "17": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "18": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "19": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "20": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "21": {
+  "score": 4,
+  "issue": "'Liệp Yêu Soái' viết hoa không nhất quán với thuật ngữ 'Yêu Soái'",
+  "fix": ""
+ },
+ "22": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "23": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "24": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "25": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "26": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "27": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "28": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "29": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "30": {
+  "score": 2,
+  "issue": "Tên nhân vật sai: 婉青萝 là Uyển Thanh La, không phải Thanh La; còn đảo trật tự từ",
+  "fix": "Uyển Thanh La, cứu được trên đường."
+ },
+ "31": {
+  "score": 3,
+  "issue": "Xưng hô sai: S2 gọi S3 phải là 'ngươi', không phải 'tiên tử'; 'đi mặt đất' lặp từ không tự nhiên",
+  "fix": "Bái kiến, cái này không phải phù trận, mà là Tỏa Thiên Trận của Lâm Sương Thành, càng lên cao càng đè nặng, đi dưới đất thì vô ngại, xuyên qua Đoạn Phong Cốc là tới Bắc Môn."
+ },
+ "32": {
+  "score": 4,
+  "issue": "'đi mặt đất' hơi cứng, nên là 'đi dưới đất'",
+  "fix": "Vậy thì đi dưới đất vào thành xem sao."
+ },
+ "33": {
+  "score": 3,
+  "issue": "Câu bị cắt cụt, mất ý '恐怕我那...' chưa dịch hết",
+  "fix": "Vào thành cần kiểm tra thân phận, e là ta..."
+ },
+ "34": {
+  "score": 3,
+  "issue": "'bọn chúng' thêm ý không có trong gốc; gốc chỉ nói 'bọn họ' trung tính",
+  "fix": "Không cho bọn họ kiểm tra nữa."
+ },
+ "35": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "36": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "37": {
+  "score": 3,
+  "issue": "Xưng hô sai: S3 gọi S2 phải là 'ngươi', không phải 'các ngươi'",
+  "fix": "Lát nữa ta lại tìm ngươi, đừng đi xa quá."
+ },
+ "38": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "39": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ },
+ "40": {
+  "score": 4,
+  "issue": "'khách điếm' là Hán-Việt, thoại phim nên dùng 'khách sạn' hoặc 'quán trọ'",
+  "fix": "Tới quán trọ trước nghỉ chân, tiện thể nghe ngóng chút tin tức."
+ },
+ "41": {
+  "score": 5,
+  "issue": "",
+  "fix": ""
+ }
+}

@@ -1,0 +1,12 @@
+{
+  "bachanphong": {
+    "ref": "speakers/bachanphong.wav",
+    "vi": "Bắc Hàn Phong",
+    "note": "cắt từ 7671277280118852883 @ 66.1s: 听说极北深处出了异象 连金丹老怪都进去了"
+  },
+  "chutiem": {
+    "ref": "speakers/chutiem.wav",
+    "vi": "Chủ tiệm Hàn Y Các",
+    "note": "cắt từ 7671277280118852883 @ 138.5s: 最近极北之地不太平 据说有上动物出事 昨日有四个金丹往北去了"
+  }
+}

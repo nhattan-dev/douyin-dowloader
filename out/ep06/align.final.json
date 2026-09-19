@@ -1,0 +1,167 @@
+{
+ "speakerMap": {
+  "S0": "C1",
+  "S1": "C2"
+ },
+ "clusters": {
+  "S0": {
+   "cid": "C1",
+   "level": "confirmed",
+   "why": "text + hình cùng chỉ một người",
+   "text": "C1",
+   "textVerified": true,
+   "vision": "C1",
+   "visionSure": true,
+   "veto": [
+    "C10",
+    "C7"
+   ],
+   "size": 11,
+   "votes": {
+    "小钻风": 4,
+    "玉面狐狸": 1,
+    "白骨夫人": 1
+   },
+   "probed": [
+    3,
+    4,
+    13,
+    19,
+    26,
+    38
+   ]
+  },
+  "S1": {
+   "cid": "C2",
+   "level": "conflict",
+   "why": "text=C14 nhưng hình=C2 -> theo hình",
+   "text": "C14",
+   "textVerified": false,
+   "vision": "C2",
+   "visionSure": true,
+   "veto": [
+    "C1"
+   ],
+   "size": 31,
+   "votes": {
+    "玉面狐狸": 3,
+    "小钻风": 1,
+    "白骨夫人": 2
+   },
+   "probed": [
+    2,
+    12,
+    21,
+    27,
+    30,
+    40,
+    41
+   ]
+  }
+ },
+ "suspects": {
+  "1": [
+   "cụm conflict"
+  ],
+  "2": [
+   "cụm conflict"
+  ],
+  "4": [
+   "hình gọi tên khác"
+  ],
+  "5": [
+   "cụm conflict"
+  ],
+  "6": [
+   "cụm conflict"
+  ],
+  "7": [
+   "cụm conflict"
+  ],
+  "9": [
+   "cụm conflict"
+  ],
+  "10": [
+   "cụm conflict"
+  ],
+  "11": [
+   "cụm conflict"
+  ],
+  "12": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "16": [
+   "cụm conflict"
+  ],
+  "17": [
+   "cụm conflict"
+  ],
+  "18": [
+   "cụm conflict"
+  ],
+  "20": [
+   "cụm conflict"
+  ],
+  "21": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "22": [
+   "cụm conflict"
+  ],
+  "24": [
+   "cụm conflict"
+  ],
+  "25": [
+   "cụm conflict"
+  ],
+  "26": [
+   "hình gọi tên khác"
+  ],
+  "27": [
+   "cụm conflict"
+  ],
+  "28": [
+   "cụm conflict"
+  ],
+  "29": [
+   "cụm conflict"
+  ],
+  "30": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "31": [
+   "cụm conflict"
+  ],
+  "32": [
+   "cụm conflict"
+  ],
+  "33": [
+   "cụm conflict"
+  ],
+  "34": [
+   "cụm conflict"
+  ],
+  "35": [
+   "cụm conflict"
+  ],
+  "36": [
+   "cụm conflict"
+  ],
+  "37": [
+   "cụm conflict"
+  ],
+  "39": [
+   "cụm conflict"
+  ],
+  "40": [
+   "cụm conflict"
+  ],
+  "41": [
+   "cụm conflict"
+  ]
+ },
+ "human": null
+}

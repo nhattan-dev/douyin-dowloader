@@ -1,0 +1,325 @@
+{
+  "cast": [
+    {
+      "id": "C1",
+      "name": "前辈",
+      "note": "Một nhân vật có kinh nghiệm, được xưng hô là '前辈'."
+    },
+    {
+      "id": "C2",
+      "name": "晚辈",
+      "note": "Một nhân vật trẻ hơn, xưng hô là '晚辈'."
+    },
+    {
+      "id": "C3",
+      "name": "道友",
+      "note": "Một nhân vật khác, được xưng hô là '道友'."
+    },
+    {
+      "id": "C4",
+      "name": "老夫",
+      "note": "Một nhân vật lớn tuổi, xưng hô là '老夫'."
+    },
+    {
+      "id": "C5",
+      "name": "UNKNOWN",
+      "note": "Nhân vật không xác định, có thể là một nhân vật phụ hoặc không rõ danh tính."
+    }
+  ],
+  "lines": [
+    {
+      "line": 1,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 2,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc chờ đợi, có thể là nhân vật trẻ."
+    },
+    {
+      "line": 3,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về hy vọng, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 4,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Xưng hô '前辈', có thể là nhân vật lớn tuổi."
+    },
+    {
+      "line": 5,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Hỏi về chỉ thị, phù hợp với nhân vật lớn tuổi."
+    },
+    {
+      "line": 6,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về một con quái vật, có thể là nhân vật trẻ."
+    },
+    {
+      "line": 7,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc chụp ảnh, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 8,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về tình trạng của con quái vật, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 9,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về nội đan, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 10,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về giá trị, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 11,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Xưng hô '前辈', có thể là nhân vật lớn tuổi."
+    },
+    {
+      "line": 12,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc vận hành, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 13,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về giá trị, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 14,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về giá trị, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 15,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về thời gian, phù hợp với nhân vật lớn tuổi."
+    },
+    {
+      "line": 16,
+      "speaker": "C1",
+      "confidence": 0.9,
+      "cue": "Nói về sự yên tâm, phù hợp với nhân vật lớn tuổi."
+    },
+    {
+      "line": 17,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc đảm bảo, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 18,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về sự bí mật, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 19,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về sự hiểu biết, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 20,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về sự đảm bảo, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 21,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 22,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 23,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Nói về việc gặp gỡ, có thể là nhân vật khác."
+    },
+    {
+      "line": 24,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Nói về sự nhạy bén, có thể là nhân vật khác."
+    },
+    {
+      "line": 25,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Nói về việc theo dõi, có thể là nhân vật khác."
+    },
+    {
+      "line": 26,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Hỏi về mục đích, có thể là nhân vật khác."
+    },
+    {
+      "line": 27,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 28,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Nói về cấp bậc, có thể là nhân vật khác."
+    },
+    {
+      "line": 29,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Nói về tài sản, có thể là nhân vật khác."
+    },
+    {
+      "line": 30,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Xưng hô '老夫', có thể là nhân vật lớn tuổi."
+    },
+    {
+      "line": 31,
+      "speaker": "C4",
+      "confidence": 0.9,
+      "cue": "Nói về việc vay mượn, có thể là nhân vật lớn tuổi."
+    },
+    {
+      "line": 32,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về giá trị mạng sống, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 33,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về sự kiêu ngạo, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 34,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 35,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về sự phạt, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 36,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về cái chết, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 37,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 38,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc chiếm đoạt, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 39,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc lấy đồ, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 40,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc tự mình làm, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 41,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 42,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về việc phá hủy, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 43,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về cái chết, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 44,
+      "speaker": "C3",
+      "confidence": 0.7,
+      "cue": "Hỏi về danh tính, có thể là nhân vật khác."
+    },
+    {
+      "line": 45,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về sự yếu đuối, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 46,
+      "speaker": "C2",
+      "confidence": 0.8,
+      "cue": "Nói về tình trạng, phù hợp với nhân vật trẻ."
+    },
+    {
+      "line": 47,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 48,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    },
+    {
+      "line": 49,
+      "speaker": "C5",
+      "confidence": 0.1,
+      "cue": "Không đủ thông tin để xác định."
+    }
+  ]
+}

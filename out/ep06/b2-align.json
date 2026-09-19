@@ -1,0 +1,38 @@
+{
+ "premise": "Tiểu Toản Phong đơn thương độc mã đến cứu Hồng Châu, đánh bại Đại tỷ Bàn Ty Động rồi lắng nghe Hồng Châu bộc bạch quá khứ bi thương và thân thế thượng cổ hắc chu của nàng.",
+ "speakers": [
+  {
+   "speaker": "S0",
+   "cast": "C1",
+   "conf": 0.95,
+   "evidence": [
+    {
+     "line": 11,
+     "type": "addressed",
+     "name": "钻钻"
+    }
+   ]
+  },
+  {
+   "speaker": "S1",
+   "cast": "C14",
+   "conf": 0.85,
+   "evidence": [
+    {
+     "line": 40,
+     "type": "addressed",
+     "name": "洞主"
+    }
+   ]
+  }
+ ],
+ "newTerms": {
+  "结发之亲": "Kết phát chi thân",
+  "纯阳道": "Thuần Dương Đạo",
+  "杀猪阵": "Sát Trư Trận",
+  "奴契": "Nô khế",
+  "白面妖君": "Bạch Diện Yêu Quân",
+  "元阳": "Nguyên dương",
+  "上古黑蛛": "Thượng cổ hắc chu"
+ }
+}

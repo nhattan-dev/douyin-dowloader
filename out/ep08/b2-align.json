@@ -1,0 +1,43 @@
+{
+ "premise": "Tiểu Toản Phong cứu Xà Trạch nữ yêu và cùng nàng tiến vào Lâm Sương Thành để tìm manh mối về người chị mất tích, đồng thời đón Thanh La nhập hội.",
+ "speakers": [
+  {
+   "speaker": "S1",
+   "cast": "C2",
+   "conf": 0.4,
+   "evidence": []
+  },
+  {
+   "speaker": "S2",
+   "cast": "C15",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 20,
+     "type": "selfName",
+     "name": "蛇泽"
+    }
+   ]
+  },
+  {
+   "speaker": "S3",
+   "cast": "C1",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 26,
+     "type": "addressed",
+     "name": "色妖"
+    }
+   ]
+  }
+ ],
+ "newTerms": {
+  "猎妖帅": "Liệp Yêu Soái",
+  "净空阵": "Tịnh Không Trận",
+  "蛇蜕": "xà thoái",
+  "猎妖者": "Liệp Yêu Giả",
+  "婉青萝": "Uyển Thanh La",
+  "符阵": "phù trận"
+ }
+}

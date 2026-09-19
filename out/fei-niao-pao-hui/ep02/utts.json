@@ -1,0 +1,1749 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 0.16,
+  "end": 4.2,
+  "zh_raw": "第一步，先用顾言对我的情爱之心，慢慢在顾家站稳脚。",
+  "zh": "第一步，先用顾言对我的情劫之心，慢慢在顾家站稳脚。",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "情爱",
+    "to": "情劫",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 1,
+  "speaker": "S0",
+  "start": 4.32,
+  "end": 4.96,
+  "zh_raw": "冷冷。",
+  "zh": "冷冷。",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 2,
+  "speaker": "S0",
+  "start": 5.08,
+  "end": 8.6,
+  "zh_raw": "第二步，暗中积攒实力，找到当年的幕后凶手。",
+  "zh": "第二步，暗中积攒实力，找到当年的幕后凶手。",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 3,
+  "speaker": "S0",
+  "start": 9.6,
+  "end": 10.6,
+  "zh_raw": "这臭男人真烦。",
+  "zh": "这臭男人真烦。",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 4,
+  "speaker": "S1",
+  "start": 10.8,
+  "end": 15,
+  "zh_raw": "清秋啊，我想问你啊，冷冷清清秋秋，你喜欢我喊你哪个？",
+  "zh": "清秋啊，我想问你啊，冷冷清清秋秋，你喜欢我喊你哪个？",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 5,
+  "speaker": "S0",
+  "start": 15.12,
+  "end": 19,
+  "zh_raw": "这都什么鬼称呼啊，我哪个都不喜欢，你最好赶紧走。",
+  "zh": "这都什么鬼称呼啊，我哪个都不喜欢，你最好赶紧走！",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 6,
+  "speaker": "S1",
+  "start": 19.36,
+  "end": 24,
+  "zh_raw": "哦，一定是都不喜欢，那我喊你老婆宝宝好不好？",
+  "zh": "哦，一定是都不喜欢，那我喊你老婆宝宝好不好？",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 7,
+  "speaker": "S1",
+  "start": 24.12,
+  "end": 24.62,
+  "zh_raw": "这这这。",
+  "zh": "这这这。",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 8,
+  "speaker": "S2",
+  "start": 24.98,
+  "end": 27.22,
+  "zh_raw": "怎么会有人说出这么肉麻恶心的词语啊？",
+  "zh": "怎么会有人说出这么肉麻恶心的词语啊？",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 9,
+  "speaker": "S0",
+  "start": 27.5,
+  "end": 28.66,
+  "zh_raw": "都都不喜欢。",
+  "zh": "都都不喜欢。",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 10,
+  "speaker": "S1",
+  "start": 28.86,
+  "end": 29.98,
+  "zh_raw": "你还是喊我青丘吧。",
+  "zh": "你还是喊我青丘吧。",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 11,
+  "speaker": "S1",
+  "start": 30.14,
+  "end": 32.62,
+  "zh_raw": "那好，青丘，你现在有什么事情吗？",
+  "zh": "那好，青丘，你现在有什么事情吗？",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 12,
+  "speaker": "S1",
+  "start": 32.82,
+  "end": 33.78,
+  "zh_raw": "要不然我们出去转转。",
+  "zh": "要不然我们出窍转转。",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "出去",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "出去",
+    "to": "出窍",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 13,
+  "speaker": "S0",
+  "start": 33.86,
+  "end": 36.5,
+  "zh_raw": "没空，我现在很忙，我要看书了。",
+  "zh": "没空，我现在很忙，我要看书了。",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 14,
+  "speaker": "S1",
+  "start": 36.62,
+  "end": 37.5,
+  "zh_raw": "麻烦你安静些。",
+  "zh": "麻烦你安静些。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 15,
+  "speaker": "S1",
+  "start": 37.66,
+  "end": 39.7,
+  "zh_raw": "好，我就在这看着青丘你。",
+  "zh": "好，我就在这看着青丘。",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "青丘你",
+    "to": "青丘",
+    "kind": "drop",
+    "sim": 0,
+    "why": "人称冗余，'看着青丘你'不符合中文口语习惯，py 'kanzhe qingqiu ni' 中'ni'是冗余宾语代词，属ASR多识；'看着青丘'更自然",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 16,
+  "speaker": "S1",
+  "start": 40.1,
+  "end": 43.02,
+  "zh_raw": "青丘，你是不知道，我只要看见你，我的心就。",
+  "zh": "青丘，你是不知道，我只要看见你，我道心劫。",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "心就",
+    "to": "心劫",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "的心",
+    "to": "道心",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 17,
+  "speaker": "S0",
+  "start": 43.38,
+  "end": 46.74,
+  "zh_raw": "这个死男人，怎么这家伙能这么烦的？",
+  "zh": "这个死男人，怎么这家伙能这么烦的？",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 18,
+  "speaker": "S0",
+  "start": 55.1,
+  "end": 58.38,
+  "zh_raw": "这人是走了，顾言。",
+  "zh": "这人是走了，顾言。",
+  "segmentIndexes": [
+   18
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 19,
+  "speaker": "S3",
+  "start": 62.66,
+  "end": 63.5,
+  "zh_raw": "有了。",
+  "zh": "有了。",
+  "segmentIndexes": [
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 20,
+  "speaker": "S0",
+  "start": 64.98,
+  "end": 67.9,
+  "zh_raw": "这个家伙，怎么不说一声就走了？",
+  "zh": "这家伙，怎么不说一声就走了？",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "这个家伙，怎么不说一声就走了？",
+    "to": "这家伙，怎么不说一声就走了？",
+    "kind": "drop",
+    "sim": 0,
+    "why": "同音简省：'这个家伙'口语常省为'这家伙'，py 'zhe ge jia huo' 与 'zhe jia huo' 仅差'ge'，属ASR多识虚词",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 21,
+  "speaker": "S0",
+  "start": 70.41,
+  "end": 75.45,
+  "zh_raw": "请求拯救纯爱对象积分加10，",
+  "zh": "请求拯救纯爱对象，积分加10。",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 22,
+  "speaker": "S0",
+  "start": 76.53,
+  "end": 81.61,
+  "zh_raw": "自己被人救了，这笑声顾言不对啊，顾言不是走了吗？",
+  "zh": "自己被人界了，这笑声……顾言不对啊，顾言不是走了吗？",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "人救",
+    "to": "人界",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 23,
+  "speaker": "S0",
+  "start": 81.73,
+  "end": 88.33,
+  "zh_raw": "刚才都没回应，难道说你故意不说话，就是为了看我摔一跤，好好好这个混蛋这么玩我是吧？",
+  "zh": "天才都没回应……难道说你故意不说话，就是为了看我摔一跤？好好好，这个混元这么玩我是吧？",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "刚才都没回应，难道说你故意不说话，就是为了看我摔一跤，好好好这个混蛋这么玩我是吧？",
+    "to": "刚才都没回应……难道说你故意不说话，就是为了看我摔一跤？好好好，这个混蛋这么玩我是吧？",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "长句切分+标点修正：py 'gang cai dou mei hui ying' 后应有停顿；'难道说……'是设问，需'？'；'好好好'为独立感叹，需逗号隔开",
+    "conf": 1
+   },
+   {
+    "from": "混蛋",
+    "to": "混元",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "刚才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "刚才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 24,
+  "speaker": "S1",
+  "start": 88.57,
+  "end": 89.57,
+  "zh_raw": "冤枉啊青丘。",
+  "zh": "冤枉啊，青丘！",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "冤枉啊青丘。",
+    "to": "冤枉啊，青丘！",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "人称呼语需顿开+感叹：py 'yuan wang a qing qiu' 中'a'为叹词，'qing qiu'为呼语，必须用逗号隔开；'冤枉啊'带强烈情绪，句末用'！'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 25,
+  "speaker": "S1",
+  "start": 90.55,
+  "end": 92.31,
+  "zh_raw": "那不是你说“别让我说话”的吗？",
+  "zh": "那不是你说‘别让我说话’的吗？",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "那不是你说“别让我说话”的吗？",
+    "to": "那不是你说‘别让我说话’的吗？",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "引号嵌套规范：外双内单，符合中文出版规范；py无影响，属格式修正",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 26,
+  "speaker": "S1",
+  "start": 93.07,
+  "end": 94.43,
+  "zh_raw": "所以我也不敢说啊。",
+  "zh": "所以我也不敢说啊。",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 27,
+  "speaker": "S4",
+  "start": 96.59,
+  "end": 100.87,
+  "zh_raw": "姐，我听到好大一道声音，你没被顾言那个变态怎么？",
+  "zh": "姐，我听到好大贫道声音——你没被顾言那个变态怎么样？",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "姐，我听到好大一道声音，你没被顾言那个变态怎么？",
+    "to": "姐，我听到好大一道声音——你没被顾言那个变态怎么样？",
+    "kind": "homophone",
+    "sim": 0.88,
+    "why": "逻辑衔接：'声音'后需破折号引出后果；'怎么'是'怎么样'的口语省略，py 'zen me' 对应'zhen me yang'，属同音漏字",
+    "conf": 1
+   },
+   {
+    "from": "一道",
+    "to": "贫道",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 28,
+  "speaker": "S0",
+  "start": 103.31,
+  "end": 104.23,
+  "zh_raw": "是灵儿吗？",
+  "zh": "是灵根吗？",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "灵儿",
+    "to": "灵根",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 29,
+  "speaker": "S0",
+  "start": 104.47,
+  "end": 105.55,
+  "zh_raw": "过来帮一下我。",
+  "zh": "过来帮在下我。",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "一下",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 30,
+  "speaker": "S4",
+  "start": 106.39,
+  "end": 108.35,
+  "zh_raw": "哟，还要我帮你吗？",
+  "zh": "哟，还要我帮你吗？",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 31,
+  "speaker": "S4",
+  "start": 109.31,
+  "end": 113.63,
+  "zh_raw": "姐，你才和这种男人见了半天，怎么就发生这种事情了哇？",
+  "zh": "姐，天才和这种男人见了半天，怎么就发生这种事情了？",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "姐，你才和这种男人见了半天，怎么就发生这种事情了哇？",
+    "to": "姐，你才和这种男人见了半天，怎么就发生这种事情了？",
+    "kind": "drop",
+    "sim": 0,
+    "why": "语气词冗余：'哇'是ASR误添，py 'wa' 与真实语流不符；全句是质疑语气，'？'足够",
+    "conf": 1
+   },
+   {
+    "from": "你才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "你才",
+    "to": "天才",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 32,
+  "speaker": "S5",
+  "start": 115.9,
+  "end": 122.34,
+  "zh_raw": "所以说，为了杜绝之后再发生这种事情，你你不准再单独和我的大姐独处了。",
+  "zh": "所以说，为了杜绝之后再发生这种事情，你，不准再单独和我的大阵独处了。",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "你你不准再单独和我的大姐独处了。",
+    "to": "你，不准再单独和我的大姐独处了。",
+    "kind": "drop",
+    "sim": 0,
+    "why": "同音重复：'你你'是ASR重复识别，py 'ni ni' 应为'ni'单次；首字后需逗号强调",
+    "conf": 1
+   },
+   {
+    "from": "大姐",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "大姐",
+    "to": "大阵",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 33,
+  "speaker": "S1",
+  "start": 122.78,
+  "end": 124.7,
+  "zh_raw": "好，我答应你。",
+  "zh": "好，我答应你。",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 34,
+  "speaker": "S1",
+  "start": 126.38,
+  "end": 131.9,
+  "zh_raw": "原著是第五世界，冷清秋后期更是巅峰大宗师，得提前准备。",
+  "zh": "原著是第五世界，冷清秋后期更是巅峰大宗主，得提前准备。",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "宗师",
+    "to": "宗主",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 35,
+  "speaker": "S1",
+  "start": 133.23,
+  "end": 134.87,
+  "zh_raw": "怎么全被红感叹号锁了？",
+  "zh": "怎么全被红感叹号锁了？",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 36,
+  "speaker": "S1",
+  "start": 135.51,
+  "end": 138.11,
+  "zh_raw": "只有这宇宙纯爱功法能看啊。",
+  "zh": "只有这《宇宙纯爱心法》能看啊。",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "只有这宇宙纯爱功法能看啊。",
+    "to": "只有这《宇宙纯爱功法》能看啊。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "专有名词需书名号：'宇宙纯爱功法'是功法名，py无影响，属规范补充；ASR不输出标点，但字幕需合规",
+    "conf": 1
+   },
+   {
+    "from": "功法",
+    "to": "心法",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "功法",
+    "to": "心法",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 37,
+  "speaker": "S5",
+  "start": 138.87,
+  "end": 140.07,
+  "zh_raw": "这是什么鬼？",
+  "zh": "这是什么鬼？",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 38,
+  "speaker": "S5",
+  "start": 140.39,
+  "end": 144.83,
+  "zh_raw": "本系统是纯爱系统，修炼其他功法等于出轨，超级牛头牛行为。",
+  "zh": "本系统是纯爱系统，修炼其他心法等于出关——超级牛头人修为。",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "本系统是纯爱系统，修炼其他功法等于出轨，超级牛头牛行为。",
+    "to": "本系统是纯爱系统，修炼其他功法等于出轨——超级牛头人行为。",
+    "kind": "homophone",
+    "sim": 0.8,
+    "why": "术语修正：'牛头牛'是'牛头人'的ASR听错（'ren'→'niu'），py 'niu tou ren' 被误为'niu tou niu'；'——'连接解释更合理",
+    "conf": 1
+   },
+   {
+    "from": "行为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "出轨",
+    "to": "出关",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "功法",
+    "to": "心法",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "功法",
+    "to": "心法",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 39,
+  "speaker": "S1",
+  "start": 145.19,
+  "end": 147.11,
+  "zh_raw": "你就是个系统管的也太宽了。",
+  "zh": "你就是个系统，管得也太宽了。",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "你就是个系统管的也太宽了。",
+    "to": "你就是个系统，管得也太宽了。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "语法断句：'系统'后需逗号；'管得'是'管'的补语，ASR漏'得'，py 'guan de' 被识为'guan'，需补",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 40,
+  "speaker": "S5",
+  "start": 147.55,
+  "end": 150.99,
+  "zh_raw": "行纯爱之事积纯爱能量，洗涤脉络干啥都事半功倍。",
+  "zh": "行纯爱之事，积纯爱能量；洗髓脉络，干啥都事半功倍。",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "行纯爱之事积纯爱能量，洗涤脉络干啥都事半功倍。",
+    "to": "行纯爱之事，积纯爱能量；洗涤脉络，干啥都事半功倍。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "长句切分：py 'xing chun ai zhi shi ji chun ai neng liang' 与 'xi di mai luo gan sha dou shi ban gong bei' 是两个完整分句，需分号隔开",
+    "conf": 1
+   },
+   {
+    "from": "洗涤",
+    "to": "洗髓",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 41,
+  "speaker": "S1",
+  "start": 151.11,
+  "end": 154.59,
+  "zh_raw": "只要搞纯爱就能变强，这倒是不亏，还差一点得再。",
+  "zh": "只要搞纯爱就能变强，这倒是不亏……还差一点，得再。",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "只要搞纯爱就能变强，这倒是不亏，还差一点得再。",
+    "to": "只要搞纯爱就能变强，这倒是不亏……还差一点，得再。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "语气停顿：'不亏'后有思索停顿；'得再'是'得再攒'省略，py 'de zai' 需逗号分隔",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 42,
+  "speaker": "S5",
+  "start": 154.59,
+  "end": 156.31,
+  "zh_raw": "攒攒顾言你在吗？",
+  "zh": "攒攒……顾言，你在下？",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "攒攒顾言你在吗？",
+    "to": "攒攒……顾言，你在吗？",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "语义分层：'攒攒'是自语重复，后转问顾言，需省略号+逗号；py 'zan zan gu yan' 中'zan zan'独立成词",
+    "conf": 1
+   },
+   {
+    "from": "在吗",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 43,
+  "speaker": "S5",
+  "start": 156.43,
+  "end": 157.27,
+  "zh_raw": "顾言你在吗？",
+  "zh": "顾言你在下？",
+  "segmentIndexes": [
+   42
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "在吗",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 44,
+  "speaker": "S5",
+  "start": 157.43,
+  "end": 158.39,
+  "zh_raw": "顾言你在吗？",
+  "zh": "顾言你在下？",
+  "segmentIndexes": [
+   43
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "在吗",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 45,
+  "speaker": "S1",
+  "start": 158.63,
+  "end": 164.75,
+  "zh_raw": "以前沈婉儿用语音给原主弹了个信息，然后原主就兴高采烈的把这语音做成了沈婉儿的特别关键铃声。",
+  "zh": "以前沈婉儿用语音给教主弹了个信息，然后教主就兴高采烈地仙这语音做成了沈婉儿的特别关注铃声。",
+  "segmentIndexes": [
+   44
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "以前沈婉儿用语音给原主弹了个信息，然后原主就兴高采烈的把这语音做成了沈婉儿的特别关键铃声。",
+    "to": "以前沈婉儿用语音给原主弹了个信息，然后原主就兴高采烈地把这语音做成了沈婉儿的特别关注铃声。",
+    "kind": "homophone",
+    "sim": 0.89,
+    "why": "同音误识：'关键'→'关注'，py 'te bie guan jian' 与 'te bie guan zhu' 极近；'关注铃声'是手机功能术语，'关键铃声'无此说法；'的'→'地'是语法修正（状语）",
+    "conf": 1
+   },
+   {
+    "from": "原主",
+    "to": "教主",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "地把",
+    "to": "地仙",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "原主",
+    "to": "教主",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "地把",
+    "to": "地仙",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 46,
+  "speaker": "S1",
+  "start": 166.19,
+  "end": 169.11,
+  "zh_raw": "目前只有60积分，得多找机会去青丘那儿。",
+  "zh": "目前只有60积分，得多找机缘去青丘那儿。",
+  "segmentIndexes": [
+   45
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "机会",
+    "to": "机缘",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "机会",
+    "to": "机缘",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 47,
+  "speaker": "S6",
+  "start": 169.27,
+  "end": 170.27,
+  "zh_raw": "尽快攒到100积分。",
+  "zh": "尽快攒到100积分。",
+  "segmentIndexes": [
+   46
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 48,
+  "speaker": "S6",
+  "start": 170.67,
+  "end": 173.03,
+  "zh_raw": "各位小姐，你们已经在这里僵持了一个钟头了。",
+  "zh": "各位小姐，你们已经在这里僵持了一个钟头了。",
+  "segmentIndexes": [
+   47
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 49,
+  "speaker": "S2",
+  "start": 173.19,
+  "end": 174.11,
+  "zh_raw": "请问能结账了吗？",
+  "zh": "请问能结账了吗？",
+  "segmentIndexes": [
+   48
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 50,
+  "speaker": "S2",
+  "start": 174.35,
+  "end": 176.27,
+  "zh_raw": "微微丽丽，你们真的没带钱吗？",
+  "zh": "微微丽丽，你们真的没带钱吗？",
+  "segmentIndexes": [
+   49
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 51,
+  "speaker": "S2",
+  "start": 176.43,
+  "end": 178.15,
+  "zh_raw": "婉儿，要不然再给顾妍打一个电话吧。",
+  "zh": "婉儿，要不然再给顾言打一个电话吧。",
+  "segmentIndexes": [
+   50
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "婉儿，要不然再给顾妍打一个电话吧。",
+    "to": "婉儿，要不然再给顾言打一个电话吧。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "人名听错：上下文全程为'顾言'，'顾妍'是ASR将'yan'误为'yan'（同音），但'顾言'为固定人名，py 'gu yan' 一致",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 52,
+  "speaker": "S2",
+  "start": 178.27,
+  "end": 183.55,
+  "zh_raw": "是啊，婉儿，这13万实在是太多了点啊，就算顾妍再忙，见我连续打两个电话，也该明白事情的紧急性。",
+  "zh": "是啊，婉儿，这13万实在是太多了点啊——就算顾言再忙，见我连续打两个电话，也该明白事情的紧急性。",
+  "segmentIndexes": [
+   51
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "是啊，婉儿，这13万实在是太多了点啊，就算顾妍再忙，见我连续打两个电话，也该明白事情的紧急性。",
+    "to": "是啊，婉儿，这13万实在是太多了点啊——就算顾言再忙，见我连续打两个电话，也该明白事情的紧急性。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "逻辑强调：'太多'后需破折号引出让步条件；'顾妍'→'顾言'同上",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 53,
+  "speaker": "S2",
+  "start": 183.67,
+  "end": 187.99,
+  "zh_raw": "您拨打的用户已关机，关机了，就因为我不停打她电话。",
+  "zh": "您拨打的用户已关机，关机了，就修为我不停打她电话。",
+  "segmentIndexes": [
+   52
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "因为",
+    "to": "修为",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 54,
+  "speaker": "S2",
+  "start": 195.16,
+  "end": 197.44,
+  "zh_raw": "我用这个来付可以吗？",
+  "zh": "我用这个来付可以吗？",
+  "segmentIndexes": [
+   53
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 55,
+  "speaker": "S2",
+  "start": 197.8,
+  "end": 199.08,
+  "zh_raw": "欢迎各位下次来光临。",
+  "zh": "欢迎各位下次光临。",
+  "segmentIndexes": [
+   54
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "欢迎各位下次来光临。",
+    "to": "欢迎各位下次光临。",
+    "kind": "drop",
+    "sim": 0,
+    "why": "冗余：'来光临'→'光临'，'来'字多余，py 'lai guang lin' 中'la'易被误识，但'光临'为固定词",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 56,
+  "speaker": "S2",
+  "start": 199.64,
+  "end": 208.72,
+  "zh_raw": "婉儿顾言这个渣男实在是太过分了，居然直接挂断电话，是啊，你可一定要好好的说说他才行，今天敢不接你电话，下次就敢直接骂你了。",
+  "zh": "婉儿，顾言这个渣男实在是太过分了！居然直接挂断电话……是啊，你可一定要好好说说他才行！今天敢不接你电话，下次就敢直接骂你了！",
+  "segmentIndexes": [
+   55
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "婉儿顾言这个渣男实在是太过分了，居然直接挂断电话，是啊，你可一定要好好的说说他才行，今天敢不接你电话，下次就敢直接骂你了。",
+    "to": "婉儿，顾言这个渣男实在是太过分了！居然直接挂断电话……是啊，你可一定要好好说说他才行！今天敢不接你电话，下次就敢直接骂你了！",
+    "kind": "homophone",
+    "sim": 0.99,
+    "why": "多层级语气：'婉儿'呼语逗号；'太过分了'感叹；'挂断电话'后省略号表气愤停顿；'好好说说'删'地'；末句三重递进，均用'！'",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 57,
+  "speaker": "S2",
+  "start": 209.51,
+  "end": 212.15,
+  "zh_raw": "微微，你们说的对，我不会再去理他了。",
+  "zh": "微微，你们说的对，我不会再去理他了。",
+  "segmentIndexes": [
+   56
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 58,
+  "speaker": "S0",
+  "start": 214.15,
+  "end": 217.47,
+  "zh_raw": "好困好累，为什么非得上学不可啊？",
+  "zh": "好困、好累……为什么非得上学不可啊？",
+  "segmentIndexes": [
+   57
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "好困好累，为什么非得上学不可啊？",
+    "to": "好困、好累……为什么非得上学不可啊？",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "并列状态+停顿：'好困好累'需顿号；'累'后省略号表疲惫气声",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 59,
+  "speaker": "S3",
+  "start": 219.67,
+  "end": 220.19,
+  "zh_raw": "呼。",
+  "zh": "呼。",
+  "segmentIndexes": [
+   58
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 60,
+  "speaker": "S5",
+  "start": 220.59,
+  "end": 223.03,
+  "zh_raw": "看来那个大变态好好的听了本小姐的话。",
+  "zh": "看来那个大圆满，好好听了本小姐的话。",
+  "segmentIndexes": [
+   59
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "看来那个大变态好好的听了本小姐的话。",
+    "to": "看来那个大变态，好好听了本小姐的话。",
+    "kind": "homophone",
+    "sim": 0.75,
+    "why": "主谓停顿：'大变态'后需逗号；'好好'是副词，非'好好的'（'的'冗余）",
+    "conf": 1
+   },
+   {
+    "from": "大变态",
+    "to": "大圆满",
+    "kind": "homophone",
+    "sim": 0.43,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "大变态",
+    "to": "大圆满",
+    "kind": "homophone",
+    "sim": 0.43,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ },
+ {
+  "id": 61,
+  "speaker": "S3",
+  "start": 223.51,
+  "end": 223.83,
+  "zh_raw": "嗯。",
+  "zh": "嗯。",
+  "segmentIndexes": [
+   60
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 62,
+  "speaker": "S5",
+  "start": 224.31,
+  "end": 225.43,
+  "zh_raw": "危机解除。",
+  "zh": "危机解除！",
+  "segmentIndexes": [
+   61
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 63,
+  "speaker": "S1",
+  "start": 233.6,
+  "end": 235.08,
+  "zh_raw": "真是个好骗的小丫头。",
+  "zh": "真是个好骗的小丫头！",
+  "segmentIndexes": [
+   62
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 64,
+  "speaker": "S1",
+  "start": 240.4,
+  "end": 241.32,
+  "zh_raw": "休息一会儿吧。",
+  "zh": "休息一会儿吧。",
+  "segmentIndexes": [
+   63
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 65,
+  "speaker": "S1",
+  "start": 241.84,
+  "end": 248.2,
+  "zh_raw": "冷家遭遇惨变，全部重任都寄托在他身上，要寻仇又要防备。",
+  "zh": "冷家遭遇惨变，全部重生都寄托在下身上——要寻仇，又要防备。",
+  "segmentIndexes": [
+   64
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "冷家遭遇惨变，全部重任都寄托在他身上，要寻仇又要防备。",
+    "to": "冷家遭遇惨变，全部重任都寄托在他身上——要寻仇，又要防备。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "总分结构：'寄托'后破折号引出具体任务；'寻仇又要防备'需逗号分隔并列动宾",
+    "conf": 1
+   },
+   {
+    "from": "在他",
+    "to": "在下",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音",
+    "conf": 1
+   },
+   {
+    "from": "重任",
+    "to": "重生",
+    "kind": "homophone",
+    "sim": 0.4,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 66,
+  "speaker": "S1",
+  "start": 249.2,
+  "end": 251.72,
+  "zh_raw": "他明明这么小，压力该有多大？",
+  "zh": "他明明这么小，压力该有多大？",
+  "segmentIndexes": [
+   65
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 67,
+  "speaker": "S0",
+  "start": 253.8,
+  "end": 256.8,
+  "zh_raw": "差点就超过休息时间了，还好还好。",
+  "zh": "差点就超过休息时间了……还好，还好。",
+  "segmentIndexes": [
+   66
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "差点就超过休息时间了，还好还好。",
+    "to": "差点就超过休息时间了……还好，还好。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "'还好'重复需顿开；'了'后省略号表侥幸余韵",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 68,
+  "speaker": "S0",
+  "start": 257.56,
+  "end": 258.04,
+  "zh_raw": "谁？",
+  "zh": "谁？",
+  "segmentIndexes": [
+   67
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true
+ },
+ {
+  "id": 69,
+  "speaker": "S1",
+  "start": 259.16,
+  "end": 263,
+  "zh_raw": "青丘，你别激动，是我是我是你的好老公顾言。",
+  "zh": "青丘，你别激动——是我，是我，是你的好老怪顾言。",
+  "segmentIndexes": [
+   68
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "青丘，你别激动，是我是我是你的好老公顾言。",
+    "to": "青丘，你别激动——是我，是我，是你的好老公顾言。",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "强调重复：'是我'需重复并用逗号；'别激动'后破折号引出安抚主体",
+    "conf": 1
+   },
+   {
+    "from": "老公",
+    "to": "老怪",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "老公",
+    "to": "老怪",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "aligned": true
+ }
+]

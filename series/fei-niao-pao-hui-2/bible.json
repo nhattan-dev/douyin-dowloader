@@ -1,0 +1,319 @@
+{
+ "schema": 1,
+ "series": {
+  "id": "fei-niao-pao-hui-2",
+  "titleZh": "飞鸟炮灰",
+  "titleVi": "Phi Điểu Pháo Hôi",
+  "approved": true,
+  "reviewedBy": "fleex",
+  "inputs": {
+   "glossary": "/home/fleex/WorkSpace/Projects/douyind-downloader/glossary.json",
+   "terms": null,
+   "outRoot": "/home/fleex/WorkSpace/Projects/douyind-downloader/out/fei-niao-pao-hui-2"
+  }
+ },
+ "episodes": [
+  {
+   "ep": "1",
+   "videoId": "7663049726769499455",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAyXMMfqv5wHfLXwar6pJb-WDfjgP06pMgdHSBEJLSKgkDiHg4CrqRg3-7k9VkGZPx/7663049726769499455",
+   "duration": 334,
+   "title": "《飞鸟炮灰》第1集，穿书成舔狗炮灰，我弃绿茶女主狂撩反派盲妻",
+   "hasStt": true,
+   "use": true,
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "ep": "2",
+   "videoId": "7663716416213880070",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAyXMMfqv5wHfLXwar6pJb-WDfjgP06pMgdHSBEJLSKgkDiHg4CrqRg3-7k9VkGZPx/7663716416213880070",
+   "duration": 263,
+   "title": "《飞鸟炮灰》第2集，穿书成舔狗炮灰，我弃绿茶女主狂撩反派盲妻",
+   "hasStt": true,
+   "use": true,
+   "approved": true,
+   "reviewedBy": "fleex"
+  }
+ ],
+ "cast": [
+  {
+   "id": "C1",
+   "zh": "顾言",
+   "vi": "Cố Ngôn",
+   "viShort": "",
+   "gender": "male",
+   "role": "main",
+   "alias": [
+    "顾大阵",
+    "大阵",
+    "顾家少爷",
+    "少爷",
+    "顾妍"
+   ],
+   "note": "Nam chính xuyên sách vào thân phận thiếu gia nhà họ Cố, vốn là chó liếm của Thẩm Uyển Nhi nhưng chuyển sang theo đuổi vợ chưa cưới bị mù là Lãnh Thanh Thu.",
+   "look": "NAM TÓC ĐEN RỐI MẮT ĐỎ, vest đen, cầm điện thoại; không bịt mắt, không phải búp bê.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "id": "C2",
+   "zh": "冷清秋",
+   "vi": "Lãnh Thanh Thu",
+   "viShort": "Thanh Thu",
+   "gender": "female",
+   "role": "main",
+   "alias": [
+    "清秋",
+    "青丘",
+    "大小姐",
+    "冷冷",
+    "冷冷清清秋秋"
+   ],
+   "note": "Nữ chính bị mù, đại tiểu thư nhà họ Lãnh, được hứa hôn từ nhỏ với Cố Ngôn và bí mật là người thực sự nắm quyền gia tộc.",
+   "look": "NỮ TÓC BẠC DÀI BỊT MẮT ĐEN, y phục đen, lông thú đen; không cầm điện thoại.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "id": "C3",
+   "zh": "沈婉儿",
+   "vi": "Thẩm Uyển Nhi",
+   "viShort": "Uyển Nhi",
+   "gender": "female",
+   "role": "episodic",
+   "alias": [
+    "婉儿"
+   ],
+   "note": "Nữ phụ kiểu 'trà xanh', từng là đối tượng si mê của Cố Ngôn trước khi anh xuyên sách đổi lòng.",
+   "look": "NỮ TÓC NÂU ÁO KHOÁC DẠ TWEED HỒNG, kẹp ngọc trai, cầm điện thoại; không tóc bạc, không búp bê.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "id": "C4",
+   "zh": "系统",
+   "vi": "hệ thống",
+   "viShort": "hệ thống",
+   "gender": "?",
+   "role": "main",
+   "alias": [
+    "纯爱系统"
+   ],
+   "note": "Hệ thống thuần ái gắn với Cố Ngôn, thưởng điểm cho các hành động tán tỉnh Lãnh Thanh Thu.",
+   "look": "BÚP BÊ CHIBI TÓC HỒNG NHẠT, cánh tiên hồng, váy trắng ren; không phải người thật.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "id": "C5",
+   "zh": "灵根",
+   "vi": "Linh Căn",
+   "viShort": "",
+   "gender": "female",
+   "role": "episodic",
+   "alias": [
+    "二小姐"
+   ],
+   "note": "Em gái của Lãnh Thanh Thu, lo lắng và cảnh giác trước sự đeo bám của Cố Ngôn.",
+   "look": "NỮ TÓC VÀNG NƠ ĐEN NỬA ĐẦU, cardigan be, váy caro xanh, huy hiệu trường.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "id": "C6",
+   "zh": "冷心安",
+   "vi": "Lãnh Tâm An",
+   "viShort": "",
+   "gender": "male",
+   "role": "episodic",
+   "alias": [
+    "冷家主",
+    "假家主"
+   ],
+   "note": "Chú của Lãnh Thanh Thu, đóng vai gia chủ giả trên danh nghĩa trong khi cháu gái mới là người thực quyền.",
+   "look": "NAM TÓC ĐEN NGẮN VUỐT DỰNG, cổ trang đen cao cổ, mặt chibi; không phụ kiện.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  }
+ ],
+ "address": [
+  {
+   "from": "C1",
+   "to": "C2",
+   "self": "anh",
+   "other": "em",
+   "fromEp": "1",
+   "why": "顾言 chủ động theo đuổi, xưng hô thân mật dù quan hệ hôn ước chưa chính thức.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C2",
+   "to": "C1",
+   "self": "tôi",
+   "other": "anh",
+   "fromEp": "1",
+   "why": "清秋 giữ khoảng cách lịch sự trong khi lợi dụng tình cảm của anh ta cho kế hoạch của mình.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C5",
+   "to": "C2",
+   "self": "em",
+   "other": "chị",
+   "fromEp": "1",
+   "why": "quan hệ chị em ruột.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C2",
+   "to": "C5",
+   "self": "chị",
+   "other": "em",
+   "fromEp": "1",
+   "why": "quan hệ chị em ruột.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C5",
+   "to": "C1",
+   "self": "tôi",
+   "other": "anh",
+   "fromEp": "1",
+   "why": "em gái cảnh giác, giữ khoảng cách với người sắp là anh rể.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C1",
+   "to": "C5",
+   "self": "anh",
+   "other": "em",
+   "fromEp": "1",
+   "why": "vai vế anh rể tương lai với em vợ.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C4",
+   "to": "C1",
+   "self": "hệ thống",
+   "other": "ngươi",
+   "fromEp": "1",
+   "why": "hệ thống xưng hô khách quan, gọi vật chủ là 'ngươi'.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  },
+  {
+   "from": "C1",
+   "to": "C4",
+   "self": "tôi",
+   "other": "ngươi",
+   "fromEp": "2",
+   "why": "顾言 nói chuyện xuề xòa, hơi bực với hệ thống của chính mình.",
+   "approved": true,
+   "reviewedBy": "fleex"
+  }
+ ],
+ "terms": {
+  "纯爱": {
+   "vi": "thuần ái",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "积分": {
+   "vi": "điểm",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "顾家": {
+   "vi": "Cố gia",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "娃娃亲": {
+   "vi": "hôn ước từ nhỏ",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "出窍": {
+   "vi": "xuất khiếu",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "舔狗": {
+   "vi": "chó liếm",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "纯爱对象": {
+   "vi": "đối tượng thuần ái",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "冷家": {
+   "vi": "Lãnh gia",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "绿茶": {
+   "vi": "trà xanh",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "掌门": {
+   "vi": "chưởng môn",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "江海": {
+   "vi": "Giang Hải",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "家主": {
+   "vi": "gia chủ",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  },
+  "修为": {
+   "vi": "tu vi",
+   "approved": true,
+   "source": "series init",
+   "reviewedBy": "fleex"
+  }
+ },
+ "pending": {
+  "terms": {},
+  "cast": [],
+  "address": []
+ },
+ "suspectTerms": {},
+ "doubtsAtInit": [
+  "Cụm giọng S3 ở tập 1 lẫn cả lời độc thoại của Lãnh Thanh Thu (tự xưng tên) và các thông báo cộng điểm của Hệ Thống; việc gán trọn cụm cho một nhân vật là suy đoán có rủi ro.",
+  "Cụm giọng S6 ở tập 2 có một câu có vẻ là suy nghĩ của Cố Ngôn và một câu có vẻ là lời nhân viên quán ăn không tên; đã gán cả cụm cho Cố Ngôn do không đủ căn cứ tạo nhân vật riêng.",
+  "'正道' trong toàn bộ kịch bản này gần như luôn là lỗi ASR nghe nhầm của '知道' (biết), KHÔNG phải thuật ngữ 'Chính đạo' trong glossary — không nên áp nghĩa glossary một cách máy móc.",
+  "'掌门' và '出窍' xuất hiện trong các câu có ngữ pháp lộn xộn, nghi là ASR chèn nhầm; vẫn đưa vào terms theo đúng glossary nhưng người duyệt nên kiểm lại từng câu cụ thể trước khi dịch.",
+  "Nhân vật em gái (id C5) không có tên riêng rõ ràng, chỉ được gọi bằng biệt danh 'linh根' và chức danh 'nhị tiểu thư'; có thể cần cập nhật khi có tên thật ở tập sau.",
+  "'顾大阵' và '顾妍' được xử lý là biến âm/ASR nghe nhầm của tên nhân vật chính 顾言; nếu ở tập sau xuất hiện nhân vật khác thực sự tên như vậy thì cần tách lại.",
+  "Câu 'hệ thống đã ghép đôi thành công với 冷清秋' (tập 1, dòng 23) có thể hiểu hệ thống là của chính Lãnh Thanh Thu thay vì Cố Ngôn; hồ sơ này chọn phương án hệ thống thuộc về Cố Ngôn, target là Lãnh Thanh Thu, cần xác nhận thêm."
+ ],
+ "fromDraft": "514dc9bdee90",
+ "version": "a3103fa087ad"
+}

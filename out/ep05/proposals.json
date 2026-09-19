@@ -1,0 +1,25 @@
+{
+ "terms": {
+  "西溟洞天": "Tây Minh Động Thiên",
+  "百目妖丹": "Bách Mục Yêu Đan",
+  "半截观音": "Bán Tiệt Quan Âm",
+  "唐僧": "Đường Tăng",
+  "李靖": "Lý Tịnh",
+  "哪吒": "Na Tra",
+  "天庭": "Thiên Đình",
+  "空间折跃": "Nhảy vọt không gian"
+ },
+ "unmapped": [
+  {
+   "speaker": "S3",
+   "zh": "小钻风",
+   "why": "trùng nhân vật đã chốt bằng bằng chứng, không đủ căn cứ riêng"
+  },
+  {
+   "speaker": "S5",
+   "zh": "地涌夫人",
+   "why": "trùng nhân vật đã chốt bằng bằng chứng, không đủ căn cứ riêng"
+  }
+ ],
+ "bibleVersion": "e5de075ac827"
+}

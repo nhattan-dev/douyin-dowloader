@@ -1,0 +1,597 @@
+{
+ "schema": 1,
+ "draft": true,
+ "createdAt": "2026-09-17T16:58:24Z",
+ "series": {
+  "id": "fei-niao-pao-hui-2",
+  "titleZh": "飞鸟炮灰",
+  "titleVi": "Phi Điểu Pháo Hôi",
+  "inputs": {
+   "glossary": "/home/fleex/WorkSpace/Projects/douyind-downloader/glossary.json",
+   "terms": null,
+   "outRoot": "/home/fleex/WorkSpace/Projects/douyind-downloader/out/fei-niao-pao-hui-2"
+  }
+ },
+ "episodes": [
+  {
+   "ep": "1",
+   "videoId": "7663049726769499455",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAyXMMfqv5wHfLXwar6pJb-WDfjgP06pMgdHSBEJLSKgkDiHg4CrqRg3-7k9VkGZPx/7663049726769499455",
+   "duration": 334,
+   "title": "《飞鸟炮灰》第1集，穿书成舔狗炮灰，我弃绿茶女主狂撩反派盲妻",
+   "tags": [
+    "ai动画",
+    "甜文",
+    "原创3D动画",
+    "穿书"
+   ],
+   "hasStt": true,
+   "use": true,
+   "why": ""
+  },
+  {
+   "ep": "2",
+   "videoId": "7663716416213880070",
+   "videoDir": "/home/fleex/WorkSpace/Projects/douyind-downloader/data/MS4wLjABAAAAyXMMfqv5wHfLXwar6pJb-WDfjgP06pMgdHSBEJLSKgkDiHg4CrqRg3-7k9VkGZPx/7663716416213880070",
+   "duration": 263,
+   "title": "《飞鸟炮灰》第2集，穿书成舔狗炮灰，我弃绿茶女主狂撩反派盲妻",
+   "tags": [
+    "ai动画",
+    "甜文",
+    "原创3D动画",
+    "穿书"
+   ],
+   "hasStt": true,
+   "use": true,
+   "why": ""
+  }
+ ],
+ "cast": [
+  {
+   "id": "C1",
+   "zh": "顾言",
+   "vi": "Cố Ngôn",
+   "viShort": "",
+   "gender": "male",
+   "role": "main",
+   "alias": [
+    "顾大阵",
+    "大阵",
+    "顾家少爷",
+    "少爷",
+    "顾妍"
+   ],
+   "note": "Nam chính xuyên sách vào thân phận thiếu gia nhà họ Cố, vốn là chó liếm của Thẩm Uyển Nhi nhưng chuyển sang theo đuổi vợ chưa cưới bị mù là Lãnh Thanh Thu.",
+   "clusters": {
+    "1": [
+     "S0"
+    ],
+    "2": [
+     "S1",
+     "S6"
+    ]
+   },
+   "lines": 51,
+   "confidence": 0.9,
+   "doubt": "顾大阵 và 顾妍 được coi là biến âm/ASR nghe nhầm của 顾言, cần xác nhận thêm ở các tập sau.",
+   "samples": [
+    {
+     "ep": "1",
+     "id": 51,
+     "zh": "听说你眼睛失明了，我恨自己在下最需要的时候没陪在下身边，我一直不敢面对你，总觉得自己不配做你的丈夫，所以才妄图借助圣人麻木自己道心，可逆天睡前想到的都是你，清秋不管你变成什么样，我都爱你一辈子对你好。",
+     "start": 239.55,
+     "end": 256.99,
+     "vi": "Nghe nói mắt anh đã mù, em hận bản thân mình đã không ở bên khi anh cần nhất. Em mãi không dám đối diện với anh, luôn cảm thấy mình không xứng làm chồng của anh, nên mới cố tìm đến những lời dạy của bậc thánh nhân để làm tê liệt tâm can. Nhưng ngay trước khi ngủ, trong đầu em vẫn chỉ có hình bóng của anh. Thanh Thu, dù anh có trở thành người như thế nào đi nữa, em vẫn sẽ yêu anh cả đời và hết lòng chăm sóc anh."
+    },
+    {
+     "ep": "2",
+     "id": 64,
+     "zh": "冷家遭遇惨变……全部重任都寄托在他身上，要寻仇，又要防备。",
+     "start": 241.84,
+     "end": 248.2,
+     "vi": "Lãnh gia gặp phải biến cố thảm khốc… Tất cả trọng trách đều đặt lên vai hắn, vừa phải báo thù, vừa phải đề phòng."
+    },
+    {
+     "ep": "1",
+     "id": 0,
+     "zh": "我穿书了，好消息，我穿成了顶级富二代，坏消息是个给绿茶宗主当垫脚石的炮灰舔狗，然而那又怎样？",
+     "start": 0.16,
+     "end": 12.52,
+     "vi": "Tôi xuyên thư rồi, tin tốt là tôi xuyên thành con nhà giàu thế hệ thứ hai hạng nhất, tin xấu là tôi lại là một chú chó liếm làm vật đệm cho tông chủ trà xanh, nhưng dù sao thì đã sao?"
+    },
+    {
+     "ep": "2",
+     "id": 44,
+     "zh": "以前沈婉儿用语音给原主弹了个信息，然后原主就兴高采烈地把这语音做成了沈婉儿的特别关注铃声。",
+     "start": 158.63,
+     "end": 164.75,
+     "vi": "Trước đây, Thẩm Uyển Nhi đã gửi một tin nhắn thoại cho chủ nhân cũ, sau đó chủ nhân cũ hào hứng biến tin nhắn thoại đó thành nhạc chuông đặc biệt dành cho Thẩm Uyển Nhi."
+    }
+   ],
+   "lookRaw": "Nam giới trẻ, TÓC ĐEN RỐI, MẮT ĐỎ, khuyên tai, mặc áo sơ mi trắng khoác vest đen, đeo vòng cổ bạc, luôn cầm điện thoại.",
+   "look": "NAM TÓC ĐEN RỐI MẮT ĐỎ, vest đen, cầm điện thoại; không bịt mắt, không phải búp bê.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nam tóc đen mắt đỏ mặc vest đen xuất hiện lặp lại và khớp giới tính.",
+   "lookFrames": [
+    0,
+    3,
+    4,
+    5,
+    9,
+    10
+   ]
+  },
+  {
+   "id": "C2",
+   "zh": "冷清秋",
+   "vi": "Lãnh Thanh Thu",
+   "viShort": "Thanh Thu",
+   "gender": "female",
+   "role": "main",
+   "alias": [
+    "清秋",
+    "青丘",
+    "大小姐",
+    "冷冷",
+    "冷冷清清秋秋"
+   ],
+   "note": "Nữ chính bị mù, đại tiểu thư nhà họ Lãnh, được hứa hôn từ nhỏ với Cố Ngôn và bí mật là người thực sự nắm quyền gia tộc.",
+   "clusters": {
+    "1": [
+     "S2",
+     "S3",
+     "S5"
+    ],
+    "2": [
+     "S0",
+     "S3"
+    ]
+   },
+   "lines": 46,
+   "confidence": 0.85,
+   "doubt": "Cụm S3 tập 1 lẫn cả lời độc thoại của Lãnh Thanh Thu và thông báo của Hệ Thống, việc gán toàn bộ cho cô là suy đoán.",
+   "samples": [
+    {
+     "ep": "1",
+     "id": 57,
+     "zh": "在下在下这把股份没白送，积分奖励绝对炸裂，我冷清秋自然不是为了真和他做夫妻，但是呢这个顾大阵侠集团股份都掏出窍了，那么我何不将计就计，借助顾少乃至整个顾家集团的力量，把当年杀害父母的幕后凶手一个时辰挖出窍。",
+     "start": 285,
+     "end": 303.52,
+     "vi": "Tôi, tôi đây, số cổ phần này đã không tặng uổng phí, phần thưởng điểm chắc chắn sẽ vô cùng lớn. Lãnh Thanh Thu tôi dĩ nhiên không phải thật sự muốn làm vợ chồng với hắn, nhưng mà Cố đại trượng phu đã xuất khiếu toàn bộ cổ phần rồi, vậy thì sao tôi không nhân cơ hội này, mượn sức mạnh của Cố thiếu và cả tập đoàn Cố gia, trong vòng một canh giờ đào ra kẻ chủ mưu năm xưa đã sát hại cha mẹ tôi."
+    },
+    {
+     "ep": "2",
+     "id": 21,
+     "zh": "请求拯救纯爱对象积分加10，自己被人救了，这笑声顾言不对啊，顾言不是走了吗？",
+     "start": 70.41,
+     "end": 81.61,
+     "vi": "Yêu cầu cứu đối tượng thuần ái, điểm cộng 10; bản thân được người khác cứu, nhưng tiếng cười này của Cố Ngôn có gì đó không ổn, chẳng phải Cố Ngôn đã đi rồi sao?"
+    },
+    {
+     "ep": "1",
+     "id": 14,
+     "zh": "没错，全江海都正道顾大阵是沈婉儿的头号舔狗，此番宗门准圣为了博女神好感，亲手掐了像掌门可能脏他舔狗人界的娃娃亲。",
+     "start": 59.76,
+     "end": 72.4,
+     "vi": "Đúng vậy, khắp Giang Hải, đại quân chính đạo của họ Cố chính là chó liếm số một của Thẩm Uyển Nhi; lần này, vị chưởng môn chuẩn tiên của tông môn vì muốn lấy lòng nữ thần đã tự tay hủy bỏ hôn ước từ nhỏ vốn có thể làm ô uế thế giới của kẻ si tình như ông ta."
+    },
+    {
+     "ep": "2",
+     "id": 22,
+     "zh": "刚才都没回应……难道说你故意不说话，就是为了看我摔一跤？好好好，这个混蛋这么玩我是吧？",
+     "start": 81.73,
+     "end": 88.33,
+     "vi": "Nãy giờ chẳng thấy bạn trả lời gì cả… Chẳng lẽ bạn cố tình không nói, chỉ để xem tôi ngã nhào à? Được rồi được rồi, cái tên khốn này muốn chơi tôi như vậy hả?"
+    }
+   ],
+   "lookRaw": "Nữ tóc bạc dài, bịt mắt đen, trâm cài lông vũ đỏ-đen, khuyên tai tua đỏ, y phục đen cổ cao, lông thú đen.",
+   "look": "NỮ TÓC BẠC DÀI BỊT MẮT ĐEN, y phục đen, lông thú đen; không cầm điện thoại.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nữ tóc bạc bịt mắt xuất hiện lặp lại và khớp giới tính.",
+   "lookFrames": [
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C3",
+   "zh": "沈婉儿",
+   "vi": "Thẩm Uyển Nhi",
+   "viShort": "Uyển Nhi",
+   "gender": "female",
+   "role": "episodic",
+   "alias": [
+    "婉儿"
+   ],
+   "note": "Nữ phụ kiểu 'trà xanh', từng là đối tượng si mê của Cố Ngôn trước khi anh xuyên sách đổi lòng.",
+   "clusters": {
+    "2": [
+     "S2"
+    ]
+   },
+   "lines": 10,
+   "confidence": 0.6,
+   "doubt": "Cụm S2 tập 2 lẫn cả lời của Thẩm Uyển Nhi, bạn bè cô và nhân viên quán ăn; gán cho Thẩm Uyển Nhi vì cô có nhiều lời nhất.",
+   "samples": [
+    {
+     "ep": "2",
+     "id": 55,
+     "zh": "婉儿，顾言这个渣男实在是太过分了……居然直接挂断电话！是啊，你可一定要好好的说说他才行……今天敢不接你电话，下次就敢直接骂你了。",
+     "start": 199.64,
+     "end": 208.72,
+     "vi": "Uyển Nhi, cái tên Cố Ngôn tệ hại này thật quá đáng… Lại còn dứt khoát cúp máy nữa chứ! Đúng vậy, bạn nhất định phải nói cho anh ta biết điều đó mới được… Hôm nay dám không nghe điện của bạn, lần sau lại dám mắng bạn luôn đấy."
+    },
+    {
+     "ep": "2",
+     "id": 51,
+     "zh": "是啊，婉儿，这13万实在是太多了点……就算顾妍再忙，见我连续打两个电话，也该明白事情的紧急性。",
+     "start": 178.27,
+     "end": 183.55,
+     "vi": "Đúng vậy, Uyển Nhi, 13 vạn quả thực là quá nhiều… Dù Cố Nghiên có bận đến đâu, thấy tôi gọi liên tiếp hai cuộc điện thoại như thế, hẳn cũng phải hiểu được mức độ khẩn cấp của sự việc."
+    },
+    {
+     "ep": "2",
+     "id": 52,
+     "zh": "您拨打的用户已关机，关机了，就因为我不停打她电话。",
+     "start": 183.67,
+     "end": 187.99,
+     "vi": "Người mà bạn gọi hiện đang tắt máy, tắt máy rồi, chỉ vì tôi liên tục gọi cho cô ấy."
+    },
+    {
+     "ep": "2",
+     "id": 56,
+     "zh": "微微，你们说的对，我不会再去理他了。",
+     "start": 209.51,
+     "end": 212.15,
+     "vi": "Vi Vi, các bạn nói đúng, tôi sẽ không để ý đến anh ấy nữa."
+    }
+   ],
+   "lookRaw": "Nữ, tóc nâu gợn sóng dài, kẹp ngọc trai, hoa tai ngọc trai, áo khoác dạ TWEED HỒNG, nơ trắng, luôn cầm điện thoại.",
+   "look": "NỮ TÓC NÂU ÁO KHOÁC DẠ TWEED HỒNG, kẹp ngọc trai, cầm điện thoại; không tóc bạc, không búp bê.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật nữ mặc áo hồng cài nơ trắng, tóc nâu xoăn, xuất hiện lặp lại và khớp giới tính.",
+   "lookFrames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C4",
+   "zh": "系统",
+   "vi": "hệ thống",
+   "viShort": "hệ thống",
+   "gender": "?",
+   "role": "main",
+   "alias": [
+    "纯爱系统"
+   ],
+   "note": "Hệ thống thuần ái gắn với Cố Ngôn, thưởng điểm cho các hành động tán tỉnh Lãnh Thanh Thu.",
+   "clusters": {
+    "2": [
+     "S5"
+    ]
+   },
+   "lines": 9,
+   "confidence": 0.7,
+   "doubt": "Câu 'hệ thống đã ghép đôi thành công với Lãnh Thanh Thu' (tập 1) có thể hiểu hệ thống thuộc về cô thay vì Cố Ngôn; đã chọn cách hiểu hệ thống thuộc Cố Ngôn.; tập 1 cụm S3 máy gán cho cả C2 — giữ cho C2",
+   "samples": [
+    {
+     "ep": "2",
+     "id": 31,
+     "zh": "所以说，为了杜绝之后再发生这种事情，你——不准再单独和我的大姐独处了。",
+     "start": 115.9,
+     "end": 122.34,
+     "vi": "Vì vậy, để ngăn chặn chuyện này tái diễn, từ nay trở đi, cậu – không được phép ở riêng với chị cả của tôi nữa."
+    },
+    {
+     "ep": "2",
+     "id": 37,
+     "zh": "本系统是纯爱系统，修炼其他心法等于出关，超级牛头牛修为。",
+     "start": 140.39,
+     "end": 144.83,
+     "vi": "Hệ thống này là hệ thống thuần ái, tu luyện các tâm pháp khác cũng tương đương với xuất quan, tu vi cực kỳ cao cường."
+    },
+    {
+     "ep": "2",
+     "id": 39,
+     "zh": "行纯爱之事，积纯爱能量；洗髓脉络，干啥都事半功倍。",
+     "start": 147.55,
+     "end": 150.99,
+     "vi": "Thực hành thuần ái, tích lũy năng lượng thuần ái; thanh lọc kinh mạch, làm việc gì cũng hiệu quả gấp đôi."
+    },
+    {
+     "ep": "2",
+     "id": 59,
+     "zh": "看来那个大变态好好的听了本小姐的话。",
+     "start": 220.59,
+     "end": 223.03,
+     "vi": "Có vẻ như cái tên biến thái đó đã nghe lời tiểu thư đây rồi."
+    }
+   ],
+   "lookRaw": "BÚP BÊ CHIBI tóc hồng nhạt, mắt đỏ, váy trắng viền ren, mũ ren đen, cánh tiên hồng, tua rua đen.",
+   "look": "BÚP BÊ CHIBI TÓC HỒNG NHẠT, cánh tiên hồng, váy trắng ren; không phải người thật.",
+   "lookSure": true,
+   "lookWhy": "Nhân vật lặp lại ở các khung 4-8, miệng cử động khi nói, khớp giới tính nữ.",
+   "lookFrames": [
+    4,
+    5,
+    6,
+    7,
+    8
+   ]
+  },
+  {
+   "id": "C5",
+   "zh": "灵根",
+   "vi": "Linh Căn",
+   "viShort": "",
+   "gender": "female",
+   "role": "episodic",
+   "alias": [
+    "二小姐"
+   ],
+   "note": "Em gái của Lãnh Thanh Thu, lo lắng và cảnh giác trước sự đeo bám của Cố Ngôn.",
+   "clusters": {
+    "1": [
+     "S1"
+    ],
+    "2": [
+     "S4"
+    ]
+   },
+   "lines": 18,
+   "confidence": 0.65,
+   "doubt": "Không rõ tên thật, chỉ có biệt danh 'linh căn' và chức danh 'nhị tiểu thư' xuất hiện trong lời thoại.",
+   "samples": [
+    {
+     "ep": "1",
+     "id": 44,
+     "zh": "呸你这谎话连篇的男人，先前明明一直苦苦追求沈大小姐的，如今却说喜欢我姐姐岂不可笑？",
+     "start": 207.61,
+     "end": 214.53,
+     "vi": "Phì, cái đồ đàn ông nói dối lia lịa này! Trước đây rõ ràng cứ mãi theo đuổi tiểu thư Thẩm, giờ lại bảo thích chị gái tôi, chẳng phải nực cười lắm sao?"
+    },
+    {
+     "ep": "2",
+     "id": 30,
+     "zh": "姐，你才和这种男人见了半天，怎么就发生这种事情了？",
+     "start": 109.31,
+     "end": 113.63,
+     "vi": "Chị ơi, chị mới gặp kiểu đàn ông này có nửa ngày mà sao đã xảy ra chuyện thế này rồi?"
+    },
+    {
+     "ep": "1",
+     "id": 9,
+     "zh": "顾家当年和爷爷订了门娃娃亲，如今的顾家少爷正准备过来谈掌门亲事呢。",
+     "start": 39.76,
+     "end": 43.96,
+     "vi": "Cố gia năm đó đã định hôn ước từ nhỏ với ông nội, giờ đây thiếu gia Cố gia đang chuẩn bị đến bàn chuyện hôn sự chưởng môn."
+    },
+    {
+     "ep": "2",
+     "id": 26,
+     "zh": "姐，我听到好大贫道声音，你没被顾言那个变态怎么？",
+     "start": 96.59,
+     "end": 100.87,
+     "vi": "Chị ơi, em nghe thấy tiếng của tên đạo đức giả kia rất lớn, chị không bị Cố Ngôn cái tên biến thái đó làm sao à?"
+    }
+   ],
+   "lookRaw": "Nữ tóc vàng dài gợn sóng, nơ đen buộc nửa đầu, mặc áo cardigan be khoác ngoài sơ mi trắng nơ đen, chân váy kẻ caro xanh, cài huy hiệu trường.",
+   "look": "NỮ TÓC VÀNG NƠ ĐEN NỬA ĐẦU, cardigan be, váy caro xanh, huy hiệu trường.",
+   "lookSure": true,
+   "lookWhy": "Cô gái tóc vàng mặc đồng phục học sinh xuất hiện lặp lại và khớp giới tính nữ ở mọi khung.",
+   "lookFrames": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11
+   ]
+  },
+  {
+   "id": "C6",
+   "zh": "冷心安",
+   "vi": "Lãnh Tâm An",
+   "viShort": "",
+   "gender": "male",
+   "role": "episodic",
+   "alias": [
+    "冷家主",
+    "假家主"
+   ],
+   "note": "Chú của Lãnh Thanh Thu, đóng vai gia chủ giả trên danh nghĩa trong khi cháu gái mới là người thực quyền.",
+   "clusters": {
+    "1": [
+     "S4"
+    ]
+   },
+   "lines": 1,
+   "confidence": 0.8,
+   "doubt": "",
+   "samples": [
+    {
+     "ep": "1",
+     "id": 53,
+     "zh": "不是你弟子来真的啊，可可这也太赶了，其实没人正道冷家真正掌权的是我大侄女冷清秋，我冷心安说白了就是个摆在台面上撑场面的假家主罢了，外人若是知晓内丹，肯定看出窍我现在慌的一批。",
+     "start": 259.79,
+     "end": 274.91,
+     "vi": "Không phải đệ tử của ngươi làm thật đấy chứ, Kha Kha, chuyện này đến quá nhanh rồi. Thực ra, người nắm quyền thực sự trong Lãnh gia không ai khác chính là cháu gái lớn của ta, Lãnh Thanh Thu. Nói trắng ra thì ta, Lãnh Tâm An, chỉ là một gia chủ giả mạo đứng trên sân khấu để giữ thể diện mà thôi. Nếu người ngoài biết được chuyện nội đan, chắc chắn sẽ phát hiện ra rằng ta đang xuất khiếu, giờ thì ta hoảng loạn hết cả lên."
+    }
+   ],
+   "lookRaw": "Nam giới tóc đen ngắn vuốt dựng, mặc cổ trang đen cao cổ, khuôn mặt tròn kiểu chibi, không phụ kiện.",
+   "look": "NAM TÓC ĐEN NGẮN VUỐT DỰNG, cổ trang đen cao cổ, mặt chibi; không phụ kiện.",
+   "lookSure": true,
+   "lookWhy": "Cùng khuôn mặt, kiểu tóc và trang phục đen lặp lại ở cả ba khung.",
+   "lookFrames": [
+    0,
+    1,
+    2
+   ]
+  }
+ ],
+ "terms": {
+  "纯爱": {
+   "vi": "thuần ái",
+   "approved": false,
+   "source": "series init"
+  },
+  "积分": {
+   "vi": "điểm",
+   "approved": false,
+   "source": "series init"
+  },
+  "顾家": {
+   "vi": "Cố gia",
+   "approved": false,
+   "source": "series init"
+  },
+  "娃娃亲": {
+   "vi": "hôn ước từ nhỏ",
+   "approved": false,
+   "source": "series init"
+  },
+  "出窍": {
+   "vi": "xuất khiếu",
+   "approved": false,
+   "source": "series init"
+  },
+  "舔狗": {
+   "vi": "chó liếm",
+   "approved": false,
+   "source": "series init"
+  },
+  "纯爱对象": {
+   "vi": "đối tượng thuần ái",
+   "approved": false,
+   "source": "series init"
+  },
+  "冷家": {
+   "vi": "Lãnh gia",
+   "approved": false,
+   "source": "series init"
+  },
+  "绿茶": {
+   "vi": "trà xanh",
+   "approved": false,
+   "source": "series init"
+  },
+  "掌门": {
+   "vi": "chưởng môn",
+   "approved": false,
+   "source": "series init"
+  },
+  "江海": {
+   "vi": "Giang Hải",
+   "approved": false,
+   "source": "series init"
+  },
+  "家主": {
+   "vi": "gia chủ",
+   "approved": false,
+   "source": "series init"
+  },
+  "修为": {
+   "vi": "tu vi",
+   "approved": false,
+   "source": "series init"
+  }
+ },
+ "address": [
+  {
+   "from": "C1",
+   "to": "C2",
+   "self": "anh",
+   "other": "em",
+   "fromEp": "1",
+   "why": "顾言 chủ động theo đuổi, xưng hô thân mật dù quan hệ hôn ước chưa chính thức."
+  },
+  {
+   "from": "C2",
+   "to": "C1",
+   "self": "tôi",
+   "other": "anh",
+   "fromEp": "1",
+   "why": "清秋 giữ khoảng cách lịch sự trong khi lợi dụng tình cảm của anh ta cho kế hoạch của mình."
+  },
+  {
+   "from": "C5",
+   "to": "C2",
+   "self": "em",
+   "other": "chị",
+   "fromEp": "1",
+   "why": "quan hệ chị em ruột."
+  },
+  {
+   "from": "C2",
+   "to": "C5",
+   "self": "chị",
+   "other": "em",
+   "fromEp": "1",
+   "why": "quan hệ chị em ruột."
+  },
+  {
+   "from": "C5",
+   "to": "C1",
+   "self": "tôi",
+   "other": "anh",
+   "fromEp": "1",
+   "why": "em gái cảnh giác, giữ khoảng cách với người sắp là anh rể."
+  },
+  {
+   "from": "C1",
+   "to": "C5",
+   "self": "anh",
+   "other": "em",
+   "fromEp": "1",
+   "why": "vai vế anh rể tương lai với em vợ."
+  },
+  {
+   "from": "C4",
+   "to": "C1",
+   "self": "hệ thống",
+   "other": "ngươi",
+   "fromEp": "1",
+   "why": "hệ thống xưng hô khách quan, gọi vật chủ là 'ngươi'."
+  },
+  {
+   "from": "C1",
+   "to": "C4",
+   "self": "tôi",
+   "other": "ngươi",
+   "fromEp": "2",
+   "why": "顾言 nói chuyện xuề xòa, hơi bực với hệ thống của chính mình."
+  }
+ ],
+ "doubts": [
+  "Cụm giọng S3 ở tập 1 lẫn cả lời độc thoại của Lãnh Thanh Thu (tự xưng tên) và các thông báo cộng điểm của Hệ Thống; việc gán trọn cụm cho một nhân vật là suy đoán có rủi ro.",
+  "Cụm giọng S6 ở tập 2 có một câu có vẻ là suy nghĩ của Cố Ngôn và một câu có vẻ là lời nhân viên quán ăn không tên; đã gán cả cụm cho Cố Ngôn do không đủ căn cứ tạo nhân vật riêng.",
+  "'正道' trong toàn bộ kịch bản này gần như luôn là lỗi ASR nghe nhầm của '知道' (biết), KHÔNG phải thuật ngữ 'Chính đạo' trong glossary — không nên áp nghĩa glossary một cách máy móc.",
+  "'掌门' và '出窍' xuất hiện trong các câu có ngữ pháp lộn xộn, nghi là ASR chèn nhầm; vẫn đưa vào terms theo đúng glossary nhưng người duyệt nên kiểm lại từng câu cụ thể trước khi dịch.",
+  "Nhân vật em gái (id C5) không có tên riêng rõ ràng, chỉ được gọi bằng biệt danh 'linh根' và chức danh 'nhị tiểu thư'; có thể cần cập nhật khi có tên thật ở tập sau.",
+  "'顾大阵' và '顾妍' được xử lý là biến âm/ASR nghe nhầm của tên nhân vật chính 顾言; nếu ở tập sau xuất hiện nhân vật khác thực sự tên như vậy thì cần tách lại.",
+  "Câu 'hệ thống đã ghép đôi thành công với 冷清秋' (tập 1, dòng 23) có thể hiểu hệ thống là của chính Lãnh Thanh Thu thay vì Cố Ngôn; hồ sơ này chọn phương án hệ thống thuộc về Cố Ngôn, target là Lãnh Thanh Thu, cần xác nhận thêm."
+ ],
+ "version": "514dc9bdee90"
+}

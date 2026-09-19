@@ -1,0 +1,40 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Launch Program",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${file}"
+    },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug: translate (google-2pass)",
+      "skipFiles": [
+        "<node_internals>/**"
+      ],
+      "program": "${workspaceFolder}/src/cli.js",
+      "runtimeArgs": [
+        "--env-file-if-exists=.env"
+      ],
+      "args": [
+        "translate",
+        "MS4wLjABAAAAq8yFtIqnSdJrf3i99os3IveYRv5biQ_noAF3AlpuFCsJ0ibbOLxUx2rKssnDd-xD",
+        "7670629598723362058",
+        "--provider",
+        "google-2pass",
+        "--force"
+      ],
+      "console": "integratedTerminal",
+      "cwd": "${workspaceFolder}"
+    }
+  ]
+}

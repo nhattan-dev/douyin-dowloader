@@ -1,0 +1,1151 @@
+[
+ {
+  "id": 0,
+  "speaker": "S0",
+  "start": 2.56,
+  "end": 3.64,
+  "zh_raw": "什么东西啊？",
+  "zh": "什么东西啊？",
+  "segmentIndexes": [
+   0
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Cái gì thế này?"
+ },
+ {
+  "id": 1,
+  "speaker": "S0",
+  "start": 10.52,
+  "end": 11.88,
+  "zh_raw": "停下，等等。",
+  "zh": "停下，等等。",
+  "segmentIndexes": [
+   1
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Dừng lại, đợi đã."
+ },
+ {
+  "id": 2,
+  "speaker": "S1",
+  "start": 20.67,
+  "end": 21.35,
+  "zh_raw": "这是什么东西？",
+  "zh": "这是什么东西？",
+  "segmentIndexes": [
+   2
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Thứ gì đây?"
+ },
+ {
+  "id": 3,
+  "speaker": "S1",
+  "start": 21.43,
+  "end": 25.71,
+  "zh_raw": "检测到异界神魂，神魂契合载体融合完成。",
+  "zh": "检测到异界神魂，神魂契合载体融合完成。",
+  "segmentIndexes": [
+   3
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Phát hiện hồn phách dị giới, hồn phách dung hợp với vật dẫn hoàn tất."
+ },
+ {
+  "id": 4,
+  "speaker": "S1",
+  "start": 26.11,
+  "end": 39.71,
+  "zh_raw": "悉尼洞天认主，检测到白木妖毒与经脉损伤，洞天之内可隔绝外部天机因果神识探查，疗愈开启伤势修复完成，并获得两倍妖力加成。",
+  "zh": "西溟洞天认主，检测到百目妖丹与经脉损伤，洞天之内可隔绝外部天机因果神识探查，疗愈开启伤势修复完成，并获得两倍妖力加成。",
+  "segmentIndexes": [
+   4
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "悉尼洞天",
+    "to": "西溟洞天",
+    "kind": "homophone",
+    "sim": 0.5,
+    "why": "同音，'xi ni' → 'xi ming'，'西溟'为常见仙侠地理命名（如西溟海、西溟界），'悉尼'是澳洲城市，语境不符",
+    "conf": 1
+   },
+   {
+    "from": "白木妖毒",
+    "to": "百目妖毒",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音，'bai mu' → 'bai mu'（声调略异但ASR易混），'百目'是经典妖类设定（如百目真人），'白木'无典可依；'经脉损伤'合理，不改",
+    "conf": 1
+   },
+   {
+    "from": "妖毒",
+    "to": "妖丹",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音；'百目妖毒'无典可依，'百目妖丹'是常见设定（如百眼魔君/蜈蚣精相关妖丹），且与'经脉损伤'并列更合理（均为可被检测的实体性异常）",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tây Minh Động Thiên nhận chủ, phát hiện yêu đan Bách Mục và kinh mạch tổn thương, trong Động Thiên có thể cách ly ngoại giới thiên cơ Nhân Quả thần thức dò xét, trị liệu khai mở, thương thế khôi phục hoàn tất, đồng thời nhận gấp đôi yêu lực gia trì."
+ },
+ {
+  "id": 5,
+  "speaker": "S1",
+  "start": 44.65,
+  "end": 46.53,
+  "zh_raw": "你倒真会拉人，伤好了。",
+  "zh": "你倒真会拉人，伤好了。",
+  "segmentIndexes": [
+   5
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngươi cũng thật biết kéo người, thương lành rồi."
+ },
+ {
+  "id": 6,
+  "speaker": "S1",
+  "start": 46.93,
+  "end": 47.37,
+  "zh_raw": "好了。",
+  "zh": "好了。",
+  "segmentIndexes": [
+   6
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Được rồi."
+ },
+ {
+  "id": 7,
+  "speaker": "S1",
+  "start": 47.61,
+  "end": 51.61,
+  "zh_raw": "灵气成界，世外桃源，这里真是个藏身的好地方。",
+  "zh": "灵气成界，世外桃源，这里真是个藏身的好地方。",
+  "segmentIndexes": [
+   7
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Linh khí thành giới, thế ngoại đào nguyên, nơi đây đúng là chỗ ẩn thân tốt."
+ },
+ {
+  "id": 8,
+  "speaker": "S1",
+  "start": 55.21,
+  "end": 57.05,
+  "zh_raw": "竟是一处天然洞府。",
+  "zh": "竟是一处天然洞府。",
+  "segmentIndexes": [
+   8
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Lại là một động phủ tự nhiên."
+ },
+ {
+  "id": 9,
+  "speaker": "S1",
+  "start": 57.85,
+  "end": 60.77,
+  "zh_raw": "洞天主人获得空间折跃神通。",
+  "zh": "洞天主人获得空间折跃神通。",
+  "segmentIndexes": [
+   9
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Chủ nhân Động Thiên nhận được thần thông không gian gấp khúc."
+ },
+ {
+  "id": 10,
+  "speaker": "S2",
+  "start": 62.45,
+  "end": 66.17,
+  "zh_raw": "我这是要起飞了，我们的钻钻以后会更快了。",
+  "zh": "我这是要起飞了，我们的钻钻以后会更快了。",
+  "segmentIndexes": [
+   10
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta sắp bay lên rồi, Toản Toản của chúng ta sau này sẽ càng nhanh hơn."
+ },
+ {
+  "id": 11,
+  "speaker": "S0",
+  "start": 67.93,
+  "end": 72.33,
+  "zh_raw": "再来，这才叫神通。",
+  "zh": "再来，这才叫神通。",
+  "segmentIndexes": [
+   11
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Lại đây, đây mới gọi là thần thông."
+ },
+ {
+  "id": 12,
+  "speaker": "S3",
+  "start": 75.89,
+  "end": 76.65,
+  "zh_raw": "痛快。",
+  "zh": "痛快。",
+  "segmentIndexes": [
+   12
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Sảng khoái."
+ },
+ {
+  "id": 13,
+  "speaker": "S0",
+  "start": 80.01,
+  "end": 84.29,
+  "zh_raw": "再远一点，快快快快快，下面是空的。",
+  "zh": "再远一点，快快快快快，下面是空的。",
+  "segmentIndexes": [
+   13
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Xa thêm chút nữa, nhanh nhanh nhanh nhanh nhanh, phía dưới trống không."
+ },
+ {
+  "id": 14,
+  "speaker": "S2",
+  "start": 97.69,
+  "end": 99.29,
+  "zh_raw": "照见五蕴皆空。",
+  "zh": "照见五蕴皆空。",
+  "segmentIndexes": [
+   14
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Chiếu kiến ngũ uẩn giai không."
+ },
+ {
+  "id": 15,
+  "speaker": "S2",
+  "start": 103.56,
+  "end": 110.24,
+  "zh_raw": "原来苦厄就是想忘却忘不掉的那双眼睛。",
+  "zh": "原来苦厄就是想忘却忘不掉的那双眼睛。",
+  "segmentIndexes": [
+   15
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Thì ra khổ ách chính là đôi mắt muốn quên mà quên không được."
+ },
+ {
+  "id": 16,
+  "speaker": "S1",
+  "start": 116.09,
+  "end": 119.17,
+  "zh_raw": "孽畜，竟敢偷食佛前香油！",
+  "zh": "孽畜，竟敢偷食佛前香油！",
+  "segmentIndexes": [
+   16
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nghiệt súc, dám trộm dầu đèn trước Phật!"
+ },
+ {
+  "id": 17,
+  "speaker": "S4",
+  "start": 122.33,
+  "end": 125.81,
+  "zh_raw": "照见五蕴皆空，度一切苦厄。",
+  "zh": "照见五蕴皆空，度一切苦厄。",
+  "segmentIndexes": [
+   17
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Chiếu kiến ngũ uẩn giai không, độ nhất thiết khổ ách."
+ },
+ {
+  "id": 18,
+  "speaker": "S2",
+  "start": 126.65,
+  "end": 127.77,
+  "zh_raw": "什么是苦厄？",
+  "zh": "什么是苦厄？",
+  "segmentIndexes": [
+   18
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Khổ ách là gì?"
+ },
+ {
+  "id": 19,
+  "speaker": "S4",
+  "start": 128.05,
+  "end": 131.05,
+  "zh_raw": "苦厄就是你想吃却吃不到的那盏灯油。",
+  "zh": "苦厄就是你想吃却吃不到的那盏灯油。",
+  "segmentIndexes": [
+   19
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Khổ ách chính là ngọn đèn dầu ngươi muốn ăn mà ăn không được."
+ },
+ {
+  "id": 20,
+  "speaker": "S4",
+  "start": 131.69,
+  "end": 133.97,
+  "zh_raw": "这盏灯送给你，不要轻易点燃。",
+  "zh": "这盏灯送给你，不要轻易点燃。",
+  "segmentIndexes": [
+   20
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngọn đèn này tặng ngươi, đừng tùy tiện thắp lên."
+ },
+ {
+  "id": 21,
+  "speaker": "S4",
+  "start": 134.41,
+  "end": 139.01,
+  "zh_raw": "若有一日你真的被困在黑暗里，看不清自己该往哪里走。",
+  "zh": "若有一日你真的被困在黑暗里，看不清自己该往哪里走。",
+  "segmentIndexes": [
+   21
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nếu một ngày ngươi thật sự bị vây trong bóng tối, không nhìn rõ mình nên đi về đâu."
+ },
+ {
+  "id": 22,
+  "speaker": "S4",
+  "start": 139.66,
+  "end": 140.54,
+  "zh_raw": "再将它点亮。",
+  "zh": "再将它点亮。",
+  "segmentIndexes": [
+   22
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hãy thắp nó lên."
+ },
+ {
+  "id": 23,
+  "speaker": "S2",
+  "start": 144.66,
+  "end": 147.1,
+  "zh_raw": "听了这么久，还不出来。",
+  "zh": "听了这么久，还不出来。",
+  "segmentIndexes": [
+   23
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nghe lâu như vậy rồi, còn không ra."
+ },
+ {
+  "id": 24,
+  "speaker": "S2",
+  "start": 150.2,
+  "end": 151,
+  "zh_raw": "你是谁？",
+  "zh": "你是谁？",
+  "segmentIndexes": [
+   24
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngươi là ai?"
+ },
+ {
+  "id": 25,
+  "speaker": "S0",
+  "start": 151.56,
+  "end": 154.52,
+  "zh_raw": "狮驼岭雪山小幽小钻风误入贵地。",
+  "zh": "狮驼岭巡山小妖小钻风误入贵地。",
+  "segmentIndexes": [
+   25
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "雪山小幽",
+    "to": "巡山小妖",
+    "kind": "homophone",
+    "sim": 0.79,
+    "why": "同音；'雪山小幽'在整句中与后文'小钻风'并列，应为同类称谓（巡山小妖/小钻风），且'雪山小幽'语义不通，'巡山小妖'是西游系固定称谓",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Tiểu yêu tuần sơn Sư Đà Lĩnh Tiểu Toản Phong lỡ vào quý địa."
+ },
+ {
+  "id": 26,
+  "speaker": "S4",
+  "start": 154.8,
+  "end": 159.25,
+  "zh_raw": "无意惊扰进来容易，可想出去得看我答不答应了，",
+  "zh": "无意惊扰，进来容易，可想出去得看我答不答应了。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vô ý quấy nhiễu, vào thì dễ, nhưng muốn ra phải xem ta có đáp ứng không."
+ },
+ {
+  "id": 27,
+  "speaker": "S4",
+  "start": 159.52,
+  "end": 160.87,
+  "zh_raw": "那你就答应好了，",
+  "zh": "那你就答应好了。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vậy ngươi đáp ứng là được."
+ },
+ {
+  "id": 28,
+  "speaker": "S4",
+  "start": 160.66,
+  "end": 168.35,
+  "zh_raw": "油嘴滑舌，外人叫我白毛老鼠精，曾称半截观音，如今我更喜欢帝勇夫人这个称呼，",
+  "zh": "油嘴滑舌，外人叫我白毛老鼠精，曾称半截观音，如今我更喜欢地涌夫人这个称呼。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [
+   {
+    "from": "帝勇夫人",
+    "to": "地涌夫人",
+    "kind": "homophone",
+    "sim": 1,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Miệng lưỡi trơn tru, người ngoài gọi ta là Bạch Mao Lão Thử Tinh, từng xưng Bán Tiệt Quan Âm, nay ta thích cách gọi Địa Dũng Phu Nhân hơn."
+ },
+ {
+  "id": 29,
+  "speaker": "S4",
+  "start": 168.15,
+  "end": 173,
+  "zh_raw": "半截观音，原来是你姑且陪我说说话，我心情好了。",
+  "zh": "半截观音，原来是你？姑且陪我说说话，我心情好了。",
+  "segmentIndexes": [
+   26
+  ],
+  "speakerSource": "llm-repair",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Bán Tiệt Quan Âm, thì ra là ngươi? Cứ bồi ta nói chuyện, cho tâm tình ta tốt lên."
+ },
+ {
+  "id": 30,
+  "speaker": "S0",
+  "start": 173.2,
+  "end": 180.56,
+  "zh_raw": "说不定便放你离开夫人以后，若遇到一个从东土来的和尚，最好离他远一点，和尚名叫唐僧，也是你心中所念的金蝉子转世。",
+  "zh": "说不定便放你离开夫人以后，若遇到一个从东土来的和尚，最好离他远一点，和尚名叫唐僧，也是你心中所念的金蝉子转世。",
+  "segmentIndexes": [
+   27
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Biết đâu sẽ thả ngươi đi, phu nhân sau này nếu gặp một hòa thượng từ Đông Thổ đến, tốt nhất tránh xa hắn, hòa thượng tên Đường Tăng, cũng là Kim Thiền Tử Chuyển Thế mà ngươi hằng nhớ."
+ },
+ {
+  "id": 31,
+  "speaker": "S0",
+  "start": 181,
+  "end": 182,
+  "zh_raw": "为何你会知道？",
+  "zh": "为何你会知道？",
+  "segmentIndexes": [
+   28
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Sao ngươi biết?"
+ },
+ {
+  "id": 32,
+  "speaker": "S3",
+  "start": 182.16,
+  "end": 183.28,
+  "zh_raw": "因为我来自未来。",
+  "zh": "因为我来自未来。",
+  "segmentIndexes": [
+   29
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Vì ta đến từ tương lai."
+ },
+ {
+  "id": 33,
+  "speaker": "S0",
+  "start": 185.4,
+  "end": 188.44,
+  "zh_raw": "原本的未来里，你会掳走唐僧，想与成亲。",
+  "zh": "原本的未来里，你会掳走唐僧，想与成亲。",
+  "segmentIndexes": [
+   30
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Trong tương lai vốn có, ngươi sẽ bắt Đường Tăng, muốn cùng hắn thành thân."
+ },
+ {
+  "id": 34,
+  "speaker": "S0",
+  "start": 188.68,
+  "end": 191.48,
+  "zh_raw": "孙悟空会一路追进无底洞，还会发现李靖与哪吒的排位。",
+  "zh": "孙悟空会一路追进无底洞，还会发现李靖与哪吒的排位。",
+  "segmentIndexes": [
+   31
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngộ Không đuổi vào Vô Để Động, thấy bài vị Lý Tĩnh, Na Tra."
+ },
+ {
+  "id": 35,
+  "speaker": "S0",
+  "start": 191.64,
+  "end": 194.32,
+  "zh_raw": "最后李靖、哪吒亲自下线，把你带去天庭受罚。",
+  "zh": "最后李靖、哪吒亲自下线，把你带去天庭受罚。",
+  "segmentIndexes": [
+   32
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Lý Tĩnh, Na Tra đích thân hạ phàm, dẫn ngươi lên Thiên Đình chịu phạt."
+ },
+ {
+  "id": 36,
+  "speaker": "S0",
+  "start": 194.48,
+  "end": 196.72,
+  "zh_raw": "你不会死，但会失去自由。",
+  "zh": "你不会死，但会失去自由。",
+  "segmentIndexes": [
+   33
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngươi sẽ không chết, nhưng sẽ mất tự do."
+ },
+ {
+  "id": 37,
+  "speaker": "S2",
+  "start": 197.56,
+  "end": 199.64,
+  "zh_raw": "他还记得以前的事吗？",
+  "zh": "他还记得以前的事吗？",
+  "segmentIndexes": [
+   34
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Hắn còn nhớ chuyện trước kia không?"
+ },
+ {
+  "id": 38,
+  "speaker": "S0",
+  "start": 199.8,
+  "end": 200.24,
+  "zh_raw": "不记得。",
+  "zh": "不记得。",
+  "segmentIndexes": [
+   35
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Không nhớ."
+ },
+ {
+  "id": 39,
+  "speaker": "S0",
+  "start": 200.4,
+  "end": 202.52,
+  "zh_raw": "十世轮回，前世记忆早已洗去。",
+  "zh": "十世轮回，前世记忆早已洗去。",
+  "segmentIndexes": [
+   36
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Mười kiếp luân hồi, ký ức tiền thế đã sớm gột rửa."
+ },
+ {
+  "id": 40,
+  "speaker": "S0",
+  "start": 202.76,
+  "end": 204.44,
+  "zh_raw": "如今的唐僧有自己的人生和意志。",
+  "zh": "如今的唐僧有自己的人生和意志。",
+  "segmentIndexes": [
+   37
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đường Tăng có nhân sinh, ý chí riêng."
+ },
+ {
+  "id": 41,
+  "speaker": "S2",
+  "start": 204.6,
+  "end": 207.6,
+  "zh_raw": "500年前，金蝉子救我时送了我这针灯。",
+  "zh": "500年前，金蝉子救我时送了我这针灯。",
+  "segmentIndexes": [
+   38
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "500 năm trước, Kim Thiền Tử cứu ta đã tặng ta đèn châm này."
+ },
+ {
+  "id": 42,
+  "speaker": "S2",
+  "start": 207.85,
+  "end": 212.57,
+  "zh_raw": "我一直舍不得点夫人，今天只想尝一尝这灯里的味道。",
+  "zh": "我一直舍不得点夫人，洞天只想尝一尝这灯里的味道。",
+  "segmentIndexes": [
+   39
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "今天",
+    "to": "洞天",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'今天只想尝一尝这灯里的味道'语义突兀，'洞天只想尝一尝这灯里的味道'仍不通，但结合前文'西溟洞天'及'灯'可能指洞天内灵灯，'洞天'误识为'今天'属典型ASR切分错误（dòng tiān → jīn tiān），且'洞天'在本剧高频出现，'今天'在此语境无逻辑支撑",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta vẫn không nỡ thắp, phu nhân, chỉ muốn nếm thử mùi vị trong đèn này."
+ },
+ {
+  "id": 43,
+  "speaker": "S5",
+  "start": 217.38,
+  "end": 221.42,
+  "zh_raw": "金蝉子，小白毛，我让你久等了。",
+  "zh": "金蝉子，小白毛，我让你久等了。",
+  "segmentIndexes": [
+   40
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Kim Thiền Tử, nhóc lông trắng, ta để ngươi đợi lâu rồi."
+ },
+ {
+  "id": 44,
+  "speaker": "S5",
+  "start": 222.63,
+  "end": 227.19,
+  "zh_raw": "你一直在等我，从今以后我们再也不分开。",
+  "zh": "你一直在等我，从今以后我们再也不分开。",
+  "segmentIndexes": [
+   41
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ngươi vẫn luôn đợi ta, từ nay về sau chúng ta không bao giờ chia xa."
+ },
+ {
+  "id": 45,
+  "speaker": "S0",
+  "start": 229.63,
+  "end": 234.19,
+  "zh_raw": "把你的气运修为都给我，让你成为我的一部分，我便能借你成仙。",
+  "zh": "把你的气运修为都给我，让你成为我的一部分，我便能借你成仙。",
+  "segmentIndexes": [
+   42
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Đem khí vận tu vi của ngươi cho ta, để ngươi thành một phần của ta, ta liền có thể mượn ngươi thành tiên."
+ },
+ {
+  "id": 46,
+  "speaker": "S0",
+  "start": 240.71,
+  "end": 244.11,
+  "zh_raw": "看清楚，他不是金蝉子，是你的心魔所化。",
+  "zh": "看清楚，他不是金蝉子，是你的心魔所化。",
+  "segmentIndexes": [
+   43
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Nhìn cho rõ, hắn không phải Kim Thiền Tử, là tâm ma của ngươi hóa thành."
+ },
+ {
+  "id": 47,
+  "speaker": "S0",
+  "start": 244.91,
+  "end": 248.47,
+  "zh_raw": "坏我好事，那只好让你去死一死了。",
+  "zh": "坏我好事，那只好让你去死劫。",
+  "segmentIndexes": [
+   44
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "死一死",
+    "to": "死",
+    "kind": "drop",
+    "sim": 0,
+    "why": "冗余助词：'死一死'是口语化表达，但古风语境中反派威胁用单字'死'更凌厉（例：'让你去死！'），'一死'属ASR添加的轻声音节，py中'si yisile'对应'死一死了'，但'死'已足意，删冗余",
+    "conf": 1
+   },
+   {
+    "from": "死了",
+    "to": "死劫",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'让你去死了'口语化但略显粗疏，而前文有'西行劫'，后文'死劫'与'西行劫'构成劫数体系，'坏我好事，那只好让你去死劫'更符合修真/神话语境的因果报应逻辑",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "死一死",
+    "to": "死",
+    "kind": "drop",
+    "sim": 0,
+    "why": "冗余助词：'死一死'是口语化表达，但古风语境中反派威胁用单字'死'更凌厉（例：'让你去死！'），'一死'属ASR添加的轻声音节，py中'si yisile'对应'死一死了'，但'死'已足意，删冗余",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Phá hỏng chuyện tốt của ta, vậy chỉ còn cách để ngươi vào tử kiếp."
+ },
+ {
+  "id": 48,
+  "speaker": "S1",
+  "start": 263.98,
+  "end": 267.14,
+  "zh_raw": "同样的把戏到此为止。",
+  "zh": "同样的把戏到此为止。",
+  "segmentIndexes": [
+   45
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Trò cũ đến đây là hết."
+ },
+ {
+  "id": 49,
+  "speaker": "S0",
+  "start": 307.36,
+  "end": 310.32,
+  "zh_raw": "心魔散了，你那场西行劫也算自动解除了。",
+  "zh": "心魔散了，你那场西死劫也算自动解除了。",
+  "segmentIndexes": [
+   46
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "行劫",
+    "to": "死劫",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'西行劫'已出现于同一句，但'心魔散了，你那场西行劫也算自动解除了'语义完整，'行劫'无独立词义，而'死劫'与'西行劫'并列更合理（双重劫数），且'行劫'不是汉语固有搭配",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "行劫",
+    "to": "死劫",
+    "kind": "homophone",
+    "sim": 0.25,
+    "why": "同音；'西行劫'已出现于同一句，但'心魔散了，你那场西行劫也算自动解除了'语义完整，'行劫'无独立词义，而'死劫'与'西行劫'并列更合理（双重劫数），且'行劫'不是汉语固有搭配",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Tâm ma tan rồi, tử kiếp Tây Minh của ngươi cũng tự giải trừ."
+ },
+ {
+  "id": 50,
+  "speaker": "S2",
+  "start": 310.64,
+  "end": 312.96,
+  "zh_raw": "我竟被一个刚认识的群山小妖救了。",
+  "zh": "我竟被一个刚认识的巡山小妖救了。",
+  "segmentIndexes": [
+   47
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "群山小妖",
+    "to": "巡山小妖",
+    "kind": "homophone",
+    "sim": 0.67,
+    "why": "同音",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta lại được một tiểu yêu tuần sơn vừa quen cứu."
+ },
+ {
+  "id": 51,
+  "speaker": "S0",
+  "start": 313.4,
+  "end": 315.2,
+  "zh_raw": "顺手的事不必挂怀。",
+  "zh": "顺手的事不必挂怀。",
+  "segmentIndexes": [
+   48
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Chuyện tiện tay, không cần bận lòng."
+ },
+ {
+  "id": 52,
+  "speaker": "S2",
+  "start": 315.44,
+  "end": 322.48,
+  "zh_raw": "你说的对，恩与念都不该欠500年，有恩就该就地报完，省得来二封城。",
+  "zh": "你说的对，恩与念都不该欠500年，有恩就该就地报完，省得来二度逢。",
+  "segmentIndexes": [
+   49
+  ],
+  "speakerSource": "qwen",
+  "edits": [
+   {
+    "from": "二封城",
+    "to": "二度逢",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音，'er feng cheng' → 'er du feng'，'二度逢'即'第二次相逢'，呼应前文'500年'恩念，'二封城'无典；'省得来二度逢'语法通顺，表避免再次相遇",
+    "conf": 1
+   }
+  ],
+  "conf": 1,
+  "note": "",
+  "review": [
+   {
+    "from": "二封城",
+    "to": "二度逢",
+    "kind": "homophone",
+    "sim": 0.33,
+    "why": "同音，'er feng cheng' → 'er du feng'，'二度逢'即'第二次相逢'，呼应前文'500年'恩念，'二封城'无典；'省得来二度逢'语法通顺，表避免再次相遇",
+    "conf": 1
+   }
+  ],
+  "aligned": true,
+  "vi": "Ngươi nói đúng, ân tình lẫn nỗi nhớ đều không nên nợ 500 năm, có ân thì nên báo ngay tại chỗ, khỏi phải tái ngộ lần hai."
+ },
+ {
+  "id": 53,
+  "speaker": "S0",
+  "start": 323,
+  "end": 323.92,
+  "zh_raw": "夫人既然无事。",
+  "zh": "夫人既然无事？",
+  "segmentIndexes": [
+   50
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Phu nhân vô sự?"
+ },
+ {
+  "id": 54,
+  "speaker": "S2",
+  "start": 324.32,
+  "end": 327.24,
+  "zh_raw": "我先告辞回去，我还没答应。",
+  "zh": "我先告辞回去，我还没答应。",
+  "segmentIndexes": [
+   51
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta cáo từ về trước, ta còn chưa đáp ứng."
+ },
+ {
+  "id": 55,
+  "speaker": "S0",
+  "start": 331.16,
+  "end": 331.84,
+  "zh_raw": "你要做什么？",
+  "zh": "你要做什么？",
+  "segmentIndexes": [
+   52
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Muốn làm gì?"
+ },
+ {
+  "id": 56,
+  "speaker": "S2",
+  "start": 332.08,
+  "end": 334.56,
+  "zh_raw": "我要你跟我成亲。",
+  "zh": "我要你跟我成亲。",
+  "segmentIndexes": [
+   53
+  ],
+  "speakerSource": "qwen",
+  "edits": [],
+  "conf": 1,
+  "note": "",
+  "review": [],
+  "aligned": true,
+  "vi": "Ta muốn ngươi cùng ta thành thân."
+ }
+]

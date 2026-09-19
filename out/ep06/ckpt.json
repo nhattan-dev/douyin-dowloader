@@ -1,0 +1,47 @@
+{
+ "A2": {
+  "sig": "54886867ee4a5afb",
+  "artifact": "a2-ops.json",
+  "at": "2026-09-14T15:38:37.536Z"
+ },
+ "A3": {
+  "sig": "7db1c9565c3e2c83",
+  "artifact": "a3-scan.json",
+  "at": "2026-09-14T15:38:43.856Z"
+ },
+ "B1": {
+  "sig": "68adb3d68f22db08",
+  "artifact": "vision.json",
+  "at": "2026-09-14T15:40:01.664Z"
+ },
+ "B2": {
+  "sig": "b02a5af309c40746",
+  "artifact": "b2-align.json",
+  "at": "2026-09-14T15:40:58.132Z"
+ },
+ "C2": {
+  "sig": "17131170f6a932c6",
+  "artifact": "c2-vi.json",
+  "at": "2026-09-14T15:41:04.788Z"
+ },
+ "D2.1": {
+  "sig": "b5dfec7f3c04aac5",
+  "artifact": "d2-critic1.json",
+  "at": "2026-09-14T15:41:19.787Z"
+ },
+ "D3.1": {
+  "sig": "a60839ed79400ea4",
+  "artifact": "d3-fix1.json",
+  "at": "2026-09-14T15:41:39.226Z"
+ },
+ "D2.2": {
+  "sig": "5214d11a1fc5a397",
+  "artifact": "d2-critic2.json",
+  "at": "2026-09-14T15:41:50.070Z"
+ },
+ "D3.2": {
+  "sig": "d1366df67f43b1ff",
+  "artifact": "d3-fix2.json",
+  "at": "2026-09-14T15:42:05.847Z"
+ }
+}

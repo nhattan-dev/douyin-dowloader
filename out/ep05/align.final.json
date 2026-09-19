@@ -1,0 +1,203 @@
+{
+ "speakerMap": {
+  "S0": "C1",
+  "S1": "C1",
+  "S2": "C2",
+  "S4": "C10"
+ },
+ "clusters": {
+  "S0": {
+   "cid": "C1",
+   "level": "confirmed",
+   "why": "text + hình cùng chỉ một người",
+   "text": "C1",
+   "textVerified": true,
+   "vision": "C1",
+   "visionSure": true,
+   "veto": [],
+   "size": 21,
+   "votes": {
+    "小钻风": 2,
+    "玉面狐狸": 1,
+    "青萝": 1,
+    "心魔金蝉子": 1
+   },
+   "probed": [
+    11,
+    30,
+    33,
+    35,
+    45,
+    47,
+    51
+   ]
+  },
+  "S1": {
+   "cid": "C1",
+   "level": "confirmed",
+   "why": "text + hình cùng chỉ một người",
+   "text": "C1",
+   "textVerified": false,
+   "vision": "C1",
+   "visionSure": true,
+   "veto": [],
+   "size": 10,
+   "votes": {
+    "小钻风": 3,
+    "白骨夫人": 1
+   },
+   "probed": [
+    3,
+    4,
+    7,
+    9,
+    48
+   ]
+  },
+  "S2": {
+   "cid": "C2",
+   "level": "single",
+   "why": "chỉ có kênh hình",
+   "text": null,
+   "textVerified": false,
+   "vision": "C2",
+   "visionSure": true,
+   "veto": [],
+   "size": 13,
+   "votes": {
+    "小钻风": 1,
+    "玉面狐狸": 6
+   },
+   "probed": [
+    10,
+    15,
+    23,
+    41,
+    42,
+    52,
+    56
+   ]
+  },
+  "S3": {
+   "cid": null,
+   "level": "none",
+   "why": "không nguồn nào gọi được tên",
+   "text": null,
+   "textVerified": false,
+   "vision": null,
+   "visionSure": false,
+   "veto": [],
+   "size": 2,
+   "votes": {},
+   "probed": [
+    12,
+    32
+   ]
+  },
+  "S4": {
+   "cid": "C10",
+   "level": "confirmed",
+   "why": "text có trích dẫn kiểm được",
+   "text": "C10",
+   "textVerified": true,
+   "vision": null,
+   "visionSure": false,
+   "veto": [],
+   "size": 9,
+   "votes": {
+    "白猫老鼠精": 1,
+    "刘小思": 1
+   },
+   "probed": [
+    17,
+    21,
+    26,
+    28,
+    29
+   ]
+  },
+  "S5": {
+   "cid": null,
+   "level": "none",
+   "why": "không nguồn nào gọi được tên",
+   "text": null,
+   "textVerified": false,
+   "vision": null,
+   "visionSure": false,
+   "veto": [],
+   "size": 2,
+   "votes": {},
+   "probed": [
+    43,
+    44
+   ]
+  }
+ },
+ "suspects": {
+  "7": [
+   "hình gọi tên khác"
+  ],
+  "10": [
+   "cụm single",
+   "hình gọi tên khác"
+  ],
+  "12": [
+   "cụm none"
+  ],
+  "14": [
+   "cụm single"
+  ],
+  "15": [
+   "cụm single"
+  ],
+  "18": [
+   "cụm single"
+  ],
+  "21": [
+   "hình gọi tên khác"
+  ],
+  "23": [
+   "cụm single"
+  ],
+  "24": [
+   "cụm single"
+  ],
+  "30": [
+   "hình gọi tên khác"
+  ],
+  "32": [
+   "cụm none"
+  ],
+  "37": [
+   "cụm single"
+  ],
+  "41": [
+   "cụm single"
+  ],
+  "42": [
+   "cụm single"
+  ],
+  "43": [
+   "cụm none"
+  ],
+  "44": [
+   "cụm none"
+  ],
+  "45": [
+   "hình gọi tên khác"
+  ],
+  "50": [
+   "cụm single"
+  ],
+  "52": [
+   "cụm single"
+  ],
+  "54": [
+   "cụm single"
+  ],
+  "56": [
+   "cụm single"
+  ]
+ },
+ "human": null
+}
