@@ -753,7 +753,8 @@ async function viewBible([slug]) {
   setMain(html`
     <div class="crumb"><a href="#/series">Series</a> › <a href="#/series/${enc(slug)}">${s.title}</a> ›</div>
     <div class="page-h"><div><h1>Duyệt bible</h1>
-      <div class="sub">Soát phía tiếng Việt: nghe giọng + nhìn ảnh, sửa tên/giới tính/ngoại hình nếu sai, gộp mục trùng người. Không sửa = đồng ý với máy.
+      <div class="sub">Soát phía tiếng Việt: nghe giọng, đọc cảnh (bấm <b>▶ Xem cảnh</b> để xem đúng đoạn phim), sửa tên/giới tính/ngoại hình nếu sai,
+        gộp mục trùng người, thêm nhân vật máy bỏ sót ở cuối trang. Không sửa = đồng ý với máy.
         Xong bấm <b>«Lưu &amp; áp dụng bible»</b> ở góc trên trang.</div></div></div>
     ${s.status === "approved" ? html`<div class="callout warn" style="margin-bottom:12px">Series đã có bible. Áp dụng lại sẽ đổi phiên bản bible → các tập đã dịch chạy lại phần gán người nói và dịch (tốn tiền lại).</div>` : ""}
     <iframe class="frame" src="/review/bible/${enc(slug)}"></iframe>`);

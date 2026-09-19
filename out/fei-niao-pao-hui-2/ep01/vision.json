@@ -1,0 +1,239 @@
+{
+ "model": "deepseek-flash",
+ "frames": 8,
+ "lines": {
+  "0": {
+   "pred": "顾言",
+   "why": "Khung 1, 4, 6, 8 đều thấy nam tóc đen rối mắt đỏ (顾言) đang cử động miệng, các khung còn lại là cảnh chèn.",
+   "t": 0.16
+  },
+  "3": {
+   "pred": "ngoai_khung",
+   "why": "Tất cả 8 khung đều không thấy mặt/miệng người đang nói, chỉ có cửa và cảnh chèn cận chân.",
+   "t": 20.61
+  },
+  "9": {
+   "pred": "灵根",
+   "why": "Các khung đều cho thấy nhân vật nữ tóc vàng nơ đen (灵根) đang cử động miệng khớp với câu thoại.",
+   "t": 39.76
+  },
+  "11": {
+   "pred": "灵根",
+   "why": "Khung 4-6 cận mặt cô gái tóc vàng có nơ đen, miệng mở khép rõ ràng đang nói, khớp với nhân vật 灵根.",
+   "t": 47
+  },
+  "14": {
+   "pred": "冷清秋",
+   "why": "Các khung cận mặt cho thấy nhân vật nữ tóc bạc bịt mắt đen (冷清秋) đang cử động miệng khớp với lời thoại.",
+   "t": 59.76
+  },
+  "15": {
+   "pred": "灵根",
+   "why": "Khung 1-2 và 7-8 cho thấy nhân vật nữ tóc vàng nơ đen (灵根) đang cử động miệng khớp với câu thoại.",
+   "t": 73.32
+  },
+  "17": {
+   "pred": "冷清秋",
+   "why": "Các khung cho thấy nhân vật nữ tóc bạc bịt mắt (冷清秋) cử động miệng khi nói, còn nhân vật tóc vàng đứng nghe.",
+   "t": 80.87
+  },
+  "23": {
+   "pred": "顾言",
+   "why": "Khung 6-7 cho thấy nam tóc đen mắt đỏ (Cố Ngôn) đang cử động miệng khi nói câu thoại, các khung khác là cảnh nghe hoặc nhân vật phụ.",
+   "t": 130.4
+  },
+  "24": {
+   "pred": "冷清秋",
+   "why": "画面中只有冷清秋（银发蒙眼黑衣女子）的嘴部在连续开合说话，其余为静止或系统形象。",
+   "t": 139.96
+  },
+  "29": {
+   "pred": "顾言",
+   "why": "第5-8帧中顾言（黑发红眼、西装）的嘴部明显开合说话，其余帧中冷清秋未动嘴。",
+   "t": 158.61
+  },
+  "32": {
+   "pred": "顾言",
+   "why": "Các khung đều cận mặt nam tóc đen rối mắt đỏ (顾言), miệng hé mở cử động khớp với câu thoại, các nhân vật khác không xuất hiện hoặc là búp bê tĩnh.",
+   "t": 171.28
+  },
+  "34": {
+   "pred": "冷清秋",
+   "why": "Khung 1-2 cho thấy Lãnh Thanh Thu (tóc bạc bịt mắt) đang ngồi và cử động miệng, các khung sau chỉ là cận cảnh bàn tay cô ấy trên sách, không có ai khác đang nói.",
+   "t": 178.12
+  },
+  "38": {
+   "pred": "顾言",
+   "why": "Các khung cận mặt cho thấy nam tóc đen rối mắt đỏ (顾言) đang cử động miệng, các khung sau cũng thấy miệng anh ta mở khép khi nói.",
+   "t": 187.04
+  },
+  "42": {
+   "pred": "冷清秋",
+   "why": "Tất cả các khung đều là nhân vật tóc bạc bịt mắt đen, miệng mở khép thay đổi rõ ràng, khớp với đặc điểm của Lãnh Thanh Thu.",
+   "t": 203.61
+  },
+  "44": {
+   "pred": "灵根",
+   "why": "Khung 5-8 cận mặt cô gái tóc vàng nơ đen, miệng mở khép rõ ràng theo từng chữ của câu thoại.",
+   "t": 207.61
+  },
+  "45": {
+   "pred": "冷清秋",
+   "why": "Khung 3-8 cho thấy nhân vật nữ tóc bạc bịt mắt đen (冷清秋) cử động miệng khi nói, các nhân vật khác chỉ ở tư thế nghe.",
+   "t": 214.69
+  },
+  "49": {
+   "pred": "顾言",
+   "why": "Khung 4-8 cho thấy nam tóc đen mắt đỏ (顾言) cử động miệng khi nói, các khung 1-3 là cảnh chèn mặt nữ tóc vàng đang nghe.",
+   "t": 229.72
+  },
+  "51": {
+   "pred": "顾言",
+   "why": "Khung 2, 5, 6, 8 cho thấy nam tóc đen rối mắt đỏ (Cố Ngôn) đang cử động miệng nói, các khung khác là cảnh chèn hoặc người nghe.",
+   "t": 239.55
+  },
+  "53": {
+   "pred": "冷心安",
+   "why": "Khung 1 và 7 thấy rõ nhân vật nam tóc đen vuốt dựng (Lãnh Tâm An) đang mở miệng nói, các khung còn lại là cảnh người nghe hoặc cảnh chèn.",
+   "t": 259.79
+  },
+  "57": {
+   "pred": "冷清秋",
+   "why": "Khung 3 và 5 cho thấy nhân vật nữ tóc bạc bịt mắt đang cử động miệng, khớp với nhân vật 冷清秋 trong danh sách.",
+   "t": 285
+  },
+  "58": {
+   "pred": "系统",
+   "why": "画面中只有粉色头发的小系统玩偶嘴部在动，其他人物均未开口。",
+   "t": 305.16
+  },
+  "61": {
+   "pred": "冷清秋",
+   "why": "Các khung hình cho thấy nhân vật nữ tóc bạc bịt mắt đen có miệng mở khép thay đổi rõ ràng, khớp với khẩu hình câu thoại.",
+   "t": 315.56
+  },
+  "62": {
+   "pred": "冷清秋",
+   "why": "Các khung hình cho thấy nhân vật nữ tóc bạc bịt mắt đen (Lãnh Thanh Thu) có miệng cử động rõ ràng, khớp với câu thoại.",
+   "t": 318.84
+  },
+  "63": {
+   "pred": "冷清秋",
+   "why": "Khung 1-2 cận mặt nhân vật nữ tóc bạc bịt mắt, miệng cử động khớp với câu thoại, các khung sau chỉ là cảnh chèn.",
+   "t": 322.56
+  },
+  "64": {
+   "pred": "顾言",
+   "why": "Khung 1-6 cho thấy miệng nam tóc đen mắt đỏ (顾言) cử động khớp khẩu hình, các khung 7-8 chỉ là cận tai/cảnh chèn.",
+   "t": 327.28
+  },
+  "65": {
+   "pred": "ngoai_khung",
+   "why": "Tất cả 8 khung đều chỉ cận cảnh tai và tóc bạc, không thấy miệng ai cử động.",
+   "t": 332.04
+  }
+ },
+ "clusters": {
+  "S0": {
+   "votes": {
+    "顾言": 6
+   },
+   "probed": [
+    0,
+    23,
+    29,
+    38,
+    49,
+    51
+   ],
+   "size": 24,
+   "name": "顾言",
+   "cid": "C1",
+   "split": false,
+   "sure": true
+  },
+  "S1": {
+   "votes": {
+    "灵根": 4
+   },
+   "probed": [
+    3,
+    9,
+    11,
+    15,
+    44
+   ],
+   "size": 15,
+   "name": "灵根",
+   "cid": "C5",
+   "split": false,
+   "sure": true
+  },
+  "S2": {
+   "votes": {
+    "冷清秋": 6
+   },
+   "probed": [
+    14,
+    17,
+    24,
+    34,
+    45,
+    61
+   ],
+   "size": 18,
+   "name": "冷清秋",
+   "cid": "C2",
+   "split": false,
+   "sure": true
+  },
+  "S3": {
+   "votes": {
+    "顾言": 1,
+    "冷清秋": 2,
+    "系统": 1
+   },
+   "probed": [
+    32,
+    42,
+    57,
+    58
+   ],
+   "size": 4,
+   "name": "冷清秋",
+   "cid": "C2",
+   "split": false,
+   "sure": true
+  },
+  "S4": {
+   "votes": {
+    "冷心安": 1
+   },
+   "probed": [
+    53
+   ],
+   "size": 1,
+   "name": "冷心安",
+   "cid": "C6",
+   "split": false,
+   "sure": false
+  },
+  "S5": {
+   "votes": {
+    "冷清秋": 2,
+    "顾言": 1
+   },
+   "probed": [
+    62,
+    63,
+    64,
+    65
+   ],
+   "size": 4,
+   "name": "冷清秋",
+   "cid": "C2",
+   "split": false,
+   "sure": true
+  }
+ }
+}

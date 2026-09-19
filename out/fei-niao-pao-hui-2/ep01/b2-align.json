@@ -1,0 +1,79 @@
+{
+ "premise": "Cố Ngôn xuyên sách thành thiếu gia nhà họ Cố, quyết định từ bỏ nữ phụ trà xanh để theo đuổi vị hôn thê mù lòa Lãnh Thanh Thu. Anh dùng cổ phần và sự chân thành để lấy lòng cô, đồng thời nhận được sự hỗ trợ từ hệ thống thuần ái.",
+ "speakers": [
+  {
+   "speaker": "S0",
+   "cast": "C1",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 31,
+     "type": "addressed",
+     "name": "顾大少"
+    }
+   ]
+  },
+  {
+   "speaker": "S1",
+   "cast": "C5",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 6,
+     "type": "addressed",
+     "name": "灵儿"
+    }
+   ]
+  },
+  {
+   "speaker": "S2",
+   "cast": "C2",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 57,
+     "type": "selfName",
+     "name": "冷清秋"
+    }
+   ]
+  },
+  {
+   "speaker": "S3",
+   "cast": "C4",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 32,
+     "type": "selfName",
+     "name": "纯爱系统"
+    }
+   ]
+  },
+  {
+   "speaker": "S4",
+   "cast": "C6",
+   "conf": 0.9,
+   "evidence": [
+    {
+     "line": 53,
+     "type": "selfName",
+     "name": "冷心安"
+    }
+   ]
+  },
+  {
+   "speaker": "S5",
+   "cast": "C2",
+   "conf": 0.4,
+   "evidence": []
+  }
+ ],
+ "newTerms": {
+  "穿书": "xuyên sách",
+  "炮灰": "pháo hôi",
+  "退婚": "thoái hôn",
+  "盲文": "chữ nổi",
+  "股份": "cổ phần",
+  "系统商店": "cửa hàng hệ thống"
+ }
+}

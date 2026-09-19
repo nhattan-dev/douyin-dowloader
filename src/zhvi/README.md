@@ -140,13 +140,30 @@ node src/zhvi/cli.js series apply ~/Downloads/bible-review.json --series series/
 | 2 | sửa ASR từng tập | pass A qua `runPipeline` | — (cùng `--out` với lượt dịch sau, nên A2 chỉ trả tiền một lần) |
 | 3 | B2b chạy MỘT lần trên thoại mọi tập (glossary + cụm lặp lại + kịch bản), ra thẳng dàn nhân vật | `models.profile` | tên/biệt danh phải có nguyên văn trong thoại; cụm giọng phải có thật; một cụm một chủ; thuật ngữ phải có trong thoại |
 | 4 | `look` | `models.vision` tả từ khung hình của chính các câu nhân vật đó nói, rồi `models.cast` viết lại cho nổi chỗ KHÁC nhau | khung nào VLM bảo có người này thì trang duyệt viền xanh |
-| 5 | trang duyệt | — | ảnh + tiếng + câu mẫu dịch thô; chữ Hán chỉ hiện nhỏ |
+| 5 | trang duyệt | — | ảnh + tiếng + **cảnh** (mấy câu quanh câu mẫu, dịch thô) + nút xem đúng đoạn video; chữ Hán chỉ hiện nhỏ |
 
 Thứ code loại không biến mất lặng lẽ: nó thành dòng ⚠ trên trang duyệt. Thuật ngữ trong `--terms`
 đi thẳng vào bible dạng đã duyệt (ghim tay thắng máy).
 
+Trang duyệt hỏi ba thứ và đưa đủ bằng chứng cho từng thứ:
+
+- **Cảnh, không phải câu lẻ.** Mỗi câu mẫu mang theo 2 câu trước + 2 câu sau (cắt ở khoảng lặng
+  > 6s vì đã sang cảnh khác), cả cảnh đều có bản dịch thô. Câu mẫu cũng chọn khác trước: ưu tiên
+  câu **gọi tên / nhắc tên** thay vì câu dài nhất — câu dài nhất thường là độc thoại, đọc xong
+  vẫn không biết người này là ai của ai.
+- **Xem video đúng đoạn** (`▶ Xem cảnh`). Ảnh tĩnh không phân biệt được người đang NÓI với người
+  đang NGHE — mà đó chính là chỗ VLM tả nhầm. Video **không nhúng** vào HTML (trang đã ~1,6–2,7 MB
+  chỉ với ảnh + tiếng): phát thẳng `video.mp4` gốc, đường dẫn tương đối khi mở `file://`, `/media/…`
+  khi mở qua UI. Tập không có `video.mp4` thì không vẽ nút.
+- **Thêm nhân vật máy bỏ sót** (cuối trang). Thiếu một người ở bible là ngõ cụt: trang soát người
+  nói từng tập chỉ cho chọn trong `bible.cast`. Kèm bằng chứng — các **cụm giọng chưa ai nhận**
+  (nghe + xem cảnh) — và danh sách **tên bị gọi trong thoại** mà dàn nhân vật chưa có, để chọn
+  thay vì phải gõ chữ Hán. Bỏ trống ô tên gốc thì khoá dữ liệu lấy luôn tên Việt (không khớp chữ
+  trong thoại, tức kênh "gọi tên" im lặng chứ không gán bừa). Bible **không** giữ cụm giọng: việc
+  gán cụm cho nhân vật vẫn là của cổng soát từng tập.
+
 Trang duyệt ghi **giá trị cuối của mọi ô** chứ không chỉ ô đã sửa, nên `apply` bao nhiêu lần cũng ra
-cùng một bible. Gộp hai mục ("Là cùng một người với") thì tên của mục bị gộp thành biệt danh, và
+cùng một bible (đo lại sau khi thêm hàng "thêm nhân vật": áp hai lần ra cùng một `version`). Gộp hai mục ("Là cùng một người với") thì tên của mục bị gộp thành biệt danh, và
 xưng hô trỏ tới nó được chuyển sang mục đích rồi khử trùng. `apply` lần hai giữ bản cũ ở `bible.json.prev`.
 
 File: `series/<tên>/draft/bible.draft.json` (nháp), `bible-review.html`, `bible.json`. Cache trong

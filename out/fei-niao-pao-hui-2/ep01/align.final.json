@@ -1,0 +1,282 @@
+{
+ "speakerMap": {
+  "S0": "C1",
+  "S1": "C5",
+  "S2": "C2",
+  "S3": "C4",
+  "S4": "C6",
+  "S5": "C2"
+ },
+ "clusters": {
+  "S0": {
+   "cid": "C1",
+   "level": "conflict",
+   "why": "text + hình cùng chỉ một người; nhưng chính cụm này gọi tên 顾言 ở 1 dòng",
+   "text": "C1",
+   "textVerified": false,
+   "vision": "C1",
+   "visionSure": true,
+   "veto": [
+    "C1",
+    "C2"
+   ],
+   "size": 24,
+   "votes": {
+    "顾言": 6
+   },
+   "probed": [
+    0,
+    23,
+    29,
+    38,
+    49,
+    51
+   ]
+  },
+  "S1": {
+   "cid": "C5",
+   "level": "conflict",
+   "why": "text + hình cùng chỉ một người; nhưng chính cụm này gọi tên 灵根 ở 1 dòng",
+   "text": "C5",
+   "textVerified": false,
+   "vision": "C5",
+   "visionSure": true,
+   "veto": [
+    "C5"
+   ],
+   "size": 15,
+   "votes": {
+    "灵根": 4
+   },
+   "probed": [
+    3,
+    9,
+    11,
+    15,
+    44
+   ]
+  },
+  "S2": {
+   "cid": "C2",
+   "level": "confirmed",
+   "why": "text + hình cùng chỉ một người",
+   "text": "C2",
+   "textVerified": false,
+   "vision": "C2",
+   "visionSure": true,
+   "veto": [],
+   "size": 18,
+   "votes": {
+    "冷清秋": 6
+   },
+   "probed": [
+    14,
+    17,
+    24,
+    34,
+    45,
+    61
+   ]
+  },
+  "S3": {
+   "cid": "C4",
+   "level": "conflict",
+   "why": "text=C4 nhưng hình=C2 -> theo text (có trích dẫn)",
+   "text": "C4",
+   "textVerified": true,
+   "vision": "C2",
+   "visionSure": true,
+   "veto": [],
+   "size": 4,
+   "votes": {
+    "顾言": 1,
+    "冷清秋": 2,
+    "系统": 1
+   },
+   "probed": [
+    32,
+    42,
+    57,
+    58
+   ]
+  },
+  "S4": {
+   "cid": "C6",
+   "level": "confirmed",
+   "why": "text + hình cùng chỉ một người",
+   "text": "C6",
+   "textVerified": true,
+   "vision": "C6",
+   "visionSure": false,
+   "veto": [],
+   "size": 1,
+   "votes": {
+    "冷心安": 1
+   },
+   "probed": [
+    53
+   ]
+  },
+  "S5": {
+   "cid": "C2",
+   "level": "confirmed",
+   "why": "text + hình cùng chỉ một người",
+   "text": "C2",
+   "textVerified": false,
+   "vision": "C2",
+   "visionSure": true,
+   "veto": [],
+   "size": 4,
+   "votes": {
+    "冷清秋": 2,
+    "顾言": 1
+   },
+   "probed": [
+    62,
+    63,
+    64,
+    65
+   ]
+  }
+ },
+ "suspects": {
+  "0": [
+   "cụm conflict"
+  ],
+  "1": [
+   "cụm conflict"
+  ],
+  "2": [
+   "cụm conflict"
+  ],
+  "3": [
+   "cụm conflict",
+   "dòng này gọi tên chính nhân vật được gán"
+  ],
+  "4": [
+   "cụm conflict"
+  ],
+  "5": [
+   "cụm conflict"
+  ],
+  "7": [
+   "cụm conflict"
+  ],
+  "8": [
+   "cụm conflict"
+  ],
+  "9": [
+   "cụm conflict"
+  ],
+  "10": [
+   "cụm conflict"
+  ],
+  "11": [
+   "cụm conflict"
+  ],
+  "13": [
+   "cụm conflict"
+  ],
+  "15": [
+   "cụm conflict"
+  ],
+  "16": [
+   "cụm conflict"
+  ],
+  "18": [
+   "cụm conflict",
+   "dòng này gọi tên chính nhân vật được gán"
+  ],
+  "19": [
+   "cụm conflict"
+  ],
+  "20": [
+   "cụm conflict"
+  ],
+  "23": [
+   "cụm conflict"
+  ],
+  "26": [
+   "cụm conflict"
+  ],
+  "27": [
+   "cụm conflict"
+  ],
+  "28": [
+   "cụm conflict"
+  ],
+  "29": [
+   "cụm conflict"
+  ],
+  "32": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "33": [
+   "cụm conflict"
+  ],
+  "36": [
+   "cụm conflict"
+  ],
+  "37": [
+   "cụm conflict"
+  ],
+  "38": [
+   "cụm conflict"
+  ],
+  "39": [
+   "cụm conflict"
+  ],
+  "41": [
+   "cụm conflict"
+  ],
+  "42": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "43": [
+   "cụm conflict"
+  ],
+  "44": [
+   "cụm conflict"
+  ],
+  "47": [
+   "cụm conflict"
+  ],
+  "48": [
+   "cụm conflict"
+  ],
+  "49": [
+   "cụm conflict"
+  ],
+  "50": [
+   "cụm conflict"
+  ],
+  "51": [
+   "cụm conflict"
+  ],
+  "52": [
+   "cụm conflict"
+  ],
+  "55": [
+   "cụm conflict"
+  ],
+  "56": [
+   "cụm conflict"
+  ],
+  "57": [
+   "cụm conflict",
+   "hình gọi tên khác"
+  ],
+  "58": [
+   "cụm conflict"
+  ],
+  "59": [
+   "cụm conflict"
+  ],
+  "64": [
+   "hình gọi tên khác"
+  ]
+ },
+ "human": null
+}

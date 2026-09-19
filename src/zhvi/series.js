@@ -26,7 +26,7 @@ import * as BIBLE from "./bible.js";
 import { sig } from "./ckpt.js";
 import { runPipeline } from "./index.js";
 import { jparse } from "./llm.js";
-import { relevantGlossary, repeatedTerms } from "./passes/b-speakers.js";
+import { isVocative, relevantGlossary, repeatedTerms } from "./passes/b-speakers.js";
 import { LOOK_CONTRAST_SYS, LOOK_SYS, SERIES_SYS } from "./prompts.js";
 import { media, roughVi } from "./review.js";
 import { buildBiblePage } from "./series-page.js";
@@ -36,6 +36,10 @@ const NULL_LOG = { info() {}, warn() {}, error() {} };
 // Ngắn hơn ngần này thì gần như chắc không phải một tập: gặp thật ở 杂役合道 — clip 10s
 // tác giả báo "đang làm tiếp, lên 书旗 đọc trước", nằm lẫn giữa các tập.
 export const MIN_EP_SEC = 60;
+// Hai câu cách nhau hơn ngần này thì gần như chắc đã sang cảnh khác — kéo vào "cảnh" chỉ làm nhiễu.
+const SCENE_GAP_SEC = 6;
+// Trần số cụm giọng chưa ai nhận đưa lên trang duyệt: quá thì trang dài mà người đọc bỏ qua hết.
+const MAX_UNASSIGNED = 6;
 // Trần ký tự gửi cho lượt gộp; quá thì cắt bớt kịch bản đều các tập, không bỏ tập nào.
 // Dưới trần 100k của provider queue (còn chỗ cho system prompt).
 const MAX_BRIEF_CHARS = 90_000;
@@ -221,9 +225,15 @@ export function validateDraft(m, eps, pinned = {}) {
     });
   }
 
+  // Cụm giọng không ai nhận = có người nói mà dàn nhân vật không có chỗ cho họ. Trả ra thành dữ
+  // liệu chứ không chỉ một dòng chữ: trang duyệt còn phải cho nghe, cho xem, rồi cho thêm người.
+  const unassigned = [];
   for (const d of eps) {
     for (const [k, n] of Object.entries(countBy(d.utts))) {
-      if (n >= 2 && !taken.has(`${d.ep}|${k}`)) doubts.push(`tập ${d.ep}: cụm giọng ${k} (${n} câu) chưa gán cho nhân vật nào`);
+      if (n >= 2 && !taken.has(`${d.ep}|${k}`)) {
+        doubts.push(`tập ${d.ep}: cụm giọng ${k} (${n} câu) chưa gán cho nhân vật nào`);
+        unassigned.push({ ep: d.ep, spk: k, lines: n });
+      }
     }
   }
 
@@ -254,25 +264,93 @@ export function validateDraft(m, eps, pinned = {}) {
       fromEp: String(a.fromEp || "1"), why: String(a.why || ""),
     });
   }
-  return { series: m.series || {}, cast, terms, address, doubts };
+  return { series: m.series || {}, cast, terms, address, doubts, unassigned };
 }
 
 // ---------- 4. look + mẫu nghe ----------
 
 /**
- * Câu mẫu của một nhân vật: dài nhất, trải đều qua các tập. Câu dưới 1,2s không đủ khung
- * để thấy miệng động, cũng không đủ tiếng để người duyệt nghe ra giọng.
+ * Câu mẫu của một nhân vật: trải đều qua các tập, ưu tiên câu GỌI TÊN hoặc NHẮC TÊN ai đó.
+ *
+ * Trước đây lấy câu DÀI NHẤT. Nhìn từ phía người duyệt thì đó là lựa chọn sai: câu dài nhất
+ * thường là độc thoại, đọc xong vẫn không biết người này là ai của ai — mà đúng cái đó mới là
+ * thứ trang này hỏi. Câu có tên người trong đó trả lời thẳng câu hỏi ấy.
+ * Câu dưới 1,2s vẫn loại: không đủ khung để thấy miệng động, cũng không đủ tiếng để nghe ra giọng.
  */
-export function samplesOf(c, byEp, n = 4) {
+export function samplesOf(c, byEp, n = 4, { names = [] } = {}) {
+  const score = (u) => {
+    const named = names.filter((nm) => nm && u.zh.includes(nm));
+    return (named.some((nm) => isVocative(u.zh, nm)) ? 4 : named.length ? 2 : 0)
+      + Math.min(u.end - u.start, 8) / 8;
+  };
   const perEp = Object.entries(c.clusters || {}).map(([ep, ks]) => byEp[ep].utts
     .filter((u) => ks.includes(u.speaker) && u.end - u.start >= 1.2)
-    .sort((a, b) => (b.end - b.start) - (a.end - a.start))
+    .sort((a, b) => score(b) - score(a))
     .map((u) => ({ ep, u })));
   const out = [];
   for (let i = 0; out.length < n && perEp.some((xs) => i < xs.length); i++) {
     for (const xs of perEp) if (i < xs.length && out.length < n) out.push(xs[i]);
   }
   return out;
+}
+
+/**
+ * Mấy câu quanh câu mẫu, cắt ở chỗ hụt tiếng (đã sang cảnh khác).
+ *
+ * Một câu đứng lẻ thì không phán được gì: "Ngươi dám!" là ai nói với ai cũng được. Người duyệt
+ * cần thấy câu trước và câu sau mới biết đang là cảnh gì.
+ */
+export function sceneOf(utts, idx, { before = 2, after = 2, maxGap = SCENE_GAP_SEC } = {}) {
+  let lo = idx;
+  let hi = idx;
+  while (lo > 0 && idx - lo < before && utts[lo].start - utts[lo - 1].end <= maxGap) lo -= 1;
+  while (hi < utts.length - 1 && hi - idx < after && utts[hi + 1].start - utts[hi].end <= maxGap) hi += 1;
+  return utts.slice(lo, hi + 1);
+}
+
+/** Một câu mẫu + cảnh quanh nó + chỗ phát video đúng đoạn đó. Dùng cho cả nhân vật lẫn cụm chưa ai nhận. */
+function sceneSample(ep, u, byEp, videoRef) {
+  const { utts } = byEp[ep];
+  const scene = sceneOf(utts, utts.indexOf(u));
+  return {
+    ep, id: u.id, zh: u.zh, start: u.start, end: u.end,
+    video: videoRef[ep] || null,
+    sceneStart: scene[0].start,
+    sceneEnd: scene[scene.length - 1].end,
+    scene: scene.map((x) => ({
+      id: x.id, spk: x.speaker, zh: x.zh, start: x.start, end: x.end, self: x.id === u.id,
+    })),
+  };
+}
+
+/**
+ * Tên người được GỌI trong thoại («大王，…» / «…，师父») mà dàn nhân vật chưa có.
+ *
+ * Để làm gì: người duyệt không đọc và không gõ được chữ Hán, nên muốn thêm một nhân vật máy bỏ
+ * sót thì phải có sẵn danh sách tên để CHỌN. Đây là nguồn lấy được mà không tốn thêm lượt LLM
+ * nào, và lọc theo vị trí gọi tên nên phần lớn là tên người thật chứ không phải thuật ngữ.
+ */
+export function vocativeNames(eps, known = [], { max = 12, minCount = 2 } = {}) {
+  const dup = (nm) => known.some((k) => k && (k.includes(nm) || nm.includes(k)));
+  const RE = [/^([一-鿿]{2,4})[，,、]/, /[，,、]([一-鿿]{2,4})[？！。?!]?$/];
+  const hits = new Map();
+  for (const d of eps) {
+    for (const u of d.utts) {
+      for (const re of RE) {
+        const nm = u.zh.match(re)?.[1];
+        if (!nm || dup(nm)) continue;
+        const e = hits.get(nm) || { zh: nm, count: 0, ep: d.ep, line: null };
+        e.count += 1;
+        if (!e.line || u.end - u.start > e.line.end - e.line.start) {
+          e.line = u;
+          e.ep = d.ep;
+        }
+        hits.set(nm, e);
+      }
+    }
+  }
+  return [...hits.values()].filter((x) => x.count >= minCount)
+    .sort((a, b) => b.count - a.count).slice(0, max);
 }
 
 async function describeLook(llm, c, samples, byEp, { model, frames = 3, width = 480 }) {
@@ -381,7 +459,7 @@ export async function initSeries({
       ...used.map((e) => ({ id: `ep${e.ep}`, title: `Tập ${e.ep}: sửa ASR` })),
       { id: "merge", title: `Tự suy dàn nhân vật (gộp ${used.length} tập)` },
       ...(noLooks ? [] : [{ id: "look", title: "Tả ngoại hình từng nhân vật" }, { id: "contrast", title: "Viết lại ngoại hình cho nổi khác biệt" }]),
-      { id: "rough", title: "Dịch thô câu mẫu cho người duyệt" },
+      { id: "rough", title: "Dịch thô cảnh mẫu cho người duyệt" },
     ],
   });
 
@@ -429,22 +507,44 @@ export async function initSeries({
     + `${draft.address.length} cặp xưng hô, ${draft.doubts.length} điều máy không chắc`);
 
   // 4. mẫu nghe + look
+  // Chỗ phát video của từng tập. Trang duyệt mở được cả bằng file:// lẫn qua UI nên ghi hai
+  // đường: tương đối (từ series/<slug>/bible-review.html) và từ gốc repo (UI phục vụ /media/…).
+  const videoRef = {};
+  for (const e of used) {
+    const f = path.join(e.videoDir, "video.mp4");
+    if (!(await exists(f))) {
+      videoRef[e.ep] = null;
+      continue;
+    }
+    const repo = path.relative(process.cwd(), f).split(path.sep).join("/");
+    videoRef[e.ep] = {
+      rel: path.relative(path.resolve(seriesDir), f).split(path.sep).join("/"),
+      repo: repo.startsWith("..") ? null : repo,
+    };
+  }
+  const noVideo = used.filter((e) => !videoRef[e.ep]);
+  if (noVideo.length) {
+    log.warn(`${noVideo.length} tập không có video.mp4 — trang duyệt sẽ không có nút xem cảnh (tập ${noVideo.map((e) => e.ep).join(", ")})`);
+  }
+
   const lookCache = (await readJson(path.join(draftDir, "looks.json"))) || {};
   const lookFail = [];
   let lookDead = false;
   const mediaByCast = {};
   const sampleUtts = [];
+  const castNames = uniq(draft.cast.flatMap((c) => [c.zh, ...(c.alias || [])]));
   if (!noLooks) step("look", "start", { done: 0, total: draft.cast.length });
   for (const [ci, c] of draft.cast.entries()) {
     if (!noLooks && ci) step("look", "progress", { done: ci, total: draft.cast.length });
-    const smp = samplesOf(c, byEp);
-    c.samples = smp.map((s) => ({ ep: s.ep, id: s.u.id, zh: s.u.zh, start: s.u.start, end: s.u.end }));
+    const smp = samplesOf(c, byEp, 4, { names: castNames });
+    c.samples = smp.map((s) => sceneSample(s.ep, s.u, byEp, videoRef));
     const clips = [];
-    for (const s of smp) {
+    for (const [si, s] of smp.entries()) {
       const video = path.join(byEp[s.ep].episode.videoDir, "video.mp4");
-      const m = await media(video, [s.u], null, { n: 0 });
+      const m = videoRef[s.ep] ? await media(video, [s.u], null, { n: 0 }) : {};
       clips.push(m[s.u.id]?.clip || "");
-      sampleUtts.push({ id: `${c.id}:${s.ep}:${s.u.id}`, zh: s.u.zh });
+      // dịch thô CẢ CẢNH, không chỉ câu mẫu — câu lẻ thì người duyệt không phán được gì
+      for (const l of c.samples[si].scene) sampleUtts.push({ id: `${c.id}:${s.ep}:${l.id}`, zh: l.zh });
     }
     mediaByCast[c.id] = { clips, images: [] };
     if (noLooks || lookDead || !smp.length) continue;
@@ -504,6 +604,34 @@ export async function initSeries({
     }
   }
 
+  // 4b. cụm giọng chưa ai nhận: có người nói mà dàn nhân vật không có chỗ cho họ. Đưa cả tiếng,
+  // cảnh và video lên trang để người duyệt quyết được "đây là nhân vật máy bỏ sót" hay không.
+  const unassigned = [];
+  for (const un of [...(draft.unassigned || [])].sort((a, b) => b.lines - a.lines).slice(0, MAX_UNASSIGNED)) {
+    const { utts, episode } = byEp[un.ep];
+    const best = utts.filter((u) => u.speaker === un.spk)
+      .sort((a, b) => (b.end - b.start) - (a.end - a.start))[0];
+    if (!best) continue;
+    const s = sceneSample(un.ep, best, byEp, videoRef);
+    let clip = "";
+    if (videoRef[un.ep]) {
+      try {
+        clip = (await media(path.join(episode.videoDir, "video.mp4"), [best], null, { n: 0 }))[best.id]?.clip || "";
+      } catch (ex) {
+        log.warn(`không cắt được tiếng cho cụm ${un.spk} tập ${un.ep}: ${ex.message}`);
+      }
+    }
+    unassigned.push({ ...un, ...s, clip });
+    for (const l of s.scene) sampleUtts.push({ id: `un:${un.ep}:${un.spk}:${l.id}`, zh: l.zh });
+  }
+
+  // 4c. tên được gọi trong thoại mà chưa thành nhân vật — để người duyệt CHỌN khi thêm người,
+  // vì họ không gõ được chữ Hán. Dịch thô cả cái tên lẫn một câu có nó.
+  const nameCands = vocativeNames(eps, [...castNames, ...Object.keys(draft.terms)]);
+  for (const t of nameCands) {
+    sampleUtts.push({ id: `cand:${t.zh}`, zh: t.zh }, { id: `candline:${t.zh}`, zh: t.line.zh });
+  }
+
   // bản dịch thô của câu mẫu: người duyệt không đọc được chữ Hán
   const pseudo = {
     terms: Object.fromEntries(Object.entries(draft.terms).map(([zh, t]) => [zh, { ...t, approved: true }])),
@@ -512,8 +640,20 @@ export async function initSeries({
   step("rough", "start");
   const vi = await roughVi(llm, sampleUtts, pseudo, path.join(draftDir, "rough_vi.json"), { model: models.mt });
   for (const c of draft.cast) {
-    for (const s of c.samples) s.vi = vi[`${c.id}:${s.ep}:${s.id}`] || "";
+    for (const s of c.samples) {
+      for (const l of s.scene) l.vi = vi[`${c.id}:${s.ep}:${l.id}`] || "";
+      s.vi = s.scene.find((l) => l.self)?.vi || "";
+    }
   }
+  for (const un of unassigned) {
+    for (const l of un.scene) l.vi = vi[`un:${un.ep}:${un.spk}:${l.id}`] || "";
+    un.vi = un.scene.find((l) => l.self)?.vi || "";
+  }
+  const candidates = nameCands.map((t) => ({
+    zh: t.zh, count: t.count, ep: t.ep,
+    vi: vi[`cand:${t.zh}`] || "",
+    line: { zh: t.line.zh, vi: vi[`candline:${t.zh}`] || "" },
+  }));
   step("rough", "done");
   if (onEvent) llm.onCall = prevOnCall;
 
@@ -532,6 +672,8 @@ export async function initSeries({
     terms: draft.terms,
     address: draft.address,
     doubts: draft.doubts,
+    unassigned,
+    candidates,
   };
   out.version = BIBLE.version(out);
   const draftPath = path.join(draftDir, "bible.draft.json");
@@ -606,6 +748,41 @@ export async function applyReview(reviewFile, seriesDir, { by = null, log = NULL
     if (!t) continue; // gộp vào một nhân vật đã bị bỏ
     t.alias = uniq([...t.alias, c.zh, ...c.alias]).filter((a) => a !== t.zh);
     log.info(`[gộp] ${c.zh} -> ${t.zh}`);
+  }
+
+  /*
+   * Nhân vật người duyệt THÊM tay. Máy bỏ sót một người là ngõ cụt thật: trang soát người nói
+   * từng tập chỉ cho chọn trong dàn nhân vật của bible, nên không thêm được ở đây thì cả loạt
+   * tập sau không có cách nào gán đúng.
+   *
+   * Ở đây chỉ nhận DANH TÍNH, không nhận cụm giọng: bible không giữ cụm (mỗi tập tự suy lại),
+   * và cụm là chuyện của từng tập chứ không phải của cả bộ.
+   */
+  let maxId = Math.max(0, ...draft.cast.map((c) => Number(String(c.id).replace(/\D+/g, "")) || 0));
+  for (const i of uniq(Object.keys(v).filter((k) => /^new\.\d+\./.test(k)).map((k) => k.split(".")[1]))
+    .sort((a, b) => Number(a) - Number(b))) {
+    const k = (f) => str(`new.${i}.${f}`, "");
+    const viName = k("vi");
+    if (!viName) continue; // hàng bỏ trống: trang luôn xuất mọi ô, kể cả ô chưa gõ gì
+    // Khoá dữ liệu là tên chữ Hán. Người duyệt không gõ được chữ Hán nên bỏ trống thì lấy tên
+    // Việt làm khoá: nó không bao giờ khớp chữ trong thoại, tức kênh "gọi tên" im lặng — không
+    // đúng thêm được gì, nhưng cũng không gán bừa.
+    const zh = k("zh") || viName;
+    if (cast.some((c) => c.zh === zh)) {
+      log.warn(`[thêm] bỏ qua «${viName}»: tên ${zh} đã có trong bible`);
+      continue;
+    }
+    maxId += 1;
+    const row = {
+      id: `C${maxId}`, zh, vi: viName, viShort: k("viShort"),
+      gender: GENDER[k("gender").toLowerCase()] || "?",
+      role: ["main", "episodic", "mentioned"].includes(k("role")) ? k("role") : "episodic",
+      alias: [], note: k("note"), look: k("look"),
+      source: "người duyệt thêm", approved: true, reviewedBy: who,
+    };
+    cast.push(row);
+    byId.set(row.id, row);
+    log.info(`[thêm] ${row.vi} (${row.zh})`);
   }
 
   const address = [];

@@ -389,7 +389,7 @@ export async function ttsPlan(slug, ep, { reextract = false, preset = false } = 
     const inEp = await exists(path.join(e.videoDir, "voice", folderOf(sp), "manifest.json"));
     if (reextract || (!inBank && !inEp)) extract.push(sp);
   }
-  const { resume, dropped } = await staleClips(e.videoDir, tr);
+  const { resume, dropped } = await staleClips(e.videoDir, tr, { synth: "voice" });
   return { videoDir: e.videoDir, bank, speakers, extract, resume, dropped, core };
 }
 
@@ -399,7 +399,7 @@ export async function ttsPlan(slug, ep, { reextract = false, preset = false } = 
  * người nói thì xoá clip đó, còn lại dùng lại — sửa một câu chỉ tổng hợp lại đúng một câu. Lần
  * trước bị ngắt giữa chừng (chưa có report) thì so mốc thời gian clip với bản dịch.
  */
-async function staleClips(videoDir, tr) {
+async function staleClips(videoDir, tr, { synth = "voice" } = {}) {
   const clipDir = path.join(videoDir, "dub", "clips");
   let files = [];
   try {
@@ -411,6 +411,12 @@ async function staleClips(videoDir, tr) {
   const key = (s) => `${s.speaker}|${s.vi}`;
   const now = new Map(tr.segments.map((s, i) => [String(Number(s.index ?? s.id ?? i)), key(s)]));
   const rep = await readJson(path.join(videoDir, "dub", "report.json"));
+  // Đổi đường tổng hợp = đổi giọng (zero-shot /clone vs giọng enrol /tts). Câu cũ giữ lại sẽ
+  // nghe khác hẳn câu mới ngay giữa tập, nên bỏ hết làm lại.
+  if (rep?.synth && rep.synth !== synth) {
+    await fs.rm(clipDir, { recursive: true, force: true });
+    return { resume: false, dropped: files.length };
+  }
   const said = new Map((rep?.segments || []).map((s) => [String(Number(s.index)), key(s)]));
   const trTime = await mtime(path.join(videoDir, "translation.json"));
   let dropped = 0;

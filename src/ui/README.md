@@ -15,7 +15,7 @@ tiếp từ checkpoint, không trả tiền lại.
 | Tác giả | dán link trang tác giả / link chia sẻ app → quét | `src/cli.js collect` |
 | Video của tác giả | lọc, gợi ý gom theo 合集/hashtag, chọn → **Tải + STT** | `src/cli.js fetch <user> <ids…>` → `stt` |
 | | chọn → **Tạo series** (tự tải phần thiếu rồi dựng bible) | `zhvi series init … --events` |
-| Series › Duyệt bible | trang duyệt zhvi nhúng; nút gửi thẳng về UI | `zhvi series apply` |
+| Series › Duyệt bible | trang duyệt zhvi nhúng: nghe giọng, đọc **cảnh** quanh câu mẫu, **xem đúng đoạn video**, thêm nhân vật máy bỏ sót; nút gửi thẳng về UI | `zhvi series apply` |
 | Series › các tập | **Dịch** từng tập / cả loạt; tiến độ từng bước con A1…E3 | `zhvi <transcript> --bible … --events` |
 | Tập › Soát người nói | trang soát zhvi nhúng; gửi xong tự nạp nhãn + dịch tiếp | `zhvi --apply` → dịch lại |
 | Tập › Bản dịch | video + phụ đề Việt đồng bộ bảng câu; lọc câu nên xem; **sửa tay** | — |
@@ -36,6 +36,9 @@ tiếp từ checkpoint, không trả tiền lại.
   `call` kèm usd, `gate`, `review`, `done`; series init thêm `step`). Log chữ giữ nguyên.
 - Trang soát zhvi vẫn là HTML tự chứa (mở file:// được). Server tiêm một đoạn script chặn cú tải
   `.json` của nút Xuất và POST thẳng về — áp được cả trang đã dựng từ trước.
+- Video của trang duyệt bible **không** nhúng vào HTML: trang tự chọn đường — `file://` thì đi
+  đường dẫn tương đối tới `video.mp4`, mở qua UI thì đi `/media/<đường dẫn từ gốc repo>` (route
+  này phục vụ `data/`, `out/`, `series/` và có hỗ trợ `Range` nên tua được).
 
 ## Dữ liệu UI tự ghi
 
