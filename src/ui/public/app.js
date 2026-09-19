@@ -1059,52 +1059,16 @@ async function viewEpisode([slug, ep, tab]) {
         }
         if (f.engine.value !== engine) return; // đổi engine trong lúc chờ: lượt vẽ mới lo
         loaded = engine;
-        // ô tìm: bỏ dấu, không phân biệt hoa thường; nhiều từ = phải khớp hết (vd. "nam bac" ra giọng nam miền Bắc)
-        const fold = (t) => String(t).normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/đ/gi, "d").toLowerCase();
-        const hay = list.map((o) => ({ o, name: fold(o.name), text: fold(`${o.name} ${o.kind === "cloned" ? "" : o.description}`) }));
-        // Dựng lại các <option> của một ô theo từ khoá; trả về id giọng khớp đầu tiên đang hiện (cho phím Enter).
-        // Không gõ gì: chia nhóm, nhóm cùng giới của nhân vật lên trước. Đang tìm: danh sách phẳng, khớp TÊN lên trước,
-        // rồi mới tới khớp mô tả ("thuy" ra Thùy Dung trước, không lẫn giọng có chữ "thuyết minh" trong mô tả).
-        const fill = (sel, q) => {
-          const cur = sel.value;
-          const words = fold(q).split(/\s+/).filter(Boolean);
-          const inName = hay.filter((x) => words.every((w) => x.name.includes(w)));
-          const found = words.length ? [...inName, ...hay.filter((x) => !inName.includes(x) && words.every((w) => x.text.includes(w)))] : hay;
-          const head = !words.length ? "— chọn giọng —" : found.length ? `— ${found.length} giọng khớp —` : "— không có giọng nào khớp —";
-          const opt = (x) => html`<option value="${x.o.id}">${label(x.o)}</option>`;
-          let items;
-          if (words.length) {
-            // giọng đang chọn luôn còn trong ô, dù không khớp từ khoá — gõ tìm không được làm mất lựa chọn
-            items = [...found, ...hay.filter((x) => x.o.id === cur && !found.includes(x))].map(opt);
-          } else {
-            const by = Object.groupBy(hay, (x) => groupOf(x.o));
-            // giới tính của nhân vật (từ bible) đưa nhóm cùng giới lên trước — đỡ cuộn qua 300 giọng
-            const order = ["cloned", sel.dataset.gender, "male", "female", "other"].filter((g, i, arr) => g && arr.indexOf(g) === i);
-            items = order.filter((g) => by[g]).map((g) => html`<optgroup label="${GROUPS[g]}">${by[g].map(opt)}</optgroup>`);
-          }
-          sel.innerHTML = val(html`<option value="">${head}</option>${items}`);
-          sel.value = cur;
-          return found[0]?.o.id ?? null;
-        };
-        box.innerHTML = val(html`${d.voices.map((v) => html`<div class="stack" style="gap:4px">
-          <div class="row">${spk(v.name)}${v.gender ? html`<span class="dim small">${v.gender === "male" ? "nam" : "nữ"}</span>` : ""}<span class="dim small">${v.lines} câu</span></div>
-          <div class="row"><input type="search" data-q placeholder="Tìm giọng theo tên…" autocomplete="off" style="width:160px">
-            <select data-sp="${v.speaker}" data-gender="${v.gender || ""}" style="flex:1;min-width:200px"></select></div></div>`)}<div class="dim small">Giọng có sẵn không tốn hạn mức clone (ngày/tháng); vẫn tính token theo số ký tự. Lựa chọn được nhớ cho cả series.</div>`);
-        for (const q of $$("input[data-q]", box)) {
-          const sel = q.parentElement.querySelector("select");
-          fill(sel, "");
-          if ([...sel.options].some((o) => o.value === keep[sel.dataset.sp])) sel.value = keep[sel.dataset.sp];
-          q.oninput = () => fill(sel, q.value);
-          q.onkeydown = (e) => {
-            if (e.key !== "Enter") return;
-            e.preventDefault(); // Enter trong form sẽ gửi lệnh lồng tiếng (tốn tiền): chỉ chọn giọng khớp đầu tiên
-            const id = fill(sel, q.value);
-            if (id) {
-              sel.value = id;
-              sel.dispatchEvent(new Event("change", { bubbles: true }));
-            }
-          };
-        }
+        const by = Object.groupBy(list, groupOf);
+        box.innerHTML = val(html`${d.voices.map((v) => {
+          // giới tính của nhân vật (từ bible) đưa nhóm cùng giới lên trước — đỡ cuộn qua 300 giọng
+          const order = ["cloned", v.gender, "male", "female", "other"].filter((g, i, a) => g && a.indexOf(g) === i);
+          return html`<div class="row"><span style="min-width:140px">${spk(v.name)}${v.gender ? html` <span class="dim small">${v.gender === "male" ? "nam" : "nữ"}</span>` : ""}</span>
+            <span class="dim small" style="min-width:52px">${v.lines} câu</span>
+            <select data-sp="${v.speaker}" style="flex:1;min-width:220px"><option value="">— chọn giọng —</option>
+              ${order.filter((g) => by[g]).map((g) => html`<optgroup label="${GROUPS[g]}">${by[g].map((o) => html`<option value="${o.id}">${label(o)}</option>`)}</optgroup>`)}</select></div>`;
+        })}<div class="dim small">Giọng có sẵn không tốn hạn mức clone (ngày/tháng); vẫn tính token theo số ký tự. Lựa chọn được nhớ cho cả series.</div>`);
+        for (const s of $$("select[data-sp]", box)) if ([...s.options].some((o) => o.value === keep[s.dataset.sp])) s.value = keep[s.dataset.sp];
       };
       f.engine.value = draft.engine ?? f.engine.value;
       f.mode.value = draft.mode ?? (d.dub?.synth === "preset" ? "preset" : "clone");
