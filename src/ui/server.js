@@ -136,6 +136,33 @@ function ffmpegThumb(src, dst) {
   });
 }
 
+/**
+ * Ảnh đại diện series (thẻ ở trang danh sách) = ảnh bìa Douyin của tập đầu (state.json → info.cover),
+ * ghép thành khung cùng tỉ lệ với video: ảnh bìa phóng to làm nền mờ, ảnh bìa nét nằm giữa. Ảnh bìa
+ * Douyin là ảnh dọc 323x430 nên nhét thẳng vào khung 16:9 sẽ bị viền đen hai bên. Lỗi (không có bìa,
+ * tải hỏng) → 404, trang danh sách tự bỏ ảnh, chỉ còn tiêu đề.
+ */
+async function buildPoster(user, vid, dst) {
+  const st = await scan.readJson(path.join("data", user, "state.json"));
+  const url = st?.videos?.[vid]?.info?.cover;
+  if (!url) return false;
+  const res = await fetch(url, { signal: AbortSignal.timeout(15000) });
+  if (!res.ok || !String(res.headers.get("content-type")).startsWith("image/")) return false;
+  await fsp.mkdir(path.dirname(dst), { recursive: true });
+  const src = dst.replace(/\.jpg$/, ".src.jpg");
+  await fsp.writeFile(src, Buffer.from(await res.arrayBuffer()));
+  // khung theo độ phân giải video (vd. 1920x1080 → 960x540; video dọc → khung dọc), cạnh dài 960
+  const meta = await scan.readJson(path.join("data", user, vid, "meta.json"));
+  const [rw, rh] = String(meta?.videoResolution ?? "").split("x").map(Number);
+  const k = rw > 0 && rh > 0 ? 960 / Math.max(rw, rh) : 960 / 1920;
+  const W = 2 * Math.round(((rw > 0 && rh > 0 ? rw : 1920) * k) / 2);
+  const H = 2 * Math.round(((rw > 0 && rh > 0 ? rh : 1080) * k) / 2);
+  const vf = `split[a][b];[a]scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},boxblur=24:4,eq=brightness=-0.12[bg];`
+    + `[b]scale=${W}:${H}:force_original_aspect_ratio=decrease[fg];[bg][fg]overlay=(W-w)/2:(H-h)/2`;
+  const ok = await new Promise((resolve) => execFile("ffmpeg", ["-v", "error", "-y", "-i", src, "-filter_complex", vf, "-frames:v", "1", "-q:v", "3", dst], (err) => resolve(!err)));
+  return ok;
+}
+
 // ---------- sức khoẻ hệ thống ----------
 
 let healthCache = null;
@@ -292,6 +319,20 @@ on("GET", "/api/thumb/([^/]+)/([^/]+)", async (req, [user, vid], res) => {
   return serveFile(req, res, dst, { "cache-control": "max-age=86400" });
 });
 
+on("GET", "/api/cover/([^/]+)/([^/]+)", async (req, [user, vid], res) => {
+  if (!safePath(path.join("data", user, vid))) return fail(res, 400, "sai đường dẫn");
+  const dst = path.join(ROOT, "data/_ui/covers", `${vid}.jpg`);
+  if (!(await scan.mtime(dst)) && !(await buildPoster(user, vid, dst).catch(() => false))) return fail(res, 404, "không có ảnh bìa");
+  return serveFile(req, res, dst, { "cache-control": "max-age=86400" });
+});
+
+// video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được — dựng bản xem trước riêng (xem
+// scan.js videoCodec + urls.buildPreview), việc chạy nền như mọi việc khác, xong tự hiện qua SSE
+on("POST", "/api/preview/([^/]+)/([^/]+)", async (req, [userId, videoId]) => {
+  if (!safePath(path.join("data", userId, videoId))) throw Object.assign(new Error("sai đường dẫn"), { code: 400 });
+  return { job: await jobs.enqueue("preview", { userId, videoId }) };
+});
+
 // series
 // tên chữ Hán -> pinyin (杂役合道 -> za-yi-he-dao), không thì thư mục series thành series-<id>
 const slugify = (s) => {
@@ -399,10 +440,13 @@ on("GET", "/api/vieneu/voices", async (req, m, res, url) => {
   return { engine, voices: await vieneuVoices(engine) };
 });
 on("POST", "/api/series/([^/]+)/ep/([^/]+)/tts", async (req, [slug, ep]) => {
-  const { engine = "v3", reextract = false, mode = "clone", presets = {} } = await body(req);
+  const { engine = "v3", reextract = false, mode = "clone", presets = {}, bed = "vocals-removed", origDb } = await body(req);
   if (!["v3", "v4"].includes(engine)) throw Object.assign(new Error("engine phải là v3 hoặc v4"), { code: 400 });
   if (!["clone", "preset"].includes(mode)) throw Object.assign(new Error("mode phải là clone hoặc preset"), { code: 400 });
-  if (mode === "clone") return { job: await jobs.enqueue("tts", { slug, ep, engine, ...(reextract ? { reextract: true } : {}) }) };
+  if (!["vocals-removed", "original"].includes(bed)) throw Object.assign(new Error("bed phải là vocals-removed hoặc original"), { code: 400 });
+  if (origDb !== undefined &&!(Number.isFinite(origDb) && origDb >= -30 && origDb <= 0)) throw Object.assign(new Error("origDb phải là số dB từ -30 đến 0"), { code: 400 });
+  const withBed = bed === "original" ? { bed, ...(origDb === undefined ? {} : { origDb }) } : {}; // mặc định không ghi vào params — job cũ/mới cùng khoá
+  if (mode === "clone") return { job: await jobs.enqueue("tts", { slug, ep, engine, ...(reextract ? { reextract: true } : {}), ...withBed }) };
   // chặn từ đầu: thiếu/sai giọng thì báo ngay, khỏi xếp hàng rồi mới hỏng
   const d = await scan.episodeDetail(slug, ep);
   if (!d) throw Object.assign(new Error("không có tập này"), { code: 404 });
@@ -414,7 +458,7 @@ on("POST", "/api/series/([^/]+)/ep/([^/]+)/tts", async (req, [slug, ep]) => {
     else bad.push(v.name);
   }
   if (bad.length) throw Object.assign(new Error(`chưa chọn giọng (hoặc giọng không có ở engine ${engine}) cho: ${bad.join(", ")}`), { code: 400 });
-  return { job: await jobs.enqueue("tts", { slug, ep, engine, mode, presets: picked }) };
+  return { job: await jobs.enqueue("tts", { slug, ep, engine, mode, presets: picked, ...withBed }) };
 });
 on("POST", "/api/series/([^/]+)/ep/([^/]+)/line", async (req, [slug, ep]) => {
   const { index, vi = null, drop = false } = await body(req);

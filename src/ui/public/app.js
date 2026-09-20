@@ -438,6 +438,7 @@ async function viewUser([userId]) {
     const thumb = v.hasVideo ? `/api/thumb/${enc(userId)}/${v.id}` : v.cover;
     return html`<div class="vc ${ui.sel.has(v.id) ? "sel" : ""}" data-vid="${v.id}">
       <div class="th">${thumb ? html`<img src="${thumb}" loading="lazy" referrerpolicy="no-referrer" alt="">` : "chưa có ảnh"}
+        ${v.cover ? html`<img class="cv-badge" src="/api/cover/${enc(userId)}/${v.id}" loading="lazy" alt="" title="ảnh bìa — để nhận video cùng series" onerror="this.remove()">` : ""}
         <span class="ck">${ui.sel.has(v.id) ? "✓" : ""}</span>
         ${v.duration ? html`<span class="dur">${mmss(v.duration)}</span>` : ""}
         ${v.hasVideo ? html`<button class="play" data-play="${v.id}">▶ xem</button>` : ""}</div>
@@ -617,10 +618,13 @@ async function viewSeriesList() {
         const by = eps.reduce((m, e) => ({ ...m, [e.state.status]: (m[e.state.status] || 0) + 1 }), {});
         const running = activeOf(jobsFor((j) => j.params?.slug === s.slug));
         return html`<a class="card sc" href="#/series/${enc(s.slug)}">
-          <div class="row"><span class="sc-t">${s.title}</span><span class="grow"></span>${running ? pill(JOB_ST.running) : pill(SERIES_ST[s.status])}</div>
-          <div class="dim small">${s.titleZh ? html`<span class="zh">${s.titleZh}</span> · ` : ""}${eps.length || s.episodes.length + s.extra.length} tập</div>
-          <div class="stackbar">${Object.entries(EP_COLORS).map(([k, c]) => (by[k] ? html`<i style="width:${(100 * by[k]) / Math.max(1, eps.length)}%;background:${c}"></i>` : ""))}</div>
-          <div class="dim small">${[["dubbed", "lồng tiếng"], ["translated", "đã dịch"], ["review", "chờ soát"]].map(([k, t]) => (by[k] ? `${by[k]} ${t}` : "")).filter(Boolean).join(" · ") || "chưa tập nào xong"}</div>
+          ${s.cover ? html`<div class="sc-th"><img src="${s.cover}" loading="lazy" alt="" onerror="this.parentElement.remove()"></div>` : ""}
+          <div class="sc-body">
+            <div class="row"><span class="sc-t">${s.title}</span><span class="grow"></span>${running ? pill(JOB_ST.running) : pill(SERIES_ST[s.status])}</div>
+            <div class="dim small">${s.titleZh ? html`<span class="zh">${s.titleZh}</span> · ` : ""}${eps.length || s.episodes.length + s.extra.length} tập</div>
+            <div class="stackbar">${Object.entries(EP_COLORS).map(([k, c]) => (by[k] ? html`<i style="width:${(100 * by[k]) / Math.max(1, eps.length)}%;background:${c}"></i>` : ""))}</div>
+            <div class="dim small">${[["dubbed", "lồng tiếng"], ["translated", "đã dịch"], ["review", "chờ soát"]].map(([k, t]) => (by[k] ? `${by[k]} ${t}` : "")).filter(Boolean).join(" · ") || "chưa tập nào xong"}</div>
+          </div>
         </a>`;
       })}</div>` : html`<div class="card empty"><b>Chưa có series</b>Vào trang tác giả, chọn các video cùng một phim, bấm «Tạo series».<div style="margin-top:12px">${link("Chọn video", "#/users", "pri")}</div></div>`}`);
   };
@@ -765,6 +769,15 @@ async function viewEpisode([slug, ep, tab]) {
   const base = `#/series/${enc(slug)}/ep/${enc(ep)}`;
   const url = `/api/series/${enc(slug)}/ep/${enc(ep)}`;
   const epJobs = () => jobsFor((j) => j.params?.slug === slug && String(j.params?.ep) === String(ep));
+  const previewJob = () => activeOf(jobsFor((j) => j.type === "preview" && j.params?.videoId === d.videoId));
+  // video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được (xem scan.js videoCodec) — dựng bản
+  // xem trước riêng thay vì hiện khung đen/đứng hình khó hiểu
+  function previewNotice() {
+    const pj = previewJob();
+    if (pj) return html`<div data-live-job="${pj.id}" data-mode="card">${liveJob(pj)}</div>`;
+    return html`<div class="empty"><b>Video gốc mã hoá HEVC, trình duyệt không phát được</b>
+      ${btn("Dựng bản xem trước", { url: d.urls.buildPreview, cls: "sm pri", ok: "Đang dựng bản xem trước…" })}</div>`;
+  }
 
   function header() {
     const ej = epJobs();
@@ -835,7 +848,8 @@ async function viewEpisode([slug, ep, tab]) {
         <div class="player card card-b">
           ${d.urls.video ? html`<video id="vid" controls preload="metadata" src="${d.urls.video}" crossorigin="anonymous">
             <track kind="subtitles" srclang="vi" label="Tiếng Việt" src="${url}/subs.vtt" default>
-            <track kind="subtitles" srclang="zh" label="中文" src="${url}/subs.vtt?lang=zh"></video>` : html`<div class="empty">không có video.mp4</div>`}
+            <track kind="subtitles" srclang="zh" label="中文" src="${url}/subs.vtt?lang=zh"></video>`
+            : d.needsPreview ? previewNotice() : html`<div class="empty">không có video.mp4</div>`}
           <div class="row small dim"><span>${d.segments.length} câu</span><span>·</span><span>${flagged} câu nên xem</span><span>·</span>
             <span>${d.speakerReviewed ? "người nói đã soát" : "người nói do máy chốt"}</span><span class="grow"></span>
             <label class="chk"><input type="checkbox" id="follow" checked> cuộn theo video</label></div>
@@ -867,10 +881,14 @@ async function viewEpisode([slug, ep, tab]) {
       const ttsJob = ej.find((j) => j.type === "tts");
       return html`<div class="split">
         <div class="player card card-b">
+          ${!act && d.urls.dub && d.dub && ttsJob?.status !== "failed" ? html`<div class="callout ok" id="dubOk"><b>✓ Đã lồng tiếng thành công</b>
+            <div class="small">VieNeu ${d.dub.engine} · ${d.dub.synth === "preset" ? "giọng có sẵn" : "clone"} · ${d.dub.bed === "original" ? "giữ tiếng Trung gốc" : "bỏ tiếng Trung"} · ${d.dub.lines} câu${d.dub.overflow.length ? `, ${d.dub.overflow.length} câu tràn khung` : ""}${ttsJob?.status === "done" && ttsJob.endedAt ? ` · ${ago(ttsJob.endedAt)}` : ""}${ttsJob?.usd ? ` · ${money(ttsJob.usd)}` : ""}</div></div>` : ""}
           ${d.urls.dub ? html`<video id="dubv" controls preload="metadata" src="${d.urls.dub}"></video>
             <div class="row">
-              <div class="seg" id="srcSeg"><button data-src="dub" class="on">Lồng tiếng Việt</button><button data-src="orig">Bản gốc</button></div>
+              <div class="seg" id="srcSeg"><button data-src="dub" class="on">Lồng tiếng Việt</button>
+                <button data-src="orig" ${d.urls.video ? "" : "disabled"} title="${d.urls.video ? "" : (d.needsPreview ? "video gốc mã hoá HEVC — cần dựng bản xem trước trước" : "không có video.mp4")}">Bản gốc</button></div>
               <span class="grow"></span><a class="btn sm" href="${d.urls.dub}" download="tap-${d.ep}-long-tieng.mp4">Tải mp4</a></div>
+            ${d.needsPreview ? previewNotice() : ""}
             ${d.state.dubStale ? html`<div class="callout warn">Bản lồng tiếng cũ hơn bản dịch hiện tại — lồng tiếng lại để khớp.</div>` : ""}`
             : html`<div class="empty"><b>Chưa có bản lồng tiếng</b>Chọn engine rồi bấm «Lồng tiếng».</div>`}
           ${act?.type === "tts" ? html`<div data-live-job="${act.id}" data-mode="card">${liveJob(act)}</div>` : ""}
@@ -881,10 +899,18 @@ async function viewEpisode([slug, ep, tab]) {
               <select name="mode" title="Clone bị VieNeu giới hạn theo ngày/tháng; giọng có sẵn thì không">
                 <option value="clone">Clone giọng từ mẫu (tính hạn mức clone)</option>
                 <option value="preset">Giọng có sẵn của VieNeu (không clone)</option></select>
+              <select name="bed" title="Âm thanh nền dưới giọng Việt">
+                <option value="vocals-removed">Bỏ tiếng Trung gốc (tách bằng demucs, giữ nhạc nền)</option>
+                <option value="original">Giữ tiếng Trung gốc (nghe cả Trung + Việt)</option></select>
+              <select name="origDb" title="Giọng Trung gốc to cỡ nào so với giọng Việt (tự đo, tự hạ thêm khi giọng Việt đang nói); nhạc nền không đổi" hidden>
+                <option value="-14">Tiếng Trung nhỏ</option>
+                <option value="-8">Tiếng Trung vừa</option>
+                <option value="-3">Tiếng Trung to</option></select>
               <label class="chk" id="reextractLbl"><input type="checkbox" name="reextract"> tách lại giọng mẫu</label>
               <button class="btn pri">${d.urls.dub ? "Lồng tiếng lại" : "Lồng tiếng"}</button></div>
             <div id="presetBox" class="stack" style="gap:6px" hidden></div></form>
-            <div class="dim small">Chạy tuần tự 1 luồng (VieNeu giới hạn tốc độ) — tập 5 phút mất cỡ vài chục phút. Đóng trang vẫn chạy.</div>`}
+            <div class="dim small">Chạy tuần tự 1 luồng (VieNeu giới hạn tốc độ) — tập 5 phút mất cỡ vài chục phút. Đóng trang vẫn chạy.
+              «Giữ tiếng Trung gốc» = nhạc nền + giọng Trung (đã tách, hạ nhỏ) dưới giọng Việt: giọng Trung được đo rồi cân theo giọng Việt, tự hạ thêm lúc giọng Việt đang nói, nhạc nền giữ nguyên. Đổi kiểu nền hay mức to nhỏ rồi «Lồng tiếng lại» thì dùng lại clip đã đọc, không tốn thêm token.</div>`}
         </div>
         <div class="stack">
           <div class="card"><div class="card-h"><h3>Giọng nhân vật</h3></div><div class="tw"><table class="t">
@@ -896,7 +922,7 @@ async function viewEpisode([slug, ep, tab]) {
               <td>${v.refUrl ? html`<audio controls preload="none" style="height:28px;width:180px" src="${v.refUrl}"></audio>` : ""}</td></tr>`)}
           </table></div>
           <div class="card-b dim small">Tập đầu tiên được lồng tiếng đặt giọng cho nhân vật; các tập sau dùng chung để giọng không đổi giữa các tập. «Tách lại giọng mẫu» thay giọng series bằng mẫu của tập này.</div></div>
-          ${d.dub ? html`<div class="card"><div class="card-h"><h3>Câu tràn khung</h3><span class="dim small">${d.dub.overflow.length}/${d.dub.lines} câu · engine ${d.dub.engine}</span></div>
+          ${d.dub ? html`<div class="card"><div class="card-h"><h3>Câu tràn khung</h3><span class="dim small">${d.dub.overflow.length}/${d.dub.lines} câu · engine ${d.dub.engine} · nền ${d.dub.bed === "original" ? "gốc (còn tiếng Trung)" : "đã bỏ tiếng Trung"}</span></div>
             ${d.dub.overflow.length ? html`<div class="lines" style="max-height:420px">${d.dub.overflow.map((o) => html`<div class="ln" data-start="${o.start}">
               <div class="tm">${mmss(o.start)}</div><div>${o.speaker ? spk(o.speaker) : ""}<span class="vi">${o.vi}</span>
               <div class="small" style="color:var(--err)">thừa ${o.over}s dù đã nén ${o.tempo}× — <a href="${base}/translation" data-focus="${o.index}">rút gọn câu này</a></div></div></div>`)}</div>`
@@ -1072,10 +1098,17 @@ async function viewEpisode([slug, ep, tab]) {
       };
       f.engine.value = draft.engine ?? f.engine.value;
       f.mode.value = draft.mode ?? (d.dub?.synth === "preset" ? "preset" : "clone");
+      f.bed.value = draft.bed ?? d.dub?.bed ?? "vocals-removed"; // mặc định theo lần lồng tiếng gần nhất
+      const wantDb = draft.origDb ?? String(d.dub?.origDb ?? -8);
+      f.origDb.value = wantDb;
+      if (f.origDb.value !== wantDb) f.origDb.value = "-8"; // mức lạ (đặt bằng CLI) → về «vừa»
+      const paintBed = () => { f.origDb.hidden = f.bed.value !== "original"; };
+      f.bed.addEventListener("change", paintBed);
+      paintBed();
       f.mode.onchange = f.engine.onchange = paintPreset;
       // chỉ ghi nhớ những gì NGƯỜI DÙNG chọn: đổi engine làm ô mất giọng không có ở engine kia, đổi lại thì có lại
       f.addEventListener("change", (e) => {
-        Object.assign(draft, { mode: f.mode.value, engine: f.engine.value });
+        Object.assign(draft, { mode: f.mode.value, engine: f.engine.value, bed: f.bed.value, origDb: f.origDb.value });
         if (e.target.dataset.sp) (draft.picks ??= {})[e.target.dataset.sp] = e.target.value;
       });
       paintPreset();
@@ -1088,11 +1121,14 @@ async function viewEpisode([slug, ep, tab]) {
           if (missing.length) return toast(`Chưa chọn giọng cho: ${missing.join(", ")}`, "err");
         }
         const how = presets ? "giọng có sẵn — không tốn lượt clone" : "clone từ mẫu";
-        if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value}, ${how}? Tính tiền theo token VieNeu.`)) return;
+        const bed = f.bed.value;
+        const origDb = bed === "original" ? { origDb: Number(f.origDb.value) } : {};
+        const nen = bed === "original" ? `giữ tiếng Trung gốc (${f.origDb.selectedOptions[0].text.toLowerCase()})` : "bỏ tiếng Trung";
+        if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value}, ${how}, ${nen}? Tính tiền theo token VieNeu.`)) return;
         try {
           const r = await api(`${url}/tts`, { method: "POST", body: presets
-            ? { engine: f.engine.value, mode: "preset", presets }
-            : { engine: f.engine.value, reextract: f.reextract.checked } });
+            ? { engine: f.engine.value, mode: "preset", presets, bed, ...origDb }
+            : { engine: f.engine.value, reextract: f.reextract.checked, bed, ...origDb } });
           S.jobs.set(r.job.id, r.job);
           paintSide();
           toast("Đã xếp lồng tiếng");

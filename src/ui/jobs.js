@@ -22,7 +22,7 @@ import fs from "node:fs";
 import fsp from "node:fs/promises";
 import path from "node:path";
 
-export const LANES = { browser: 1, stt: 2, zhvi: 2, tts: 1 };
+export const LANES = { browser: 1, stt: 2, zhvi: 2, tts: 1, ffmpeg: 1 };
 const ACTIVE = new Set(["queued", "running"]);
 const now = () => new Date().toISOString();
 const conflicts = (a, b) => a === b || a.startsWith(b + ":") || b.startsWith(a + ":");

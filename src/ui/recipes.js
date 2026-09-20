@@ -63,6 +63,16 @@ export const recipes = {
     next: ({ then = null }) => then,
   },
 
+  preview: {
+    // video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được (xem scan.js videoCodec) — dựng
+    // bản xem trước riêng, nhẹ hơn, chỉ để xem đối chiếu ở tab Dịch / nút «Bản gốc»
+    plan: async ({ userId, videoId }) => ({
+      title: `Dựng bản xem trước gốc — ${short(videoId)}`, lane: "ffmpeg", locks: [`video:${userId}/${videoId}`], meta: { userId, videoId },
+    }),
+    steps: ({ userId, videoId }) => [{ label: "encode bản xem trước (h264, thu nhỏ)",
+      argv: withEnv("scripts/build-preview.mjs", "--dir", rel(path.join("data", userId, videoId))) }],
+  },
+
   seriesInit: {
     plan: async ({ slug }) => ({ title: `Dựng bible nháp — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}`], meta: { slug } }),
     async steps({ slug, force = false }) {
@@ -116,24 +126,29 @@ export const recipes = {
   tts: {
     // mode "preset": giọng có sẵn của VieNeu (chọn từng nhân vật) thay vì clone từ mẫu — không tốn
     // hạn mức clone (ngày/tháng/slot), không cần tách mẫu. `presets` = { "<nhân vật>": "<voiceId>" }.
-    plan: async ({ slug, ep, engine = "v3", mode = "clone" }) => ({
-      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}${mode === "preset" ? ", giọng có sẵn" : ""}) — ${await seriesTitle(slug)}`,
+    // bed "original": giữ cả tiếng Trung (giọng Trung đã tách, hạ nhỏ) cùng nhạc nền — nghe cả Trung + Việt;
+    // mặc định "vocals-removed" = bỏ tiếng Trung, chỉ giữ nhạc/hiệu ứng.
+    // origDb: mức tiếng Trung gốc so với giọng Việt (dB, âm), chỉ có nghĩa khi bed "original"
+    plan: async ({ slug, ep, engine = "v3", mode = "clone", bed = "vocals-removed" }) => ({
+      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}${mode === "preset" ? ", giọng có sẵn" : ""}${bed === "original" ? ", giữ tiếng Trung" : ""}) — ${await seriesTitle(slug)}`,
       lane: "tts", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
     }),
-    async steps({ slug, ep, engine = "v3", reextract = false, mode = "clone", presets = {} }) {
+    async steps({ slug, ep, engine = "v3", reextract = false, mode = "clone", presets = {}, bed = "vocals-removed", origDb }) {
       const preset = mode === "preset";
+      const mix = bed === "original" ? "trộn với tiếng Trung gốc" : "trộn nền nhạc";
       const p = await scan.ttsPlan(slug, ep, { reextract, preset });
       const cast = p.core.bible?.cast || [];
       const vi = (zh) => cast.find((c) => c.zh === zh)?.vi || zh;
       const presetFile = scan.presetsPath(p.core.dir);
       const dub = {
         label: p.resume
-          ? `tổng hợp giọng Việt (dùng lại clip cũ${p.dropped ? `, làm lại ${p.dropped} câu đã đổi` : ""}) + trộn nền + ghép video`
-          : "tổng hợp giọng Việt + trộn nền nhạc + ghép video",
+          ? `tổng hợp giọng Việt (dùng lại clip cũ${p.dropped ? `, làm lại ${p.dropped} câu đã đổi` : ""}) + ${mix} + ghép video`
+          : `tổng hợp giọng Việt + ${mix} + ghép video`,
         // --concurrency 1: VieNeu rate-limit, song song đã thử và chậm hơn — đừng tăng
         // không truyền --synth thì dub-video dùng `voice` (enrol + /tts), ghi ra dub/ — đúng chỗ scan.js đọc
         argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "1",
           ...(preset ? ["--synth", "preset", "--preset-map", rel(presetFile)] : ["--voices", rel(p.bank)]),
+          ...(bed === "original" ? ["--bed", "original", ...(origDb === undefined ? [] : ["--orig-db", String(origDb)])] : []),
           ...(p.resume ? ["--resume"] : [])),
       };
       if (preset) return [{ label: "lưu giọng đã chọn cho series", run: () => savePresets(presetFile, presets) }, dub];

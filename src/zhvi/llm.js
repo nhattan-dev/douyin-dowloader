@@ -61,7 +61,7 @@ export const PRICE = {
  */
 export const MODELS = {
   repair: "qwen-plus",
-  cast: "qwen3.7-max",
+  cast: "qwen3.7-max-2026-06-08",
   render: "deepseek-flash@none",
   critic: "deepseek-flash@none",
   fix: "deepseek-flash@low",

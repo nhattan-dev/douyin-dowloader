@@ -7,12 +7,28 @@
  *   translation.json mới hơn review.html                            -> đã dịch
  *   dub/dub-vi.mp4 mới hơn translation.json                         -> đã lồng tiếng
  */
+import { execFile } from "node:child_process";
 import fs from "node:fs/promises";
 import path from "node:path";
+import { promisify } from "node:util";
 
 import { epDir } from "../zhvi/series.js";
 
+const run = promisify(execFile);
 const R = (...p) => path.join(process.cwd(), ...p);
+
+/** Codec video track — Douyin hay xuất HEVC, Chrome/Chromium không giải mã được trong <video>
+ * (canPlayType rỗng, videoWidth luôn 0): âm thanh chạy nhưng hình đứng im. Lỗi probe (file hỏng,
+ * ffprobe thiếu) → null, coi như phát thẳng được, đừng chặn oan. */
+async function videoCodec(f) {
+  try {
+    const { stdout } = await run("ffprobe", ["-v", "error", "-select_streams", "v:0",
+      "-show_entries", "stream=codec_name", "-of", "csv=p=0", f]);
+    return stdout.trim() || null;
+  } catch {
+    return null;
+  }
+}
 
 export async function readJson(p) {
   try {
@@ -42,8 +58,9 @@ async function dirs(p) {
 
 /** Đường dẫn cho /media — chỉ trong data/, out/, series/. */
 export const mediaUrl = (abs) => {
-  const rel = path.relative(process.cwd(), abs);
-  return /^(data|out|series)\//.test(rel) ? "/media/" + rel.split(path.sep).map(encodeURIComponent).join("/") : null;
+  // Windows: relative() trả về dấu `\` → regex dưới không khớp → null (src="null?v=…"). Tách theo cả hai kiểu dấu.
+  const parts = path.relative(process.cwd(), abs).split(/[\\/]/);
+  return ["data", "out", "series"].includes(parts[0]) ? "/media/" + parts.map(encodeURIComponent).join("/") : null;
 };
 
 export const tagsOf = (desc) => [...String(desc || "").matchAll(/#([^\s#@]+)/g)].map((m) => m[1]);
@@ -228,6 +245,9 @@ export async function seriesInfo(slug) {
   const d = core.draft;
   return {
     slug, title: core.title, titleZh: core.titleZh, status: core.status, userId: core.userId,
+    // ảnh bìa Douyin của tập đầu — đại diện cho cả series ở trang danh sách (xem /api/cover)
+    cover: core.userId && core.episodes[0]
+      ? `/api/cover/${encodeURIComponent(core.userId)}/${encodeURIComponent(core.episodes[0].videoId)}` : null,
     meta: core.meta, extra: core.extra, mixNews, episodes,
     outRoot: path.relative(process.cwd(), core.outRoot),
     bible: b ? {
@@ -312,10 +332,22 @@ export async function episodeDetail(slug, ep) {
     .filter(([idx, ed]) => !segs.some((s, i) => String(s.index ?? s.id ?? i) === idx && s.zh === ed.zh))
     .map(([index, ed]) => ({ index, zh: ed.zh, vi: ed.vi }));
   const api = `/api/series/${encodeURIComponent(slug)}/ep/${encodeURIComponent(e.ep)}`;
+  // video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được (xem preview.mp4 dựng riêng, nhẹ hơn) —
+  // không đụng tới video.mp4 vì còn dùng cho demucs, dub-video…
+  let videoUrl = null;
+  let needsPreview = false;
+  if (state.hasVideo) {
+    const videoFile = path.join(e.videoDir, "video.mp4");
+    const previewFile = path.join(e.videoDir, "preview.mp4");
+    const codec = await videoCodec(videoFile);
+    const unplayable = codec && codec !== "h264";
+    if (unplayable && !(await exists(previewFile))) needsPreview = true;
+    else videoUrl = mediaUrl(unplayable ? previewFile : videoFile);
+  }
   return {
     slug, seriesTitle: core.title, seriesStatus: core.status,
     ep: e.ep, videoId: e.videoId, title: e.title, duration: e.duration, dir: path.relative(process.cwd(), e.videoDir),
-    state,
+    state, needsPreview,
     cps: tr?.cps ?? 4.5,
     segments: segs.map((s, i) => ({
       i: String(s.index ?? s.id ?? i), start: s.start, end: s.end, zh: s.zh, vi: s.vi,
@@ -326,12 +358,13 @@ export async function episodeDetail(slug, ep) {
     speakerReviewed: Boolean(tr?.speakerReviewed),
     voices,
     presets: (await readJson(presetsPath(core.dir))) || {}, // giọng có sẵn đã chọn lần trước, theo nhân vật
-    dub: report ? { engine: report.engine, synth: report.synth, lines: report.segments.length, overflow } : null,
+    dub: report ? { engine: report.engine, synth: report.synth, bed: report.bed ?? "vocals-removed", origDb: report.origDb ?? null, lines: report.segments.length, overflow } : null,
     urls: {
-      video: state.hasVideo ? mediaUrl(path.join(e.videoDir, "video.mp4")) : null,
+      video: videoUrl,
       dub: state.times.dub ? mediaUrl(path.join(e.videoDir, "dub", "dub-vi.mp4")) + `?v=${Math.round(state.times.dub)}` : null,
       review: state.times.review ? `/review/speakers/${encodeURIComponent(slug)}/${encodeURIComponent(e.ep)}` : null,
       srt: tr ? `${api}/subs.srt` : null,
+      buildPreview: needsPreview ? `/api/preview/${encodeURIComponent(core.userId)}/${encodeURIComponent(e.videoId)}` : null,
     },
   };
 }

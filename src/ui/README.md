@@ -45,13 +45,30 @@ tiếp từ checkpoint, không trả tiền lại.
 | `series/<slug>/ep<N>.vi-edits.json` | câu sửa tay — khoá theo số câu **và** câu gốc; zhvi chạy lại xong tự áp lại; câu gốc không khớp (pass A tách/gộp khác) thì không áp, UI báo "lệch" |
 | `series/<slug>/voices/<nhân vật>/` | kho giọng series: tập đầu tiên lồng tiếng đặt giọng, các tập sau dùng chung |
 | `series/<slug>/reviews/`, `draft/reviews/` | bản gửi từ trang soát/duyệt, giữ làm dấu vết |
-| `data/_ui/` | lịch sử việc, log, ảnh thu nhỏ |
+| `data/_ui/` | lịch sử việc, log, ảnh thu nhỏ (`covers/`: ảnh bìa Douyin từ `state.json` ghép nền mờ theo tỉ lệ video — đại diện series ở trang danh sách; xoá đi thì tự dựng lại) |
+| `<videoDir>/dub/bar-bg.jpg` | nền mờ từ ảnh bìa Douyin, dựng khi `dub-video.mjs` phát hiện video.mp4 tự có viền đen (xem mục dưới); `--resume` dùng lại, xoá đi thì dựng lại lần chạy sau |
+
+Ảnh bìa Douyin (`state.json` → `info.cover`) dùng ở hai chỗ khác nhau: **đại diện series** (ảnh của tập đầu,
+ghép nền mờ theo tỉ lệ video, hiện ở thẻ series trang danh sách — mục trên, `/api/cover/:user/:vid`) và
+**viền đen sẵn trong video.mp4** — vài video Douyin tự đóng khung sai tỉ lệ, để lại viền đen ngay trong file
+gốc (không phải do trình phát). `dub-video.mjs` dò viền bằng `cropdetect` trên một đoạn giữa video; có viền thật
+(không phải do nội dung tối nhất thời) thì phủ nền mờ từ ảnh bìa đúng
+chỗ viền, ghi đè bằng cách encode lại toàn bộ video (`libx264`, tốn hơn hẳn `-c:v copy` mặc định); không có viền
+thì giữ nguyên `-c:v copy` như cũ. Kết quả dò ghi ở `dub/report.json.barBg`.
 
 Hai chế độ giọng ở tab Lồng tiếng: **clone** cần mẫu giọng (tách bằng demucs) và bị VieNeu giới hạn theo
 ngày/tháng/slot; **giọng có sẵn** dùng catalog của VieNeu (`GET /voices`, lọc theo engine — id trùng giữa v3/v4)
 và cả giọng bạn đã clone trước đó (`kind: cloned`, chỉ v4), không tốn hạn mức clone, không cần mẫu. Lựa chọn lưu ở
 `series/<slug>/preset-voices.json` (nhân vật → voiceId) nên các tập sau tự nhớ. Clip ghi kèm giọng đã dùng
 (`dub/clips/voices.json`): đổi giọng rồi `--resume` chỉ làm lại đúng các câu của giọng đó.
+
+Nền âm thanh dưới giọng Việt (ô thứ ba của form, `dub-video.mjs --bed`): **bỏ tiếng Trung** (mặc định; demucs tách
+giọng, giữ nhạc/hiệu ứng) hoặc **giữ tiếng Trung gốc** (`--bed original`): nhạc/hiệu ứng (0.7, như chế độ trên) cộng thêm giọng Trung đã tách. Giọng
+gốc Douyin thường to hơn giọng TTS cả chục dB (tập thử: -12.8 dB so với -20.5 dB) nên không dùng hệ số cố định: đo mức
+trung bình rồi đặt giọng Trung ở `--orig-db` so với giọng Việt (tránh hạ nguyên audio gốc: nhạc chìm theo giọng Trung) (ô «nhỏ/vừa/to» = -14/-8/-3 dB, mặc định vừa), thêm `--duck 6` hạ tiếp ~6 dB đúng lúc
+giọng Việt đang nói (sidechaincompress), cuối chặn đỉnh bằng alimiter. Đổi riêng kiểu nền/mức to nhỏ rồi lồng tiếng lại
+thì `--resume` dùng lại mọi clip đã đọc — chỉ trộn lại + ghép video, không tốn token. Ghi ở `dub/report.json`
+(`bed`, `origDb`, `duck`).
 
 Lồng tiếng lại sau khi dịch lại/sửa tay: clip nào có chữ hoặc người nói khác lần trước (so với
 `dub/report.json`) thì xoá và tổng hợp lại; còn lại dùng lại (`--resume`).

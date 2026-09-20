@@ -25,6 +25,14 @@
 //   ... --speaker <tên>    chỉ làm một nhân vật (mặc định: tất cả)
 //   ... --max-tempo 1.15   trần nén khi câu lấn sang câu sau
 //   ... --no-bed           bỏ nền nhạc gốc, chỉ xuất giọng
+//   ... --bed original     giữ cả tiếng Trung gốc: nhạc/hiệu ứng (0.7) + giọng Trung đã tách, hạ nhỏ dưới giọng Việt
+//                          (nghe được cả hai, nhạc nền không mất). Mặc định `vocals-removed` = bỏ giọng Trung, chỉ
+//                          giữ nhạc/hiệu ứng. Cả hai đều tách bằng demucs (cùng một lần chạy, `--resume` dùng lại)
+//   ... --orig-db -8       khi --bed original: mức GIỌNG TRUNG so với giọng Việt, tính bằng dB (mặc định -8).
+//                          Đo lại từng video vì giọng gốc Douyin thường to hơn giọng TTS rất nhiều (đo được
+//                          -12.8 dB so với -20.5 dB) — hệ số cố định vẫn lấn át giọng Việt
+//   ... --duck 6           khi --bed original: hạ thêm giọng Trung ~N dB đúng lúc giọng Việt đang nói, hết nói thì
+//                          trở lại (mặc định 6; 0 = tắt). Giọng Trung lúc đó ~ orig-db - duck so với giọng Việt
 //   ... --resume           dùng lại file đã tổng hợp trước đó, chỉ làm phần thiếu
 //   ... --concurrency 5    số câu tổng hợp song song (mặc định 5)
 //   ... --voices <dir>     kho giọng dùng chung cấp series, tra trước khi tự tách
@@ -35,6 +43,15 @@
 //                          bằng --preset-map <file.json> ({"<nhân vật>": "<voiceId>"}) và/hoặc
 //                          --preset <voiceId> cho nhân vật không có trong file. Danh sách: GET /voices.
 //   ... --out <tên>        thư mục đầu ra trong videoDir (mặc định dub, hoặc dub-clone khi --synth clone)
+//
+// Viền đen sẵn trong video.mp4 (Douyin đóng khung sai tỉ lệ, không phải do trình phát): tự dò bằng
+// cropdetect, có thật thì phủ nền mờ từ ảnh bìa Douyin (data/<user>/state.json → info.cover) đúng
+// chỗ viền khi ghép audio-video ở bước cuối. Không có bìa thì rơi về giữ nguyên video gốc.
+//
+// Codec nguồn: nhiều video Douyin xuất HEVC (h265) — trình duyệt (Chrome/Chromium) không giải mã
+// được trong thẻ <video> (canPlayType rỗng, videoWidth luôn 0): âm thanh vẫn phát, currentTime vẫn
+// chạy (đồng hồ theo track audio) nhưng hình đứng im, dễ tưởng nhầm là video hỏng. Vì vậy chỉ giữ
+// `-c:v copy` (rẻ) khi nguồn đã là h264, còn lại luôn encode lại sang h264 dù không có viền đen.
 //
 // Vì sao có `--synth voice`: /clone chịu rate-limit chặt tới mức song song còn chậm hơn
 // tuần tự. /tts là hàng đợi job (submit trả jobId ngay, poll lấy kết quả) nên là đường
@@ -72,6 +89,14 @@ function parseArgs(argv) {
 }
 const str = (v, fallback) => (v === undefined || v === true ? fallback : v);
 const exists = (p) => fs.access(p).then(() => true, () => false);
+
+/** mean_volume (dB) của file theo volumedetect — cân hai nguồn theo mức đo thật thay vì hệ số đoán. */
+async function meanVolume(file) {
+  const { stderr } = await sh("ffmpeg", ["-hide_banner", "-i", file, "-af", "volumedetect", "-f", "null", "-"]);
+  const m = /mean_volume:\s*(-?[\d.]+) dB/.exec(stderr);
+  if (!m) throw new Error(`không đo được âm lượng của ${file}`);
+  return Number.parseFloat(m[1]);
+}
 
 /**
  * Chạy `fn` trên `items` với tối đa `limit` việc song song, worker tự bốc việc kế
@@ -228,6 +253,66 @@ const probeDuration = async (f) =>
   Number.parseFloat((await sh("ffprobe", ["-v", "error", "-show_entries", "format=duration",
     "-of", "default=nw=1:nk=1", f])).stdout);
 
+const probeResolution = async (f) => {
+  const { stdout } = await sh("ffprobe", ["-v", "error", "-select_streams", "v:0",
+    "-show_entries", "stream=width,height", "-of", "csv=s=x:p=0", f]);
+  const [w, h] = stdout.trim().split("x").map(Number);
+  return { w, h };
+};
+
+const probeVideoCodec = async (f) => {
+  const { stdout } = await sh("ffprobe", ["-v", "error", "-select_streams", "v:0",
+    "-show_entries", "stream=codec_name", "-of", "csv=p=0", f]);
+  return stdout.trim();
+};
+
+/**
+ * Douyin đôi khi đóng khung video sai tỉ lệ, chèn thẳng viền đen vào trong chính video.mp4 (không
+ * phải viền do trình phát) — dò bằng cropdetect trên một đoạn giữa video (né vài giây đầu hay có
+ * khung chuyển cảnh/đen), lấy khung xuất hiện nhiều nhất trong mẫu. Viền dưới ~3% mỗi chiều thì bỏ
+ * qua, coi là nhiễu do nội dung tối chứ không phải viền thật.
+ */
+async function detectBars(videoFile, W, H, ss, dur) {
+  const { stderr } = await sh("ffmpeg", ["-ss", String(ss), "-t", String(dur), "-i", videoFile,
+    "-vf", "cropdetect=24:2:0", "-f", "null", "-"]);
+  const matches = [...stderr.matchAll(/crop=(\d+):(\d+):(\d+):(\d+)/g)];
+  if (!matches.length) return null;
+  const counts = new Map();
+  for (const m of matches) {
+    const key = m.slice(1, 5).join(":");
+    counts.set(key, (counts.get(key) ?? 0) + 1);
+  }
+  const [w, h, x, y] = [...counts.entries()].sort((a, b) => b[1] - a[1])[0][0].split(":").map(Number);
+  if (w >= W * 0.97 && h >= H * 0.97) return null;
+  return { w, h, x, y };
+}
+
+/**
+ * Nền mờ từ ảnh bìa Douyin (state.json → info.cover) để phủ đúng chỗ viền đen phát hiện được ở
+ * trên, thay vì để đen trơn — cùng cách ghép của ảnh chờ trình phát (src/ui/server.js buildPoster)
+ * nhưng dựng ở đúng độ phân giải video thật, chỉ để làm phông chứ không đặt ảnh bìa nét lên trên.
+ * Không có bìa hoặc tải hỏng → false, nơi gọi tự rơi về giữ nguyên video gốc (-c:v copy).
+ */
+async function buildBarBackground(dir, W, H, dst) {
+  let st;
+  try {
+    st = JSON.parse(await fs.readFile(path.join(path.dirname(dir), "state.json"), "utf8"));
+  } catch {
+    return false;
+  }
+  const url = st?.videos?.[path.basename(dir)]?.info?.cover;
+  if (!url) return false;
+  const { res, buf } = await fetchBufferLogged(log, url);
+  if (!res.ok || !String(res.headers.get("content-type") ?? "").startsWith("image/")) return false;
+  const src = `${dst}.src.jpg`;
+  await fs.writeFile(src, buf);
+  await sh("ffmpeg", ["-v", "error", "-y", "-i", src, "-vf",
+    `scale=${W}:${H}:force_original_aspect_ratio=increase,crop=${W}:${H},boxblur=24:4,eq=brightness=-0.12`,
+    "-frames:v", "1", "-q:v", "3", dst]);
+  await fs.unlink(src).catch(() => {});
+  return true;
+}
+
 /** Cosine giữa từng clip và `all.wav` của chính nhân vật, qua resemblyzer. */
 async function rankClips(voiceDir, clips) {
   const script = `
@@ -270,6 +355,11 @@ async function main() {
   const presetMap = synth === "preset" && args["preset-map"]
     ? JSON.parse(await fs.readFile(path.resolve(str(args["preset-map"], "")), "utf8")) : {};
   const presetDefault = str(args.preset, null);
+  const bedMode = args["no-bed"] ? "none" : str(args.bed, "vocals-removed");
+  if (!["vocals-removed", "original", "none"].includes(bedMode)) throw new Error("--bed phải là vocals-removed hoặc original");
+  const origDb = Number.parseFloat(str(args["orig-db"], "-8"));
+  const duckDb = Number.parseFloat(str(args.duck, "6"));
+  if (!Number.isFinite(origDb) || !Number.isFinite(duckDb) || duckDb < 0) throw new Error("--orig-db / --duck phải là số (duck >= 0)");
 
   // preset ghi vào `dub/` như clone — đó là chỗ UI (scan.js) đọc; clip đã làm bằng giọng khác thì
   // được nhận ra qua clips/voices.json (xem `voiceKey`), không lẫn vào nhau khi --resume.
@@ -440,36 +530,100 @@ async function main() {
     "-filter_complex", filters.join(";"), "-map", "[voice]",
     "-t", String(totalDuration), "-ac", "2", "-ar", "48000", "-c:a", "pcm_s16le", voiceTrack]);
 
-  // ── nền nhạc: tách vocal khỏi audio gốc, giữ lại phần không lời ─────────
+  // ── nền: tách audio gốc thành nhạc/hiệu ứng (no_vocals) và giọng Trung (vocals) bằng demucs ──
+  // Cả hai chế độ đều dùng no_vocals làm nền nhạc, cố định 0.7. `original` còn trộn thêm giọng Trung đã tách
+  // (vocals) ở mức nhỏ dưới giọng Việt. Thử trộn thẳng audio gốc (nhạc + giọng Trung dính liền) rồi hạ cả cục
+  // thì nhạc chìm mất: giọng Trung to hơn nhạc ~11 dB nên hạ giọng Trung xuống dưới giọng Việt là nhạc theo xuống luôn.
   let bed = null;
-  if (!args["no-bed"]) {
+  let zhVoice = null;
+  if (bedMode !== "none") {
     const demucsDir = path.join(outDir, "_demucs");
     const stem = path.basename(audioFile, path.extname(audioFile));
     const noVocals = path.join(demucsDir, "htdemucs", stem, "no_vocals.wav");
-    if (!(resume && (await exists(noVocals)))) {
+    const vocals = path.join(demucsDir, "htdemucs", stem, "vocals.wav");
+    if (!(resume && (await exists(noVocals)) && (await exists(vocals)))) {
       console.log("tách nền nhạc khỏi audio gốc (demucs)…");
       await sh("demucs", ["--two-stems=vocals", "-n", "htdemucs", "-o", demucsDir, audioFile]);
     }
     bed = noVocals;
+    if (bedMode === "original") zhVoice = vocals;
+  }
+
+  // giọng Trung: audio gốc Douyin thường to hơn giọng TTS cả chục dB nên cân theo mức ĐO được của giọng Việt
+  // (voiceDb + origDb), không dùng hệ số cố định
+  let zhGain = null;
+  if (zhVoice) {
+    const voiceDb = await meanVolume(voiceTrack);
+    const zhDb = await meanVolume(zhVoice);
+    zhGain = `${(voiceDb + origDb - zhDb).toFixed(1)}dB`;
+    console.log(`giữ tiếng Trung: giọng Việt ${voiceDb} dB, giọng Trung tách ${zhDb} dB → ${zhGain} `
+      + `(${origDb} dB so với giọng Việt${duckDb ? `, hạ thêm ~${duckDb} dB khi giọng Việt nói` : ""}); nhạc nền giữ nguyên 0.7`);
   }
 
   const finalAudio = path.join(outDir, "audio-vi.wav");
   if (bed) {
-    await sh("ffmpeg", ["-v", "error", "-y", "-i", bed, "-i", voiceTrack,
-      "-filter_complex", "[0:a]volume=0.7,aresample=48000[b];[b][1:a]amix=inputs=2:normalize=0:dropout_transition=0[a]",
+    // aformat stereo: file nguồn có thể là mono, amix không nhận các đầu vào khác kênh
+    const stereo = "aresample=48000,aformat=channel_layouts=stereo";
+    let inputs = ["-i", bed, "-i", voiceTrack];
+    let mixGraph = `[0:a]volume=0.7,${stereo}[b];[b][1:a]amix=inputs=2:normalize=0:dropout_transition=0[a]`;
+    if (zhVoice) {
+      // duck: sidechaincompress hạ giọng Trung theo độ lớn của giọng Việt (ratio 20 → hạ ~16 dB trên video đã đo,
+      // 13-16 tuỳ độ lớn giọng); `mix` pha bản đã hạ với bản nguyên để ra đúng ~duckDb thay vì hạ hết cỡ.
+      // limiter: nhạc + hai giọng cộng lại dễ vượt 0 dBFS (level=disabled: đừng tự nâng lại)
+      const FULL_DUCK_DB = 16;
+      const duckMix = Math.min(1, (1 - 10 ** (-duckDb / 20)) / (1 - 10 ** (-FULL_DUCK_DB / 20)));
+      inputs = ["-i", bed, "-i", zhVoice, "-i", voiceTrack];
+      mixGraph = `[0:a]volume=0.7,${stereo}[m];[1:a]volume=${zhGain},${stereo}[z0];`
+        + (duckDb > 0
+          ? `[2:a]asplit=2[v][sc];[z0][sc]sidechaincompress=threshold=0.015:ratio=20:attack=30:release=350:makeup=1:mix=${duckMix.toFixed(2)}[z];`
+          : "[2:a]anull[v];[z0]anull[z];")
+        + "[m][z][v]amix=inputs=3:normalize=0:dropout_transition=0,alimiter=limit=0.95:level=disabled[a]";
+    }
+    await sh("ffmpeg", ["-v", "error", "-y", ...inputs, "-filter_complex", mixGraph,
       "-map", "[a]", "-t", String(totalDuration), "-ac", "2", "-ar", "48000", "-c:a", "pcm_s16le", finalAudio]);
   } else {
     await fs.copyFile(voiceTrack, finalAudio);
   }
 
   const outVideo = path.join(outDir, "dub-vi.mp4");
-  await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio,
-    "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
-    "-shortest", outVideo]);
+  const { w: fullW, h: fullH } = await probeResolution(videoFile);
+  const ss = totalDuration > 10 ? 5 : 0;
+  const bars = await detectBars(videoFile, fullW, fullH, ss, Math.max(1, Math.min(20, totalDuration - ss)));
+  const barBg = path.join(outDir, "bar-bg.jpg");
+  const hasBarBg = bars != null
+    && (resume && (await exists(barBg)) ? true : await buildBarBackground(dir, fullW, fullH, barBg).catch(() => false));
+  // Douyin hay xuất HEVC (h265) — Chrome/Chromium không giải mã được trong <video> (canPlayType rỗng,
+  // videoWidth luôn 0): âm thanh vẫn chạy, currentTime vẫn nhích (đồng hồ theo track audio) nhưng
+  // hình đứng im, coi như video hỏng dù file không lỗi gì. `-c:v copy` giữ nguyên codec nguồn nên
+  // kế thừa luôn lỗi này — chỉ giữ copy khi nguồn đã là h264, còn lại luôn encode lại.
+  const sourceCodec = await probeVideoCodec(videoFile);
+  if (hasBarBg) {
+    console.log(`video có viền đen sẵn (khung ${fullW}x${fullH}, nội dung ${bars.w}x${bars.h} tại `
+      + `${bars.x},${bars.y}) — phủ nền mờ từ ảnh bìa thay vì để đen trơn`);
+    const vf = `[2:v]scale=${fullW}:${fullH}[bg];[0:v]crop=${bars.w}:${bars.h}:${bars.x}:${bars.y}[fg];`
+      + `[bg][fg]overlay=${bars.x}:${bars.y}[v]`;
+    await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio, "-i", barBg,
+      "-filter_complex", vf, "-map", "[v]", "-map", "1:a:0",
+      "-c:v", "libx264", "-crf", "20", "-preset", "medium", "-c:a", "aac", "-b:a", "192k",
+      "-shortest", outVideo]);
+  } else if (sourceCodec !== "h264") {
+    console.log(`video.mp4 codec ${sourceCodec} — trình duyệt không phát được, encode lại sang h264`);
+    await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio,
+      "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264", "-crf", "20", "-preset", "medium",
+      "-c:a", "aac", "-b:a", "192k", "-shortest", outVideo]);
+  } else {
+    await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio,
+      "-map", "0:v:0", "-map", "1:a:0", "-c:v", "copy", "-c:a", "aac", "-b:a", "192k",
+      "-shortest", outVideo]);
+  }
 
   await fs.writeFile(path.join(outDir, "report.json"), `${JSON.stringify({
     engine,
     synth,
+    bed: bedMode,
+    ...(bedMode === "original" ? { origDb, duck: duckDb } : {}),
+    ...(hasBarBg ? { barBg: bars } : {}),
+    sourceCodec, recoded: sourceCodec !== "h264",
     refs: Object.fromEntries(Object.entries(refs).map(([k, v]) =>
       [k, { file: v.file, duration: v.duration, score: v.score === undefined ? undefined : Number(v.score.toFixed(3)),
         text: v.text, voiceId: v.voiceId }])),
