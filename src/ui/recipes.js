@@ -126,6 +126,38 @@ export const recipes = {
     next: ({ slug, ep }) => ({ type: "translate", params: { slug, ep: String(ep) } }),
   },
 
+  // zhvi2 (todo LLM) — lõi chính. Thư mục ra `<outRoot>/v2/` và nhãn soát riêng để bản v1 còn
+  // nguyên làm dự phòng, nhưng bản dịch thì GHI vào thư mục video như v1: lồng tiếng đọc ở đó,
+  // không ghi thì UI hiện bản v2 mà dub đọc bản v1 — sai lệch không nhìn thấy được.
+  translate2: {
+    plan: async ({ slug, ep }) => ({
+      // Khoá CHUNG với v1 của cùng tập: từ lúc v2 ghi vào thư mục video, hai lõi ghi đè lên nhau.
+      // (Trước đây khoá riêng vì v2 không đụng gì của v1.)
+      title: `Dịch tập ${ep} (lõi v2) — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
+    }),
+    async steps({ slug, ep, force = null }) {
+      if (!(await scan.readJson(path.join("series", slug, "bible.json")))) throw new Error("series chưa có bible đã duyệt — duyệt bible trước");
+      return [
+        {
+          label: "todo LLM: hiểu tập (dừng ở cổng soát) → dịch → xuất",
+          argv: ["node", "src/zhvi2/cli.js", "--series", `series/${slug}`, "--ep", String(ep), "--write-back",
+            ...(force ? ["--force", force] : [])],
+        },
+        // vừa ghi đè translation.json -> áp lại các câu người đã sửa tay (cùng luật với v1)
+        { label: "áp lại các câu đã sửa tay", run: () => applyEdits(slug, ep) },
+      ];
+    },
+  },
+
+  speakerApply2: {
+    plan: async ({ slug, ep }) => ({
+      // cấp series như speakerApply: nạp nhãn có thể ghi thêm nhân vật/thuật ngữ vào bible.json
+      title: `Nạp nhãn người nói tập ${ep} (lõi v2) — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}`], meta: { slug, ep: String(ep) },
+    }),
+    steps: ({ slug, file }) => [{ label: "nạp nhãn đã soát", argv: ["node", "src/zhvi2/cli.js", "--apply", file, "--series", `series/${slug}`] }],
+    next: ({ slug, ep }) => ({ type: "translate2", params: { slug, ep: String(ep) } }),
+  },
+
   tts: {
     // mode "preset": giọng có sẵn của VieNeu (chọn từng nhân vật) thay vì clone từ mẫu — không tốn
     // hạn mức clone (ngày/tháng/slot), không cần tách mẫu. `presets` = { "<nhân vật>": "<voiceId>" }.

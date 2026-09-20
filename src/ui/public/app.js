@@ -779,6 +779,9 @@ async function viewEpisode([slug, ep, tab]) {
     return html`<div class="empty"><b>Video gốc mã hoá HEVC, trình duyệt không phát được</b>
       ${btn("Dựng bản xem trước", { url: d.urls.buildPreview, cls: "sm pri", ok: "Đang dựng bản xem trước…" })}</div>`;
   }
+  // lõi dịch của tập (v2 = 2 task todo LLM, v1 = nhiều lượt API). Server chọn recipe theo cái này;
+  // màn hình chỉ đổi mấy chỗ thật sự khác nhau (tên bước, nút chạy lại), không có màn hình riêng.
+  const v2 = d.state.engine === "v2";
 
   function header() {
     const ej = epJobs();
@@ -791,15 +794,19 @@ async function viewEpisode([slug, ep, tab]) {
     else if (d.seriesStatus !== "approved") primary = link("Duyệt bible trước", `#/series/${enc(slug)}/bible`, "pri act");
     else if (st === "idle" || st === "partial" || st === "reviewed") primary = btn(st === "reviewed" ? "Dịch tiếp" : "Dịch tập này", { url: `${url}/translate`, cls: "pri", go: `${base}/progress` });
     else if (st === "review") primary = link("Soát người nói", `${base}/speakers`, "pri act");
-    const tabs = [["progress", "Tiến độ"], ["speakers", "Soát người nói", st === "review" ? "!" : ""], ["translation", "Bản dịch"], ["dub", "Lồng tiếng"], ["log", "Log"]];
+    const tabs = [["progress", "Tiến độ"], ["speakers", "Soát người nói", st === "review" ? "!" : ""], ["translation", "Bản dịch"], ["dub", "Lồng tiếng"],
+      ["log", "Log"]];
     return html`
       <div class="crumb"><a href="#/series">Series</a> › <a href="#/series/${enc(slug)}">${d.seriesTitle}</a> ›</div>
       <div class="page-h"><div><h1>Tập ${d.ep}</h1><div class="sub">${d.title || d.videoId}${d.duration ? ` · ${mmss(d.duration)}` : ""}</div></div>
-        <span class="grow"></span>${act ? pill(JOB_ST[act.status]) : pill(EP_ST[st])}${primary}
+        <span class="grow"></span><span class="pill p-mute" title="${v2 ? "zhvi2: 2 task todo LLM mỗi tập" : "zhvi v1: nhiều lượt API"}">lõi ${d.state.engine}</span>
+        ${act ? pill(JOB_ST[act.status]) : pill(EP_ST[st])}${primary}
         <details style="position:relative"><summary class="btn ghost sm" style="list-style:none">⋯</summary>
           <div class="card card-b stack" style="position:absolute;right:0;top:34px;z-index:5;min-width:260px;gap:8px">
-            ${btn("Dịch lại từ bước dịch (C trở đi)", { url: `${url}/translate`, body: { force: "C" }, cls: "sm", confirm: "Dịch lại từ pass C (tốn tiền C+D, ~$0.03)? Sửa ASR và gán người nói giữ nguyên.", go: `${base}/progress` })}
+            ${v2 ? btn("Dịch lại (chỉ lượt dịch)", { url: `${url}/translate`, body: { force: "T" }, cls: "sm", confirm: "Chạy lại lượt dịch (1 task todo, ~10 phút)? Phần hiểu tập và nhãn người soát giữ nguyên.", go: `${base}/progress` })
+              : btn("Dịch lại từ bước dịch (C trở đi)", { url: `${url}/translate`, body: { force: "C" }, cls: "sm", confirm: "Dịch lại từ pass C (tốn tiền C+D, ~$0.03)? Sửa ASR và gán người nói giữ nguyên.", go: `${base}/progress` })}
             ${btn("Chạy lại toàn bộ (tính tiền lại)", { url: `${url}/translate`, body: { force: "all" }, cls: "sm danger", confirm: "Chạy lại mọi bước tốn tiền của tập này?", go: `${base}/progress` })}
+            ${btn(v2 ? "Chạy bằng lõi cũ v1 (dự phòng)" : "Chạy bằng lõi v2 (todo LLM)", { url: `${url}/translate`, body: { engine: v2 ? "v1" : "v2" }, cls: "sm", confirm: v2 ? "Dịch tập này lại bằng lõi v1 (nhiều lượt API, ~$0.03)? Kết quả v2 vẫn giữ." : "Dịch tập này bằng lõi v2 (2 task todo LLM)? Kết quả v1 vẫn giữ làm dự phòng.", go: `${base}/progress` })}
             ${openBtn(d.state.outDir, "Mở thư mục kết quả zhvi")}${openBtn(d.dir, "Mở thư mục video")}
           </div></details></div>
       ${failed ? html`<div class="callout err" style="margin-bottom:12px"><b>${failed.title} — lỗi.</b> Phần đã chạy xong được giữ, chạy lại là đi tiếp.
@@ -812,20 +819,33 @@ async function viewEpisode([slug, ep, tab]) {
     const ej = epJobs();
     const act = activeOf(ej);
     if (tab === "progress") {
-      const last = act || ej.find((j) => ["translate", "speakerApply"].includes(j.type)) || ej[0];
+      const last = act || ej.find((j) => ["translate", "translate2", "speakerApply", "speakerApply2"].includes(j.type)) || ej[0];
       const z = last?.progress?.zhvi;
       const staticScope = ["translated", "dubbed"].includes(d.state.status)
         ? { subs: Object.fromEntries(plan.map((x) => [x.id, { status: "ran" }])) }
         : { subs: Object.fromEntries(d.state.paid.map((id) => [id, { status: "ran" }])), gate: d.state.status === "review" ? { stopped: true } : null };
+      // v2 không đi qua A–E của v1: hai task todo, cổng soát nằm giữa. Vẽ đúng 4 bước đó.
+      const paid = new Set(d.state.paid);
+      const V2STEPS = [["V", "Hình (VLM)"], ["U", "Hiểu tập"], ["—", "Soát người nói"], ["T", "Dịch"], ["E", "Xuất"]];
+      const v2steps = html`<div class="row" style="flex-wrap:wrap;gap:6px">${V2STEPS.map(([id, name]) => {
+        const done = id === "—" ? d.state.times.labels > 0 : id === "E" ? d.state.times.translation > 0 : paid.has(id);
+        return html`<span class="pill ${done ? "p-ok" : "p-mute"}">${done ? "✓ " : ""}${name}</span>`;
+      })}</div>`;
       return html`<div class="stack">
         ${act ? html`<div class="card card-b" data-live-job="${act.id}" data-mode="card">${liveJob(act)}</div>` : ""}
         ${!act ? html`<div class="card card-b stack">
-          <div class="row"><h3>Các bước zhvi</h3><span class="grow"></span>${d.state.lastCost ? html`<span class="money">lượt gần nhất ${money(d.state.lastCost)}</span>` : ""}</div>
-          ${timeline(z?.plan && last?.type === "translate" ? z : staticScope, plan)}
-          ${z?.plan ? zhviNow(z) : ""}
-          ${legend}
+          <div class="row"><h3>${v2 ? "Các bước (lõi v2 — todo LLM)" : "Các bước zhvi"}</h3><span class="grow"></span>${d.state.lastCost ? html`<span class="money">lượt gần nhất ${money(d.state.lastCost)}</span>` : ""}</div>
+          ${v2 ? v2steps : timeline(z?.plan && last?.type === "translate" ? z : staticScope, plan)}
+          ${v2 ? html`<div class="dim small">Mỗi tập <b>2 task todo LLM</b> (~10 phút/task): <b>hiểu tập</b> (sửa ASR, gán người nói, cắt câu nhiều người, dịch thô) → cổng soát → <b>dịch</b>.
+            Kết quả ở <code>${d.state.outDir}</code>.</div>` : ""}
+          ${d.state.dataStale ? html`<div class="callout warn">Bản dịch này <b>chưa nằm trong thư mục video</b>, mà lồng tiếng đọc ở đó — chạy lại tập để ghi sang (không tốn lượt LLM nào, phần đã chạy được dùng lại).
+            ${btn("Ghi sang thư mục video", { url: `${url}/translate`, cls: "sm pri", go: `${base}/progress` })}</div>` : ""}
+          ${!v2 && z?.plan ? zhviNow(z) : ""}
+          ${v2 ? "" : legend}
           ${d.state.status === "review" ? html`<div class="callout act">Máy chưa chắc ai nói một số câu — soát xong tập tự dịch tiếp. ${link("Soát người nói", `${base}/speakers`, "sm pri act")}</div>` : ""}
           ${["translated", "dubbed"].includes(d.state.status) ? html`<div class="callout info">Đã dịch xong ${d.segments.length} câu. ${link("Xem bản dịch", `${base}/translation`, "sm")} ${link("Lồng tiếng", `${base}/dub`, "sm pri")}</div>` : ""}
+          ${d.backup ? html`<div class="dim small">Lõi ${d.backup.engine} còn một bản dịch ${d.backup.lines} câu ở <code>${d.backup.outDir}</code> — giữ làm dự phòng, không dùng để lồng tiếng.
+            ${d.backup.reviewUrl ? html`<a href="${d.backup.reviewUrl}" target="_blank">xem trang soát của bản đó</a>` : ""}</div>` : ""}
         </div>` : ""}
         ${ej.length ? html`<div class="card tw"><div class="card-h"><h3>Lịch sử việc của tập</h3></div><table class="t">
           ${ej.slice(0, 12).map((j) => html`<tr class="click" data-href="#/jobs/${j.id}"><td>${j.title}</td><td>${pill(JOB_ST[j.status])}</td>
@@ -835,9 +855,12 @@ async function viewEpisode([slug, ep, tab]) {
     if (tab === "speakers") {
       if (!d.urls.review) return html`<div class="card empty"><b>Không có gì để soát</b>Trang soát người nói chỉ có khi máy dừng ở cổng soát (sau pass B).</div>`;
       return html`
-        ${d.state.status !== "review" ? html`<div class="callout info" style="margin-bottom:10px">Tập này đã được soát/dịch. Sửa nhãn và gửi lại thì tập sẽ dịch lại theo nhãn mới.</div>` : ""}
+        ${d.state.status !== "review" ? html`<div class="callout info" style="margin-bottom:10px">Tập này đã soát và đã dịch.
+          Sửa nhãn rồi gửi lại thì nhãn của bạn được áp ngay và là bản cuối — <b>không</b> hỏi lại LLM.
+          ${v2 ? "Câu nào đổi người sau khi đã dịch thì bị đánh dấu «xưng hô có thể lệch» để bạn tự sửa câu chữ; muốn máy dịch lại cả tập thì dùng «Dịch lại (chỉ lượt dịch)» ở menu ⋯." : ""}</div>` : ""}
         <div class="callout act" style="margin-bottom:10px">Chốt <b>cụm giọng</b> trước (sửa một lần là cả cụm), rồi mới tới câu lẻ được đánh dấu. Phím <b>Space</b> phát câu đang trỏ.
-          Xong bấm <b>«Lưu &amp; dịch tiếp»</b> ở góc trên trang — nhãn được nạp và tập tự dịch tiếp.</div>
+          ${v2 ? html`Câu có hai người nói thì chọn <b>«nhiều người»</b> rồi bấm vào khe giữa hai chữ để <b>cắt</b>, mỗi mảnh chọn một người.` : ""}
+          Xong bấm <b>«Lưu &amp; dịch tiếp»</b> ở góc trên trang — nhãn được nạp và tập đi tiếp.</div>
         <iframe class="frame" src="${d.urls.review}"></iframe>`;
     }
     if (tab === "translation") {
@@ -871,8 +894,9 @@ async function viewEpisode([slug, ep, tab]) {
               <div><div>${s.name ? spk(s.name) : ""}<span class="vi">${s.vi || html`<span class="faint">(không dịch)</span>`}</span>
                 <button class="edit" title="Sửa câu dịch — giữ nguyên khi chạy lại">✎</button>
                 ${s.edited ? html`<span class="flag ed" title="đã sửa tay">sửa tay</span>` : ""}
-                ${s.needsReview ? html`<span class="flag rv" title="critic chấm thấp / luật code báo lỗi">cần xem</span>` : ""}
+                ${s.needsReview ? html`<span class="flag rv" title="${(s.review || []).join(" · ") || "critic chấm thấp / luật code báo lỗi"}">cần xem</span>` : ""}
                 ${s.suspect ? html`<span class="flag sp" title="${JSON.stringify(s.suspect)}">nghi người nói</span>` : ""}
+                ${s.voiceSafe === false ? html`<span class="flag ln2" title="máy tự cắt/đổi người mà bạn chưa chốt — không dùng làm mẫu clone giọng">máy tách/đổi</span>` : ""}
                 ${long ? html`<span class="flag ln2" title="${rate(s).toFixed(1)} âm tiết/giây — lồng tiếng dễ tràn khung">dài</span>` : ""}</div>
                 <div class="zhl zh">${s.zh}</div></div></div>`;
           })}</div></div></div>`;
@@ -1148,7 +1172,7 @@ async function viewEpisode([slug, ep, tab]) {
     } else {
       $("#epHead").innerHTML = val(header());
       // tab có video/iframe: đừng vẽ lại (mất vị trí phát, mất chỗ đang soát)
-      if (!["speakers", "translation", "dub"].includes(tab) || !$("video, iframe", $("#epBody"))) {
+      if (!["speakers", "translation", "dub", "v2"].includes(tab) || !$("video, iframe", $("#epBody"))) {
         $("#epBody").innerHTML = val(await body());
         wire();
       }

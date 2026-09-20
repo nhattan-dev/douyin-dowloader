@@ -70,6 +70,25 @@ const printableCost = (llm) => (typeof llm.cost === "function" ? Math.round(llm.
 
 const readJsonArg = async (p) => (p ? JSON.parse(await fs.readFile(p, "utf8")) : null);
 
+// Mọi dòng log có giờ + khoảng cách với dòng trước ("14:03:21 +12.3s") để nhìn ra bước nào
+// ngốn thời gian. Chừa dòng "@@zhvi {json}": UI parse nó bằng startsWith.
+{
+  let last = Date.now();
+  const stamp = () => {
+    const now = Date.now();
+    const d = (now - last) / 1000;
+    last = now;
+    const hms = new Date(now).toTimeString().slice(0, 8);
+    return `${hms} ${("+" + (d < 60 ? d.toFixed(1) + "s" : Math.floor(d / 60) + "m" + String(Math.round(d % 60)).padStart(2, "0"))).padStart(7)} `;
+  };
+  for (const k of ["log", "error"]) {
+    const orig = console[k].bind(console);
+    console[k] = (first, ...rest) => (typeof first === "string" && first.startsWith("@@zhvi ")
+      ? orig(first, ...rest)
+      : orig(stamp() + (typeof first === "string" ? first : ""), ...(typeof first === "string" ? rest : [first, ...rest])));
+  }
+}
+
 const a = parseArgs(process.argv.slice(2));
 if (a.stages) { printStages(); process.exit(0); }
 // --events: thêm dòng "@@zhvi {json}" cho UI đọc tiến độ; log chữ vẫn in như cũ

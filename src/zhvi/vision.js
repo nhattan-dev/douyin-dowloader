@@ -21,15 +21,50 @@ const pexec = promisify(execFile);
 
 export const NA = ["ngoai_khung", "khong_chac", "?parse"];
 const CAP = 7; // trần mỏ neo cho một cụm; quá đó thì phiếu thứ 8 gần như không đổi kết quả
+const VLM_CONCURRENCY = 3; // lời gọi VLM cùng lúc — vision hay bị giới hạn tần suất, đừng nới mạnh
+const FFMPEG_CONCURRENCY = 6; // tiến trình ffmpeg cắt khung cùng lúc, chung cho cả module (máy yếu)
+
+/**
+ * Chạy `fn` trên từng phần tử, tối đa `limit` việc cùng lúc; kết quả giữ đúng thứ tự `items`.
+ * Worker tự bốc việc kế tiếp nên việc ngắn không phải chờ việc dài cùng lô.
+ */
+export async function pool(items, limit, fn) {
+  const out = new Array(items.length);
+  let cursor = 0;
+  const worker = async () => {
+    while (cursor < items.length) {
+      const i = cursor++;
+      out[i] = await fn(items[i], i);
+    }
+  };
+  await Promise.all(Array.from({ length: Math.min(limit, items.length) }, worker));
+  return out;
+}
+
+/** 401/403 = hết quota / sai key: mọi lời gọi sau với cùng model cũng hỏng y hệt. */
+export const denied = (msg) => /\b40[13]\b/.test(String(msg || ""));
+
+let ffmpegBusy = 0;
+const ffmpegWait = [];
+async function withFfmpeg(fn) {
+  if (ffmpegBusy >= FFMPEG_CONCURRENCY) await new Promise((r) => ffmpegWait.push(r));
+  ffmpegBusy++;
+  try {
+    return await fn();
+  } finally {
+    ffmpegBusy--;
+    ffmpegWait.shift()?.();
+  }
+}
 
 /** Một khung JPEG tại giây t, trả về data URI. */
 export async function grab(video, t, width) {
-  const { stdout } = await pexec(
+  const { stdout } = await withFfmpeg(() => pexec(
     "ffmpeg",
     ["-v", "error", "-ss", t.toFixed(3), "-i", video, "-frames:v", "1",
      "-vf", `scale=${width}:-2`, "-f", "image2pipe", "-vcodec", "mjpeg", "-"],
     { encoding: "buffer", maxBuffer: 64 * 1024 * 1024 },
-  );
+  ));
   return "data:image/jpeg;base64," + stdout.toString("base64");
 }
 
@@ -60,7 +95,8 @@ export async function ask(llm, video, u, castTxt, { frames = 8, width = 768, mod
       + `Câu thoại (tiếng Trung): 「${u.zh}」\n`
       + `Dưới đây là ${frames} khung liên tiếp trong đúng câu này, cách nhau ${((b - a) / frames).toFixed(2)}s:`,
   }];
-  for (const t of ts) content.push({ type: "image_url", image_url: { url: await grab(video, t, width) } });
+  const imgs = await Promise.all(ts.map((t) => grab(video, t, width)));
+  for (const url of imgs) content.push({ type: "image_url", image_url: { url } });
 
   try {
     const r = await llm.chat(model, [
@@ -126,14 +162,21 @@ export async function nameClusters(llm, utts, video, bib, {
     if (!grew) break;
   }
 
+  // Hỏi song song. `ask` tự nuốt lỗi thành "?parse", nên 401/403 phải bắt ở đây: gặp một lần
+  // là mọi câu sau cũng hỏng y hệt → không gọi nữa, ghi luôn lỗi đó (kết quả như chạy hết).
+  const jobs = order.flatMap((c) => anchors(byCluster.get(c), plan.get(c)).map((u) => [c, u]));
   const lines = {};
-  for (const c of order) {
-    for (const u of anchors(byCluster.get(c), plan.get(c))) {
-      const r = await ask(llm, video, u, castTxt, { frames, width, model });
-      lines[u.id] = r;
-      log?.info?.(`    ${c} #${u.id} -> ${r.pred}  ${r.why.slice(0, 60)}`);
+  let dead = null;
+  await pool(jobs, VLM_CONCURRENCY, async ([c, u]) => {
+    const r = dead ? { pred: "?parse", why: dead, t: u.start }
+      : await ask(llm, video, u, castTxt, { frames, width, model });
+    if (!dead && r.pred === "?parse" && denied(r.why)) {
+      dead = r.why;
+      log?.warn?.(`${model} bị từ chối (hết quota/sai key) — bỏ các câu mỏ neo còn lại; đổi model bằng ZHVI_VISION`);
     }
-  }
+    lines[u.id] = r;
+    log?.info?.(`    ${c} #${u.id} -> ${r.pred}  ${r.why.slice(0, 60)}`);
+  });
   return { model, frames, lines, clusters: tally(lines, utts, bib) };
 }
 

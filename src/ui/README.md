@@ -16,11 +16,27 @@ tiếp từ checkpoint, không trả tiền lại.
 | Video của tác giả | lọc, gợi ý gom theo 合集/hashtag, chọn → **Tải + STT** | `src/cli.js fetch <user> <ids…>` → `stt` |
 | | chọn → **Tạo series** (tự tải phần thiếu rồi dựng bible) | `zhvi series init … --events` |
 | Series › Duyệt bible | trang duyệt zhvi nhúng: nghe giọng, đọc **cảnh** quanh câu mẫu, **xem đúng đoạn video**, thêm nhân vật máy bỏ sót; nút gửi thẳng về UI | `zhvi series apply` |
-| Series › các tập | **Dịch** từng tập / cả loạt; tiến độ từng bước con A1…E3 | `zhvi <transcript> --bible … --events` |
+| Series › các tập | **Dịch** từng tập / cả loạt; tiến độ từng bước (lõi v2: 2 task todo; lõi v1: bước con A1…E3) | `zhvi2/cli.js --series … --ep N` hoặc `zhvi <transcript> --bible … --events` |
 | Tập › Soát người nói | trang soát zhvi nhúng; gửi xong tự nạp nhãn + dịch tiếp | `zhvi --apply` → dịch lại |
 | Tập › Bản dịch | video + phụ đề Việt đồng bộ bảng câu; lọc câu nên xem; **sửa tay** | — |
 | Tập › Lồng tiếng | VieNeu v3/v4, 1 luồng; **clone từ mẫu** hoặc **giọng có sẵn** (chọn từng nhân vật); xem bản lồng / bản gốc; câu tràn khung | clone: `extract-voice.js` → `dub-video.mjs --voices series/<slug>/voices`; giọng có sẵn: `dub-video.mjs --synth preset --preset-map series/<slug>/preset-voices.json` |
 | Chờ bạn | việc máy đợi người: duyệt bible, soát người nói, lỗi, tập làm tiếp được | — |
+
+## Hai lõi dịch, một màn hình
+
+Một tập có thể chạy bằng **lõi v2** (`src/zhvi2`, 2 task todo LLM) hay **lõi v1** (`src/zhvi`,
+nhiều lượt API). v2 là lõi chính; thư mục kết quả của v1 giữ nguyên làm dự phòng.
+
+- **UI không có màn hình riêng cho v2.** `scan.engineOf()` quyết định tập này đang dùng lõi nào,
+  mọi chỗ khác hỏi nó — trước đây mỗi chỗ tự ghép đường dẫn nên v2 phải có tab riêng, nhãn riêng,
+  và mọi tính năng (sửa câu tay, phụ đề, lồng tiếng) phải làm hai lần.
+- Luật chọn lõi: thư mục `out/<slug>/v2/epNN` có `ckpt.json` → v2; không thì v1 nếu đã chạy v1;
+  **chưa chạy gì → v2**. Tập cũ của v1 KHÔNG tự dịch lại — dịch lại là tốn tiền, phải người bấm
+  (menu ⋯ › «Chạy bằng lõi v2»).
+- Hai lõi ghi cùng một `translation.json` trong thư mục video (dub đọc ở đó) nên **khoá chung**
+  `series:<slug>:ep<N>`; chạy song song hai lõi cho cùng một tập là đè nhau.
+- Câu **sửa tay** (`ep<N>.vi-edits.json`) dùng chung cho cả hai lõi: khoá theo số câu kèm nguyên
+  văn tiếng Trung, đổi lõi mà câu bị tách khác đi thì báo "lệch" chứ không áp nhầm.
 
 ## Kiến trúc
 

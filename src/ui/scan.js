@@ -183,14 +183,39 @@ async function seriesCore(slug) {
   };
 }
 
-export async function episodeState(core, e) {
-  const d = path.join(core.outRoot, epDir(e.ep));
+/**
+ * Một tập có thể có kết quả của HAI lõi dịch: v1 (nhiều lượt API) và v2 (2 task todo LLM).
+ * v2 là lõi chính, v1 giữ nguyên làm dự phòng. Mọi màn hình hỏi hai hàm này chứ không tự ghép
+ * đường dẫn — chính vì trước đây mỗi chỗ tự trỏ thư mục nên v2 mới phải có tab riêng, nhãn riêng,
+ * và mọi tính năng (sửa câu tay, phụ đề, lồng tiếng) phải làm hai lần.
+ */
+export function enginePaths(core, e, id) {
+  return {
+    id,
+    dir: id === "v2" ? path.join(core.outRoot, "v2", epDir(e.ep)) : path.join(core.outRoot, epDir(e.ep)),
+    labels: path.join(core.dir, id === "v2" ? `ep${e.ep}.v2.speakers.json` : `ep${e.ep}.speakers.json`),
+  };
+}
+
+/** Lõi của tập = lõi đã chạy cho tập này. Chưa chạy gì thì là v2. KHÔNG tự dịch lại tập của v1. */
+export async function engineOf(core, e) {
+  if (await exists(path.join(core.outRoot, "v2", epDir(e.ep), "ckpt.json"))) return "v2";
+  if (await exists(path.join(core.outRoot, epDir(e.ep), "ckpt.json"))) return "v1";
+  return "v2";
+}
+
+export async function episodeState(core, e, engine = null) {
+  const id = engine || (await engineOf(core, e));
+  const p = enginePaths(core, e, id);
+  const d = p.dir;
   const vd = e.videoDir;
   const [ckpt, usage] = await Promise.all([readJson(path.join(d, "ckpt.json")), readJson(path.join(d, "usage.json"))]);
   const m = {
     review: await mtime(path.join(d, "review.html")),
     translation: await mtime(path.join(d, "translation.json")),
-    labels: await mtime(path.join(core.dir, `ep${e.ep}.speakers.json`)),
+    labels: await mtime(p.labels),
+    // bản nằm trong thư mục video: dub-video đọc file NÀY, không đọc thư mục kết quả
+    data: await mtime(path.join(vd, "translation.json")),
     dub: await mtime(path.join(vd, "dub", "dub-vi.mp4")),
     transcript: await mtime(path.join(vd, "transcript.json")),
     video: await mtime(path.join(vd, "video.mp4")),
@@ -203,12 +228,14 @@ export async function episodeState(core, e) {
   else if (ckpt && Object.keys(ckpt).length) status = "partial";
   else status = "idle";
   return {
-    status,
+    status, engine: id,
     outDir: path.relative(process.cwd(), d),
     paid: ckpt ? Object.keys(ckpt) : [],
     lastCost: usage?._costUSD ?? null,
     hasVideo: Boolean(m.video),
     labelsStale: Boolean(m.labels && m.translation && m.labels > m.translation),
+    // đã dịch mà thư mục video chưa có bản này -> lồng tiếng sẽ đọc bản cũ (hoặc không có gì)
+    dataStale: Boolean(m.translation && m.data < m.translation),
     dubStale: Boolean(m.dub && m.translation && m.dub < m.translation),
     times: m,
   };
@@ -293,7 +320,7 @@ export async function episodeDetail(slug, ep) {
   if (!hit) return null;
   const { core, e } = hit;
   const state = await episodeState(core, e);
-  const d = path.join(core.outRoot, epDir(e.ep));
+  const d = enginePaths(core, e, state.engine).dir;
   const tr = await readJson(path.join(d, "translation.json"));
   const segs = tr?.segments || [];
   const cast = core.bible?.cast || core.draft?.cast || [];
@@ -344,6 +371,11 @@ export async function episodeDetail(slug, ep) {
     if (unplayable && !(await exists(previewFile))) needsPreview = true;
     else videoUrl = mediaUrl(unplayable ? previewFile : videoFile);
   }
+  // lõi kia: chỉ để đối chiếu/dự phòng, không phải thứ màn hình nào cũng phải biết
+  const other = state.engine === "v2" ? "v1" : "v2";
+  const otherState = await episodeState(core, e, other);
+  const otherTr = otherState.times.translation
+    ? await readJson(path.join(enginePaths(core, e, other).dir, "translation.json")) : null;
   return {
     slug, seriesTitle: core.title, seriesStatus: core.status,
     ep: e.ep, videoId: e.videoId, title: e.title, duration: e.duration, dir: path.relative(process.cwd(), e.videoDir),
@@ -353,6 +385,8 @@ export async function episodeDetail(slug, ep) {
       i: String(s.index ?? s.id ?? i), start: s.start, end: s.end, zh: s.zh, vi: s.vi,
       speaker: s.speaker, name: s.speaker ? nameOf(s.speaker) : null,
       needsReview: Boolean(s.needsReview), suspect: s.speakerSuspect ?? null, edited: Boolean(s.editedByHand),
+      // v2 cắt/đổi người bằng máy mà người chưa chốt -> dịch theo máy nhưng không làm mẫu clone
+      voiceSafe: s.voiceSafe ?? null, review: s.review ?? null,
     })),
     staleEdits,
     speakerReviewed: Boolean(tr?.speakerReviewed),
@@ -366,6 +400,11 @@ export async function episodeDetail(slug, ep) {
       srt: tr ? `${api}/subs.srt` : null,
       buildPreview: needsPreview ? `/api/preview/${encodeURIComponent(core.userId)}/${encodeURIComponent(e.videoId)}` : null,
     },
+    backup: otherTr ? {
+      engine: other, status: otherState.status, lines: otherTr.segments.length,
+      outDir: otherState.outDir, at: otherState.times.translation || null,
+      reviewUrl: otherState.times.review ? `/review/speakers/${encodeURIComponent(slug)}/${encodeURIComponent(e.ep)}?engine=${other}` : null,
+    } : null,
   };
 }
 

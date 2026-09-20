@@ -187,7 +187,7 @@ export function arbitrate(textMap, verified, utts, bib, vision, vocatives) {
 }
 
 /** Câu nào người phải tự nhìn. Mở rộng dần từ cụm xuống câu, không gộp một cục. */
-export function suspectLines(utts, clusters, vision, vocatives) {
+export function suspectLines(utts, clusters, vision, vocatives, asr = null) {
   const susp = {};
   const mark = (i, why) => {
     (susp[String(i)] ||= []).push(why); // khoá là chuỗi để còn sống sót qua JSON
@@ -209,7 +209,67 @@ export function suspectLines(utts, clusters, vision, vocatives) {
   for (const v of vocatives) {
     if (clusters[v.by]?.cid === v.cast) mark(v.line, "dòng này gọi tên chính nhân vật được gán");
   }
+  // cờ của lượt gộp series: nó đọc cả bộ nên thấy được câu lệch vai mà một tập không lộ
+  for (const c of Object.values(asr?.clusters || {})) {
+    for (const i of Object.keys(c.lines)) if (by.has(Number(i))) mark(i, "máy gộp series: câu của người khác trong cụm");
+  }
+  for (const i of Object.keys(asr?.lines || {})) if (by.has(Number(i))) mark(i, "máy gộp series: một câu chứa lời nhiều người");
   return susp;
+}
+
+/** Nhãn đặc biệt của người soát mà nghĩa là "KHÔNG phải một người xác định". */
+export const NOBODY = new Set(["nhiều người", "không rõ"]);
+
+/**
+ * Cờ ASR của lượt gộp series (`asr-flags.json`) -> dạng pass B dùng được cho tập này.
+ *
+ * Cờ ghi lúc `series init`, còn tập thì có thể đã chạy lại pass A: câu nào chữ Hán không còn
+ * khớp nguyên văn thì bỏ, không đoán — id trôi mà vẫn áp là gán nhầm lặng lẽ (bẫy B1).
+ * Nhân vật ghi bằng tên (zh + vi), không bằng id: trang duyệt bible được quyền đánh số lại.
+ */
+export function asrFlagsFor(raw, utts, bib) {
+  if (!raw || !bib) return null;
+  const by = new Map(utts.map((u) => [u.id, u]));
+  const same = (i, zh) => by.get(Number(i))?.zh === zh;
+  const who = (w) => (w ? bibleHit(bib, w.zh) || bibleHit(bib, w.vi) : null)?.id ?? null;
+  const out = { clusters: {}, lines: {}, dropped: 0 };
+  for (const [spk, c] of Object.entries(raw.clusters || {})) {
+    const lines = {};
+    for (const [i, l] of Object.entries(c.lines || {})) {
+      const cid = who(l.who);
+      if (same(i, l.zh) && by.get(Number(i)).speaker === spk && cid) lines[i] = cid;
+      else out.dropped += 1;
+    }
+    if (Object.keys(lines).length) out.clusters[spk] = { lines, why: String(c.why || "") };
+  }
+  for (const [i, l] of Object.entries(raw.lines || {})) {
+    if (!same(i, l.zh)) {
+      out.dropped += 1;
+      continue;
+    }
+    out.lines[i] = { who: (l.who || []).map(who).filter(Boolean), why: String(l.why || "") };
+  }
+  return Object.keys(out.clusters).length || Object.keys(out.lines).length ? out : null;
+}
+
+/**
+ * B4 — cờ lượt gộp series lên cụm: cụm bị khai là lẫn người thì hạ về `split` (trừ khi người
+ * soát đã chốt), để cổng dừng và trang soát mở sẵn phần chia cụm với gợi ý từng câu.
+ */
+export function applyAsrFlags(align, utts, asr) {
+  if (!asr) return align;
+  align.asr = asr;
+  for (const [spk, f] of Object.entries(asr.clusters)) {
+    const c = align.clusters[spk];
+    if (!c) continue;
+    // KHÔNG hạ cả cụm xuống "split": cờ chỉ nói vài câu lệch vai, hạ cả cụm là mọi câu thành
+    // câu nghi + mất mẫu giọng (ai-qing tập 1: 8/12 cụm bị cờ). Chỉ đúng các câu được liệt kê.
+    c.asr = f;
+    c.why = [c.why, `máy gộp series: ${Object.keys(f.lines).length} câu của người khác${f.why ? " — " + f.why : ""}`]
+      .filter(Boolean).join("; ");
+  }
+  align.suspects = suspectLines(utts, align.clusters, align.vision, align.vocatives || [], asr);
+  return align;
 }
 
 /**
@@ -341,6 +401,9 @@ export function applySpeakers(utts, align, bib, labels) {
     const hit = bibleHit(bib, name);
     if (!hit) {
       unknown.push({ where: "cụm " + spk, label: name });
+      // KHÔNG gỡ tên: speaker null thì dub bỏ câu, mà nền demucs đã tách hết tiếng người -> câu
+      // câm hẳn. Giữ giọng chủ cụm cho tới khi có đường tách câu; chỉ cấm làm mẫu giọng.
+      if (NOBODY.has(name)) cc[spk] = { ...(cc[spk] || {}), mixed: name };
       continue;
     }
     smap[spk] = hit.id;
@@ -351,14 +414,18 @@ export function applySpeakers(utts, align, bib, labels) {
   for (const [spk, cid] of Object.entries(smap)) if (!keyByCid.has(cid)) keyByCid.set(cid, spk);
 
   const by = new Map(utts.map((u) => [u.id, u]));
+  const guessed = new Set((labels.guessed || []).map(String));
   for (const [k, name] of Object.entries(lnLbl)) {
     const u = by.get(Number(k));
     if (!u) continue;
-    u.speakerSource = "fleex";
+    u.speakerSource = guessed.has(String(k)) ? "fleex-accepted" : "fleex";
     const hit = bibleHit(bib, name);
     if (!hit) {
       // "ngoài khung" / "nhiều người" / "không rõ"
       unknown.push({ where: "câu " + k, label: name });
+      // "ngoài khung" chỉ nói là không thấy mặt. Hai nhãn kia: vẫn giữ trong cụm (rút ra thì
+      // speaker null -> dub câm câu này), chỉ cấm làm mẫu giọng.
+      if (NOBODY.has(name)) u.mixed = name;
       continue;
     }
     if (smap[u.speaker] === hit.id) continue;
@@ -377,7 +444,7 @@ export function applySpeakers(utts, align, bib, labels) {
     moved += 1;
   }
 
-  for (const spk of uniq(utts.map((u) => u.speaker))) {
+  for (const spk of uniq([...Object.keys(cc), ...utts.map((u) => u.speaker)])) {
     cc[spk] ||= {};
     cc[spk].level ??= "none";
     cc[spk].size = utts.filter((u) => u.speaker === spk).length;
@@ -385,7 +452,7 @@ export function applySpeakers(utts, align, bib, labels) {
   align.speakerMap = Object.fromEntries(Object.entries(cc).filter(([, v]) => v.cid).map(([k, v]) => [k, v.cid]));
   const answered = new Set(Object.keys(lnLbl).map(String));
   align.suspects = Object.fromEntries(
-    Object.entries(suspectLines(utts, cc, align.vision, align.vocatives || []))
+    Object.entries(suspectLines(utts, cc, align.vision, align.vocatives || [], align.asr))
       .filter(([i]) => !answered.has(i)),
   );
   align.human = { clusters: clLbl, lines: lnLbl, moved, unknown };
@@ -418,8 +485,11 @@ export function applySpeakers(utts, align, bib, labels) {
 export function growthPending(align, labels = null, bible = null) {
   const doneC = new Set(Object.keys(labels?.clusters || {}));
   const doneT = new Set([...Object.keys(labels?.terms || {}), ...(labels?.termsDropped || [])]);
+  // Cụm KHÔNG còn câu nào thì không có gì để đặt tên: LLM đã gán từng câu cho người khác hết
+  // (ca thật: ai-qing ep01 cụm S3 "lẫn nhiều người" -> 0 câu). Trang soát vẽ nó với 0 câu, không
+  // có câu mẫu để nghe, nên người soát không có gì để bấm -> cổng chặn mãi.
   const clusters = Object.entries(align?.clusters || {})
-    .filter(([spk, c]) => !c.cid && !doneC.has(spk))
+    .filter(([spk, c]) => !c.cid && !doneC.has(spk) && (c.size ?? 0) > 0)
     .map(([spk]) => spk);
   const terms = Object.keys(align?.newTerms || {})
     .filter((zh) => !(bible?.terms && zh in bible.terms) && !doneT.has(zh));

@@ -5,14 +5,14 @@
  * lại có thể tách/gộp câu làm số câu trôi; câu gốc không khớp thì KHÔNG áp mà báo "lệch" cho người
  * sửa lại — còn hơn áp nhầm sang câu khác (đúng cái bẫy id trôi đã gặp ở kênh hình).
  *
- * Áp vào hai bản translation.json: out/<series>/epNN (UI đọc) và thư mục video (dub-video đọc).
- * Recipe `translate` gọi applyEdits sau mỗi lượt zhvi.
+ * Áp vào hai bản translation.json: thư mục kết quả của LÕI đang chạy tập này (UI đọc, hỏi
+ * scan.engineOf chứ không tự ghép đường dẫn) và thư mục video (dub-video đọc).
+ * Recipe `translate`/`translate2` gọi applyEdits sau mỗi lượt dịch.
  */
 import fs from "node:fs/promises";
 import path from "node:path";
 
-import { epDir } from "../zhvi/series.js";
-import { editsPath, episodeCore, readJson } from "./scan.js";
+import { editsPath, engineOf, enginePaths, episodeCore, readJson } from "./scan.js";
 
 async function writeJson(file, obj) {
   await fs.writeFile(file + ".tmp", JSON.stringify(obj, null, 1), "utf8");
@@ -28,7 +28,7 @@ async function targets(slug, ep) {
   return {
     core, e,
     editsFile: editsPath(core.dir, e.ep),
-    outFile: path.join(core.outRoot, epDir(e.ep), "translation.json"),
+    outFile: path.join(enginePaths(core, e, await engineOf(core, e)).dir, "translation.json"),
     dataFile: path.join(e.videoDir, "translation.json"),
   };
 }

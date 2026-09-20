@@ -64,6 +64,7 @@ CẤP SERIES  series/<slug>/
   draft/{merge,looks,contrast,…}     cache (lượt gộp không ổn định giữa 2 lần chạy)
   bible-review.html                  trang duyệt, chỉ hỏi phía vi
   bible.json                         ★ BIBLE ĐÃ DUYỆT            series apply
+  asr-flags.json                     cụm/câu ASR gộp nhầm người   series init
   ep<N>.speakers.json                nhãn người nói đã chốt      zhvi --apply
   ep<N>.vi-edits.json                câu dịch sửa tay            UI
   voices/<nhân vật>/                 kho giọng cả bộ             UI
@@ -346,6 +347,34 @@ checkpoint. Tên model nằm trong chữ ký.
                      ▼                      ▼
                   pass C             cổng người soát
 ```
+
+### ASR gộp nhầm người
+
+```
+ series init ── lượt gộp đọc cả bộ, TỰ KHAI ──▶ asr-flags.json
+                 · cụm lẫn người: câu nào của ai        (khoá bằng tên + nguyên văn câu)
+                 · một câu chứa lời nhiều người
+                               │
+ pass B tập N ── B4 ◀──────────┘  đúng các câu bị khai ─▶ câu nghi (cụm GIỮ mức cũ)
+                               │
+ review.html ── cụm: [ nhiều người — chia cụm ]
+                 ├ tích 2–3 người có trong cụm
+                 ├ từng câu: ▶ nghe · ảnh · vi · [ A | B | không rõ ]   phím 1/2/3, Space
+                 └ máy điền sẵn: CHỈ câu lượt gộp có nhắc; còn lại để trống
+                               │
+ zhvi --apply ──▶ câu theo người được chọn; phần còn lại GIỮ tên cụm
+                               │
+ translation.json ── speaker: vẫn có tên  (speaker null = dub bỏ câu = câm)
+                  └─ voiceSafe: false ─▶ extract-voice KHÔNG lấy làm mẫu clone
+```
+
+| Câu | Dịch | Làm mẫu giọng |
+|---|---|---|
+| người soát bấm chọn | theo người được chọn | ✓ |
+| máy điền sẵn, người không bấm lại | theo gợi ý | ✗ |
+| cụm `split` chưa ai chia | theo chủ cụm | ✗ |
+| lượt gộp khai "nhiều người" / "của người khác" | theo cụm | ✗ |
+| người soát đánh "nhiều người" / "không rõ" | theo cụm (chưa có đường tách câu) | ✗ |
 
 ---
 

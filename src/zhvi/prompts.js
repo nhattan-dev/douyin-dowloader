@@ -220,8 +220,24 @@ Trả JSON:
  "terms": {"<chữ Hán>": "<tiếng Việt>"},
  "skipped": ["<cụm trong danh sách CỤM LẶP LẠI mà bạn xét là từ thường, không cần chốt>"],
  "address": [{"from":"C1","to":"C2","self":"ta","other":"ngươi","fromEp":"1","why":"lý do ngắn"}],
+ "mixedClusters": [{"ep":"1","spk":"S3","lines":{"12":"C2","15":"C4"},"why":"bằng chứng ngắn, tiếng Việt"}],
+ "mixedLines": [{"ep":"1","line":14,"who":["C1","C5"],"why":"bằng chứng ngắn, tiếng Việt"}],
  "doubts": ["điều bạn không chắc mà người duyệt nên biết — viết tiếng Việt"]
 }
+
+MÁY TÁCH GIỌNG CÓ LỖI — bạn phải chủ động đánh dấu, KHÔNG lặng lẽ chọn cho qua:
+- Lỗi 1, CỤM LẪN NGƯỜI: một cụm gom giọng của hai người trở lên (hay gặp ở cụm nhỏ, và ở phim lồng
+  tiếng AI dùng giọng na ná nhau). Vẫn gán cụm cho người nói NHIỀU NHẤT trong "clusters", rồi thêm một mục
+  "mixedClusters" liệt kê CHỈ các câu KHÔNG phải của người đó: "<số câu>": "<id cast người thật sự nói>".
+  Người nói ít vẫn phải có mục cast riêng, không được biến mất vì bị cụm của người khác nuốt.
+- Lỗi 2, MỘT CÂU NHIỀU NGƯỜI: máy không cắt câu ở chỗ đổi người (nội tâm rồi tới giọng hệ thống, lời
+  nhân vật lẫn tiếng đám đông bàn tán, hai người đối đáp dính thành một câu). Thêm một mục "mixedLines",
+  "who" là id cast theo thứ tự nói.
+- Chỉ đánh dấu khi có BẰNG CHỨNG TRONG LỜI: câu tự xưng/tự giới thiệu tên người khác chủ cụm, câu trả lời
+  chính câu hỏi của cùng cụm ngay trước đó, lời GỌI chính chủ cụm (师兄 nói với 师兄), giới tính trong
+  lời mâu thuẫn, giọng hệ thống (叮, 宿主, 任务, 奖励) chen vào lời nhân vật. Không chắc thì thôi.
+- "line" và các khoá trong "lines" là SỐ CÂU ở đầu dòng kịch bản của đúng tập đó; "spk" là nhãn cụm của
+  câu đó. Không có lỗi nào thì để hai mảng rỗng.
 
 Quy tắc:
 - MỘT người = MỘT mục cast, dù các tập gọi bằng tên khác nhau (tên thật, chức danh, biệt danh, cách gọi thân mật).
@@ -232,7 +248,8 @@ Quy tắc:
 - "zh" và mọi "alias" phải là chuỗi XUẤT HIỆN NGUYÊN VĂN trong kịch bản; riêng người dẫn chuyện
   dùng "旁白". Chương trình sẽ kiểm, chuỗi không có thật bị loại.
 - "clusters": với mỗi tập, liệt kê ĐÚNG nhãn cụm giọng của tập đó mà nhân vật này nói. Một cụm chỉ thuộc
-  một nhân vật; lồng tiếng ít người thì một cụm gánh nhiều vai — chọn vai nói nhiều nhất trong cụm.
+  một nhân vật; lồng tiếng ít người thì một cụm gánh nhiều vai — chọn vai nói nhiều nhất trong cụm và khai
+  các câu còn lại ở "mixedClusters".
   Nhân vật chỉ được nhắc tới, không có thoại → "clusters": {} và "role": "mentioned".
 - Mọi cụm giọng có từ 2 câu trở lên phải thuộc về một nhân vật nào đó (kể cả 旁白 / người dẫn chuyện).
 - "series.titleZh": TÊN PHIM. Tìm trong hashtag và tiêu đề các video (tên phim hay nằm trong hashtag,

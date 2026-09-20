@@ -268,6 +268,61 @@ xưng hô sai lan ra cả tập. Vì vậy cổng mặc định BẬT.
   này thì cổng chặn mãi: đo trên tập 2, chốt 1 cụm + 1 câu đưa bảng xưng hô từ 0 lên 2 cặp và câu
   cần soi từ 8 xuống 6, **không về 0**.
 
+### ASR gộp nhầm người (cài 2026-09-19)
+
+Ba loại lỗi khác nhau, đừng gộp làm một: **cụm lẫn người** (mỗi câu vẫn một người — chia được bằng
+nhãn câu), **một câu hai người** (phải cắt theo thời gian — v2: LLM đề xuất ở `splits`, người soát cắt tay trên trang soát; bản của người là cuối, không đưa LLM xác nhận lại, kể cả khi sửa SAU lúc đã dịch — câu đó chỉ bị đánh dấu "xưng hô có thể lệch"), **cùng giọng cho nhiều vai**
+(phim AI动漫; âm thanh bó tay, chỉ còn chữ + hình). Ví dụ thật: 飞鸟炮灰 tập 1 cụm `S3` 4 câu, kênh
+hình bỏ phiếu 顾言 1 / 冷清秋 2 / 系统 1.
+
+- **"nhiều người" KHÔNG được gỡ tên.** Đã thử (2026-09-19): gỡ tên → `speaker: null` → `dub-video`
+  lọc bỏ câu không speaker, mà nền demucs đã tách hết tiếng người → câu **câm hẳn**. Đã rollback:
+  nhãn đó chỉ gắn `mixed` (cụm hoặc câu) → `voiceSafe: false`, lồng tiếng vẫn theo chủ cụm cho tới
+  khi có đường tách câu. "ngoài khung" KHÔNG thuộc nhóm này — chỉ là không thấy mặt.
+- **Cờ cụm của lượt gộp KHÔNG hạ cả cụm xuống `split`.** Đã thử: `ai-qing` tập 1 bị cờ 8/12 cụm
+  (20/148 câu) → gần như mọi câu thành câu nghi và mất mẫu giọng. Chỉ đúng các câu được liệt kê.
+- **Cờ của lượt gộp series đi file riêng `asr-flags.json`, không vào bible** (bible không giữ cụm).
+  Khoá bằng tên nhân vật (zh + vi) vì trang duyệt bible được đánh số lại, và kèm nguyên văn câu vì
+  pass A chạy lại làm trôi id — B4 bỏ cờ không khớp, không đoán (bẫy B1).
+- **Gợi ý điền sẵn chỉ lấy từ LLM, code không xếp ưu tiên kênh để đoán thay.** Bản đầu có luật
+  lượt gộp > hình > tên cụm (câu không liệt kê = của chủ cụm) — fleex bác: code chỉ điều phối.
+- **Nhận nguyên gợi ý ≠ người chốt.** Câu người không bấm lại ghi vào `guessed` →
+  `speakerSource: "fleex-accepted"`: dịch theo gợi ý, nhưng không làm mẫu clone.
+- **`voiceSafe` chỉ loại dấu hiệu LẪN GIỌNG, không loại cụm cãi nhau về tên.** Bản đầu đòi mức
+  `confirmed`/`human` → 飞鸟炮灰 tập 1 chỉ còn **24/66** câu (cả cụm 顾言 24 câu mức `conflict` bị
+  loại). Cãi tên không làm bẩn mẫu — cụm vẫn thuần 92–95%. Luật hiện tại: **63/66**.
+  `extract-voice` còn < 6s câu an toàn thì dùng hết và cảnh báo — thà có giọng hơi bẩn còn hơn dub dừng.
+- **Phần chia cụm không nhúng lại ảnh/tiếng** — mượn từ hàng câu ở mục 2 bằng JS. Nhúng hai lần:
+  4,5 → 7,0 MB.
+
+Hai tác dụng phụ đã biết của commit bible-lớn-thêm (5c603f2), gặp khi test cái này:
+- B2 checkpoint ghi TRƯỚC 5c603f2 ký theo `bible.version` → lần chạy thật đầu tiên sau đó gọi lại
+  B2 một lần mỗi tập.
+- Nạp thuật ngữ mới đổi vốn từ của pass A → **A3 chạy lại ở mọi tập** (rẻ: qwen-plus ~10s). A3 ra
+  y hệt thì dây chuyền dừng ở đó nhờ chữ ký nội dung; ra khác thì tập đó dịch lại — đúng, vì vốn
+  từ mới có thể bắt thêm chỗ ASR nghe nhầm.
+
+### zhvi2 là lõi, không phải một cái ống thứ hai (2026-09-20)
+
+Dựng zhvi2 trong "vũ trụ song song" (thư mục ra riêng, nhãn riêng, không `--write-back`, tab UI
+riêng) là đúng **khi chưa tin được** — v2 hỏng cũng không bẩn bản dịch/lồng tiếng đang có. Nhưng
+giữ cái vỏ đó sau khi v2 đã dùng thật thì sinh đúng ba thứ: bản dịch thật nằm trong tab tên là
+"Thử"; lồng tiếng vẫn ăn bản v1 (dub đọc `translation.json` trong thư mục video); và **mọi tính
+năng phải làm hai lần** (nút sửa câu tay là ca đầu tiên).
+
+- **"v2" là tên của LÕI, không phải tên của một dây chuyền.** UI hỏi `scan.engineOf()` xem tập này
+  chạy lõi nào rồi đọc theo đó; không có màn hình riêng cho lõi nào cả.
+- **Không tách nhỏ hơn "công đoạn" được.** Kỳ vọng kiểu "chỉ lấy phần soát người nói của v2" không
+  làm được: task `U` cố ý gộp sửa ASR + gán người nói + cắt câu + dịch thô trong MỘT lượt, vì cái
+  được là model nhìn trọn cả tập. Đơn vị đổi lõi là *hiểu tập* (v1 A+B ↔ v2 V+U) và *dịch*
+  (v1 C+D ↔ v2 T); cổng soát, export, lồng tiếng vốn đã dùng chung code.
+- **Tính năng cắt câu nhiều người KHÔNG thuộc về v2.** Nửa "người cắt tay" nằm ở trang soát chung;
+  nửa "LLM đề xuất chỗ cắt" mới phụ thuộc lõi (v1 không có → trang soát tự không vẽ ra). Khoá `sk`
+  là cái giá của tính năng cắt, không phải của v2: cắt một câu làm id mọi câu sau trôi.
+- **Hai lõi ghi cùng một chỗ thì phải khoá chung** `series:<slug>:ep<N>`. Khoá riêng (`v2ep<N>`)
+  chỉ đúng hồi v2 không đụng gì của v1.
+- **Tập cũ của v1 không tự dịch lại.** `engineOf` trả v1 cho tập đã chạy v1; đổi lõi là người bấm.
+
 ### Checkpoint theo chữ ký nội dung
 
 sha256 của đúng những đầu vào mỗi công đoạn khai. **Không có bảng phụ thuộc** — dây chuyền đổ
@@ -309,6 +364,10 @@ theo nội dung, nên chạy lại mà ra kết quả y hệt thì không kéo t
   ra cùng một bible.
 - `look` là bằng chứng gộp: đo được hai mục máy tách riêng mà look tả đúng đặc điểm của nhân vật
   khác ("có đuôi trắng lớn" = Ngọc Diện).
+- **`look` (series init) và B1 vision chạy song song, trần 3 lời gọi VLM + 6 tiến trình ffmpeg
+  chung.** Cắt 96 khung: tuần tự 13,6s → song song 4,4s. `ask` nuốt lỗi thành `?parse` nên
+  401/403 phải bắt ở vòng ngoài (`denied`) — trước đó hết quota thì B1 vẫn gọi đủ 30 lần.
+  `looks.json` ghi nối đuôi, không ghi đồng thời.
 - `init` từ chối khi đã có `bible.json` — dựng lại cả series KHÔNG phải đường bổ sung tập mới.
 
 ### Bible lớn thêm ở cổng soát từng tập (cài 2026-09-19)

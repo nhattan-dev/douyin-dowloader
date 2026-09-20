@@ -112,6 +112,26 @@ soi từ **8 xuống 6**, không về 0.
 
 Nhãn đã chốt là **dính**: lần chạy sau `B5` tự đè lên phán quyết của máy.
 
+### Cụm ASR gộp nhầm người — chia cụm
+
+Chọn **"nhiều người — chia cụm"** ở một cụm → khoanh 2–3 người có trong cụm → gán từng câu (rê
+chuột: `Space` nghe, `1/2/3` chọn). Máy điền sẵn CHỈ những câu cờ của lượt gộp series
+(`series/<slug>/asr-flags.json`) có nhắc; còn lại để trống cho người chọn. Câu trong phần chia dùng chung
+khoá với hàng câu ở mục 2, chọn ở đâu cũng là một.
+
+| Nhãn | Hệ quả |
+|---|---|
+| cụm = "nhiều người" | GIỮ tên máy gán (lồng tiếng vẫn đọc giọng chủ cụm); câu nào đã chia đi theo người đó; cả cụm không làm mẫu giọng |
+| câu = "nhiều người" / "không rõ" | giữ trong cụm, không làm mẫu giọng |
+| câu = "ngoài khung" | giữ tên theo cụm (chỉ là không thấy mặt) |
+
+`ep<N>.speakers.json` có thêm `guessed`: câu nhận nguyên gợi ý máy → `speakerSource: "fleex-accepted"`,
+vẫn dịch theo gợi ý nhưng `voiceSafe: false` — không vào mẫu clone.
+
+`asr-flags.json` do `series init` ghi (lượt gộp được dặn tự khai `mixedClusters` / `mixedLines`).
+Ghi bằng tên nhân vật + nguyên văn câu; B4 bỏ cờ nào câu không còn khớp (pass A chạy lại làm trôi id).
+Tập thêm sau `init` không có cờ — chỉ còn kênh hình + người soát.
+
 `media.json` và `rough_vi.json` là cache riêng, khoá theo nội dung (`id@mốc-thời-gian`
 và câu Hán) chứ không qua `ckpt.json` — chúng sống sót qua cả việc id câu bị trôi.
 

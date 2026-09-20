@@ -35,9 +35,23 @@ export async function matchVoices(names, voiceDir) {
   return { alias, missing };
 }
 
+/**
+ * Câu này được làm MẪU GIỌNG clone không. Một câu của người khác lọt vào mẫu là hỏng giọng nhân
+ * vật ở MỌI tập, nên loại đúng những ca có dấu hiệu LẪN GIỌNG — không loại cụm chỉ cãi nhau về
+ * tên (text vs hình): cụm vẫn thuần 92–95%, gọi sai tên là chuyện khác, soát ở trang người nói.
+ */
+function voiceSafe(u, cl, asr) {
+  if (u.mixed || cl?.mixed) return false; // người soát bảo "nhiều người"/"không rõ"
+  if (u.speakerSource === "fleex") return true; // người nghe rồi chọn đúng một người
+  if (u.speakerSource === "fleex-accepted") return false; // nhận nguyên gợi ý máy ở phần chia cụm
+  if (asr?.lines?.[String(u.id)]) return false; // lượt gộp series khai câu này có nhiều người
+  if (cl?.asr?.lines?.[String(u.id)]) return false; // lượt gộp series khai câu này của người khác
+  return cl?.level !== "split"; // cụm lẫn người (kênh hình, cụm ≤3 câu) mà chưa ai chia
+}
+
 /** translation.json đúng schema douyind-downloader. */
 export function exportTranslation(utts, vi, sheet, meta, {
-  criticScores = null, alias = null, suspects = null,
+  criticScores = null, alias = null, suspects = null, clusters = null, asr = null,
 } = {}) {
   alias ||= {};
   const names = Object.fromEntries(
@@ -63,6 +77,7 @@ export function exportTranslation(utts, vi, sheet, meta, {
     const conf = Number(u.conf ?? 1) || 1;
     const score = criticScores[u.id]?.score ?? 5;
     const suspect = suspects?.[String(u.id)] || null;
+    const cl = clusters?.[u.speaker];
     segs.push({
       index: idxOf.get(u.id),
       start: u.start, end: u.end,
@@ -73,6 +88,7 @@ export function exportTranslation(utts, vi, sheet, meta, {
       needsReview: Boolean(u.review?.length) || conf < 0.9 || score <= 3 || !u.aligned || Boolean(suspect),
       segmentIndexes: u.segmentIndexes,
       speakerSource: u.speakerSource,
+      ...(clusters ? { voiceSafe: voiceSafe(u, cl, asr) } : {}),
     });
   }
   segs.sort((a, b) => (a.start === null) - (b.start === null) || a.start - b.start);
@@ -136,10 +152,12 @@ export async function writeBack(dataDir, outDir, tr, { log = null } = {}) {
 
   const tj = JSON.parse(await fs.readFile(tp, "utf8"));
   const owners = new Map();
+  const unsafe = new Set();
   for (const s of tr.segments) {
     for (const i of s.segmentIndexes || []) {
       if (!owners.has(i)) owners.set(i, new Set());
       owners.get(i).add(s.speaker);
+      if (s.voiceSafe === false) unsafe.add(i);
     }
   }
   let clean = 0;
@@ -148,6 +166,8 @@ export async function writeBack(dataDir, outDir, tr, { log = null } = {}) {
     const one = set && set.size === 1 ? [...set][0] : null;
     seg.speaker = one;
     seg.speakerSource = one ? "zhvi" : null;
+    if (one && unsafe.has(i)) seg.voiceSafe = false;
+    else delete seg.voiceSafe;
     if (one) clean += 1;
   });
   tj.speakers = [...new Set(tj.segments.filter((s) => s.speaker).map((s) => s.speaker))];

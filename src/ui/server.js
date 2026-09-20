@@ -395,7 +395,10 @@ on("POST", "/api/series/([^/]+)/translate-all", async (req, [slug]) => {
   if (s.status !== "approved") throw Object.assign(new Error("chưa có bible đã duyệt"), { code: 400 });
   const out = [];
   for (const e of s.episodes) {
-    if (e.state && ["idle", "partial", "reviewed"].includes(e.state.status)) out.push(await jobs.enqueue("translate", { slug, ep: e.ep }));
+    // mỗi tập đi bằng lõi của chính nó: tập cũ đã chạy v1 thì chạy tiếp v1, tập mới đi v2
+    if (e.state && ["idle", "partial", "reviewed"].includes(e.state.status)) {
+      out.push(await jobs.enqueue(e.state.engine === "v2" ? "translate2" : "translate", { slug, ep: e.ep }));
+    }
   }
   return { jobs: out };
 });
@@ -405,13 +408,24 @@ on("GET", "/api/series/([^/]+)/ep/([^/]+)", async (req, [slug, ep]) => {
   delete d.abs;
   return d;
 });
+// Lõi nào chạy tập này là việc của scan.engineOf; route chỉ chọn recipe tương ứng. `engine` trong
+// body là đường chạy tay bằng lõi kia (dự phòng), không phải thứ màn hình thường dùng.
+const engineOfEp = async (slug, ep, want = null) => {
+  if (want === "v1" || want === "v2") return want;
+  const d = await scan.episodeDetail(slug, ep);
+  if (!d) throw Object.assign(new Error("không có tập này"), { code: 404 });
+  return d.state.engine;
+};
 on("POST", "/api/series/([^/]+)/ep/([^/]+)/translate", async (req, [slug, ep]) => {
-  const { force = null } = await body(req);
-  return { job: await jobs.enqueue("translate", { slug, ep, ...(force ? { force } : {}) }) };
+  const { force = null, engine = null } = await body(req);
+  const v = await engineOfEp(slug, ep, engine);
+  return { job: await jobs.enqueue(v === "v2" ? "translate2" : "translate", { slug, ep, ...(force ? { force } : {}) }) };
 });
-on("POST", "/api/series/([^/]+)/ep/([^/]+)/speaker-review", async (req, [slug, ep]) => {
-  const file = await saveSubmission(path.join("series", slug, "reviews"), `ep${ep}.speaker-review`, await body(req));
-  return { file, job: await jobs.enqueue("speakerApply", { slug, ep, file }) };
+on("POST", "/api/series/([^/]+)/ep/([^/]+)/speaker-review", async (req, [slug, ep], res, url) => {
+  const v = await engineOfEp(slug, ep, url.searchParams.get("engine"));
+  const name = v === "v2" ? `ep${ep}.v2.speaker-review` : `ep${ep}.speaker-review`;
+  const file = await saveSubmission(path.join("series", slug, "reviews"), name, await body(req));
+  return { file, job: await jobs.enqueue(v === "v2" ? "speakerApply2" : "speakerApply", { slug, ep, file }) };
 });
 // Danh sách giọng của VieNeu (catalog + giọng bạn đã clone/enrol) — GET /voices chỉ đọc, không tốn token.
 // Cache 10 phút: ~1200 giọng, và id trùng giữa v3/v4 nên phải lọc theo engine.
@@ -510,11 +524,16 @@ async function injectReview(res, file, url, label) {
 }
 on("GET", "/review/bible/([^/]+)", async (req, [slug], res) =>
   injectReview(res, path.join(ROOT, "series", slug, "bible-review.html"), `/api/series/${encodeURIComponent(slug)}/bible-review`, "Lưu & áp dụng bible"));
-on("GET", "/review/speakers/([^/]+)/([^/]+)", async (req, [slug, ep], res) => {
+on("GET", "/review/speakers/([^/]+)/([^/]+)", async (req, [slug, ep], res, url) => {
   const d = await scan.episodeDetail(slug, ep);
   if (!d) return fail(res, 404, "không có tập này");
-  return injectReview(res, path.join(ROOT, d.state.outDir, "review.html"),
-    `/api/series/${encodeURIComponent(slug)}/ep/${encodeURIComponent(ep)}/speaker-review`, "Lưu & dịch tiếp");
+  const want = url.searchParams.get("engine");
+  const v = want === "v1" || want === "v2" ? want : d.state.engine;
+  const dir = v === d.state.engine ? d.state.outDir : d.backup?.outDir;
+  if (!dir) return fail(res, 404, "chưa có trang soát");
+  const q = want ? `?engine=${encodeURIComponent(want)}` : "";
+  return injectReview(res, path.join(ROOT, dir, "review.html"),
+    `/api/series/${encodeURIComponent(slug)}/ep/${encodeURIComponent(ep)}/speaker-review${q}`, "Lưu & dịch tiếp");
 });
 
 // việc

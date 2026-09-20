@@ -60,6 +60,17 @@ export async function loadLabels(seriesDir, ep) {
   }
 }
 
+/** Cờ ASR của lượt gộp series cho đúng tập này (`series init` ghi `asr-flags.json`). */
+export async function loadAsrFlags(seriesDir, ep) {
+  if (!seriesDir || ep === null || ep === undefined) return null;
+  try {
+    const all = JSON.parse(await fs.readFile(path.join(seriesDir, "asr-flags.json"), "utf8"));
+    return all[String(ep)] || null;
+  } catch {
+    return null;
+  }
+}
+
 const asSet = (v) => new Set(
   v === undefined || v === null ? []
     : typeof v === "string" ? v.split(",").map((s) => s.trim()).filter(Boolean)
@@ -115,6 +126,7 @@ export async function runPipeline({
     video, cps, rounds,
     outDir, seriesDir: series, dataDir,
     labels: await loadLabels(series, ep),
+    asrRaw: await loadAsrFlags(series, ep),
     llm, log,
     models: modelsIn || modelsFromEnv(env),
     opts: { noVision, vision: { frames: 8, anchorsPerCluster: 3, budget: 30, ...visionOpts } },

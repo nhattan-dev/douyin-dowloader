@@ -30,7 +30,7 @@ import { isVocative, relevantGlossary, repeatedTerms, vocativeNames } from "./pa
 import { LOOK_CONTRAST_SYS, LOOK_SYS, SERIES_SYS } from "./prompts.js";
 import { media, roughVi } from "./review.js";
 import { buildBiblePage } from "./series-page.js";
-import { grab } from "./vision.js";
+import { denied, grab, pool } from "./vision.js";
 
 const NULL_LOG = { info() {}, warn() {}, error() {} };
 // Ngắn hơn ngần này thì gần như chắc không phải một tập: gặp thật ở 杂役合道 — clip 10s
@@ -38,6 +38,7 @@ const NULL_LOG = { info() {}, warn() {}, error() {} };
 export const MIN_EP_SEC = 60;
 // Hai câu cách nhau hơn ngần này thì gần như chắc đã sang cảnh khác — kéo vào "cảnh" chỉ làm nhiễu.
 const SCENE_GAP_SEC = 6;
+const LOOK_CONCURRENCY = 3; // lời gọi VLM tả ngoại hình cùng lúc — vision hay bị giới hạn tần suất
 // Trần số cụm giọng chưa ai nhận đưa lên trang duyệt: quá thì trang dài mà người đọc bỏ qua hết.
 const MAX_UNASSIGNED = 6;
 // Trần ký tự gửi cho lượt gộp; quá thì cắt bớt kịch bản đều các tập, không bỏ tập nào.
@@ -264,7 +265,64 @@ export function validateDraft(m, eps, pinned = {}) {
       fromEp: String(a.fromEp || "1"), why: String(a.why || ""),
     });
   }
-  return { series: m.series || {}, cast, terms, address, doubts, unassigned };
+  const asr = asrFlagsOf(m, byEp, idMap, cast, taken, doubts);
+  return { series: m.series || {}, cast, terms, address, doubts, unassigned, asr };
+}
+
+/**
+ * Cờ lỗi tách giọng model tự khai (cụm lẫn người, một câu nhiều người) -> dữ liệu cho cổng soát
+ * TỪNG TẬP, không cho bible: cụm thuộc về tập, không thuộc về bộ.
+ *
+ * Nhân vật ghi bằng tên (zh + vi) chứ không bằng id, vì trang duyệt bible được quyền xoá/đánh số
+ * lại; câu ghi kèm nguyên văn chữ Hán để lúc dùng kiểm được id câu chưa trôi.
+ * Model khai bừa (câu không có, cụm sai, id cast không có) thì bỏ và đếm vào doubts.
+ */
+function asrFlagsOf(m, byEp, idMap, cast, taken, doubts) {
+  const byId = new Map(cast.map((c) => [c.id, c]));
+  const who = (x) => {
+    const c = byId.get(idMap.get(String(x)));
+    return c ? { id: c.id, zh: c.zh, vi: c.vi } : null;
+  };
+  const name = (w) => w.vi || w.zh;
+  const out = {};
+  let bad = 0;
+  for (const f of [].concat(m.mixedClusters || [])) {
+    const d = byEp[String(f?.ep)];
+    const line = (i) => d?.utts.find((u) => u.id === Number(i));
+    if (!d || !f.spk) {
+      bad += 1;
+      continue;
+    }
+    const owner = taken.get(`${d.ep}|${f.spk}`);
+    const lines = {};
+    for (const [i, x] of Object.entries(f.lines || {})) {
+      const u = line(i);
+      const w = who(x);
+      if (!u || u.speaker !== f.spk || !w) bad += 1;
+      else if (w.id !== owner) lines[u.id] = { zh: u.zh, who: { zh: w.zh, vi: w.vi } };
+    }
+    if (!Object.keys(lines).length) continue;
+    const e = (out[d.ep] ||= { clusters: {}, lines: {} });
+    e.clusters[f.spk] = { why: String(f.why || ""), lines };
+    const ppl = [...new Set(Object.values(lines).map((l) => name(l.who)))];
+    doubts.push(`tập ${d.ep}: cụm ${f.spk} lẫn người — ${Object.keys(lines).length} câu là của ${ppl.join(", ")}`
+      + `${f.why ? ` (${f.why})` : ""}; soát ở trang người nói của tập`);
+  }
+  for (const f of [].concat(m.mixedLines || [])) {
+    const d = byEp[String(f?.ep)];
+    const u = d?.utts.find((x) => x.id === Number(f?.line));
+    const ws = [].concat(f?.who || []).map(who).filter(Boolean);
+    if (!u) {
+      bad += 1;
+      continue;
+    }
+    const e = (out[d.ep] ||= { clusters: {}, lines: {} });
+    e.lines[u.id] = { zh: u.zh, who: ws.map((w) => ({ zh: w.zh, vi: w.vi })), why: String(f.why || "") };
+    doubts.push(`tập ${d.ep}: câu ${u.id} chứa lời nhiều người${ws.length ? ` (${ws.map(name).join(" → ")})` : ""}`
+      + " — máy không cắt được, câu này sẽ không lồng tiếng bằng giọng ai");
+  }
+  if (bad) doubts.push(`đã bỏ ${bad} cờ lỗi tách giọng máy khai sai chỗ (câu/cụm/nhân vật không có thật)`);
+  return out;
 }
 
 // ---------- 4. look + mẫu nghe ----------
@@ -332,15 +390,14 @@ async function describeLook(llm, c, samples, byEp, { model, frames = 3, width = 
   }];
   const images = [];
   try {
-    for (const [si, s] of samples.entries()) {
-      const video = path.join(byEp[s.ep].episode.videoDir, "video.mp4");
-      for (let k = 0; k < frames; k++) {
-        const t = s.u.start + ((s.u.end - s.u.start) * (k + 0.5)) / frames;
-        const img = await grab(video, t, width);
-        content.push({ type: "text", text: `Khung ${images.length} (câu ${si + 1}, tập ${s.ep}):` });
-        content.push({ type: "image_url", image_url: { url: img } });
-        images.push(img);
-      }
+    const shots = samples.flatMap((s, si) => Array.from({ length: frames }, (_, k) => ({
+      si, s, t: s.u.start + ((s.u.end - s.u.start) * (k + 0.5)) / frames,
+    })));
+    const imgs = await Promise.all(shots.map(({ s, t }) => grab(path.join(byEp[s.ep].episode.videoDir, "video.mp4"), t, width)));
+    for (const [i, { si, s }] of shots.entries()) {
+      content.push({ type: "text", text: `Khung ${i} (câu ${si + 1}, tập ${s.ep}):` });
+      content.push({ type: "image_url", image_url: { url: imgs[i] } });
+      images.push(imgs[i]);
     }
     const r = await llm.chat(model, [
       { role: "system", content: LOOK_SYS },
@@ -504,9 +561,11 @@ export async function initSeries({
   const sampleUtts = [];
   const castNames = uniq(draft.cast.flatMap((c) => [c.zh, ...(c.alias || [])]));
   if (!noLooks) step("look", "start", { done: 0, total: draft.cast.length });
-  for (const [ci, c] of draft.cast.entries()) {
-    if (!noLooks && ci) step("look", "progress", { done: ci, total: draft.cast.length });
+  // Mẫu nghe + cảnh: tuần tự, rẻ, và thứ tự `sampleUtts` không được phụ thuộc lời gọi nào về trước.
+  const smpOf = {};
+  for (const c of draft.cast) {
     const smp = samplesOf(c, byEp, 4, { names: castNames });
+    smpOf[c.id] = smp;
     c.samples = smp.map((s) => sceneSample(s.ep, s.u, byEp, videoRef));
     const clips = [];
     for (const [si, s] of smp.entries()) {
@@ -517,29 +576,41 @@ export async function initSeries({
       for (const l of c.samples[si].scene) sampleUtts.push({ id: `${c.id}:${s.ep}:${l.id}`, zh: l.zh });
     }
     mediaByCast[c.id] = { clips, images: [] };
-    if (noLooks || lookDead || !smp.length) continue;
-
-    const key = `${c.zh}|${smp.map((s) => `${s.ep}@${s.u.start}`).join(",")}|${models.vision}`;
-    let L = lookCache[key];
-    if (!L) {
-      log.info(`[look] ${c.id} ${c.vi || c.zh}: ${smp.length} câu × 3 khung`);
-      L = await describeLook(llm, c, smp, byEp, { model: models.vision });
-      if (L.error) {
-        // KHÔNG cache lượt hỏng: đã từng cache nguyên lỗi 403 nên chạy lại cũng không gọi lại
-        lookFail.push(`${c.vi || c.zh}: ${L.error}`);
-        log.warn(`look ${c.id} hỏng: ${L.error}`);
-        if (/\b40[13]\b/.test(L.error)) {
-          lookDead = true; // hết quota / sai key: các nhân vật sau cũng sẽ hỏng y hệt
-          log.warn(`${models.vision} bị từ chối (hết quota/sai key) — bỏ bước look cho các nhân vật còn lại; đổi model bằng ZHVI_VISION`);
-        }
-      } else {
-        lookCache[key] = L;
-        await fs.writeFile(path.join(draftDir, "looks.json"), JSON.stringify(lookCache), "utf8");
-      }
-    }
-    Object.assign(c, { lookRaw: L.look, look: L.look, lookSure: L.sure, lookWhy: L.why, lookFrames: L.frames });
-    mediaByCast[c.id].images = L.images;
   }
+
+  // look: mỗi nhân vật một lời gọi VLM, chạy song song có trần. 401/403 thì dừng các lượt chưa
+  // gọi — những lượt đang bay (≤ LOOK_CONCURRENCY-1) vẫn hỏng, bị từ chối nên không mất tiền.
+  let lookDone = 0;
+  let lookSave = Promise.resolve(); // ghi nối đuôi: hai writeFile cùng lúc vào một file có thể đan nhau
+  await pool(noLooks ? [] : draft.cast, LOOK_CONCURRENCY, async (c) => {
+    const smp = smpOf[c.id];
+    try {
+      if (lookDead || !smp.length) return;
+      const key = `${c.zh}|${smp.map((s) => `${s.ep}@${s.u.start}`).join(",")}|${models.vision}`;
+      let L = lookCache[key];
+      if (!L) {
+        log.info(`[look] ${c.id} ${c.vi || c.zh}: ${smp.length} câu × 3 khung`);
+        L = await describeLook(llm, c, smp, byEp, { model: models.vision });
+        if (L.error) {
+          // KHÔNG cache lượt hỏng: đã từng cache nguyên lỗi 403 nên chạy lại cũng không gọi lại
+          lookFail.push(`${c.vi || c.zh}: ${L.error}`);
+          log.warn(`look ${c.id} hỏng: ${L.error}`);
+          if (denied(L.error) && !lookDead) {
+            lookDead = true; // hết quota / sai key: các nhân vật sau cũng sẽ hỏng y hệt
+            log.warn(`${models.vision} bị từ chối (hết quota/sai key) — bỏ bước look cho các nhân vật còn lại; đổi model bằng ZHVI_VISION`);
+          }
+        } else {
+          lookCache[key] = L;
+          lookSave = lookSave.then(() => fs.writeFile(path.join(draftDir, "looks.json"), JSON.stringify(lookCache), "utf8"));
+          await lookSave;
+        }
+      }
+      Object.assign(c, { lookRaw: L.look, look: L.look, lookSure: L.sure, lookWhy: L.why, lookFrames: L.frames });
+      mediaByCast[c.id].images = L.images;
+    } finally {
+      step("look", "progress", { done: ++lookDone, total: draft.cast.length });
+    }
+  });
   if (lookFail.length) {
     draft.doubts.unshift(`KHÔNG tả được ngoại hình ${lookFail.length} nhân vật — look để trống thì kênh hình khi dịch sẽ yếu. `
       + `Lỗi: ${lookFail[0].slice(0, 160)}`);
@@ -648,6 +719,13 @@ export async function initSeries({
   out.version = BIBLE.version(out);
   const draftPath = path.join(draftDir, "bible.draft.json");
   await fs.writeFile(draftPath, JSON.stringify(out, null, 1), "utf8");
+  // Cờ lỗi tách giọng đi thẳng tới cổng soát từng tập, không qua bible (bible không giữ cụm).
+  const flagged = Object.keys(draft.asr).length;
+  await fs.writeFile(path.join(seriesDir, "asr-flags.json"), JSON.stringify(draft.asr, null, 1), "utf8");
+  if (flagged) {
+    const n = Object.values(draft.asr).reduce((k, e) => k + Object.keys(e.clusters).length + Object.keys(e.lines).length, 0);
+    log.info(`[tách giọng] máy khai ${n} chỗ lỗi ở ${flagged} tập -> asr-flags.json (cổng soát từng tập sẽ hỏi)`);
+  }
   const page = await buildBiblePage(out, mediaByCast, path.join(seriesDir, "bible-review.html"));
   return { draft: out, draftPath, page };
 }

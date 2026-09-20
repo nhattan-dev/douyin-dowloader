@@ -200,8 +200,13 @@ export const STAGES = [
         when: (ctx) => Boolean(ctx.bible),
         run(ctx) {
           ctx.align = B.verifyAlign({ ...ctx.alignRaw }, ctx.utts, ctx.bible, ctx.vision || null);
+          const asr = B.asrFlagsFor(ctx.asrRaw, ctx.utts, ctx.bible);
+          B.applyAsrFlags(ctx.align, ctx.utts, asr);
           const lv = Object.fromEntries(Object.entries(ctx.align.clusters).map(([k, v]) => [k, v.level]));
-          return { clusters: lv, suspects: Object.keys(ctx.align.suspects).length };
+          return {
+            clusters: lv, suspects: Object.keys(ctx.align.suspects).length,
+            ...(ctx.asrRaw ? { asrFlags: { clusters: Object.keys(asr?.clusters || {}).length, lines: Object.keys(asr?.lines || {}).length, stale: asr?.dropped || 0 } } : {}),
+          };
         },
       },
       {
@@ -239,6 +244,7 @@ export const STAGES = [
             clusters: ctx.align.clusters,
             suspects: ctx.align.suspects,
             human: ctx.align.human ?? null,
+            asr: ctx.align.asr ?? null,
           },
           ...(ctx.align.newTerms
             ? { "proposals.json": { terms: ctx.align.newTerms, unmapped: ctx.align.unmapped || [], bibleVersion: ctx.bible.version } }
@@ -398,6 +404,7 @@ export const STAGES = [
         run(ctx) {
           ctx.translation = E.exportTranslation(ctx.utts, ctx.vi, ctx.sheet, ctx.meta(), {
             criticScores: ctx.scores, alias: ctx.alias, suspects: ctx.suspects,
+            clusters: ctx.align?.clusters ?? null, asr: ctx.align?.asr ?? null,
           });
           return {
             segments: ctx.translation.segments.length,

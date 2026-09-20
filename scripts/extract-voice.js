@@ -88,11 +88,28 @@ async function main() {
   const totalDuration = await probeDuration(audio);
 
   const segments = transcript.segments ?? [];
-  const picked = segments.filter((s) => s.speaker === args.speaker);
-  if (!picked.length) {
+  const all = segments.filter((s) => s.speaker === args.speaker);
+  if (!all.length) {
     const có = [...new Set(segments.map((s) => s.speaker))].join(", ");
     console.error(`không có đoạn nào của "${args.speaker}". Có: ${có}`);
     process.exit(1);
+  }
+  // zhvi đánh `voiceSafe: false` cho câu chưa ai chốt ở cụm máy còn nghi (cụm lẫn người, ba kênh
+  // cãi nhau). Một câu của người khác lọt vào mẫu clone là hỏng giọng nhân vật ở MỌI tập.
+  // Câu an toàn quá ít thì vẫn phải có giọng để lồng — dùng hết, nhưng nói to.
+  const safe = all.filter((s) => s.voiceSafe !== false);
+  const secs = (xs) => xs.reduce((n, s) => n + (s.end - s.start), 0);
+  const MIN_SAFE_SEC = 6;
+  let picked = safe;
+  if (safe.length < all.length) {
+    if (secs(safe) >= MIN_SAFE_SEC) {
+      console.log(`bỏ ${all.length - safe.length}/${all.length} câu chưa chốt người nói khỏi mẫu giọng`);
+    } else {
+      picked = all;
+      console.warn(`⚠ câu đã chốt của "${args.speaker}" chỉ ${secs(safe).toFixed(1)}s (< ${MIN_SAFE_SEC}s) — `
+        + `dùng cả ${all.length - safe.length} câu chưa chốt; mẫu có thể lẫn giọng người khác, `
+        + "soát người nói tập này trên review.html rồi cắt lại");
+    }
   }
 
   // Đệm chỉ được lấn vào khoảng lặng, không lấn sang câu của người khác — nếu không
