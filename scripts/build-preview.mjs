@@ -12,6 +12,8 @@ import { execFile } from "node:child_process";
 import path from "node:path";
 import { promisify } from "node:util";
 
+import { encoderArgs, pickEncoder } from "./lib/encoder.mjs";
+
 const run = promisify(execFile);
 const sh = (cmd, args) => run(cmd, args, { maxBuffer: 1024 * 1024 * 64 });
 
@@ -39,10 +41,13 @@ async function main() {
     return;
   }
 
-  console.log(`video.mp4 codec ${codec} — dựng bản xem trước (thu nhỏ cạnh dài 1280, preset nhanh)…`);
+  // Bộ mã hoá theo năng lực máy (lib/encoder.mjs) — cùng một lựa chọn với dub-video, dò một lần
+  // rồi nhớ, nên máy có GPU không phải chờ CPU encode.
+  const encoder = await pickEncoder(parseArgs(process.argv.slice(2)).encoder ?? "auto", { log: console });
+  console.log(`video.mp4 codec ${codec} — dựng bản xem trước (thu nhỏ cạnh dài 1280) [${encoder}]…`);
   const vf = "scale='if(gt(iw,ih),1280,-2)':'if(gt(iw,ih),-2,1280)'";
   await sh("ffmpeg", ["-v", "error", "-y", "-i", src, "-vf", vf,
-    "-c:v", "libx264", "-crf", "23", "-preset", "veryfast", "-c:a", "aac", "-b:a", "128k", dst]);
+    ...encoderArgs(encoder), "-c:a", "aac", "-b:a", "128k", dst]);
   console.log(`→ ${dst}`);
 }
 

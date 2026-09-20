@@ -43,6 +43,8 @@
 //                          bằng --preset-map <file.json> ({"<nhân vật>": "<voiceId>"}) và/hoặc
 //                          --preset <voiceId> cho nhân vật không có trong file. Danh sách: GET /voices.
 //   ... --out <tên>        thư mục đầu ra trong videoDir (mặc định dub, hoặc dub-clone khi --synth clone)
+//   ... --encoder auto     auto (mặc định) dò GPU một lần rồi nhớ | gpu | cpu. Xem lib/encoder.mjs:
+//                          pipeline chạy trên nhiều máy, máy chỉ đổi TỐC ĐỘ chứ không đổi cỡ file ra.
 //
 // Viền đen sẵn trong video.mp4 (Douyin đóng khung sai tỉ lệ, không phải do trình phát): tự dò bằng
 // cropdetect, có thật thì phủ nền mờ từ ảnh bìa Douyin (data/<user>/state.json → info.cover) đúng
@@ -67,6 +69,7 @@ import { promisify } from "node:util";
 import { fetchBufferLogged, fetchLogged } from "../src/apiLog.js";
 import { createLogger } from "../src/logger.js";
 import { findAudioFile } from "../src/stt.js";
+import { encoderArgs, pickEncoder } from "./lib/encoder.mjs";
 
 const log = createLogger("DUB");
 const run = promisify(execFile);
@@ -357,6 +360,10 @@ async function main() {
   const presetDefault = str(args.preset, null);
   const bedMode = args["no-bed"] ? "none" : str(args.bed, "vocals-removed");
   if (!["vocals-removed", "original", "none"].includes(bedMode)) throw new Error("--bed phải là vocals-removed hoặc original");
+  // auto = dò GPU một lần rồi nhớ (lib/encoder.mjs). Ép cpu/gpu khi muốn so sánh hoặc khi máy
+  // có card nhưng đang bận việc khác.
+  const wantEncoder = str(args.encoder, "auto");
+  if (!["auto", "gpu", "cpu"].includes(wantEncoder)) throw new Error("--encoder phải là auto, gpu hoặc cpu");
   const origDb = Number.parseFloat(str(args["orig-db"], "-8"));
   const duckDb = Number.parseFloat(str(args.duck, "6"));
   if (!Number.isFinite(origDb) || !Number.isFinite(duckDb) || duckDb < 0) throw new Error("--orig-db / --duck phải là số (duck >= 0)");
@@ -597,19 +604,23 @@ async function main() {
   // hình đứng im, coi như video hỏng dù file không lỗi gì. `-c:v copy` giữ nguyên codec nguồn nên
   // kế thừa luôn lỗi này — chỉ giữ copy khi nguồn đã là h264, còn lại luôn encode lại.
   const sourceCodec = await probeVideoCodec(videoFile);
+  // Bộ mã hoá dò MỘT lần cho cả lượt chạy (xem lib/encoder.mjs: máy quyết định tốc độ, không
+  // quyết định đầu ra). Chỉ dò khi thật sự phải encode — tập h264 không viền đen đi `-c:v copy`.
+  const recoding = hasBarBg || sourceCodec !== "h264";
+  const encoder = recoding ? await pickEncoder(wantEncoder, { log: console }) : null;
   if (hasBarBg) {
     console.log(`video có viền đen sẵn (khung ${fullW}x${fullH}, nội dung ${bars.w}x${bars.h} tại `
-      + `${bars.x},${bars.y}) — phủ nền mờ từ ảnh bìa thay vì để đen trơn`);
+      + `${bars.x},${bars.y}) — phủ nền mờ từ ảnh bìa thay vì để đen trơn [${encoder}]`);
     const vf = `[2:v]scale=${fullW}:${fullH}[bg];[0:v]crop=${bars.w}:${bars.h}:${bars.x}:${bars.y}[fg];`
       + `[bg][fg]overlay=${bars.x}:${bars.y}[v]`;
     await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio, "-i", barBg,
       "-filter_complex", vf, "-map", "[v]", "-map", "1:a:0",
-      "-c:v", "libx264", "-crf", "20", "-preset", "medium", "-c:a", "aac", "-b:a", "192k",
+      ...encoderArgs(encoder), "-c:a", "aac", "-b:a", "192k",
       "-shortest", outVideo]);
   } else if (sourceCodec !== "h264") {
-    console.log(`video.mp4 codec ${sourceCodec} — trình duyệt không phát được, encode lại sang h264`);
+    console.log(`video.mp4 codec ${sourceCodec} — trình duyệt không phát được, encode lại sang h264 [${encoder}]`);
     await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio,
-      "-map", "0:v:0", "-map", "1:a:0", "-c:v", "libx264", "-crf", "20", "-preset", "medium",
+      "-map", "0:v:0", "-map", "1:a:0", ...encoderArgs(encoder),
       "-c:a", "aac", "-b:a", "192k", "-shortest", outVideo]);
   } else {
     await sh("ffmpeg", ["-v", "error", "-y", "-i", videoFile, "-i", finalAudio,
@@ -623,7 +634,7 @@ async function main() {
     bed: bedMode,
     ...(bedMode === "original" ? { origDb, duck: duckDb } : {}),
     ...(hasBarBg ? { barBg: bars } : {}),
-    sourceCodec, recoded: sourceCodec !== "h264",
+    sourceCodec, recoded: recoding, ...(encoder ? { encoder } : {}),
     refs: Object.fromEntries(Object.entries(refs).map(([k, v]) =>
       [k, { file: v.file, duration: v.duration, score: v.score === undefined ? undefined : Number(v.score.toFixed(3)),
         text: v.text, voiceId: v.voiceId }])),
