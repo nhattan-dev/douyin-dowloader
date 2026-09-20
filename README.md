@@ -211,30 +211,51 @@ Thứ code loại **không biến mất lặng lẽ** — nó thành dòng ⚠ t
 có lệnh riêng, không có trang riêng.
 
 ```
- pass B tập N ─▶ newTerms  ·  cụm không gán được ai
+ pass B tập N ─▶ newTerms  ·  cụm không gán được ai  ·  newCast (chỉ v2)
                     │
               review.html  ├ "Thuật ngữ mới"   sửa · bỏ · KHÔNG đụng = đồng ý với máy
-                    │      └ "+ người mới…"    tên Việt + tên Hán CHỌN từ thoại trong tập
-                    │                          (người duyệt không gõ được chữ Hán)
+                    │      ├ "+ người mới…"    tên Việt + tên Hán CHỌN từ thoại trong tập
+                    │      │                   (người duyệt không gõ được chữ Hán)
+                    │      └ ⚠ đề xuất newCast của máy  ─▶ CHƯA vẽ ra (xem cuối mục)
+                    │
        zhvi --apply ─┬─▶ bible.extend()   chỉ-thêm, approved ngay
                      │      thuật ngữ đã chốt khác đi ─▶ TỪ CHỐI, giữ bản cũ
+                     │      nhân vật trùng (tên Hán·alias·tên Việt) ─▶ bỏ qua  (castDup)
                      │      gộp 2 nhân vật ĐÃ duyệt   ─▶ không làm ở đây
                      ├─▶ bible.json        bản cũ sang .prev, version tự tính lại
                      └─▶ ep<N>.speakers.json   nhớ cả mục đã BỎ
 ```
 
 ```
- cổng mở lại theo TỪNG MỤC, không theo tập
+ cổng mở lại theo TỪNG MỤC, không theo tập                        (growthPending)
    có ep<N>.speakers.json  ─▶ "người đã nhìn tập này"  ─▶ không chặn vì câu nghi
-   còn mục bible THIẾU mà chưa ai trả lời ─▶ vẫn dừng   (growthPending)
+   còn mục bible THIẾU mà chưa ai trả lời ─▶ vẫn dừng
    mục đã quyết, kể cả quyết BỎ           ─▶ không hỏi lại
+
+ ba câu hỏi, mỗi câu một chỗ nhớ riêng trong ep<N>.speakers.json
+   cụm nào chưa có tên     align.clusters (cid null)   đã đáp: có trong `clusters`
+   thuật ngữ nào mới       align.newTerms              đã đáp: `terms` | `termsDropped`
+   nhân vật nào máy khai   align.newCast      (v2)     đã đáp: đã vào bible | `castDropped`
 ```
+
+**Câu thứ ba không suy ra được từ câu thứ nhất.** Người mới chiếm trọn một cụm thì cụm đó `cid`
+null và cổng mở — nhưng v2 còn gán người ở **cấp câu**, mà tên chưa có trong bible thì câu đó nằm
+im trong cụm cũ: không cụm nào trống, cổng không mở, lời của người mới mang tên chủ cụm đi thẳng
+xuống bản dịch và giọng lồng. Ba kênh đều không có lựa chọn đúng để chọn nên chúng sai *cùng
+hướng* — không kênh nào phản đối để câu thành câu nghi.
 
 Vì bible lớn thêm là chuyện thường, **chữ ký checkpoint của B2/C2/D2 không dùng `bible.version`**:
 B2 ký theo `castSig` (đúng phần nó dùng), C2/D2 ký theo `sheet` trừ `bibleVersion`. Không tách thế
 thì thêm một thuật ngữ ở tập 7 là trả tiền lại cho tập 1–6.
 
-### Hai ràng buộc khi sửa phần này
+⚠️ **Chưa xong — duyệt nhân vật mới vẫn là THỤ ĐỘNG.** v2 đã khai người mới đàng hoàng (`newCast`
+là trường bắt buộc của task hiểu tập, có kiểu, kiểm trùng với bible) và `align.newCast` đi thẳng
+tới `renderEp` — rồi trang soát **không vẽ nó ra**. Người soát phải tự nhận ra rằng không tên nào
+trong danh sách hợp, bấm «+ người mới…», rồi gõ lại thứ máy đã tính xong. Cổng đã biết hỏi; phần
+trang vẽ đề xuất (kèm 3 nút *tạo mới · là người đã có · bỏ*) thì chưa làm — nên lúc này người soát
+kết luận "KHÔNG phải người mới" thì chưa có đường phát `castDropped` để đóng cổng lại.
+
+### Ba ràng buộc khi sửa phần này
 
 ```
  bible KHÔNG giữ cụm giọng      cụm thuộc về TẬP, không thuộc về bộ — ánh xạ cụm→nhân vật
@@ -244,6 +265,12 @@ thì thêm một thuật ngữ ở tập 7 là trả tiền lại cho tập 1–
  thêm tay bỏ trống chữ Hán      khoá lấy luôn tên Việt → không bao giờ khớp chữ trong thoại
                                 → kênh "gọi tên" của B3 im lặng: không đúng thêm được gì,
                                   nhưng cũng KHÔNG gán bừa
+
+ thuật ngữ ≠ nhân vật           thuật ngữ: KHÔNG sửa gì = ĐỒNG Ý với máy
+                                nhân vật:  KHÔNG bấm    = KHÔNG tạo
+                                giá sửa sai lệch nhau — thuật ngữ là một chuỗi, extend từ chối
+                                xung đột, sửa lại rẻ; nhân vật sai để lại id chết trong
+                                ep<N>.speakers.json + kho giọng + bản dub, mà đường gộp CHƯA có.
 ```
 
 ---

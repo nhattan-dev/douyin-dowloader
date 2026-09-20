@@ -215,7 +215,7 @@ Tập sau lòi ra nhân vật mới / thuật ngữ mới thì không phải d�
 đó hỏi luôn, và `--apply` ghi thẳng vào `bible.json`.
 
 ```
- pass B ─▶ newTerms + cụm không gán được ai
+ pass B ─▶ newTerms + cụm không gán được ai + newCast (chỉ v2)
               │
          review.html  ├ khối "Thuật ngữ mới"   sửa bản dịch · bỏ · KHÔNG đụng = đồng ý
               │       └ nút "+ người mới…"     tên Việt + tên Hán CHỌN từ thoại trong tập
@@ -230,6 +230,30 @@ Tập sau lòi ra nhân vật mới / thuật ngữ mới thì không phải d�
 **Cổng mở lại theo TỪNG MỤC, không theo tập.** Có `ep<N>.speakers.json` vẫn là "người đã nhìn tập
 này", nhưng mục nào bible còn thiếu mà chưa ai trả lời thì cổng dừng tiếp (`growthPending`). Mục đã
 quyết — kể cả quyết là BỎ — không bị hỏi lại.
+
+`growthPending` hỏi ba câu, mỗi câu có chỗ nhớ riêng trong `ep<N>.speakers.json`:
+
+| hỏi gì | nguồn | "đã trả lời" là |
+|---|---|---|
+| cụm giọng nào chưa có tên | `align.clusters` (`cid` null, còn câu) | có mặt trong `clusters` |
+| thuật ngữ nào mới | `align.newTerms` | có trong `terms` **hoặc** `termsDropped` |
+| nhân vật nào máy khai là mới | `align.newCast` (**v2**) | đã vào bible (`castDup`) **hoặc** có trong `castDropped` |
+
+Câu thứ ba phải hỏi RIÊNG chứ không trông vào câu thứ nhất: người mới chiếm trọn một cụm thì cụm đó
+`cid` null và cổng mở — nhưng v2 còn gán người ở **cấp câu**, mà tên chưa có trong bible thì câu đó
+nằm im trong cụm cũ. Không cụm nào trống, cổng không mở, lời của người mới bị gán cho chủ cụm và sai
+đó đi thẳng tới bản dịch lẫn giọng lồng.
+
+Nhân vật được **duyệt** thì không cần ghi vào `castDropped`: `extend` đã đưa vào bible nên `castDup`
+tự nhận ra ở lần chạy sau. `castDropped` chỉ giữ tên bị **bác** — máy bịa, hoặc là cách gọi khác của
+một nhân vật đã có.
+
+`castDup()` (dùng chung cho `extend` và `growthPending` — hai phép kiểm lệch nhau là hoặc hỏi mãi,
+hoặc tạo nhân vật không ai duyệt) khớp theo tên Hán/alias và tên Việt, **không** khớp chuỗi con như
+`bibleHit`: ở đây khớp thừa nghĩa là nuốt mất một người thật.
+
+⚠️ **Chưa xong**: trang soát chưa phát `castDropped`, nên nếu người soát kết luận đề xuất KHÔNG phải
+người mới thì chưa có đường đóng cổng lại (chỉ còn `skipReview`). Đường tạo mới thì đã chạy được.
 
 **Chữ ký B2 KHÔNG gồm `bible.version` lẫn danh sách thuật ngữ.** Bible lớn thêm là chuyện bình
 thường từ đây, nên để version vào chữ ký thì thêm một thuật ngữ ở tập 7 là chạy lại B2 cho tập 1-6.

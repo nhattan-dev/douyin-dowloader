@@ -866,10 +866,15 @@ export async function applyExport(file, seriesDir, ep = null, { log = null, labe
       // Mục đã trả lời — kể cả trả lời là BỎ. Không ghi lại thì cổng hỏi mãi một thứ.
       terms: { ...(old.terms || {}), ...(v.terms || {}) },
       termsDropped: [...new Set([...(old.termsDropped || []), ...(v.termsDropped || [])])],
+      // Tên chữ Hán máy khai là NGƯỜI MỚI mà người soát bác: hoặc bịa, hoặc là cách gọi khác của
+      // một nhân vật đã có («少爷» chính là «顾言»). Nhân vật được DUYỆT thì không cần ghi ở đây —
+      // `extend` đã đưa vào bible nên `castDup` tự nhận ra ở lần chạy sau.
+      castDropped: [...new Set([...(old.castDropped || []), ...(v.castDropped || [])])],
     };
     await fs.writeFile(dst, JSON.stringify(out, null, 1), "utf8");
     written.push(`${dst} (${Object.keys(out.clusters).length} cụm, ${Object.keys(out.lines).length} câu`
-      + `, ${Object.keys(out.terms).length + out.termsDropped.length} thuật ngữ đã quyết)`);
+      + `, ${Object.keys(out.terms).length + out.termsDropped.length} thuật ngữ đã quyết`
+      + `${out.castDropped.length ? `, ${out.castDropped.length} nhân vật bị bác` : ""})`);
   }
 
   if (grown) {

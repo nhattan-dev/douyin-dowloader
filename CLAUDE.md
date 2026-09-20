@@ -395,6 +395,20 @@ Bốn luật, đừng nới:
 - **Tên chữ Hán phải CHỌN, không gõ.** Ứng viên lấy bằng `vocativeNames` (regex, không tốn lượt
   LLM). Bỏ trống thì khoá lấy tên Việt — không khớp chữ trong thoại nên kênh "gọi tên" của B3 im
   lặng: không đúng thêm được gì, nhưng cũng không gán bừa.
+- **Nhân vật mới phải là câu hỏi RIÊNG của cổng** (cài 2026-09-20). Trước đó `growthPending` chỉ
+  hỏi hai câu (cụm chưa tên, thuật ngữ mới) và trông vào câu đầu để bắt người mới. Đủ khi người mới
+  chiếm trọn một cụm — `cid` null thì cổng mở. Nhưng v2 còn gán người ở **cấp câu**
+  (`lines[].who` được phép trỏ vào tên trong `newCast`), mà tên đó chưa có trong bible nên `cidOf`
+  trả null và `home()` để câu nằm im trong cụm cũ: **không cụm nào trống, cổng không mở**, lời của
+  người mới mang tên chủ cụm đi thẳng xuống bản dịch và giọng lồng, không một dòng cảnh báo. Đây là
+  chế độ hỏng tệ nhất của cả khu này vì ba kênh đều không có lựa chọn đúng để chọn — chúng buộc
+  phải sai *cùng hướng*, nên không kênh nào phản đối để câu thành câu nghi. Cổng giờ hỏi thẳng
+  `align.newCast`, nhớ bằng `castDropped`.
+- **`castDup` phải là MỘT hàm, dùng chung cho `extend` và `growthPending`.** Hai phép kiểm trùng
+  lệch nhau là hỏng cả hai chiều: cổng hỏi thứ `extend` sẽ bỏ qua thì hỏi mãi không dứt; cổng im
+  thứ `extend` sẽ tạo thì nhân vật vào bible mà không ai duyệt. Và **không** dùng `bibleHit` ở đây
+  — nó khớp cả chuỗi con (`顾言哥` trúng `顾言`), tiện cho việc đọc tên tự do của VLM nhưng ở chỗ này
+  khớp thừa nghĩa là nuốt mất một người thật.
 
 **Hệ quả bắt buộc lên chữ ký checkpoint.** `extend` làm đổi `bible.version`, nên nếu để version
 trong chữ ký thì mỗi lần bible lớn thêm là trả tiền lại cả series. Đã tách:
@@ -461,10 +475,36 @@ và `seriesCore` dựng đường dẫn video lẻ bằng `data/<meta.userId>/<v
 khác sẽ trỏ vào thư mục không tồn tại mà không báo gì. Hộp thoại hiện thẳng "sẽ là tập 4, 5" trước
 khi bấm, vì thứ tự bấm là thứ tự đánh số.
 
-**Gap đã biết, chưa làm**: `newCastForm` (cổng soát từng tập) hỏi vi/zh/gender/note mà **không hỏi
-`look`**, nên nhân vật xuất hiện lần đầu ở tập mới có `look: ""` vĩnh viễn → kênh hình không đặt
-tên được cụm của họ → họ nằm trong đống câu nghi ở mọi tập sau. Vô hại khi chưa ai thêm tập; bật
-tính năng này lên thì nó thành lỗi tích luỹ. `look` là đòn bẩy rẻ nhất (xem mục VLM).
+**Gap đã biết, chưa làm** (soát lại 2026-09-20 — bản cũ của mục này gọi tên sai vấn đề):
+
+Bản cũ ghi gap là "`newCastForm` không hỏi `look`". Đo lại thì `look` chỉ là triệu chứng, và hai
+chỗ đau thật nằm chỗ khác:
+
+- **Duyệt nhân vật mới đang là THỤ ĐỘNG.** v2 đã khai người mới đàng hoàng — `newCast` là trường
+  **bắt buộc** trong schema task hiểu tập, có kiểu, được kiểm trùng với bible, và `align.newCast`
+  đi thẳng tới `renderEp`. Rồi trang soát **không vẽ nó ra**. Người soát phải tự nhận ra rằng
+  không tên nào trong danh sách hợp, bấm radio «+ người mới…», rồi **gõ lại** thứ máy đã tính
+  xong — trong đó có tên chữ Hán mà fleex không gõ được. Tức mỗi tập vẫn trả token cho `newCast`
+  rồi vứt. Cổng đã sửa để hỏi (mục trên); phần trang soát vẽ đề xuất thì chưa làm.
+- **Bible không có đường sửa sau khi duyệt.** Ô nhập `look` *đã có sẵn* ở trang duyệt bible
+  (`series-page.js`), nhưng trang đó chỉ dựng được bằng `series init`, mà UI tự truyền `--force`
+  khi thấy `bible.json` — tức đúng con đường huỷ mà `add-episode` sinh ra để tránh. Nên mọi trường
+  đã chốt đều đóng băng, không riêng `look`: `vi` sai, `gender` sai, `alias` thiếu, một dòng
+  `address` sai. Vụ "gộp hai nhân vật đã duyệt" (少爷/顾言) là **cùng một lỗ này**, không phải task
+  riêng.
+
+Về `look` thì kết luận đảo so với bản cũ: **đừng làm một bước VLM riêng đi điền `look` rỗng.** Nó
+đem VLM đi làm lại đúng những cụm người vừa nhìn xong, trong khi chế độ hỏng đã đo của VLM là tả
+nhầm **người đang nghe** (ca 苏宇, xem `lookGender`) — người ở cổng soát có nút xem video và có
+tiếng, tức là cảm biến TỐT HƠN cho đúng việc này. `look` nên đi ké hàng đề xuất nhân vật (lúc đó đã
+có cụm → có câu → có khung hình, `describeLook` dùng nguyên si), kèm look của dàn hiện có để viết
+cho nổi chỗ khác. Chạy `contrastLooks` giữa series thì KHÔNG được: nó viết lại toàn bộ cast, phạm
+luật không-đè của `extend`.
+
+Và luật rơi ra từ đây, đừng nới: **thuật ngữ thì "không sửa gì = đồng ý", nhân vật thì "không bấm =
+KHÔNG tạo"**. Bất đối xứng vì giá sửa sai bất đối xứng — thuật ngữ sai là một chuỗi, `extend` từ
+chối xung đột, sửa lại rẻ; nhân vật sai để lại id chết trong `ep<N>.speakers.json`, trong kho giọng
+và trong bản dub, mà đường gộp thì chưa có. Tự động nhận đề xuất sẽ **tệ hơn hiện trạng**.
 
 ### Trang duyệt bible: hỏi gì thì phải đưa đủ bằng chứng cho cái đó
 

@@ -10,7 +10,7 @@
  * B3–B6 miễn phí nên KHÔNG bao giờ checkpoint: dựng lại mỗi lần chạy, sửa nhãn xong
  * chạy lại là thấy ngay. Chỉ B1/B2 tốn tiền mới có chữ ký.
  */
-import { bibleHit } from "../bible.js";
+import { bibleHit, castDup } from "../bible.js";
 import { jparse } from "../llm.js";
 import { ALIGN_SYS, CAST_SYS } from "../prompts.js";
 
@@ -476,7 +476,8 @@ export function applySpeakers(utts, align, bib, labels) {
  * không có trang soát. Chỗ chữa đúng là dựng bible (`series init`), không phải soát tay.
  */
 /**
- * Thứ tập này phát hiện ra mà bible CHƯA có: cụm giọng không gán được ai, và thuật ngữ mới.
+ * Thứ tập này phát hiện ra mà bible CHƯA có: nhân vật mới, cụm giọng không gán được ai,
+ * và thuật ngữ mới.
  *
  * "Đã trả lời" tính theo TỪNG MỤC chứ không theo tập: có `ep<N>.speakers.json` nghĩa là người
  * đã nhìn tập này, nhưng một nhân vật mới xuất hiện ở lần chạy sau thì vẫn phải hỏi. Ngược lại,
@@ -485,6 +486,7 @@ export function applySpeakers(utts, align, bib, labels) {
 export function growthPending(align, labels = null, bible = null) {
   const doneC = new Set(Object.keys(labels?.clusters || {}));
   const doneT = new Set([...Object.keys(labels?.terms || {}), ...(labels?.termsDropped || [])]);
+  const doneN = new Set(labels?.castDropped || []);
   // Cụm KHÔNG còn câu nào thì không có gì để đặt tên: LLM đã gán từng câu cho người khác hết
   // (ca thật: ai-qing ep01 cụm S3 "lẫn nhiều người" -> 0 câu). Trang soát vẽ nó với 0 câu, không
   // có câu mẫu để nghe, nên người soát không có gì để bấm -> cổng chặn mãi.
@@ -493,11 +495,20 @@ export function growthPending(align, labels = null, bible = null) {
     .map(([spk]) => spk);
   const terms = Object.keys(align?.newTerms || {})
     .filter((zh) => !(bible?.terms && zh in bible.terms) && !doneT.has(zh));
+  // Nhân vật LLM khai mới (`newCast`, chỉ v2 có). Phải hỏi RIÊNG chứ không trông vào ô "cụm chưa
+  // có tên" ở trên: người mới chiếm trọn một cụm thì đúng là cụm đó `cid` null và cổng mở — nhưng
+  // `lines[].who` còn được phép trỏ vào người mới ở CẤP CÂU, mà `cidOf` trả null nên `home()` để
+  // câu đó nằm im trong cụm cũ. Không cụm nào trống, cổng không mở, và lời của người mới bị gán
+  // cho người đang sở hữu cụm — sai âm thầm tới tận bản dịch lẫn giọng lồng.
+  const cast = (align?.newCast || [])
+    .map((c) => ({ zh: String(c.zh || "").trim(), vi: String(c.vi || "").trim() }))
+    .filter((c) => c.zh && !doneN.has(c.zh) && !(bible && castDup(bible, c.zh, c.vi)));
   const bits = [
+    ...(cast.length ? [`${cast.length} nhân vật mới (${cast.map((c) => c.zh).join(" ")})`] : []),
     ...(clusters.length ? [`${clusters.length} cụm chưa có tên (${clusters.join(" ")})`] : []),
     ...(terms.length ? [`${terms.length} thuật ngữ mới`] : []),
   ];
-  return { need: bits.length > 0, clusters, terms, why: bits.join(", ") };
+  return { need: bits.length > 0, cast, clusters, terms, why: bits.join(", ") };
 }
 
 export function reviewNeeded(align, labels = null, { hasBible = true, bible = null } = {}) {

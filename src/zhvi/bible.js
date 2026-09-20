@@ -70,6 +70,23 @@ export function bibleHit(b, name) {
   return null;
 }
 
+/**
+ * Nhân vật được khai mới này thật ra ĐÃ có trong bible chưa? Trả hàng cũ, hoặc null.
+ *
+ * Dùng chung cho `extend` (có tạo không) và `growthPending` (có hỏi không) — cố ý một chỗ.
+ * Hai phép kiểm lệch nhau là hỏng cả hai chiều: cổng hỏi thứ `extend` sẽ bỏ qua thì hỏi mãi
+ * không dứt, còn cổng im thứ `extend` sẽ tạo thì nhân vật mới vào bible mà không ai duyệt.
+ *
+ * KHÔNG dùng `bibleHit` ở đây: nó khớp cả chuỗi con ("顾言哥" trúng "顾言") — tiện cho việc
+ * đọc tên tự do của VLM, nhưng ở đây khớp thừa nghĩa là nuốt mất một người thật.
+ */
+export function castDup(b, zh, vi = "") {
+  const v = String(vi || "").trim().toLowerCase();
+  return charByAlias(b, String(zh || "").trim())
+    || (v ? b.cast.find((x) => [x.vi, x.viShort].some((n) => n && n.trim().toLowerCase() === v)) : null)
+    || null;
+}
+
 /** Trả {new, same, conflict}. Xung đột = đã chốt khác đi -> từ chối, ghi log. */
 export function proposeTerms(b, mapping, source) {
   const out = { new: {}, same: {}, conflict: {} };
@@ -119,8 +136,7 @@ export function extend(b, { cast = [], terms = {} } = {}, { by = "fleex", ep = n
     // khớp chữ trong thoại, tức kênh "gọi tên" của B3 im lặng: không đúng thêm được gì,
     // nhưng cũng KHÔNG gán bừa. Cùng luật với `applyReview` của series.
     const zh = String(c.zh || "").trim() || vi;
-    const hit = charByAlias(b, zh)
-      || b.cast.find((x) => [x.vi, x.viShort].some((n) => n && n.trim().toLowerCase() === vi.toLowerCase()));
+    const hit = castDup(b, zh, vi);
     if (hit) {
       skipped.push(`nhân vật «${vi}» (${zh}) — đã có ${hit.id} ${hit.zh}`);
       continue;
