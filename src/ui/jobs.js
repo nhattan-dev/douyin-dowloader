@@ -8,7 +8,9 @@
  *
  * Hai luật xếp lịch:
  * - LÀN: giới hạn số việc cùng loại chạy song song. `browser` = 1 vì chung một .browser-profile;
- *   `tts` = 1 vì VieNeu không chịu nổi song song (đã đo, xem memory vieneu) và demucs ngốn CPU.
+ *   `tts` = 1 vì demucs ngốn CPU — KHÔNG phải vì VieNeu, `/v1/tts` cho 300 lượt/phút và chạy
+ *   4 luồng trong một tập đo được 58,9 câu/phút, 0 lần 429 (luật "song song chậm hơn" là của
+ *   `/clone`, xem dub-video.mjs `cloneOnly`). Muốn nới thì nới ở đây, đừng hạ concurrency lại.
  * - KHOÁ: hai việc đụng cùng tài nguyên không chạy cùng lúc. `user:<id>` (state.json bị ghi đè
  *   nếu hai tiến trình cùng ghi), `series:<slug>` chặn mọi `series:<slug>:epN` (đổi bible giữa
  *   lúc đang dịch là dịch bằng bible nào?).

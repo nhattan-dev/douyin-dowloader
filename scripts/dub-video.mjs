@@ -127,6 +127,25 @@ const apiKey = () => {
 
 let throttled = 0;
 
+/**
+ * `/clone` chỉ được đi MỘT lượt một lúc, dù pool đang chạy mấy luồng.
+ *
+ * Trần phải đặt theo ENDPOINT chứ không theo mẻ, vì hai đường chịu nhịp khác hẳn nhau:
+ * `/tts` là hàng đợi job phía server, đo được ~48 câu/phút mà 0 lần 429; còn `/clone` đã đo
+ * hai lần và song song luôn TỆ HƠN tuần tự (concurrency=2 ra 27 lần 429/194 câu, ~8 câu/phút
+ * so với ~17 của tuần tự — thời gian nằm hết trong backoff).
+ *
+ * Đường này còn sống ngay cả khi `--synth voice`: nhân vật nào enrol hỏng thì riêng câu của họ
+ * rơi về /clone, nằm lẫn giữa các câu đi /tts. Gác ở đây nên một lượt chạy hỗn hợp vẫn giữ đúng
+ * luật của cả hai bên — không phải hạ cả mẻ xuống 1 luồng chỉ vì một nhân vật không enrol được.
+ */
+let cloneLane = Promise.resolve();
+function cloneOnly(fn) {
+  const run = cloneLane.then(fn, fn);
+  cloneLane = run.catch(() => {}); // một câu hỏng không được làm đứt hàng đợi của các câu sau
+  return run;
+}
+
 async function api(pathname, { method = "POST", body, form } = {}) {
   for (let attempt = 0; ; attempt += 1) {
     const { res, raw, json: parsed } = await fetchLogged(log, BASE + pathname, {
@@ -150,6 +169,29 @@ async function api(pathname, { method = "POST", body, form } = {}) {
     const err = new Error(`VieNeu ${res.status}: ${json.message ?? raw.slice(0, 200)}`);
     err.code = json.code;
     throw err;
+  }
+}
+
+/**
+ * Tổng lượt dùng của API key (`GET /v1/usage`) — dùng để đếm số câu VieNeu trả từ CACHE.
+ *
+ * Cache của họ bán tốc độ chứ KHÔNG bán tiền: gửi trùng text+voice+engine thì trả đúng object S3
+ * cũ, nhanh ~7 lần (đo 2,41s → 0,33s) nhưng `tokenCost` vẫn cộng y như lượt render thật (285/285).
+ * Nên một mẻ chạy lại nhầm không hiện ra là chậm — nó xong nhanh bất thường, nhìn hệt như `--resume`
+ * làm việc tốt. Đó đúng là kiểu hỏng luật 4 đòi phải phân biệt được, mà trước đây không có dòng nào
+ * báo: tài khoản này đã 166/805 lượt trúng cache trước khi có con số này.
+ *
+ * Là read nên không bị throttle và không tính phí. Hỏng thì trả null, nơi gọi im lặng bỏ qua —
+ * không đáng làm hỏng một mẻ dub vì một con số để xem. Số đếm theo API KEY, nên nếu có ai chạy
+ * song song bằng cùng key thì phần dôi ra là của họ; làn `tts` của UI rộng 1 nên bình thường không.
+ */
+async function usageTotals() {
+  try {
+    const { res, json } = await fetchLogged(log, `${BASE}/usage`,
+      { headers: { Authorization: `Bearer ${apiKey()}` } });
+    return res.ok && json?.totals ? json.totals : null;
+  } catch {
+    return null;
   }
 }
 
@@ -448,7 +490,11 @@ async function main() {
 
   // ── tổng hợp từng câu ───────────────────────────────────────────────────
   // Song song N luồng: nút cổ chai là round-trip API (submit + tải audio), không
-  // phải CPU cục bộ. Ghi thẳng vào `rows[index]` (không push) để giữ ĐÚNG thứ tự
+  // phải CPU cục bộ. Trần thật KHÔNG phải nhịp gọi của mình (`/tts` cho 300 lượt/phút, cả tập
+  // 144 câu chưa hết nửa ngân sách MỘT phút) mà là pool render phía server, đo được rộng ~2-3:
+  // bắn 12 job một lúc thì chúng xong theo cụm 3-4 cái, và 48-49 câu/phút là trần của cả hai
+  // phép đo. Quá ~4 luồng chỉ là xếp hàng dài thêm ở phía họ. Câu đi `/clone` tự gác riêng
+  // xuống 1 luồng trong `cloneOnly`. Ghi thẳng vào `rows[index]` (không push) để giữ ĐÚNG thứ tự
   // segments — bước đặt timeline dưới đây tính room/tempo so với câu kế tiếp, dựa
   // vào thứ tự này chứ không phải thứ tự hoàn thành.
   console.log(`\ntổng hợp ${segments.length} câu (${synth}, engine ${engine}, ${concurrency} luồng)…`);
@@ -456,6 +502,7 @@ async function main() {
   let doneCount = 0;
   let synthesized = 0;
   const synthStart = Date.now();
+  const usage0 = await usageTotals();
   // Clip đặt tên theo số câu nên không nói được nó đọc bằng giọng nào; chạy lại với giọng khác mà
   // vẫn dùng clip cũ là một nhân vật lẫn hai giọng. Ghi kèm "giọng nào" cho từng clip: đổi giọng
   // thì làm lại đúng các câu đó. Clip cũ không có ghi chú vẫn dùng lại được ở clone/voice (như trước
@@ -477,9 +524,9 @@ async function main() {
         const job = await api("/tts", { body: { text: seg.vi, voiceId: r.voiceId, engine: r.voiceEngine } });
         url = await waitJob(job.jobId);
       } else {
-        const json = await api("/clone", {
+        const json = await cloneOnly(() => api("/clone", {
           body: { text: seg.vi, refFileId: r.fileId, refText: r.text, engine },
-        });
+        }));
         url = json.audioUrl ?? json.url;
       }
       await fs.writeFile(file, await download(url));
@@ -492,8 +539,15 @@ async function main() {
     process.stdout.write(`\r  ${doneCount}/${segments.length}`);
   });
   const synthMinutes = (Date.now() - synthStart) / 60000;
+  const usage1 = synthesized ? await usageTotals() : null;
+  const cached = usage0 && usage1 ? (usage1.cacheHit ?? 0) - (usage0.cacheHit ?? 0) : 0;
   console.log(`\n  ${synthesized} câu mới trong ${(synthMinutes * 60).toFixed(0)}s` +
     `${synthesized ? ` (${(synthesized / synthMinutes).toFixed(1)} câu/phút)` : ""}, dính 429: ${throttled} lần`);
+  if (cached > 0) {
+    console.log(`  ⚠ ${cached}/${synthesized} câu VieNeu trả từ CACHE — audio y hệt lần trước, nhưng`
+      + ` vẫn tính tiền như render mới. Nhanh bất thường ở đây nghĩa là đã trả tiền hai lần cho`
+      + ` cùng một câu, không phải \`--resume\` chạy tốt.`);
+  }
 
   // ── đặt lên timeline ────────────────────────────────────────────────────
   // Khung của một câu là từ mốc bắt đầu của nó tới mốc bắt đầu của câu SAU, chứ

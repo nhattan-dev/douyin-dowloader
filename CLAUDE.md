@@ -740,10 +740,64 @@ Bài toán có thật: trên một bản dịch mẫu, trung vị **16,2 ký t�
 - backoff nới + `concurrency=2`: không crash nhưng **27 lần 429/194 câu**, tốc độ thực tế
   **~8 câu/phút, TỆ HƠN ~17 câu/phút của tuần tự** — phần lớn thời gian nằm ở chờ backoff.
 
-Code `pool()` vẫn còn (cờ `--concurrency`), chỉ là phải để 1. Đường song song duy nhất là
-`/tts` + giọng đã enrol: đo **35,1 câu/phút, 0 lần 429** — nhưng gói chỉ có **5 slot giọng
-clone**, và clip enrol cần 6–15s (luật mật độ transcript ~3,1–28 ký tự/giây; câu gào/kéo dài
-không bao giờ enrol được).
+**Luật này là của `/clone`, KHÔNG phải của VieNeu nói chung** (soát lại 2026-09-20). Nới nó ra
+thành "VieNeu không chịu nổi song song" đã tốn thật: `recipes.js` ghim `--concurrency 1` cho cả
+mẻ, `jobs.js` chép lại cùng lý do, mà recipe **không bao giờ đi đường `/clone`** — nó chỉ truyền
+`preset`/`voice`, tức `/tts`. Đo trên một tập 144 câu: **17,0 câu/phút, 0 lần 429**, trong đó
+~224/507s là nằm ngủ giữa hai nhịp poll. Trần phải đặt theo **endpoint**, không theo mẻ.
+
+A/B bằng lời gọi thật, 12 câu mỗi nhánh, text riêng từng nhánh: **16,3 → 58,9 câu/phút (3,6×),
+0 lần 429.** Tập 144 câu: 507s → ~150s.
+
+- **Trần KHÔNG phải hạn mức của mình.** Header thật: `X-RateLimit-Limit: 300`/phút cho `/v1/tts`;
+  cả tập 144 câu chưa hết nửa ngân sách MỘT phút. Đọc trạng thái job thì không throttle (response
+  `GET` không kèm header rate-limit nào) — nên gom poll bằng `GET /v1/tts?ids=` (có thật, tối đa
+  50 id, trả `jobs[]`+`missing[]`) chỉ gọn code chứ **không đổi được con số nào**.
+- **Trần là pool render phía server, rộng ~2–3.** Bắn 12 job một lúc thì chúng xong theo cụm 3–4
+  cái; bắn 10 câu ngắn thì 2 câu render 1,13s còn 8 câu "render" 8,3–8,8s **cùng độ dài chữ** —
+  tức `completedAt - createdAt` tính cả thời gian xếp hàng. Hai phép đo hội tụ 48–49 câu/phút.
+  Vì vậy **4 luồng, đừng 12**: quá ~4 chỉ là xếp hàng dài thêm ở phía họ, đổi lại mất backpressure
+  và mất an toàn khi Ctrl-C (job đã trả tiền mà không ai tải về).
+- **`/clone` vẫn phải 1 luồng, và phải gác RIÊNG** (`cloneOnly` trong dub-video.mjs). Đường này
+  còn sống ngay cả khi `--synth voice`: nhân vật nào enrol hỏng thì riêng câu của họ rơi về
+  `/clone`, nằm lẫn giữa các câu đi `/tts`. Gác theo endpoint nên một lượt hỗn hợp giữ đúng luật
+  cả hai bên, thay vì hạ cả mẻ xuống 1 vì một nhân vật.
+
+Gói chỉ có **5 slot giọng clone**, và clip enrol cần 6–15s (luật mật độ transcript ~3,1–28 ký
+tự/giây; câu gào/kéo dài không bao giờ enrol được).
+
+**Hai đường bỏ được vòng poll — đã thử, LOẠI cả hai:**
+
+- `POST /v1/audio/speech` (sync, trả thẳng bytes, bỏ luôn cả bước tải S3): `400 — Cloned voice …
+  can only be used on POST /v1/tts or POST /v1/tts/stream`. Mọi giọng trong pipeline này đều là
+  giọng clone → vô dụng. Cùng họ với cái 400 của `/dialogue` dưới đây.
+- `POST /v1/tts/stream`: **v4 only**, mà v3 mới là bản giữ âm sắc tốt hơn (mục "Hai quyết định
+  thiết kế") → dùng stream là khoá chết vào v4.
+
+### Cache của VieNeu bán TỐC ĐỘ, không bán tiền (đo 2026-09-20)
+
+Gửi trùng `text` + `voiceId` + `engine` thì trả thẳng **đúng object S3 cũ**, nhanh ~7 lần
+(2,41s → 0,33s, 5 lần poll xuống 1). Nhưng `GET /v1/usage` cho thấy `tokenCost` cộng **y hệt**
+lượt render thật — đo hai mẫu độc lập: 285/285 và 195/195. Lượt trúng cache vẫn sinh `requests+1`
+và vẫn ăn một slot rate-limit.
+
+Hệ quả là **một mẻ chạy lại nhầm không hiện ra là chậm — nó xong nhanh bất thường, nhìn hệt như
+`--resume` chạy tốt.** Đúng kiểu hỏng luật 4 đòi phải phân biệt được, mà trước đó không có dòng
+nào báo: tài khoản này đã **166/805 lượt (21%)** trúng cache trước khi có bộ đếm. Nên dub-video
+kẹp `GET /v1/usage` hai đầu khâu tổng hợp và in delta `cacheHit` (read, không phí, không throttle;
+hỏng thì trả null và im lặng — một con số để xem không đáng làm đứt mẻ dub).
+
+**Đừng xây thêm cache clip theo nội dung.** `staleClips` (`src/ui/scan.js`) đã so theo NỘI DUNG
+chứ không theo số câu: `speaker|vi` mà clip cũ đã đọc (từ `report.json`) với bản dịch hiện tại,
+khác chữ hoặc khác người mới xoá — sửa tay một câu chỉ tổng hợp lại một câu. Phần còn lại đo ra
+gần như bằng 0: trong 16 tập / 1309 câu, câu trùng hệt (cùng người + cùng chữ) trong cùng một tập
+chỉ **10 câu (0,8%)**. Từng nghi `staleClips` tra theo index nên cắt câu sẽ làm trôi id và bắt
+tổng hợp lại cả đoạn sau — **kiểm thì sai**: `e-export.js` neo id vào segment ASR gốc, cắt thì
+đánh `10.0`/`10.1` chứ không đánh số lại, câu sau giữ nguyên id.
+
+⚠️ **Bẫy khi đo cache**: A/B mà nhánh sau gửi lại đúng text của nhánh trước thì nó trả cache và ra
+**575 câu/phút** — con số vô nghĩa. Mỗi nhánh phải có text riêng (gắn mốc thời gian), và chạy
+nhánh nhiều luồng TRƯỚC để nó không hưởng cache của nhánh tuần tự.
 
 **`/dialogue` đã thử và LOẠI**: trả `400 Cloned voice … can only be used on POST /v1/tts` — chỉ
 dùng được giọng preset. Nó cũng không mang ngữ cảnh giữa các turn như từng giả định (server
@@ -906,7 +960,9 @@ thư mục video, tức chỗ dùng chung; còn video/audio/`transcript.json` l�
 | qwen-mt-plus làm engine dịch chính | thuật ngữ trôi (chỉ làm cứu cánh) |
 | Critic cùng nhà với model dịch | chấm nới cho bản nhà mình |
 | `deepseek-v4-flash` cho lượt review | đốt sạch token nghĩ, trả content rỗng |
-| Song song `/clone` của VieNeu | 429 dày, chậm hơn tuần tự |
+| Song song `/clone` của VieNeu | 429 dày, chậm hơn tuần tự — **chỉ `/clone`**; `/tts` chạy 4 luồng đo được 58,9 câu/phút, 0 lần 429 |
+| `POST /v1/audio/speech` (sync) / `/v1/tts/stream` cho dub | sync từ chối giọng clone; stream khoá chết vào v4, mà v3 giữ âm sắc tốt hơn |
+| Cache clip theo nội dung (băm text+giọng) | `staleClips` đã so theo nội dung; câu trùng trong cùng tập chỉ 0,8% |
 | VieNeu `/dialogue` cho dub | từ chối giọng clone |
 | seed-vc (V1 và V2) | trần âm sắc thấp hơn clone thẳng |
 | CosyVoice, qwen3-tts-*, TTS OpenAI | không tiếng Việt / không clone |

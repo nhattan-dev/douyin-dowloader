@@ -200,9 +200,13 @@ export const recipes = {
         label: p.resume
           ? `tổng hợp giọng Việt (dùng lại clip cũ${p.dropped ? `, làm lại ${p.dropped} câu đã đổi` : ""}) + ${mix} + ghép video`
           : `tổng hợp giọng Việt + ${mix} + ghép video`,
-        // --concurrency 1: VieNeu rate-limit, song song đã thử và chậm hơn — đừng tăng
+        // --concurrency 4: luật "song song chậm hơn tuần tự" là của `/clone`, KHÔNG phải của đường
+        // này — recipe chỉ đi `preset`/`voice`, tức `/tts`. Ghim 1 ở đây từng làm cả tập nằm ngủ:
+        // đo trên 144 câu ra 17,0 câu/phút, 0 lần 429, trong đó ~224/507s là chờ giữa hai nhịp poll.
+        // 4 vì trần là pool render phía VieNeu (~2-3), không phải hạn mức 300 lượt/phút của mình.
+        // Câu rơi về /clone (nhân vật enrol hỏng) vẫn tự đi 1 luồng — dub-video gác theo endpoint.
         // không truyền --synth thì dub-video dùng `voice` (enrol + /tts), ghi ra dub/ — đúng chỗ scan.js đọc
-        argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "1",
+        argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "4",
           ...(preset ? ["--synth", "preset", "--preset-map", rel(presetFile)] : ["--voices", rel(p.bank)]),
           ...(bed === "original" ? ["--bed", "original", ...(origDb === undefined ? [] : ["--orig-db", String(origDb)])] : []),
           ...(p.resume ? ["--resume"] : [])),
