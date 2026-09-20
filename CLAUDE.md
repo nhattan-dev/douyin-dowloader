@@ -410,6 +410,62 @@ chạy 2 việc song song — khoá cũ `series:<slug>:ep<N>` để hai tập n�
 lẽ một nhân vật. Đổi sang `series:<slug>` (chặn cả `:epN` nhờ luật prefix trong `jobs.js`); nạp
 chỉ là vài thao tác file nên chặn cả series là rẻ.
 
+### Thêm tập vào series đã duyệt (cài 2026-09-20)
+
+Tác giả đăng tiếp thì phải bổ sung được tập mà **không dựng lại bible**. Trước đó đường duy nhất
+là `series init --force`, và UI tự truyền `--force` khi thấy `bible.json` — tức nút "dựng lại
+nháp" đi thẳng vào đường huỷ mà không hỏi. Giá của nó không nhìn ra từ nút bấm: lượt gộp nhân vật
+**không ổn định giữa hai lần chạy** (10 vs 9 nhân vật, tên nhân vật chính khác), nên cast bị gieo
+lại và `C<n>` đổi, trong khi `ep<N>.speakers.json`, `asr-flags.json` (khoá bằng tên) và thư mục
+kho giọng vẫn giữ id/tên cũ; cộng cả công duyệt (vi, alias, look, xưng hô) phải gõ lại.
+
+Mà **tập mới không cần bible mới**: nhân vật/thuật ngữ mới đã có đường vào từ cổng soát từng tập
+(`bible.extend()`, mục trên). Nên `series add-episode` chỉ ghi thêm một hàng vào `bible.episodes`
+— 0 lời gọi LLM. Bốn luật:
+
+- **Số tập đã gán thì KHÔNG BAO GIỜ đổi.** `episodeMap` đánh số theo VỊ TRÍ (biến đếm), nên chèn
+  một tập vào giữa là đẩy số mọi tập sau: `out/<slug>/ep05` trỏ sang phim khác còn
+  `ep5.speakers.json` ở lại — bẫy B1 leo lên cấp tập, không dấu hiệu nào. Vì vậy chỉ NỐI ĐUÔI
+  (max + 1). Tập vá giữa (gặp thật: 剧情补档 của 飞鸟炮灰 nằm giữa tập 6 và 7) thì người truyền
+  `--ep 6.1` — cùng mẹo với khoá `.k` của câu bị cắt. `epDir("6.1")` ra `ep6.1`, chạy được.
+- **Không đụng `cast`/`terms`/`address`** → `bible.version` **không đổi** (nó băm đúng ba thứ đó,
+  không băm `episodes`), nên tập cũ không phải dịch lại, không checkpoint nào bị vứt. Đo: thêm 4
+  tập vào 飞鸟炮灰-2, version `a3103fa087ad` trước và sau. Hàm tự kiểm và kêu lên nếu version đổi.
+- **Thiếu `meta.json` thì DỪNG, đừng đoán.** Nó là nguồn duy nhất của thời lượng ở đây; thiếu nó
+  thì `duration` thành null và mọi cửa chặn im lặng cho qua — đo thật: clip 15s *"《飞鸟炮灰》在哪
+  看全集？"* lọt vào thành một tập, job báo "done", không một dòng cảnh báo. Video mới `collected`
+  (chưa tải) chính là ca này.
+- **Bộ lọc của init một chiều**: `MIN_EP_SEC=60` chặn video NGẮN, bản gộp thì dài nên lọt hết. So
+  với **trung vị các tập đã có** chứ không với hằng số (mỗi series một nhịp): `7666541886093413674`
+  dài 21:57 trong khi trung vị 4:23 → cờ "nghi bản gộp". Chỉ cảnh báo, không chặn — máy không chắc
+  được. Giá của việc nuốt phải đã đo ở mục "đơn vị công việc là TẬP".
+
+Hai thứ phụ nhưng cùng một bài: `mixNews` đóng băng ở lần `collect` gần nhất, nên trang series
+phải hiện **mốc quét lần cuối** — không có nó thì "không có tập mới" và "chưa quét lại từ ba hôm
+trước" trông giống hệt nhau. Và nút "Quét lại tất cả" ở trang tác giả: làn `browser` chỉ chạy 1
+việc nên chúng tự xếp hàng, tác giả đang quét dở thì bỏ qua chứ không xếp chồng.
+
+**Auto-detect theo 合集 là đường TẮT, không phải đường chính.** `mixNews` chỉ thấy video cùng 合集
+với các tập đang có, mà đo trên dữ liệu thật thì 合集 phủ rất thưa:
+
+| series | video đã quét | không thuộc 合集 nào |
+|---|---|---|
+| ai-qing | 46 | **46** → `mixNews` vĩnh viễn rỗng, không nút nào hiện ra |
+| fei-niao-pao-hui-2 | 35 | 25 |
+
+Ca lộ rõ nhất: `7673326026142911759` tiêu đề **«第9集《飞鸟炮灰》»** — đúng tập 9 của chính series đó
+— nhưng tác giả không xếp vào 合集 nên auto-detect mù hẳn với nó. Vì vậy trang tác giả phải có
+**"Thêm vào series…"** cạnh "Tạo series…" (lọc sẵn bằng ô "Chưa vào series"), và đó mới là lối
+chính. Hộp thoại chỉ liệt kê series **của chính tác giả đó**: `series.json` giữ đúng một `userId`
+và `seriesCore` dựng đường dẫn video lẻ bằng `data/<meta.userId>/<vid>`, nên video của tác giả
+khác sẽ trỏ vào thư mục không tồn tại mà không báo gì. Hộp thoại hiện thẳng "sẽ là tập 4, 5" trước
+khi bấm, vì thứ tự bấm là thứ tự đánh số.
+
+**Gap đã biết, chưa làm**: `newCastForm` (cổng soát từng tập) hỏi vi/zh/gender/note mà **không hỏi
+`look`**, nên nhân vật xuất hiện lần đầu ở tập mới có `look: ""` vĩnh viễn → kênh hình không đặt
+tên được cụm của họ → họ nằm trong đống câu nghi ở mọi tập sau. Vô hại khi chưa ai thêm tập; bật
+tính năng này lên thì nó thành lỗi tích luỹ. `look` là đòn bẩy rẻ nhất (xem mục VLM).
+
 ### Trang duyệt bible: hỏi gì thì phải đưa đủ bằng chứng cho cái đó
 
 Ba chỗ sửa 2026-09-19, đều là "hỏi mà không đưa đủ thứ để trả lời":
@@ -672,6 +728,34 @@ demucs là neural net CPU, chi phí gần tỉ lệ **tổng số giây** và c�
 gộp 19 đoạn thành 1 file ~70s rẻ hơn nhiều so với 19 lần gọi, và rẻ hơn hẳn tách cả file gốc 10
 phút rồi mới cắt.
 
+### Encode video: máy đổi TỐC ĐỘ, không được đổi ĐẦU RA (cài 2026-09-20)
+
+Pipeline chạy trên nhiều máy, có máy có GPU NVIDIA, có máy chỉ có CPU. Bước encode lại sinh ra vì
+Douyin hay xuất HEVC mà Chrome không giải mã được trong `<video>`. Đo trên HEVC 1080p/317s, mẫu 20s:
+
+| cấu hình | 16 nhân | 4 nhân | 2 nhân | file cả tập |
+|---|---|---|---|---|
+| `crf20 preset medium` | 1,5 ph | 3,2 ph | **6,6 ph** | 209 MB |
+| `crf23 preset veryfast` + trần 3 Mbps | 0,8 ph | 1,3 ph | **2,0 ph** | 104 MB |
+| `h264_nvenc` (GPU) + trần 3 Mbps | 0,8 ph | 0,8 ph | **0,8 ph** | 116 MB |
+| *(nguồn)* | | | | 74 MB, 1,9 Mbps |
+
+- **Preset là đòn bẩy lớn hơn GPU**: đổi preset nhanh hơn 3,3× trên máy 2 nhân mà file còn nhỏ đi
+  một nửa. Vì vậy đường CPU chỉ có MỘT cấu hình, không thêm núm theo số nhân. GPU ăn thêm 2,0 →
+  0,8 phút — đáng có, không đáng chặn.
+- **Con số chất lượng của hai bộ mã hoá KHÔNG ánh xạ sang nhau**: `nvenc -cq 20` ra **416 MB**
+  trong khi `libx264 -crf 20` ra 209 MB. Vì thế cả hai đường ghìm bằng **trần bitrate**, không
+  bằng con số chất lượng; đo lại thì hội tụ (104 vs 116 MB), nên đổi máy không đổi file giao nộp.
+  `report.json` ghi `encoder` đã dùng để sau này file lạ còn truy được.
+- **`ffmpeg -encoders` KHÔNG dò được năng lực**: mọi bản build bật nvenc đều liệt kê `h264_nvenc`
+  kể cả trên máy không có card NVIDIA — chỉ lúc encode thật mới lộ (`CUDA_ERROR_NO_DEVICE`, mã
+  thoát 171). `scripts/lib/encoder.mjs` encode thử một khung (0,39s), nhớ ở `data/_ui/caps.json`
+  khoá theo phiên bản ffmpeg. `--encoder gpu` trên máy không có card thì **cảnh báo rồi rơi về
+  CPU**, không ném: một máy trong đội thiếu card không nên làm hỏng cả mẻ.
+- demucs tự lo phần của nó: torch trong venv là bản `+cu130`, `torch.cuda.is_available()` = True
+  trên máy WSL này, nên nó đã tự chạy GPU. Ghi chú "demucs là neural net CPU" ở trên chỉ còn đúng
+  với máy không có CUDA.
+
 ### Các đường đã loại
 
 | Đường | Vì sao |
@@ -735,6 +819,27 @@ Lỗi STT **không** đổi `status` sang `failed` mà chỉ ghi `sttError`, vì
 `/embeddings`, `/completions`, `/moderations`, `/images/*`, `/videos`; trang model `whisper-1`
 ghi thẳng `Batch | v1/batch | Not supported`. "Batch" ở đây là song song + retry phía client.
 
+### Xoá series là xoá MỀM, và phần khó không phải cái nút (cài 2026-09-20)
+
+Cách dùng ở `src/ui/README.md`. Phần lý do: series **không sở hữu phần lớn thứ nó sinh ra**.
+`series/<slug>/` và `out/<slug>/` là của nó; `translation.json`, `dub/`, `voice/` thì nằm trong
+thư mục video, tức chỗ dùng chung; còn video/audio/`transcript.json` là của **tác giả**.
+
+- **Video dùng chung không phải giả định**: `fei-niao-pao-hui` và `fei-niao-pao-hui-2` giữ đúng
+  cùng 2 videoId của cùng một tác giả. Quét thư mục video theo series là móc ruột series kia.
+  Hỏi `seriesMembership()` rồi BỎ QUA và kể tên — đừng im lặng.
+- **Bỏ `series/<slug>/` mà để lại `out/<slug>/` là hỏng lặng lẽ.** Chống trùng slug lúc tạo series
+  chỉ hỏi `series/`, nên đặt lại tên cũ là slug tái dụng; mà `episodeState` suy trạng thái từ
+  mtime trong `out/<slug>/ep<NN>/`, khoá theo **số tập** chứ không theo videoId → series mới toanh
+  hiện "đã dịch" ở ep01 với bản dịch của phim khác, không lỗi nào nổ ra.
+- **Giữ `transcript.json`/`raw-*.json` kể cả khi quét thư mục video** (luật 2): người ta xoá series
+  vì gom nhầm tập, không phải để vứt lượt ASR đã trả tiền.
+- **Mềm vì có đúng hai thứ tiền không mua lại được**: `ep<N>.vi-edits.json` và mẫu giọng đã tách.
+  Mọi thứ còn lại chạy lại từ đĩa được (luật 1). Đĩa thì rẻ — phần nặng (video, audio) không bao
+  giờ vào thùng rác; series to nhất hiện có là 40 MB JSON + wav.
+- **Đang chạy thì từ chối.** Làn `zhvi` chạy 2 việc song song: xoá giữa chừng thì tiến trình con
+  ghi `out/<slug>/…` lại SAU khi xoá xong, series sống lại nửa vời.
+
 ### Môi trường máy này (WSL2, `DESKTOP-BOK3JI8`)
 
 - `/usr/bin/node` là v18 của apt — quá cũ (thiếu `--env-file-if-exists`, dưới `engines.node>=22`).
@@ -768,3 +873,4 @@ ghi thẳng `Batch | v1/batch | Not supported`. "Batch" ở đây là song song 
 | Batch API của OpenAI cho whisper | không hỗ trợ |
 | VPN cho api.openai.com | Cloudflare 403 |
 | Chặn ảnh/font bằng `page.route` | chậm hơn, lỗi nhiều hơn |
+| `series init --force` để bổ sung tập mới | gieo lại dàn nhân vật, id chết ở `ep<N>.speakers.json`, mất công duyệt — dùng `series add-episode` |

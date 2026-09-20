@@ -20,6 +20,10 @@
  *   node src/zhvi/cli.js series init <videoDir tập 1> <videoDir tập 2> ... --series series/<tên> \
  *        --glossary g.json [--terms t.json] [--out out/<tên>] [--min-sec 60] [--no-looks] [--force]
  *   node src/zhvi/cli.js series apply ~/Downloads/bible-review.json --series series/<tên>
+ *
+ * Series đã duyệt bible, tác giả đăng thêm tập:
+ *   node src/zhvi/cli.js series add-episode <videoDir> --series series/<tên> [--ep 7] [--force]
+ *   (nối đuôi, không đánh số lại ai, không đổi bible.version — KHÔNG phải `series init --force`)
  */
 import fs from "node:fs/promises";
 import path from "node:path";
@@ -27,7 +31,7 @@ import { fileURLToPath } from "node:url";
 
 import { Llm, STAGES, modelsFromEnv, readEnvFile, runPipeline, subsOf } from "./index.js";
 import { applyExport, buildReview } from "./review.js";
-import { applyReview, initSeries } from "./series.js";
+import { addEpisode, applyReview, initSeries, translateArgs } from "./series.js";
 
 function parseArgs(argv) {
   const a = { _: [] };
@@ -111,10 +115,30 @@ const log = {
 
 if (a._[0] === "series") {
   const [, cmd, ...rest] = a._;
-  if (!a.series || !["init", "apply"].includes(cmd) || !rest.length) {
+  if (!a.series || !["init", "apply", "add-episode"].includes(cmd) || !rest.length) {
     console.error("dùng: node src/zhvi/cli.js series init <videoDir>... --series series/<tên> --glossary g.json");
     console.error("      node src/zhvi/cli.js series apply <bible-review.json> --series series/<tên>");
+    console.error("      node src/zhvi/cli.js series add-episode <videoDir> --series series/<tên> [--ep 7]");
     process.exit(2);
+  }
+  // Thêm một tập vào series đã duyệt bible: chỉ ghi thêm một hàng `episodes`, không gọi LLM và
+  // không đổi `bible.version` — xem docblock của addEpisode về việc vì sao KHÔNG dựng lại bible.
+  if (cmd === "add-episode") {
+    // Mọi cửa chặn ở đây đều là lời nhắn cho người ("clip 15s, đúng là tập thì --force"), nên
+    // không được để nó nổ ra thành stack trace: `jobs.js` lấy 3 DÒNG STDERR CUỐI làm thông báo
+    // lỗi của việc, mà ba dòng cuối của một lượt ném trần là khung stack + "Node.js v22.x".
+    const r = await addEpisode(rest[0], a.series, {
+      ep: a.ep ?? null, force: Boolean(a.force), minSec: Number(a["min-sec"] || 60), log,
+    }).catch((ex) => {
+      console.error("Lỗi: " + (ex?.message || ex));
+      process.exit(2);
+    });
+    console.log(`[bible] ${r.biblePath} — ${r.bible.episodes.filter((e) => e.use).length} tập, `
+      + `version ${r.version}${r.versionChanged ? " (ĐỔI — xem cảnh báo trên)" : " (không đổi: tập cũ khỏi dịch lại)"}`);
+    console.log("[dịch] tập vừa thêm:");
+    const q = (s) => (/[\s"'$]/.test(s) ? JSON.stringify(s) : s);
+    console.log(`  node src/zhvi/cli.js ${translateArgs(r.bible, r.biblePath, r.row).map(q).join(" ")}`);
+    process.exit(0);
   }
   if (cmd === "apply") {
     const r = await applyReview(rest[0], a.series, { log });

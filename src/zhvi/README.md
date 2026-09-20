@@ -150,7 +150,17 @@ node src/zhvi/cli.js series init data/<user>/<vid1> data/<user>/<vid2> ... \
 # 2. mở series/<tên>/bible-review.html, soát phía tiếng Việt, bấm Xuất JSON
 # 3. nạp -> series/<tên>/bible.json, in sẵn lệnh dịch từng tập
 node src/zhvi/cli.js series apply ~/Downloads/bible-review.json --series series/<tên>
+
+# tác giả đăng thêm tập SAU khi đã duyệt bible — KHÔNG phải `init --force`
+node src/zhvi/cli.js series add-episode data/<user>/<vid> --series series/<tên> [--ep 6.1]
 ```
+
+`add-episode` chỉ ghi thêm một hàng vào `bible.episodes`: không gọi LLM, không đụng
+`cast`/`terms`/`address`, nên **`bible.version` không đổi** và các tập cũ không phải dịch lại.
+Số tập nối đuôi (max + 1) và **không bao giờ đánh số lại ai** — chèn giữa thì tự truyền `--ep 6.1`.
+Nhân vật/thuật ngữ mới của tập đó vào bible qua cổng soát của chính nó (`bible.extend()`), không
+qua lượt dựng lại. Dựng lại nháp là gieo lại dàn nhân vật (đo: 10 vs 9 nhân vật giữa hai lần
+chạy) và mất hết công duyệt — xem CLAUDE.md "Thêm tập vào series đã duyệt".
 
 `init` làm năm việc, mỗi việc máy đề xuất còn code kiểm:
 

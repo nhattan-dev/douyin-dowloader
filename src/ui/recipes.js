@@ -89,6 +89,27 @@ export const recipes = {
     },
   },
 
+  // Tác giả đăng thêm tập cho series ĐÃ duyệt bible. Không dựng lại bible (xem series.addEpisode):
+  // chỉ ghi thêm một hàng `episodes`. Vẫn phải là job vì khoá `series:<slug>` — `speakerApply`
+  // cũng đọc-sửa-ghi chính `bible.json`, hai lượt chồng nhau là mất lặng lẽ một nhân vật.
+  seriesAddEpisode: {
+    plan: async ({ slug, videoId }) => ({
+      title: `Thêm tập ${short(videoId)} — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}`], meta: { slug },
+    }),
+    async steps({ slug, videoId, ep = null, force = false }) {
+      const s = await scan.seriesInfo(slug);
+      if (!s) throw new Error(`không có series ${slug}`);
+      if (s.status !== "approved") throw new Error("series chưa duyệt bible — thêm video rồi dựng bible như thường");
+      const dir = path.join("data", s.userId, videoId);
+      if (!(await scan.mtime(path.join(dir, "transcript.json")))) throw new Error(`${videoId} chưa có transcript — tải + STT trước`);
+      return [{
+        label: "đánh số tập + ghi vào bible",
+        argv: zhvi("series", "add-episode", rel(dir), "--series", `series/${slug}`,
+          ...(ep ? ["--ep", String(ep)] : []), ...(force ? ["--force"] : [])),
+      }];
+    },
+  },
+
   bibleApply: {
     plan: async ({ slug }) => ({ title: `Áp dụng bible đã duyệt — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}`], meta: { slug } }),
     steps: ({ slug, file }) => [{ label: "ghi bible.json", argv: zhvi("series", "apply", file, "--series", `series/${slug}`) }],

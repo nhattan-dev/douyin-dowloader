@@ -15,6 +15,8 @@ tiếp từ checkpoint, không trả tiền lại.
 | Tác giả | dán link trang tác giả / link chia sẻ app → quét | `src/cli.js collect` |
 | Video của tác giả | lọc, gợi ý gom theo 合集/hashtag, chọn → **Tải + STT** | `src/cli.js fetch <user> <ids…>` → `stt` |
 | | chọn → **Tạo series** (tự tải phần thiếu rồi dựng bible) | `zhvi series init … --events` |
+| | chọn → **Thêm vào series…** (series có sẵn của cùng tác giả) | `zhvi series add-episode` nếu đã duyệt bible, không thì chỉ ghi `series.json` |
+| Series | **Quét lại tác giả** + mốc quét lần cuối; tập mới cùng 合集 hiện nút **Thêm** từng cái | `src/cli.js collect` |
 | Series › Duyệt bible | trang duyệt zhvi nhúng: nghe giọng, đọc **cảnh** quanh câu mẫu, **xem đúng đoạn video**, thêm nhân vật máy bỏ sót; nút gửi thẳng về UI | `zhvi series apply` |
 | Series › các tập | **Dịch** từng tập / cả loạt; tiến độ từng bước (lõi v2: 2 task todo; lõi v1: bước con A1…E3) | `zhvi2/cli.js --series … --ep N` hoặc `zhvi <transcript> --bible … --events` |
 | Tập › Soát người nói | trang soát zhvi nhúng; gửi xong tự nạp nhãn + dịch tiếp | `zhvi --apply` → dịch lại |
@@ -64,6 +66,7 @@ nhiều lượt API). v2 là lõi chính; thư mục kết quả của v1 giữ 
 | `series/<slug>/ep<N>.vi-edits.json` | câu sửa tay — khoá theo số câu **và** câu gốc; zhvi chạy lại xong tự áp lại; câu gốc không khớp (pass A tách/gộp khác) thì không áp, UI báo "lệch" |
 | `series/<slug>/voices/<nhân vật>/` | kho giọng series: tập đầu tiên lồng tiếng đặt giọng, các tập sau dùng chung |
 | `series/<slug>/reviews/`, `draft/reviews/` | bản gửi từ trang soát/duyệt, giữ làm dấu vết |
+| `data/_trash/<ts>_<slug>/` | series đã xoá mềm: `series/<slug>` + `out/<slug>` nằm nguyên đường dẫn cũ bên trong, kèm `trash.json` để khôi phục (xem mục dưới) |
 | `data/_ui/` | lịch sử việc, log, ảnh thu nhỏ (`covers/`: ảnh bìa Douyin từ `state.json` ghép nền mờ theo tỉ lệ video — đại diện series ở trang danh sách; xoá đi thì tự dựng lại) |
 | `<videoDir>/dub/bar-bg.jpg` | nền mờ từ ảnh bìa Douyin, dựng khi `dub-video.mjs` phát hiện video.mp4 tự có viền đen (xem mục dưới); `--resume` dùng lại, xoá đi thì dựng lại lần chạy sau |
 
@@ -92,9 +95,34 @@ thì `--resume` dùng lại mọi clip đã đọc — chỉ trộn lại + ghé
 Lồng tiếng lại sau khi dịch lại/sửa tay: clip nào có chữ hoặc người nói khác lần trước (so với
 `dub/report.json`) thì xoá và tổng hợp lại; còn lại dùng lại (`--resume`).
 
+## Xoá series (xoá mềm)
+
+Menu `⋯` ở trang series. Mọi thứ chuyển sang `data/_trash/<ts>_<slug>/` rồi khôi phục được ở mục
+**Thùng rác** cuối trang danh sách; nút **Xoá hẳn** trong đó là lần `rm -rf` duy nhất của cả UI.
+Lý do không xoá thẳng: cả pipeline chạy lại từ đĩa được, trừ `ep<N>.vi-edits.json` (câu người sửa
+tay) và mẫu giọng đã tách — hai thứ tiền không mua lại được.
+
+Ranh giới sở hữu, và ba luật đi kèm (chi tiết ở đầu `trash.js`):
+
+| Vùng | Xoá series thì |
+|---|---|
+| `series/<slug>/` bible, nhãn, câu sửa tay, kho giọng | vào thùng rác |
+| `out/<slug>/` đầu ra LLM + `ckpt.json` | vào thùng rác — **bắt buộc**, xem dưới |
+| `data/<user>/<vid>/` video, audio, `transcript.json`, `raw-*.json` | **không đụng** — của tác giả, lượt ASR đã trả tiền |
+| `data/<user>/<vid>/` `translation.json`, `dub/`, `voice/` | hỏi riêng một câu; video nào series khác cũng nhận thì bỏ qua và kể tên |
+
+- **Video dùng chung là ca thật, không phải giả định**: `fei-niao-pao-hui` và `fei-niao-pao-hui-2`
+  giữ đúng cùng 2 videoId của cùng một tác giả. `scan.seriesMembership()` biết ai nhận video nào.
+- **Phải bỏ cả `out/<slug>/`**: chống trùng slug lúc tạo series chỉ hỏi `series/`, nên xoá nửa vời
+  rồi đặt lại tên cũ là slug tái dụng — mà `episodeState` suy trạng thái từ mtime trong
+  `out/<slug>/ep<NN>/`, khoá theo **số tập** chứ không theo videoId. Series mới toanh sẽ hiện "đã
+  dịch" ở ep01 với bản dịch của phim khác, không lỗi nào nổ ra.
+- **Đang chạy thì từ chối (409)**: làn `zhvi` chạy 2 việc song song; xoá giữa chừng thì tiến trình
+  con ghi `out/<slug>/…` lại sau khi xoá xong. Khôi phục cũng từ chối khi chỗ cũ đã có series khác.
+
 ## Chưa làm
 
 - Đổi người nói của một câu ngay trong bảng bản dịch (hiện đi qua trang soát người nói).
 - Thêm tập mới vào series **đã có bible** mà không dựng lại nháp (lib zhvi chưa có lệnh bổ sung).
-- Xoá series / video từ UI.
+- Xoá video lẻ từ UI (xoá series thì có, xem mục trên).
 - Nhân vật thoại quá ít không tách được mẫu giọng → dub-video dừng, báo tên nhân vật thiếu.

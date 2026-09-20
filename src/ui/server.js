@@ -23,6 +23,7 @@ import { saveEdit } from "./edits.js";
 import { Jobs } from "./jobs.js";
 import { recipes, saveSubmission } from "./recipes.js";
 import * as scan from "./scan.js";
+import * as trash from "./trash.js";
 
 const ROOT = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..");
 process.chdir(ROOT);
@@ -298,6 +299,16 @@ on("POST", "/api/users", async (req) => {
 });
 on("GET", "/api/users/([^/]+)", async (req, [id]) => (await scan.userDetail(id)) ?? Promise.reject(Object.assign(new Error("không có tác giả này"), { code: 404 })));
 on("POST", "/api/users/([^/]+)/collect", async (req, [id]) => ({ job: await jobs.enqueue("collect", { userId: id }) }));
+// Quét lại MỌI tác giả một lượt: tác giả nào cũng có thể vừa đăng tập mới, mà đi từng trang bấm
+// từng nút thì không ai làm đều. Làn `browser` chỉ chạy 1 việc nên chúng tự xếp hàng, không phải
+// tự hạn chế ở đây. Tác giả đang có lượt quét chạy dở thì bỏ qua, không xếp chồng.
+on("POST", "/api/users/collect-all", async () => {
+  const busy = new Set(jobs.active((j) => j.type === "collect").map((j) => j.params?.userId));
+  const todo = (await scan.listUsers()).filter((u) => !busy.has(u.id));
+  const jobIds = [];
+  for (const u of todo) jobIds.push((await jobs.enqueue("collect", { userId: u.id })).id);
+  return { queued: jobIds.length, skipped: busy.size, jobs: jobIds };
+});
 on("POST", "/api/users/([^/]+)/fetch", async (req, [id]) => {
   const { videoIds } = await body(req);
   if (!videoIds?.length) throw Object.assign(new Error("chưa chọn video"), { code: 400 });
@@ -377,6 +388,22 @@ on("POST", "/api/series/([^/]+)/videos", async (req, [slug]) => {
   await fsp.writeFile(file, JSON.stringify(meta, null, 1));
   return { ok: true, videoIds: meta.videoIds };
 });
+// Thêm MỘT tập vào series đã duyệt bible. Tách khỏi `/videos` (chỉ ghi series.json, dùng cho
+// series chưa dựng bible) vì đây là đường duy nhất KHÔNG phải duyệt lại bible — xem addEpisode.
+// Chưa tải/chưa STT thì xếp fetch -> stt rồi mới thêm, cùng lối `then` với /init.
+on("POST", "/api/series/([^/]+)/episodes", async (req, [slug]) => {
+  const { videoId, ep = null, force = false } = await body(req);
+  if (!videoId) throw Object.assign(new Error("chưa chọn video"), { code: 400 });
+  const s = await scan.seriesInfo(slug);
+  if (!s) throw Object.assign(new Error("không có series này"), { code: 404 });
+  if (s.status !== "approved") {
+    throw Object.assign(new Error("series chưa duyệt bible — dùng «Thêm vào series» rồi dựng bible như thường"), { code: 400 });
+  }
+  const then = { type: "seriesAddEpisode", params: { slug, videoId, ep, force } };
+  const has = await scan.mtime(path.join("data", s.userId, videoId, "transcript.json"));
+  return { job: has ? await jobs.enqueue(then.type, then.params)
+    : await jobs.enqueue("fetch", { userId: s.userId, videoIds: [videoId], then }) };
+});
 on("POST", "/api/series/([^/]+)/init", async (req, [slug]) => {
   const { force = false } = await body(req);
   const s = await scan.seriesInfo(slug);
@@ -402,6 +429,33 @@ on("POST", "/api/series/([^/]+)/translate-all", async (req, [slug]) => {
   }
   return { jobs: out };
 });
+
+// ---------- xoá mềm series (xem trash.js cho ranh giới sở hữu) ----------
+
+/** Việc đang chạy/xếp hàng của series này — kể cả lượt `fetch` xếp sẵn một việc series ở `then`. */
+const seriesBusy = (slug) => jobs.active((j) => j.params?.slug === slug
+  || j.params?.then?.params?.slug === slug
+  || (j.locks || []).some((l) => l === `series:${slug}` || l.startsWith(`series:${slug}:`)));
+
+on("GET", "/api/series/([^/]+)/delete-preview", async (req, [slug]) => {
+  const p = await trash.preview(slug);
+  if (!p) throw Object.assign(new Error("không có series này"), { code: 404 });
+  return { ...p, busy: seriesBusy(slug).map((j) => j.title) };
+});
+on("DELETE", "/api/series/([^/]+)", async (req, [slug]) => {
+  const { purgeVideoArtifacts = false } = await body(req);
+  // Xoá trong lúc một tập đang dịch thì tiến trình con ghi `out/<slug>/…` lại SAU khi xoá xong ->
+  // series sống lại nửa vời. Làn `zhvi` chạy 2 việc song song nên đây không phải ca hiếm.
+  const busy = seriesBusy(slug);
+  if (busy.length) {
+    throw Object.assign(new Error(`đang chạy "${busy[0].title}" cho series này — dừng việc đó rồi xoá`), { code: 409 });
+  }
+  return { trash: await trash.softDelete(slug, { purgeVideoArtifacts }) };
+});
+on("GET", "/api/trash", () => trash.list());
+on("POST", "/api/trash/([^/]+)/restore", async (req, [name]) => ({ restored: await trash.restore(name) }));
+on("DELETE", "/api/trash/([^/]+)", async (req, [name]) => ({ purged: await trash.purge(name) }));
+
 on("GET", "/api/series/([^/]+)/ep/([^/]+)", async (req, [slug, ep]) => {
   const d = await scan.episodeDetail(slug, ep);
   if (!d) throw Object.assign(new Error("không có tập này"), { code: 404 });

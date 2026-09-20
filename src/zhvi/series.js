@@ -877,6 +877,127 @@ export async function applyReview(reviewFile, seriesDir, { by = null, log = NULL
   return { biblePath, bible, commands: translateCommands(bible, biblePath) };
 }
 
+// ---------- thêm một tập vào series đã duyệt ----------
+
+const mmss = (s) => `${Math.floor(s / 60)}:${String(Math.round(s % 60)).padStart(2, "0")}`;
+const median = (xs) => {
+  const v = xs.filter((x) => Number.isFinite(x)).sort((a, b) => a - b);
+  if (!v.length) return null;
+  const m = v.length >> 1;
+  return v.length % 2 ? v[m] : (v[m - 1] + v[m]) / 2;
+};
+
+/**
+ * Thêm MỘT tập vào series ĐÃ duyệt bible — KHÔNG dựng lại bible.
+ *
+ * Trước đây đường duy nhất là `series init --force`, và giá của nó không nhìn ra được từ nút
+ * bấm: lượt gộp nhân vật không ổn định giữa hai lần chạy (đo trên 4 tập: 10 vs 9 nhân vật, tên
+ * nhân vật chính khác), nên cast bị gieo lại và `C<n>` đổi — trong khi `ep<N>.speakers.json`,
+ * `asr-flags.json` (khoá bằng tên) và thư mục kho giọng vẫn giữ id/tên cũ. Cộng cả công người
+ * duyệt (vi, viShort, alias, look, bảng xưng hô) phải gõ lại từ đầu.
+ *
+ * Mà tập mới không cần bible mới: nhân vật/thuật ngữ mới của nó đã có đường vào từ 2026-09-19 —
+ * cổng soát từng tập gọi `bible.extend()`. Nên việc còn lại chỉ là ĐÁNH SỐ và ghi thêm một hàng
+ * vào `bible.episodes`: 0 lời gọi LLM, 0 checkpoint bị vứt.
+ *
+ * Hai luật, đừng nới:
+ *
+ * - **Số tập đã gán thì không bao giờ đổi.** `episodeMap` đánh số theo VỊ TRÍ (biến đếm), nên
+ *   chèn một tập vào giữa là đẩy số của mọi tập sau: `out/<slug>/ep05` trỏ sang phim khác còn
+ *   `ep5.speakers.json` thì ở lại — bẫy B1 leo lên cấp tập, và không có dấu hiệu nào. Vì vậy
+ *   hàm này chỉ NỐI ĐUÔI (max + 1). Tập vá vào giữa (gặp thật: 剧情补档 của 飞鸟炮灰 nằm giữa
+ *   tập 6 và 7) thì người tự truyền `--ep 6.1`, cùng mẹo với khoá `.k` của câu bị cắt.
+ * - **Không đụng `cast`/`terms`/`address`.** `BIBLE.version()` băm đúng ba thứ đó, nên thêm tập
+ *   KHÔNG đổi `bible.version`: các tập cũ không phải dịch lại. Hàm tự kiểm điều này và kêu lên
+ *   nếu version đổi — version đổi nghĩa là đã đụng nhầm chỗ.
+ */
+export async function addEpisode(videoDir, seriesDir, {
+  ep = null, force = false, minSec = MIN_EP_SEC, by = "fleex", log = NULL_LOG,
+} = {}) {
+  const biblePath = path.join(seriesDir, "bible.json");
+  if (!(await exists(biblePath))) {
+    throw new Error(`${biblePath} chưa có — series chưa duyệt bible thì cứ thêm video vào series.json `
+      + "rồi chạy `series init` như thường, chưa có gì để giữ gìn cả");
+  }
+  const b = await BIBLE.load(biblePath);
+  const dir = path.resolve(videoDir);
+  // `meta.json` là dấu của lượt tải xong, và là nguồn DUY NHẤT của thời lượng ở đây. Thiếu nó thì
+  // `duration` thành null và mọi cửa chặn bên dưới im lặng cho qua — đo thật: clip 15s "xem full ở
+  // đâu" lọt vào thành một tập mà không một dòng cảnh báo. Thà dừng: đường thật (fetch -> stt)
+  // luôn ghi meta.json, nên thiếu nó nghĩa là thư mục này không phải thứ ta tưởng.
+  const meta = await readJson(path.join(dir, "meta.json"));
+  if (!meta) throw new Error(`${dir} không có meta.json — video chưa tải xong, tải + STT trước rồi thêm`);
+  const videoId = String(meta.videoId || path.basename(dir));
+
+  if (!(await exists(path.join(dir, "transcript.json")))) {
+    throw new Error(`${videoId} chưa có transcript.json — tải + STT trước rồi thêm`);
+  }
+  const dup = b.episodes.find((e) => e.videoId === videoId);
+  if (dup) throw new Error(`${videoId} đã nằm trong series này${dup.ep ? ` (tập ${dup.ep})` : " (đang bị gạt)"}`);
+
+  const sec = meta.duration ? Math.round(meta.duration / 1000) : null;
+  if (sec !== null && sec < minSec && !force) {
+    throw new Error(`video chỉ ${sec}s — giống thông báo/trailer hơn là một tập (gặp thật ở 杂役合道: `
+      + `clip 10s tác giả báo "lên 书旗 đọc trước", nằm lẫn giữa các tập). Đúng là tập thì thêm --force`);
+  }
+
+  const used = b.episodes.filter((e) => e.use);
+  // Bộ lọc của init chỉ chặn video NGẮN. Bản gộp nhiều tập thì dài, lọt hết — mà CLAUDE.md đã đo
+  // giá của việc nuốt phải: chạy trọn file 47 phút ra 3 cụm giọng cho ~20 nhân vật, 263/542 nhãn
+  // thành chuỗi rác. So với trung vị các tập ĐÃ CÓ chứ không so với hằng số: mỗi series một nhịp.
+  const med = median(used.map((e) => e.duration));
+  if (sec && med && sec > med * 3) {
+    log.warn(`video dài ${mmss(sec)} trong khi trung vị các tập là ${mmss(med)} — nghi là BẢN GỘP nhiều `
+      + "tập. Gộp nhiều tập vào một lượt làm diarize gom hết vào vài cụm giọng và nhãn người nói "
+      + "thành rác. Kiểm lại trước khi dịch.");
+  }
+
+  // Nối đuôi: số lớn nhất + 1. Không đánh số lại ai hết.
+  const nums = used.map((e) => Number(e.ep)).filter((n) => Number.isFinite(n) && n > 0);
+  const num = String(ep ?? (nums.length ? Math.max(...nums) + 1 : 1)).trim();
+  if (!num) throw new Error("số tập rỗng");
+  const clash = b.episodes.find((e) => e.use && String(e.ep) === num);
+  if (clash) throw new Error(`đã có tập ${num} (${clash.videoId}) — chọn số khác bằng --ep`);
+
+  // Thư mục kết quả trùng nghĩa là số tập này từng được dùng rồi: đè lên là trộn hai phim.
+  const outRoot = b.series?.inputs?.outRoot || path.join("out", path.basename(path.resolve(seriesDir)));
+  const outDir = path.join(outRoot, epDir(num));
+  if ((await exists(outDir)) && !force) {
+    throw new Error(`${outDir} đã có sẵn — số tập ${num} từng được dùng. Chọn số khác bằng --ep, `
+      + "hoặc --force nếu chắc chắn thư mục đó là rác");
+  }
+
+  const row = {
+    ep: num, videoId, videoDir: dir, duration: sec, title: cleanTitle(meta.desc),
+    hasStt: true, use: true, approved: true, reviewedBy: by,
+    source: "thêm sau khi duyệt bible", addedAt: new Date().toISOString(),
+  };
+  b.episodes.push(row);
+  // Xếp theo số tập cho trang đọc xuôi. An toàn vì số tập là DANH TÍNH chứ không phải vị trí —
+  // mọi nơi đều tra theo `ep`, không nơi nào tra theo chỉ số mảng.
+  b.episodes.sort((x, y) => (Number(x.ep) || Infinity) - (Number(y.ep) || Infinity));
+
+  const before = b.version;
+  await fs.copyFile(biblePath, biblePath + ".prev");
+  const version = await BIBLE.save(b, biblePath);
+  if (version !== before) {
+    log.warn(`bible.version đổi ${before} -> ${version}: thêm tập lẽ ra chỉ đụng \`episodes\`, `
+      + "mà version chỉ băm cast/terms/address. Xem lại hàm addEpisode.");
+  }
+
+  // series.json là thứ UI dùng để dò tập mới của 合集 — không ghi vào thì tập vừa thêm cứ hiện ra
+  // mãi ở mục "tác giả đã đăng tập mới".
+  const metaPath = path.join(seriesDir, "series.json");
+  const sm = await readJson(metaPath);
+  if (sm) {
+    sm.videoIds = [...new Set([...(sm.videoIds || []), videoId])];
+    await fs.writeFile(metaPath, JSON.stringify(sm, null, 1), "utf8");
+  }
+
+  log.info(`[tập] thêm tập ${num} — ${videoId}${sec ? ` (${mmss(sec)})` : ""}${row.title ? ` 《${row.title}》` : ""}`);
+  return { biblePath, bible: b, ep: num, videoId, version, versionChanged: version !== before, row };
+}
+
 /** Lệnh dịch từng tập — cùng outDir với lượt init, nên A2 dùng lại checkpoint. */
 /** Đối số lệnh dịch một tập (sau "node src/zhvi/cli.js"). CLI in ra, UI chạy thẳng — một nguồn, không lệch nhau. */
 export function translateArgs(bible, biblePath, e) {

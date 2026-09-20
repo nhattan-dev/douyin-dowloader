@@ -259,8 +259,13 @@ export async function seriesInfo(slug) {
   }
   // tập mới: video cùng 合集 với các tập của series mà chưa nằm trong series (tác giả vừa đăng thêm)
   let mixNews = [];
+  // Danh sách tập mới chỉ mới tới mức lần quét gần nhất. Không đưa mốc này ra thì "không có tập
+  // mới" và "chưa quét lại từ ba hôm trước" trông giống hệt nhau — đúng câu hỏi mà trang này để
+  // trả lời.
+  let lastCollectedAt = null;
   if (core.userId) {
     const st = await readJson(R("data", core.userId, "state.json"));
+    lastCollectedAt = st?.lastCollectedAt ?? null;
     const inSeries = new Set([...core.episodes.map((e) => e.videoId), ...core.extra]);
     const mixIds = new Set([...inSeries].map((v) => st?.videos?.[v]?.info?.mix?.id).filter(Boolean));
     mixNews = Object.entries(st?.videos || {})
@@ -275,7 +280,7 @@ export async function seriesInfo(slug) {
     // ảnh bìa Douyin của tập đầu — đại diện cho cả series ở trang danh sách (xem /api/cover)
     cover: core.userId && core.episodes[0]
       ? `/api/cover/${encodeURIComponent(core.userId)}/${encodeURIComponent(core.episodes[0].videoId)}` : null,
-    meta: core.meta, extra: core.extra, mixNews, episodes,
+    meta: core.meta, extra: core.extra, mixNews, episodes, lastCollectedAt,
     outRoot: path.relative(process.cwd(), core.outRoot),
     bible: b ? {
       version: b.version, approvedAt: new Date(await mtime(path.join(core.dir, "bible.json"))).toISOString(),

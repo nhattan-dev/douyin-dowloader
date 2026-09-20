@@ -18,6 +18,7 @@ async function api(url, { method = "GET", body } = {}) {
 }
 
 const money = (n) => (n ? `$${n < 0.1 ? n.toFixed(3) : n.toFixed(2)}` : "");
+const mb = (n) => (n > 1 << 20 ? `${(n / (1 << 20)).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
 const dur = (ms) => (ms < 1000 ? `${ms}ms` : ms < 60000 ? `${Math.round(ms / 1000)}s` : `${Math.floor(ms / 60000)}m${String(Math.round((ms % 60000) / 1000)).padStart(2, "0")}s`);
 function ago(iso) {
@@ -50,6 +51,15 @@ function btn(label, o = {}) {
 }
 const link = (label, href, cls = "") => html`<a class="btn ${cls}" href="${href}">${label}</a>`;
 const openBtn = (p, label = "Mở thư mục") => (p ? btn(label, { act: "open", path: p, cls: "ghost sm" }) : "");
+/**
+ * Thêm MỘT video vào series. Hai đường khác hẳn nhau, nên phải phân biệt theo trạng thái bible:
+ * chưa duyệt bible thì chỉ ghi `series.json`, lượt dựng bible sau gồm luôn nó; đã duyệt rồi thì
+ * đi `/episodes` — đánh số nối đuôi rồi ghi thẳng một hàng vào bible. KHÔNG dựng lại bible: dựng
+ * lại là gieo lại dàn nhân vật (đo: 10 vs 9 nhân vật giữa hai lần chạy) và mất hết công duyệt.
+ */
+const addEpBtn = (slug, status, videoId, label = "Thêm vào series") => (status === "approved"
+  ? btn(label, { url: `/api/series/${enc(slug)}/episodes`, body: { videoId }, cls: "sm pri", ok: "Đã xếp thêm tập" })
+  : btn(label, { url: `/api/series/${enc(slug)}/videos`, body: { videoIds: [videoId] }, cls: "sm pri", ok: "Đã thêm vào series" }));
 
 // ---------- nhãn trạng thái ----------
 const STAGE_VI = { A: "A · Sửa ASR", B: "B · Người nói", C: "C · Dịch", D: "D · Soát & sửa", E: "E · Xuất" };
@@ -283,6 +293,39 @@ const ACTIONS = {
   async open(b) {
     await api("/api/open", { method: "POST", body: { path: b.dataset.path } });
   },
+  async del(b) {
+    await api(b.dataset.url, { method: "DELETE", body: b.dataset.body ? JSON.parse(b.dataset.body) : {} });
+    toast(b.dataset.ok || "Xong");
+    if (b.dataset.go) location.hash = b.dataset.go;
+    refreshSoon();
+  },
+  /**
+   * Xoá series: hỏi đĩa trước rồi mới hỏi người. Hộp xác nhận phải nói đúng cái sắp mất, nhất là
+   * hai thứ tiền không mua lại được — câu sửa tay và mẫu giọng. Thư mục video hỏi riêng một câu
+   * vì đó là chỗ DÙNG CHUNG: video nào còn series khác nhận thì server không đụng, chỉ kể tên.
+   */
+  async delSeries(b) {
+    const p = await api(`${b.dataset.url}/delete-preview`);
+    if (p.busy.length) throw new Error(`đang chạy "${p.busy[0]}" cho series này — dừng việc đó rồi xoá`);
+    const ln = [`Xoá series «${p.title}»?`, "", "Chuyển vào thùng rác (khôi phục được):",
+      `  · ${p.episodes} tập — ${p.translated} đã dịch, ${p.dubbed} đã lồng tiếng`,
+      `  · bible, nhãn người nói, mẫu giọng · ${mb(p.bytes)}`];
+    if (p.edits) ln.push(`  · ${p.edits} câu BẠN SỬA TAY — chạy lại máy không ra được`);
+    if (p.usd) ln.push(`  · ${money(p.usd)} đã trả cho LLM — dịch lại là trả lại`);
+    ln.push("", "Giữ nguyên: video, audio, transcript (lượt ASR đã trả tiền) — vẫn ở trang tác giả.");
+    if (p.sharedVideos.length) {
+      ln.push("", `${p.sharedVideos.length} video còn series khác dùng chung (${p.sharedVideos[0].others[0]}) — không đụng tới.`);
+    }
+    if (!confirm(ln.join("\n"))) return;
+    const purgeVideoArtifacts = p.videos.length
+      ? confirm(`Dọn luôn bản dịch / bản lồng tiếng nằm trong ${p.videos.length} thư mục video của riêng series này?\n\n`
+        + "OK = dọn (cũng vào thùng rác, khôi phục cùng series).\nCancel = để lại; không series nào khác đọc chúng.")
+      : false;
+    const r = await api(b.dataset.url, { method: "DELETE", body: { purgeVideoArtifacts } });
+    toast(`Đã chuyển «${r.trash.title}» vào thùng rác`);
+    location.hash = "#/series";
+    refreshSoon();
+  },
   async notify() {
     await Notification.requestPermission();
     paintSide();
@@ -369,6 +412,9 @@ async function viewUsers() {
         <form class="row" id="addUser">
           <input type="text" name="input" placeholder="https://www.douyin.com/user/MS4wLjABAAAA…" style="flex:1;min-width:260px" required>
           <button class="btn pri" type="submit">Quét video</button>
+          ${users.length ? btn(`Quét lại tất cả (${users.length})`, { url: "/api/users/collect-all", cls: "ghost",
+            confirm: `Quét lại danh sách video của cả ${users.length} tác giả? Chạy lần lượt từng người, mỗi người mở một cửa sổ trình duyệt.`,
+            ok: "Đã xếp hàng — xem tiến độ ở tab Việc" }) : ""}
           ${btn("Đăng nhập Douyin", { url: "/api/jobs", body: { type: "login", params: {} }, cls: "ghost", go: "#/jobs/{job}" })}
         </form>
       </div>
@@ -470,9 +516,11 @@ async function viewUser([userId]) {
     bar.innerHTML = val(html`<span>Đã chọn <b>${n}</b></span>
       ${need ? html`<button class="btn" id="bFetch">Tải + STT ${need} video</button>` : ""}
       <button class="btn pri" id="bSeries">Tạo series…</button>
+      <button class="btn" id="bAdd">Thêm vào series…</button>
       <button class="btn ghost" id="bClear">Bỏ chọn</button>`);
     $("#bClear").onclick = () => { ui.sel.clear(); paintGrid(); };
     $("#bSeries").onclick = () => seriesDialog(picked);
+    $("#bAdd").onclick = () => addToSeriesDialog(picked);
     if ($("#bFetch")) {
       $("#bFetch").onclick = async () => {
         try {
@@ -524,6 +572,103 @@ async function viewUser([userId]) {
         dlg.close();
         paintSide();
         location.hash = `#/series/${enc(r.slug)}`;
+      } catch (ex) {
+        toast(ex.message, "err");
+      }
+    };
+  }
+
+  /**
+   * Thêm video đã chọn vào series ĐÃ CÓ.
+   *
+   * Không có đường này thì lối duy nhất là auto-detect theo 合集 (`scan.mixNews`: video cùng 合集
+   * với các tập đang có). Đo trên dữ liệu thật thì lối đó phủ quá ít: ai-qing 46/46 video KHÔNG
+   * thuộc 合集 nào — series ấy không bao giờ hiện nổi một nút thêm tập; 飞鸟炮灰 cũng chỉ 10/35
+   * video có 合集. Tức thêm tay mới là lối chính, 合集 chỉ là đường tắt lúc may.
+   */
+  async function addToSeriesDialog(picked) {
+    const dlg = $("#dlg");
+    let all;
+    try {
+      all = await api("/api/series");
+    } catch (ex) {
+      return toast(ex.message, "err");
+    }
+    // Chỉ series của CHÍNH tác giả này: `series.json` giữ đúng một `userId`, và `seriesCore` dựng
+    // đường dẫn cho video lẻ bằng `data/<meta.userId>/<vid>` — video của tác giả khác sẽ trỏ vào
+    // thư mục không tồn tại mà không báo gì.
+    const mine = all.filter((s) => s.userId === userId);
+    if (!mine.length) {
+      dlg.innerHTML = val(html`<div class="dlg-h"><h2>Tác giả này chưa có series nào</h2></div>
+        <div class="dlg-b"><p>Chưa có series nào để thêm vào. Dùng <b>Tạo series…</b> để lập series mới từ các video đang chọn.</p></div>
+        <div class="dlg-f"><button class="btn" onclick="this.closest('dialog').close()">Đóng</button></div>`);
+      return dlg.showModal();
+    }
+
+    // cùng khuôn xếp thứ tự với `seriesDialog` — thứ tự này quyết định số tập, nên phải thấy được
+    const mixIds = new Set(picked.map((v) => v.mix?.id).filter(Boolean));
+    const byMix = mixIds.size === 1 && picked.every((v) => v.mix?.ep);
+    const sorted = [...picked].sort((a, b) => (byMix ? a.mix.ep - b.mix.ep : BigInt(a.id) < BigInt(b.id) ? -1 : 1));
+    // nối đuôi: cùng luật với `series.addEpisode`, không đánh số lại tập cũ
+    const nextEp = (s) => {
+      const nums = s.episodes.filter((e) => e.use).map((e) => Number(e.ep)).filter((n) => Number.isFinite(n) && n > 0);
+      return nums.length ? Math.max(...nums) + 1 : 1;
+    };
+    const dupOf = (v, s) => (v.series || []).some((m) => m.slug === s.slug);
+    const tooShort = (v) => v.duration !== null && v.duration < 60;
+    const skipOf = (v, s) => dupOf(v, s) || (s.status === "approved" && tooShort(v));
+
+    const paint = () => {
+      const s = mine.find((x) => x.slug === $("#aSel").value);
+      const approved = s.status === "approved";
+      let n = nextEp(s) - 1;
+      $("#aPrev").innerHTML = val(html`<div class="card tw"><table class="t">
+          <tr><th>${approved ? "Sẽ là tập" : "Thứ tự"}</th><th>Video</th><th>Dài</th><th></th></tr>
+          ${sorted.map((v) => {
+            const skip = skipOf(v, s);
+            return html`<tr class="${skip ? "off" : ""}"><td>${skip ? "—" : approved ? ++n : "+"}</td>
+              <td>${v.title || v.id}</td><td>${v.duration ? mmss(v.duration) : "?"}</td>
+              <td>${dupOf(v, s) ? html`<span class="pill p-mute">đã ở trong series</span>`
+                : tooShort(v) ? html`<span class="pill p-warn">${approved ? "ngắn — sẽ bị từ chối" : "ngắn, sẽ bị gạt"}</span>`
+                : !v.hasTranscript ? html`<span class="pill p-q">sẽ tải + STT trước</span>` : ""}</td></tr>`;
+          })}</table></div>
+        <div class="dim small">${approved
+          ? `Số tập nối đuôi theo thứ tự trên (${byMix ? "số tập trong 合集" : "ngày đăng"}); tập cũ không bị đánh số lại và bible không đổi phiên bản, nên tập đã dịch không phải chạy lại.`
+          : "Series này chưa duyệt bible — video chỉ vào danh sách nguồn, số tập được đánh khi dựng bible."}</div>`);
+    };
+
+    dlg.innerHTML = val(html`<form method="dialog" id="aForm">
+      <div class="dlg-h"><h2>Thêm ${picked.length} video vào series</h2></div>
+      <div class="dlg-b">
+        <label class="field">Series
+          <select name="slug" id="aSel">${mine.map((s) => html`<option value="${s.slug}">${s.title} — ${s.episodes.filter((e) => e.use).length} tập${s.status === "approved" ? "" : " (chưa duyệt bible)"}</option>`)}</select></label>
+        <div id="aPrev"></div>
+      </div>
+      <div class="dlg-f"><button class="btn" value="cancel" formnovalidate>Huỷ</button><button class="btn pri" value="ok">Thêm vào series</button></div></form>`);
+    dlg.onclose = null;
+    dlg.showModal();
+    paint();
+    $("#aSel").onchange = paint;
+    $("#aForm").onsubmit = async (e) => {
+      if (e.submitter?.value !== "ok") return;
+      e.preventDefault();
+      const s = mine.find((x) => x.slug === $("#aSel").value);
+      const todo = sorted.filter((v) => !skipOf(v, s));
+      if (!todo.length) return toast("không còn video nào để thêm", "err");
+      try {
+        if (s.status === "approved") {
+          // xếp LẦN LƯỢT: số tập nối đuôi nên thứ tự xếp hàng chính là thứ tự đánh số
+          for (const v of todo) {
+            const r = await api(`/api/series/${enc(s.slug)}/episodes`, { method: "POST", body: { videoId: v.id } });
+            if (r.job) S.jobs.set(r.job.id, r.job);
+          }
+        } else {
+          await api(`/api/series/${enc(s.slug)}/videos`, { method: "POST", body: { videoIds: todo.map((v) => v.id) } });
+        }
+        dlg.close();
+        ui.sel.clear();
+        paintSide();
+        location.hash = `#/series/${enc(s.slug)}`;
       } catch (ex) {
         toast(ex.message, "err");
       }
@@ -610,7 +755,7 @@ async function viewUser([userId]) {
 const EP_COLORS = { dubbed: "var(--ok)", translated: "color-mix(in srgb, var(--ok) 55%, transparent)", review: "var(--act)", reviewed: "var(--accent)" };
 async function viewSeriesList() {
   const render = async () => {
-    const list = await api("/api/series");
+    const [list, bin] = await Promise.all([api("/api/series"), api("/api/trash")]);
     setMain(html`
       <div class="page-h"><div><h1>Series</h1><div class="sub">Tạo series từ trang tác giả: chọn các tập → «Tạo series».</div></div><span class="grow"></span>${link("Chọn video", "#/users")}</div>
       ${list.length ? html`<div class="scards">${list.map((s) => {
@@ -626,7 +771,20 @@ async function viewSeriesList() {
             <div class="dim small">${[["dubbed", "lồng tiếng"], ["translated", "đã dịch"], ["review", "chờ soát"]].map(([k, t]) => (by[k] ? `${by[k]} ${t}` : "")).filter(Boolean).join(" · ") || "chưa tập nào xong"}</div>
           </div>
         </a>`;
-      })}</div>` : html`<div class="card empty"><b>Chưa có series</b>Vào trang tác giả, chọn các video cùng một phim, bấm «Tạo series».<div style="margin-top:12px">${link("Chọn video", "#/users", "pri")}</div></div>`}`);
+      })}</div>` : html`<div class="card empty"><b>Chưa có series</b>Vào trang tác giả, chọn các video cùng một phim, bấm «Tạo series».<div style="margin-top:12px">${link("Chọn video", "#/users", "pri")}</div></div>`}
+      ${bin.length ? html`<details class="card" style="margin-top:16px"><summary class="dim small" style="cursor:pointer">Thùng rác — ${bin.length} series đã xoá</summary>
+        <div class="dim small" style="margin:8px 0 4px">Video, audio và transcript không nằm ở đây — chúng thuộc về tác giả, xoá series không đụng tới.</div>
+        <table class="t"><tr><th>Series</th><th>Xoá lúc</th><th>Còn gì</th><th></th></tr>
+        ${bin.map((t) => html`<tr><td><b>${t.title}</b><div class="dim mono small">${t.slug}</div></td>
+          <td class="dim small">${ago(t.deletedAt)}</td>
+          <td class="dim small">${[t.stats.episodes ? `${t.stats.episodes} tập` : "", t.stats.edits ? `${t.stats.edits} câu sửa tay` : "",
+            t.stats.usd ? `${money(t.stats.usd)} đã trả` : "", mb(t.bytes)].filter(Boolean).join(" · ")}
+            ${t.keptShared.length ? html`<div>${t.keptShared.length} video dùng chung đã để nguyên</div>` : ""}</td>
+          <td class="num"><div class="row" style="justify-content:flex-end">
+            ${btn("Khôi phục", { url: `/api/trash/${enc(t.name)}/restore`, cls: "sm", ok: `Đã khôi phục «${t.title}»` })}
+            ${btn("Xoá hẳn", { act: "del", url: `/api/trash/${enc(t.name)}`, cls: "sm danger ghost", ok: "Đã xoá hẳn",
+              confirm: `Xoá hẳn «${t.title}»? Lần này mất thật: ${[t.stats.edits ? `${t.stats.edits} câu sửa tay` : "", t.stats.usd ? `${money(t.stats.usd)} đã trả cho LLM` : "", "bible, nhãn, mẫu giọng"].filter(Boolean).join(", ")}.` })}
+          </div></td></tr>`)}</table></details>` : ""}`);
   };
   await render();
   return { refresh: render };
@@ -661,6 +819,16 @@ async function viewSeries([slug]) {
     const used = s.episodes.filter((e) => e.state);
     const todo = used.filter((e) => ["idle", "partial", "reviewed"].includes(e.state.status));
     const bibleStep = s.status === "approved" ? "ok" : s.status === "draft" ? "act" : "";
+    const collectJob = activeOf(jobsFor((j) => j.type === "collect" && j.params?.userId === s.userId));
+    // Cờ nghi ngờ cho video sắp thêm. So với TRUNG VỊ các tập đã có chứ không với hằng số: mỗi
+    // series một nhịp dài ngắn. Chỉ cảnh báo, không chặn — máy không chắc được, người bấm mới chắc.
+    const durs = used.map((e) => e.duration).filter(Boolean).sort((a, b) => a - b);
+    const medDur = durs.length ? durs[durs.length >> 1] : null;
+    const oddity = (v) => {
+      if (v.duration && v.duration < 60) return `chỉ ${v.duration}s — giống clip thông báo hơn là một tập`;
+      if (v.duration && medDur && v.duration > medDur * 3) return `dài gấp ${(v.duration / medDur).toFixed(1)}× tập thường — nghi là bản gộp nhiều tập`;
+      return null;
+    };
 
     let bibleBody;
     if (initJob) {
@@ -683,8 +851,10 @@ async function viewSeries([slug]) {
     } else {
       bibleBody = html`
         ${s.draft?.stale ? html`<div class="callout act" style="margin-bottom:12px">Có bản nháp mới hơn bible đang dùng. ${link("Duyệt nháp mới", `#/series/${enc(slug)}/bible`, "sm pri act")}</div>` : ""}
-        ${s.extra.length ? html`<div class="callout warn" style="margin-bottom:12px">${s.extra.length} video mới thêm vào series chưa có trong bible.
-          <div class="row">${btn("Dựng lại nháp gồm video mới", { url: `/api/series/${enc(slug)}/init`, body: { force: true }, cls: "sm", confirm: "Dựng lại nháp gồm cả video mới? Duyệt xong, các tập đã dịch sẽ chạy lại phần gán người nói (bible đổi phiên bản)." })}</div></div>` : ""}
+        ${s.extra.length ? html`<div class="callout warn" style="margin-bottom:12px">${s.extra.length} video đã thêm vào series nhưng chưa có số tập trong bible.
+          <div class="dim small" style="margin:2px 0 8px">Thêm thẳng vào bible: đánh số nối đuôi, không đụng dàn nhân vật, các tập đã dịch không phải chạy lại.</div>
+          ${s.extra.map((v) => html`<div class="row" style="align-items:baseline;gap:8px;margin-bottom:4px">
+            ${addEpBtn(slug, s.status, v, "Thêm vào bible")}<span class="dim mono small">${v}</span></div>`)}</div>` : ""}
         <div class="castg">${s.bible.cast.map((c) => html`<div class="cast"><b>${c.vi || c.zh}</b> <span class="zh dim">${c.zh}</span>
           <div class="row small dim" style="gap:4px;margin-top:2px"><span class="tag">${{ male: "nam", female: "nữ" }[c.gender] || "?"}</span><span class="tag">${{ main: "chính", episodic: "phụ", mentioned: "chỉ được nhắc" }[c.role] || c.role}</span></div>
           ${c.look ? html`<div class="lk">${c.look}</div>` : ""}</div>`)}</div>
@@ -696,12 +866,25 @@ async function viewSeries([slug]) {
       <div class="crumb"><a href="#/series">Series</a> ›</div>
       <div class="page-h"><div><h1>${s.title}</h1>
         <div class="sub">${s.titleZh ? html`<span class="zh">${s.titleZh}</span> · ` : ""}${used.length || s.episodes.length} tập ${s.userId ? html`· <a href="#/users/${enc(s.userId)}">trang tác giả</a>` : ""}</div></div>
-        <span class="grow"></span>${pill(SERIES_ST[s.status])}${openBtn(s.outRoot, "Mở thư mục kết quả")}</div>
+        <span class="grow"></span>${pill(SERIES_ST[s.status])}${openBtn(s.outRoot, "Mở thư mục kết quả")}
+        <details style="position:relative"><summary class="btn ghost sm" style="list-style:none">⋯</summary>
+          <div class="card card-b stack" style="position:absolute;right:0;top:34px;z-index:5;min-width:260px;gap:8px">
+            ${openBtn(`series/${slug}`, "Mở thư mục series")}
+            ${btn("Xoá series…", { act: "delSeries", url: `/api/series/${enc(slug)}`, cls: "sm danger" })}
+          </div></details></div>
 
-      ${s.mixNews.length ? html`<div class="callout info" style="margin-bottom:8px"><b>Tác giả đã đăng ${s.mixNews.length} tập mới trong 合集:</b>
-        ${s.mixNews.map((v) => `tập ${v.ep ?? "?"} (${v.duration ? mmss(v.duration) : "?"})`).join(", ")}.
-        <div class="row">${btn("Thêm vào series", { url: `/api/series/${enc(slug)}/videos`, body: { videoIds: s.mixNews.map((v) => v.id) }, cls: "sm pri", ok: "Đã thêm vào series" })}
-        <span class="dim small">${s.status === "approved" ? "series đã có bible: thêm xong phải dựng lại nháp và duyệt lại" : "thêm trước khi duyệt bible thì khỏi phải duyệt lại"}</span></div></div>` : ""}
+      ${s.mixNews.length ? html`<div class="callout info" style="margin-bottom:8px">
+        <b>Tác giả đã đăng ${s.mixNews.length} tập mới trong 合集.</b>
+        <div class="dim small" style="margin:2px 0 8px">Thêm từng tập, <b>bấm từ trên xuống</b>: tập mới được đánh số nối đuôi theo thứ tự bạn bấm, không lấy số của 合集 — số 合集 hay lệch (bản 补档 chen vào giữa) và trong đó có cả clip thông báo lẫn bản gộp.</div>
+        ${s.mixNews.map((v) => html`<div class="row" style="align-items:baseline;gap:8px;margin-bottom:4px">
+          ${addEpBtn(slug, s.status, v.id, `Thêm${v.ep ? ` (合集 ghi tập ${v.ep})` : ""}`)}
+          <span style="flex:1;min-width:180px">${v.title || v.id}
+            <span class="dim small">${v.duration ? ` · ${mmss(v.duration)}` : ""}${v.status === "collected" ? " · chưa tải" : ""}</span>
+            ${oddity(v) ? html`<div class="dim small" style="color:var(--warn,#a60)">⚠ ${oddity(v)}</div>` : ""}</span>
+        </div>`)}</div>` : ""}
+      ${s.userId ? html`<div class="row small dim" style="margin-bottom:12px;gap:8px;align-items:baseline">
+        <span>Danh sách video quét lần cuối ${ago(s.lastCollectedAt)}${s.mixNews.length ? "" : " — không thấy tập mới nào"}.</span>
+        ${collectJob ? pill(JOB_ST[collectJob.status]) : btn("Quét lại tác giả", { url: `/api/users/${enc(s.userId)}/collect`, cls: "sm ghost", ok: "Đang quét — cửa sổ trình duyệt sẽ mở ra" })}</div>` : ""}
       <div class="section-t"><span class="step-n ${bibleStep}">1</span><h2>Bible nhân vật</h2></div>
       <div class="card card-b">${bibleBody}</div>
 
