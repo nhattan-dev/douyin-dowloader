@@ -535,6 +535,22 @@ Hai ràng buộc phải giữ khi sửa tiếp trang này:
   gán bừa. Luật "trang ghi giá trị cuối của MỌI ô" vẫn giữ (đã đo: áp hai lần ra cùng `version`),
   nên hàng thêm tay bỏ trống phải bị bỏ qua ở `applyReview` chứ không thành nhân vật rỗng.
 
+### Trang soát người nói là file TĨNH — sửa bible xong phải dựng lại (2026-09-21)
+
+`review.html` chốt danh sách người nói theo `bible.cast` **lúc dựng**; server chỉ đọc file ra. Thêm
+nhân vật ở trang bible sau đó thì ô chọn của từng câu không có họ (đo: `ai创作浪潮计划` tập 1, bible
+sửa 14:47, trang dựng 12:13 → 0/372 ô có «Nam phụ 1»), rồi kéo theo lồng tiếng không có câu nào mang
+tên họ. "Dịch lại tập" **không** dựng lại trang: cổng chỉ chặn một lần. Hiện UI **chưa có** đường
+dựng lại (một nút «Dựng lại trang soát» từng được thử rồi gỡ theo ý fleex); dựng tay bằng đúng lệnh
+dịch tập kèm `--review` (v1: `node src/zhvi/cli.js … --review`, v2: `node src/zhvi2/cli.js --series
+… --ep N --review`). Giá ~$0,03/lần vì bible đổi → A3/B1/B2 chạy lại; nhãn đã soát không bị đụng,
+nhưng tập đã dịch quay về «chờ soát» (review.html mới hơn translation.json) tới khi lưu lại.
+
+Bẫy đi kèm: nhân vật thêm tay để trống chữ Hán thì khoá lấy tên Việt **có dấu cách**, mà `phon.js`
+ghi vocab thành dòng từ điển jieba `từ 100000 n` → `Load dict failed`, mọi lần chạy pass A của series
+chết. `cuts()` giờ bỏ từ có khoảng trắng. Cũng đừng đặt tên nhân vật trùng nhãn đặc biệt («nhiều
+người», «ngoài khung», «không rõ») — `NOBODY` coi nó là "không ai".
+
 ### Bẫy prompt đã đo
 
 Gửi block `ĐÃ DỊCH TRƯỚC ĐÓ (đừng dịch lại)` kèm nội dung rỗng kiểu `(đầu phim)` làm qwen3-max

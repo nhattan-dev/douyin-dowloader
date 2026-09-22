@@ -1044,6 +1044,14 @@ async function viewEpisode([slug, ep, tab]) {
         <div class="callout act" style="margin-bottom:10px">Chốt <b>cụm giọng</b> trước (sửa một lần là cả cụm), rồi mới tới câu lẻ được đánh dấu. Phím <b>Space</b> phát câu đang trỏ.
           ${v2 ? html`Câu có hai người nói thì chọn <b>«nhiều người»</b> rồi bấm vào khe giữa hai chữ để <b>cắt</b>, mỗi mảnh chọn một người.` : ""}
           Xong bấm <b>«Lưu &amp; dịch tiếp»</b> ở góc trên trang — nhãn được nạp và tập đi tiếp.</div>
+        <div class="row" style="margin-bottom:10px">
+          ${btn("Cập nhật nhân vật", {
+            url: `${url}/rebuild-review`, cls: "sm ghost", go: `${base}/progress`,
+            confirm: "Dựng lại trang soát theo bible hiện tại — tốn một lượt LLM nhỏ (sửa ASR + gán người nói lại tập này), nhãn đã soát không mất. Chạy?",
+            ok: "Đang dựng lại trang soát",
+          })}
+          <span class="dim small">Trang này chốt danh sách nhân vật lúc dựng — vừa thêm nhân vật ở trang bible thì bấm đây để họ hiện ra.</span>
+        </div>
         <iframe class="frame" src="${d.urls.review}"></iframe>`;
     }
     if (tab === "translation") {

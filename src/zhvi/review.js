@@ -530,7 +530,9 @@ function termRows(ep, newTerms, bib) {
   const rows = Object.entries(newTerms || {}).filter(([zh]) => !(zh in bib.terms));
   if (!rows.length) return "";
   return `<div class="sub">Thuật ngữ mới (${rows.length}) — nạp vào bible dùng chung cả bộ</div>`
-    + rows.map(([zh, vi]) => `<div class="trm" data-k="T:${esc(ep)}|${esc(zh)}" data-ep="${esc(ep)}"
+    // v1 đề xuất `{zh: "vi"}`, v2 đề xuất `{zh: {vi, why}}`. Coi cả hai là chuỗi thì v2 điền sẵn
+    // "[object Object]", và vì "không sửa gì = đồng ý" nó đi thẳng vào bible.
+    + rows.map(([zh, p]) => [zh, typeof p === "string" ? p : p?.vi ?? ""]).map(([zh, vi]) => `<div class="trm" data-k="T:${esc(ep)}|${esc(zh)}" data-ep="${esc(ep)}"
      data-zh="${esc(zh)}" data-vi="${esc(vi)}">
   <div class="tzh">${esc(zh)}</div>
   <div><input type="text" class="tvi" value="${esc(vi)}"></div>

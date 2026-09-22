@@ -475,6 +475,10 @@ on("POST", "/api/series/([^/]+)/ep/([^/]+)/translate", async (req, [slug, ep]) =
   const v = await engineOfEp(slug, ep, engine);
   return { job: await jobs.enqueue(v === "v2" ? "translate2" : "translate", { slug, ep, ...(force ? { force } : {}) }) };
 });
+on("POST", "/api/series/([^/]+)/ep/([^/]+)/rebuild-review", async (req, [slug, ep], res, url) => {
+  const v = await engineOfEp(slug, ep, url.searchParams.get("engine"));
+  return { job: await jobs.enqueue("reviewRebuild", { slug, ep, engine: v }) };
+});
 on("POST", "/api/series/([^/]+)/ep/([^/]+)/speaker-review", async (req, [slug, ep], res, url) => {
   const v = await engineOfEp(slug, ep, url.searchParams.get("engine"));
   const name = v === "v2" ? `ep${ep}.v2.speaker-review` : `ep${ep}.speaker-review`;

@@ -60,7 +60,7 @@ export const PRICE = {
  *     (B1, 768px): 65/90, hơn cả qwen-vl-max 61–62 và qwen3-vl-plus 61, lại rẻ nhất; 1536px không hơn.
  */
 export const MODELS = {
-  repair: "qwen-plus",
+  repair: "qwen-plus-2025-09-11",
   cast: "qwen3.7-max-2026-06-08",
   render: "deepseek-flash@none",
   critic: "deepseek-flash@none",

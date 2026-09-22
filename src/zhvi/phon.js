@@ -48,7 +48,9 @@ const DICT = readFileSync(new URL("../../node_modules/@node-rs/jieba/dict.txt", 
 let _jieba = null;
 let _added = new Set();
 function cuts(text, vocab) {
-  const want = [...vocab].filter((w) => [...w].length > 1);
+  // Dòng từ điển là `từ tần-suất loại` cách nhau bằng dấu cách: một khoá có khoảng trắng (nhân vật
+  // thêm tay ở trang bible để trống chữ Hán nên khoá lấy tên Việt, «nhiều người») làm cả từ điển hỏng.
+  const want = [...vocab].filter((w) => [...w].length > 1 && !/\s/.test(w));
   if (!_jieba || want.some((w) => !_added.has(w))) {
     _added = new Set(want);
     _jieba = Jieba.withDict(

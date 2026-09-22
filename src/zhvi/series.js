@@ -742,6 +742,27 @@ export async function applyReview(reviewFile, seriesDir, { by = null, log = NULL
   const draftPath = path.join(seriesDir, "draft", "bible.draft.json");
   const draft = await readJson(draftPath);
   if (!draft) throw new Error(`không có ${draftPath} — chạy series init trước`);
+
+  // Trang duyệt bible dựng MỘT LẦN từ nháp lúc `series init` (draft.episodes đóng băng tại đó).
+  // Gửi lại trang đó SAU KHI series đã duyệt thì hàm này ghi đè thẳng `episodes` bằng đúng danh
+  // sách nháp cũ đó — xoá sạch mọi tập thêm sau bằng `addEpisode()` (đo thật 2026-09-22: 6 tập bị
+  // xoá rồi thêm lại theo thứ tự khác, ra số tập khác cho cùng video — bản dịch cũ thành lạc chỗ,
+  // ghi nhầm vào video khác). Chặn ở đây: bible.json đã có tập nào đánh dấu "thêm sau khi duyệt
+  // bible" (tức đã qua addEpisode) mà KHÔNG có trong draft thì từ chối — trang đó không còn là
+  // nguồn sự thật nữa, sửa qua addEpisode/bible-review trên bible.json sống thay vì nháp chết.
+  const livePath = path.join(seriesDir, "bible.json");
+  const existing = await readJson(livePath);
+  if (existing) {
+    const draftIds = new Set(draft.episodes.map((e) => e.videoId));
+    const addedLater = (existing.episodes || []).filter((e) => e.source === "thêm sau khi duyệt bible" && !draftIds.has(e.videoId));
+    if (addedLater.length) {
+      throw new Error(`bible.json đã có ${addedLater.length} tập thêm sau khi duyệt (${addedLater.map((e) => `tập ${e.ep}`).join(", ")}) mà `
+        + "không nằm trong nháp — gửi lại trang duyệt bible cũ sẽ xoá các tập đó rồi đánh số lại "
+        + "toàn bộ, làm bản dịch đã có lạc sang video khác. Trang duyệt bible chỉ dùng MỘT LẦN lúc "
+        + "mới `series init`; sửa cast/tập sau đó qua `series add-episode`, không gửi lại file duyệt cũ.");
+    }
+  }
+
   const rv = JSON.parse(await fs.readFile(reviewFile, "utf8"));
   if (rv.draftVersion && rv.draftVersion !== draft.version) {
     log.warn(`file duyệt dựng từ nháp ${rv.draftVersion}, nháp hiện tại là ${draft.version} — vẫn nạp theo khoá, soát lại kết quả`);

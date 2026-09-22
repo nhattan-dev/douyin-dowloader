@@ -179,6 +179,27 @@ export const recipes = {
     next: ({ slug, ep }) => ({ type: "translate2", params: { slug, ep: String(ep) } }),
   },
 
+  // review.html chốt danh sách nhân vật theo bible.cast LÚC DỰNG, không tự theo bible đổi sau đó
+  // (CLAUDE.md: "Trang soát người nói là file TĨNH"). Thêm nhân vật ở trang bible sau khi trang đã
+  // dựng thì ô chọn của từng câu không có họ. Nút này chỉ dựng lại trang soát cho ĐÚNG tập đó theo
+  // bible hiện tại — dừng lại ở cổng soát, KHÔNG dịch tiếp (khác `translate`/`translate2`).
+  reviewRebuild: {
+    plan: async ({ slug, ep }) => ({
+      title: `Cập nhật nhân vật trang soát tập ${ep} — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
+    }),
+    async steps({ slug, ep, engine }) {
+      if (engine === "v2") {
+        return [{ label: "dựng lại trang soát (lõi v2)", argv: ["node", "src/zhvi2/cli.js", "--series", `series/${slug}`, "--ep", String(ep), "--review"] }];
+      }
+      const biblePath = path.join("series", slug, "bible.json");
+      const bible = await scan.readJson(biblePath);
+      if (!bible) throw new Error("series chưa có bible đã duyệt — duyệt bible trước");
+      const e = bible.episodes.find((x) => String(x.ep) === String(ep) && x.use);
+      if (!e) throw new Error(`bible không có tập ${ep}`);
+      return [{ label: "dựng lại trang soát (lõi v1)", argv: zhvi(...translateArgs(bible, biblePath, e), "--review") }];
+    },
+  },
+
   tts: {
     // mode "preset": giọng có sẵn của VieNeu (chọn từng nhân vật) thay vì clone từ mẫu — không tốn
     // hạn mức clone (ngày/tháng/slot), không cần tách mẫu. `presets` = { "<nhân vật>": "<voiceId>" }.
