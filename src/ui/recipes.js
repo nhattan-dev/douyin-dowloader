@@ -204,15 +204,16 @@ export const recipes = {
     // mode "preset": giọng có sẵn của VieNeu (chọn từng nhân vật) thay vì clone từ mẫu — không tốn
     // hạn mức clone (ngày/tháng/slot), không cần tách mẫu. `presets` = { "<nhân vật>": "<voiceId>" }.
     // bed "original": giữ cả tiếng Trung (giọng Trung đã tách, hạ nhỏ) cùng nhạc nền — nghe cả Trung + Việt;
-    // mặc định "vocals-removed" = bỏ tiếng Trung, chỉ giữ nhạc/hiệu ứng.
+    // "none": bỏ hẳn nhạc nền/hiệu ứng, xuất mỗi giọng Việt — khỏi chạy demucs luôn (dub-video.mjs bỏ qua
+    // cả bước tách khi bedMode "none"). Mặc định "vocals-removed" = bỏ tiếng Trung, chỉ giữ nhạc/hiệu ứng.
     // origDb: mức tiếng Trung gốc so với giọng Việt (dB, âm), chỉ có nghĩa khi bed "original"
     plan: async ({ slug, ep, engine = "v3", mode = "clone", bed = "vocals-removed" }) => ({
-      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}${mode === "preset" ? ", giọng có sẵn" : ""}${bed === "original" ? ", giữ tiếng Trung" : ""}) — ${await seriesTitle(slug)}`,
+      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}${mode === "preset" ? ", giọng có sẵn" : ""}${bed === "original" ? ", giữ tiếng Trung" : ""}${bed === "none" ? ", không nhạc nền" : ""}) — ${await seriesTitle(slug)}`,
       lane: "tts", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
     }),
     async steps({ slug, ep, engine = "v3", reextract = false, mode = "clone", presets = {}, bed = "vocals-removed", origDb }) {
       const preset = mode === "preset";
-      const mix = bed === "original" ? "trộn với tiếng Trung gốc" : "trộn nền nhạc";
+      const mix = bed === "original" ? "trộn với tiếng Trung gốc" : bed === "none" ? "không nhạc nền" : "trộn nền nhạc";
       const p = await scan.ttsPlan(slug, ep, { reextract, preset });
       const cast = p.core.bible?.cast || [];
       const vi = (zh) => cast.find((c) => c.zh === zh)?.vi || zh;
@@ -230,6 +231,7 @@ export const recipes = {
         argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "4",
           ...(preset ? ["--synth", "preset", "--preset-map", rel(presetFile)] : ["--voices", rel(p.bank)]),
           ...(bed === "original" ? ["--bed", "original", ...(origDb === undefined ? [] : ["--orig-db", String(origDb)])] : []),
+          ...(bed === "none" ? ["--bed", "none"] : []),
           ...(p.resume ? ["--resume"] : [])),
       };
       if (preset) return [{ label: "lưu giọng đã chọn cho series", run: () => savePresets(presetFile, presets) }, dub];

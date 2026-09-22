@@ -515,9 +515,11 @@ on("POST", "/api/series/([^/]+)/ep/([^/]+)/tts", async (req, [slug, ep]) => {
   const { engine = "v3", reextract = false, mode = "clone", presets = {}, bed = "vocals-removed", origDb } = await body(req);
   if (!["v3", "v4"].includes(engine)) throw Object.assign(new Error("engine phải là v3 hoặc v4"), { code: 400 });
   if (!["clone", "preset"].includes(mode)) throw Object.assign(new Error("mode phải là clone hoặc preset"), { code: 400 });
-  if (!["vocals-removed", "original"].includes(bed)) throw Object.assign(new Error("bed phải là vocals-removed hoặc original"), { code: 400 });
+  if (!["vocals-removed", "original", "none"].includes(bed)) throw Object.assign(new Error("bed phải là vocals-removed, original hoặc none"), { code: 400 });
   if (origDb !== undefined &&!(Number.isFinite(origDb) && origDb >= -30 && origDb <= 0)) throw Object.assign(new Error("origDb phải là số dB từ -30 đến 0"), { code: 400 });
-  const withBed = bed === "original" ? { bed, ...(origDb === undefined ? {} : { origDb }) } : {}; // mặc định không ghi vào params — job cũ/mới cùng khoá
+  // mặc định (vocals-removed) không ghi vào params — job cũ/mới cùng khoá; "none" (bỏ hẳn nhạc nền,
+  // khỏi chạy demucs) và "original" đều khác mặc định nên phải ghi để đúng lệnh khi enqueue
+  const withBed = bed === "vocals-removed" ? {} : { bed, ...(bed === "original" && origDb !== undefined ? { origDb } : {}) };
   if (mode === "clone") return { job: await jobs.enqueue("tts", { slug, ep, engine, ...(reextract ? { reextract: true } : {}), ...withBed }) };
   // chặn từ đầu: thiếu/sai giọng thì báo ngay, khỏi xếp hàng rồi mới hỏng
   const d = await scan.episodeDetail(slug, ep);

@@ -1098,7 +1098,7 @@ async function viewEpisode([slug, ep, tab]) {
       return html`<div class="split">
         <div class="player card card-b">
           ${!act && d.urls.dub && d.dub && ttsJob?.status !== "failed" ? html`<div class="callout ok" id="dubOk"><b>✓ Đã lồng tiếng thành công</b>
-            <div class="small">VieNeu ${d.dub.engine} · ${d.dub.synth === "preset" ? "giọng có sẵn" : "clone"} · ${d.dub.bed === "original" ? "giữ tiếng Trung gốc" : "bỏ tiếng Trung"} · ${d.dub.lines} câu${d.dub.overflow.length ? `, ${d.dub.overflow.length} câu tràn khung` : ""}${ttsJob?.status === "done" && ttsJob.endedAt ? ` · ${ago(ttsJob.endedAt)}` : ""}${ttsJob?.usd ? ` · ${money(ttsJob.usd)}` : ""}</div></div>` : ""}
+            <div class="small">VieNeu ${d.dub.engine} · ${d.dub.synth === "preset" ? "giọng có sẵn" : "clone"} · ${d.dub.bed === "original" ? "giữ tiếng Trung gốc" : d.dub.bed === "none" ? "không nhạc nền" : "bỏ tiếng Trung"} · ${d.dub.lines} câu${d.dub.overflow.length ? `, ${d.dub.overflow.length} câu tràn khung` : ""}${ttsJob?.status === "done" && ttsJob.endedAt ? ` · ${ago(ttsJob.endedAt)}` : ""}${ttsJob?.usd ? ` · ${money(ttsJob.usd)}` : ""}</div></div>` : ""}
           ${d.urls.dub ? html`<video id="dubv" controls preload="metadata" src="${d.urls.dub}"></video>
             <div class="row">
               <div class="seg" id="srcSeg"><button data-src="dub" class="on">Lồng tiếng Việt</button>
@@ -1117,7 +1117,8 @@ async function viewEpisode([slug, ep, tab]) {
                 <option value="preset">Giọng có sẵn của VieNeu (không clone)</option></select>
               <select name="bed" title="Âm thanh nền dưới giọng Việt">
                 <option value="vocals-removed">Bỏ tiếng Trung gốc (tách bằng demucs, giữ nhạc nền)</option>
-                <option value="original">Giữ tiếng Trung gốc (nghe cả Trung + Việt)</option></select>
+                <option value="original">Giữ tiếng Trung gốc (nghe cả Trung + Việt)</option>
+                <option value="none">Không nhạc nền (chỉ giọng Việt)</option></select>
               <select name="origDb" title="Giọng Trung gốc to cỡ nào so với giọng Việt (tự đo, tự hạ thêm khi giọng Việt đang nói); nhạc nền không đổi" hidden>
                 <option value="-14">Tiếng Trung nhỏ</option>
                 <option value="-8">Tiếng Trung vừa</option>
@@ -1138,7 +1139,7 @@ async function viewEpisode([slug, ep, tab]) {
               <td>${v.refUrl ? html`<audio controls preload="none" style="height:28px;width:180px" src="${v.refUrl}"></audio>` : ""}</td></tr>`)}
           </table></div>
           <div class="card-b dim small">Tập đầu tiên được lồng tiếng đặt giọng cho nhân vật; các tập sau dùng chung để giọng không đổi giữa các tập. «Tách lại giọng mẫu» thay giọng series bằng mẫu của tập này.</div></div>
-          ${d.dub ? html`<div class="card"><div class="card-h"><h3>Câu tràn khung</h3><span class="dim small">${d.dub.overflow.length}/${d.dub.lines} câu · engine ${d.dub.engine} · nền ${d.dub.bed === "original" ? "gốc (còn tiếng Trung)" : "đã bỏ tiếng Trung"}</span></div>
+          ${d.dub ? html`<div class="card"><div class="card-h"><h3>Câu tràn khung</h3><span class="dim small">${d.dub.overflow.length}/${d.dub.lines} câu · engine ${d.dub.engine} · nền ${d.dub.bed === "original" ? "gốc (còn tiếng Trung)" : d.dub.bed === "none" ? "không có" : "đã bỏ tiếng Trung"}</span></div>
             ${d.dub.overflow.length ? html`<div class="lines" style="max-height:420px">${d.dub.overflow.map((o) => html`<div class="ln" data-start="${o.start}">
               <div class="tm">${mmss(o.start)}</div><div>${o.speaker ? spk(o.speaker) : ""}<span class="vi">${o.vi}</span>
               <div class="small" style="color:var(--err)">thừa ${o.over}s dù đã nén ${o.tempo}× — <a href="${base}/translation" data-focus="${o.index}">rút gọn câu này</a></div></div></div>`)}</div>`
@@ -1339,7 +1340,7 @@ async function viewEpisode([slug, ep, tab]) {
         const how = presets ? "giọng có sẵn — không tốn lượt clone" : "clone từ mẫu";
         const bed = f.bed.value;
         const origDb = bed === "original" ? { origDb: Number(f.origDb.value) } : {};
-        const nen = bed === "original" ? `giữ tiếng Trung gốc (${f.origDb.selectedOptions[0].text.toLowerCase()})` : "bỏ tiếng Trung";
+        const nen = bed === "original" ? `giữ tiếng Trung gốc (${f.origDb.selectedOptions[0].text.toLowerCase()})` : bed === "none" ? "không nhạc nền, chỉ giọng Việt" : "bỏ tiếng Trung";
         if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value}, ${how}, ${nen}? Tính tiền theo token VieNeu.`)) return;
         try {
           const r = await api(`${url}/tts`, { method: "POST", body: presets
