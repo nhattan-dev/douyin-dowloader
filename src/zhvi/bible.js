@@ -112,6 +112,19 @@ export function proposeTerms(b, mapping, source) {
 export const castSig = (b) => b.cast.map((c) => [c.id, c.zh, c.vi || "", c.note || "", ...(c.alias || [])]);
 
 /**
+ * Gỡ một tập khỏi bible. `ep` là số tập đã gán, không phải videoId — các tập khác giữ nguyên số
+ * (ep là trường ghi rõ trên từng hàng, không suy từ vị trí mảng) nên gỡ giữa danh sách không làm
+ * trôi số của tập khác. KHÔNG đụng `out/<slug>/ep<N>/`, `data/<video>/…` hay `ep<N>.*.speakers.json`
+ * — cùng triết lý "đĩa rẻ" của xoá mềm series: file dịch/lồng tiếng cũ nằm im, vô hại, dùng lại
+ * được nếu thêm lại đúng video đó.
+ */
+export function removeEpisode(b, ep) {
+  const i = b.episodes.findIndex((e) => String(e.ep) === String(ep));
+  if (i < 0) return null;
+  return b.episodes.splice(i, 1)[0];
+}
+
+/**
  * Bible LỚN THÊM theo từng tập — đường về của cổng soát.
  *
  * Mọi mục vào đây đều do người chốt ở cổng của một tập cụ thể, nên `approved` ngay; máy

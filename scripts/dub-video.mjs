@@ -45,6 +45,18 @@
 //   ... --out <tên>        thư mục đầu ra trong videoDir (mặc định dub, hoặc dub-clone khi --synth clone)
 //   ... --encoder auto     auto (mặc định) dò GPU một lần rồi nhớ | gpu | cpu. Xem lib/encoder.mjs:
 //                          pipeline chạy trên nhiều máy, máy chỉ đổi TỐC ĐỘ chứ không đổi cỡ file ra.
+//   ... --local            dùng VieNeu-TTS v3 Turbo dựng tại máy này (server OpenAI-compatible ở
+//                          apps/openai_speech.py, http://127.0.0.1:8000/v1 mặc định) thay vì cloud
+//                          api.vieneu.io — không tốn token, không rate-limit tài khoản, không cần
+//                          VIENUE_KEY. Đổi cả bề mặt API: KHÔNG có job (POST /tts + poll) mà trả
+//                          thẳng audio (POST /v1/audio/speech), KHÔNG có /clone mà enrol NGAY MỖI
+//                          LẦN CHẠY qua POST /v1/voices (giọng chỉ sống trong RAM của server, mất
+//                          khi server restart nên không cache voiceId qua các lần chạy như cloud —
+//                          enrol lại local là miễn phí, không như enrol cloud tốn 1 trong 5 slot).
+//                          --synth clone KHÔNG hỗ trợ ở đây (không có endpoint tương đương).
+//                          --synth preset dùng đúng catalog giọng của server local (GET /v1/voices).
+//   ... --local-url <url>  ghi đè địa chỉ server local (mặc định $VIENEU_LOCAL_URL hoặc
+//                          http://127.0.0.1:8000/v1)
 //
 // Viền đen sẵn trong video.mp4 (Douyin đóng khung sai tỉ lệ, không phải do trình phát): tự dò bằng
 // cropdetect, có thật thì phủ nền mờ từ ảnh bìa Douyin (data/<user>/state.json → info.cover) đúng
@@ -76,6 +88,7 @@ const run = promisify(execFile);
 const sh = (cmd, args) => run(cmd, args, { maxBuffer: 1024 * 1024 * 64 });
 
 const BASE = "https://api.vieneu.io/api/v1";
+const LOCAL_MODEL = "vieneu-v3-turbo";
 // resemblyzer sống trong venv của seed-vc; đổi bằng biến môi trường nếu cài chỗ khác.
 const PY = process.env.RESEMBLYZER_PYTHON
   ?? path.join(os.homedir(), "WorkSpace/tools/seed-vc/.venv/bin/python");
@@ -278,6 +291,71 @@ async function enrolVoice(speaker, voiceDir, scored) {
   return { rejected: candidates.length ? "enrol-refused" : "không clip nào 6-15s đủ mật độ chữ" };
 }
 
+const localAuthHeader = () => {
+  const k = (process.env.VIENEU_LOCAL_KEY || "").trim();
+  return k ? { Authorization: `Bearer ${k}` } : {};
+};
+
+/**
+ * Tên giọng cho server local phải khớp `_VOICE_NAME` phía Python (`[^\W_][\w .-]{0,63}`,
+ * `\w` ở đó là UNICODE — chữ Hán hợp lệ). Regex JS `\w` thì chỉ ASCII, nên phải tự
+ * dùng `\p{L}\p{N}` để KHÔNG băm nát tên nhân vật chữ Hán thành một dãy toàn "_" —
+ * đã xảy ra thật khi thử: "老师" (2 chữ) và "同学" (2 chữ) đều thành "__", đụng tên nhau.
+ */
+function sanitizeLocalVoiceName(raw) {
+  let s = raw.replace(/[^\p{L}\p{N} ._-]/gu, "_");
+  if (/^[^\p{L}\p{N}]/u.test(s)) s = `v${s}`; // ký tự đầu không được là "_" hay ký hiệu
+  return s.slice(0, 64) || "v";
+}
+
+/**
+ * Enrol giọng vào server VieNeu LOCAL (POST /v1/voices) — khác hẳn `enrolVoice()` (cloud):
+ * giọng chỉ sống trong RAM của tiến trình server, không có khái niệm "đã enrol từ trước"
+ * qua các lần chạy, nên gọi lại mỗi lần `main()` chạy — rẻ (local, không tốn token) nên
+ * không cần cache như `vieneu-voice.json` của cloud. Không có ràng buộc mật độ/độ dài như
+ * `/clone` cloud (không có tham số tương đương phía server) nên dùng thẳng clip "giống nhất"
+ * đã chọn ở vòng resemblyzer phía trên, không cần lọc/ghép lại theo khung 6-15s.
+ */
+async function enrolVoiceLocal(base, name, filePath) {
+  const form = new FormData();
+  form.append("name", name);
+  form.append("file", new Blob([await fs.readFile(filePath)], { type: "audio/wav" }), path.basename(filePath));
+  form.append("denoise", "true");
+  const { res, json } = await fetchLogged(log, `${base}/voices`,
+    { method: "POST", headers: localAuthHeader(), body: form }, { logBody: form });
+  if (!res.ok) throw new Error(`VieNeu cục bộ ${res.status} khi enrol '${name}': ${json?.error?.message ?? json?.message ?? ""}`);
+  return json.id ?? name;
+}
+
+/**
+ * Tổng hợp một câu qua server VieNeu LOCAL (POST /v1/audio/speech) — trả THẲNG bytes audio,
+ * không có job/poll như cloud (`/tts`) nên không dính bẫy S3 ký trước/audioUrl nội bộ.
+ * Server có admission control riêng (`VIENEU_MAX_STREAMS`, hàng đợi `VIENEU_QUEUE`) và trả
+ * 429 kèm `Retry-After` khi đầy — dùng đúng header đó thay vì đoán backoff như phía cloud.
+ */
+async function localSpeech(base, { voice, text }) {
+  for (let attempt = 0; ; attempt += 1) {
+    const { res, buf } = await fetchBufferLogged(log, `${base}/audio/speech`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json", ...localAuthHeader() },
+      body: JSON.stringify({ model: LOCAL_MODEL, input: text, voice, response_format: "wav" }),
+    });
+    if (res.ok) return buf;
+    if ((res.status === 429 || res.status >= 500) && attempt < 8) {
+      if (res.status === 429) throttled += 1;
+      const retryAfter = Number(res.headers.get("retry-after"));
+      const backoff = Number.isFinite(retryAfter) && retryAfter > 0
+        ? retryAfter * 1000
+        : Math.min(20000, 1000 * 2 ** attempt) + Math.random() * 500;
+      await new Promise((r) => setTimeout(r, backoff));
+      continue;
+    }
+    let message = buf.toString("utf8").slice(0, 300);
+    try { message = JSON.parse(message)?.error?.message ?? message; } catch { /* không phải JSON */ }
+    throw new Error(`VieNeu cục bộ ${res.status}: ${message}`);
+  }
+}
+
 /**
  * Tải audio đã tổng hợp.
  *
@@ -384,7 +462,9 @@ async function main() {
   const args = parseArgs(process.argv.slice(2));
   const dir = path.resolve(str(args.dir, ""));
   if (!args.dir) throw new Error("cần --dir <videoDir>");
-  const engine = str(args.engine, "v4");
+  const local = Boolean(args.local);
+  const localBase = local ? str(args["local-url"], null) ?? process.env.VIENEU_LOCAL_URL ?? "http://127.0.0.1:8000/v1" : null;
+  const engine = str(args.engine, local ? "v3turbo-local" : "v4");
   const onlySpeaker = str(args.speaker, null);
   const maxTempo = Number.parseFloat(str(args["max-tempo"], "1.15"));
   const resume = Boolean(args.resume);
@@ -397,6 +477,7 @@ async function main() {
   const seriesVoices = args.voices ? path.resolve(str(args.voices, "")) : null;
   const synth = str(args.synth, "voice");
   if (!["clone", "voice", "preset"].includes(synth)) throw new Error("--synth phải là clone, voice hoặc preset");
+  if (local && synth === "clone") throw new Error("--local không có endpoint /clone — dùng --synth voice (enrol) hoặc --synth preset");
   const presetMap = synth === "preset" && args["preset-map"]
     ? JSON.parse(await fs.readFile(path.resolve(str(args["preset-map"], "")), "utf8")) : {};
   const presetDefault = str(args.preset, null);
@@ -469,7 +550,13 @@ async function main() {
     refs[speaker] = { ...best, voiceDir };
     console.log(`  ${speaker.padEnd(14)} ${best.file}  ${best.duration.toFixed(2)}s  giống ${best.score.toFixed(3)}` +
       `${inWindow.length ? "" : "  (không clip nào lọt khung 3-5.5s)"}`);
-    if (synth === "voice") {
+    if (synth === "voice" && local) {
+      const rawName = `${path.basename(path.dirname(path.dirname(voiceDir)))}-${speaker}`;
+      const voiceName = sanitizeLocalVoiceName(rawName);
+      const enrolledId = await enrolVoiceLocal(localBase, voiceName, path.join(voiceDir, best.file));
+      Object.assign(refs[speaker], { voiceId: enrolledId, voiceEngine: "v3turbo-local" });
+      console.log(`  ${"".padEnd(14)} giọng enrol cục bộ: ${best.file} ${best.duration.toFixed(2)}s → '${enrolledId}'`);
+    } else if (synth === "voice") {
       const v = await enrolVoice(speaker, voiceDir, scored);
       if (v.voiceId) {
         Object.assign(refs[speaker], { voiceId: v.voiceId, voiceEngine: v.engine });
@@ -480,12 +567,14 @@ async function main() {
     }
   }
 
-  for (const [speaker, r] of Object.entries(refs)) {
-    if (r.voiceId) continue;
-    const form = new FormData();
-    const file = path.join(r.voiceDir, r.file);
-    form.append("file", new Blob([await fs.readFile(file)], { type: "audio/wav" }), r.file);
-    r.fileId = (await api("/upload", { form })).fileId;
+  if (!local) {
+    for (const [speaker, r] of Object.entries(refs)) {
+      if (r.voiceId) continue;
+      const form = new FormData();
+      const file = path.join(r.voiceDir, r.file);
+      form.append("file", new Blob([await fs.readFile(file)], { type: "audio/wav" }), r.file);
+      r.fileId = (await api("/upload", { form })).fileId;
+    }
   }
 
   // ── tổng hợp từng câu ───────────────────────────────────────────────────
@@ -497,12 +586,12 @@ async function main() {
   // xuống 1 luồng trong `cloneOnly`. Ghi thẳng vào `rows[index]` (không push) để giữ ĐÚNG thứ tự
   // segments — bước đặt timeline dưới đây tính room/tempo so với câu kế tiếp, dựa
   // vào thứ tự này chứ không phải thứ tự hoàn thành.
-  console.log(`\ntổng hợp ${segments.length} câu (${synth}, engine ${engine}, ${concurrency} luồng)…`);
+  console.log(`\ntổng hợp ${segments.length} câu (${synth}, engine ${engine}${local ? `, VieNeu cục bộ ${localBase}` : ""}, ${concurrency} luồng)…`);
   const rows = new Array(segments.length);
   let doneCount = 0;
   let synthesized = 0;
   const synthStart = Date.now();
-  const usage0 = await usageTotals();
+  const usage0 = local ? null : await usageTotals();
   // Clip đặt tên theo số câu nên không nói được nó đọc bằng giọng nào; chạy lại với giọng khác mà
   // vẫn dùng clip cũ là một nhân vật lẫn hai giọng. Ghi kèm "giọng nào" cho từng clip: đổi giọng
   // thì làm lại đúng các câu đó. Clip cũ không có ghi chú vẫn dùng lại được ở clone/voice (như trước
@@ -519,17 +608,19 @@ async function main() {
     const known = marks[seg.index];
     const reusable = resume && (await exists(file)) && (known ? known === voiceKey(r) : synth !== "preset");
     if (!reusable) {
-      let url;
-      if (r.voiceId) {
+      let buf;
+      if (local) {
+        buf = await localSpeech(localBase, { voice: r.voiceId, text: seg.vi });
+      } else if (r.voiceId) {
         const job = await api("/tts", { body: { text: seg.vi, voiceId: r.voiceId, engine: r.voiceEngine } });
-        url = await waitJob(job.jobId);
+        buf = await download(await waitJob(job.jobId));
       } else {
         const json = await cloneOnly(() => api("/clone", {
           body: { text: seg.vi, refFileId: r.fileId, refText: r.text, engine },
         }));
-        url = json.audioUrl ?? json.url;
+        buf = await download(json.audioUrl ?? json.url);
       }
-      await fs.writeFile(file, await download(url));
+      await fs.writeFile(file, buf);
       marks[seg.index] = voiceKey(r);
       await saveMarks();
       synthesized += 1;
@@ -539,7 +630,7 @@ async function main() {
     process.stdout.write(`\r  ${doneCount}/${segments.length}`);
   });
   const synthMinutes = (Date.now() - synthStart) / 60000;
-  const usage1 = synthesized ? await usageTotals() : null;
+  const usage1 = !local && synthesized ? await usageTotals() : null;
   const cached = usage0 && usage1 ? (usage1.cacheHit ?? 0) - (usage0.cacheHit ?? 0) : 0;
   console.log(`\n  ${synthesized} câu mới trong ${(synthMinutes * 60).toFixed(0)}s` +
     `${synthesized ? ` (${(synthesized / synthMinutes).toFixed(1)} câu/phút)` : ""}, dính 429: ${throttled} lần`);
@@ -684,6 +775,7 @@ async function main() {
 
   await fs.writeFile(path.join(outDir, "report.json"), `${JSON.stringify({
     engine,
+    provider: local ? "local" : "vieneu",
     synth,
     bed: bedMode,
     ...(bedMode === "original" ? { origDb, duck: duckDb } : {}),

@@ -292,6 +292,14 @@ hình bỏ phiếu 顾言 1 / 冷清秋 2 / 系统 1.
   `confirmed`/`human` → 飞鸟炮灰 tập 1 chỉ còn **24/66** câu (cả cụm 顾言 24 câu mức `conflict` bị
   loại). Cãi tên không làm bẩn mẫu — cụm vẫn thuần 92–95%. Luật hiện tại: **63/66**.
   `extract-voice` còn < 6s câu an toàn thì dùng hết và cảnh báo — thà có giọng hơi bẩn còn hơn dub dừng.
+- **Mốc điền sẵn của bộ cắt tay căn TỪNG CHỮ, không đòi khớp cả câu** (`wordsOf`, 2026-09-26).
+  Bản đầu đòi chữ các word ghép lại khớp y hệt câu, nên chỉ cần pass sửa ASR một chữ (`蓝毒→寒毒`)
+  là mất trắng mốc cả câu: **71/2.791 câu v2, 7/130 câu «nhiều người»**, tức đúng câu dài cần cắt
+  nhất. Giờ căn bằng LCS: chữ giống ứng thẳng, đoạn thay cùng độ dài ứng theo vị trí, khác độ dài
+  thì chỉ đầu đoạn có mốc. Vẫn không nội suy: mọi mốc là ranh giới thật của ASR. Đo lại thì cứu
+  đủ 71, và lộ ra bản cũ còn **điền SAI lặng lẽ 6 câu**: word chỉ gồm dấu câu (`%`, `…`, `“`,
+  word rỗng) làm bộ đếm trượt, mọi mốc phía sau lệch một từ. Trang vẽ khe có mốc (gạch mảnh) và
+  khoảng lặng ≥0,3s (‖ kèm số giây) làm gợi ý chỗ đổi người, chứ không tự cắt.
 - **Phần chia cụm không nhúng lại ảnh/tiếng** — mượn từ hàng câu ở mục 2 bằng JS. Nhúng hai lần:
   4,5 → 7,0 MB.
 

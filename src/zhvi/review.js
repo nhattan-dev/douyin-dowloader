@@ -48,10 +48,15 @@ const readJson = async (p, dflt = null) => {
  *
  * Có cache vì trích lại 90 câu mất vài phút mà nội dung không đổi; khoá theo id + mốc
  * thời gian nên câu nào bị pass A gộp/tách lại thì tự trích lại, còn lại dùng lại hết.
+ *
+ * `video` có thể thiếu (tải video lỗi, chỉ audio tách riêng còn sống — xem README mục nguồn
+ * audio) — khi đó không có khung hình để cắt, nhưng vẫn cắt được tiếng từ `audioSrc` nếu có,
+ * để người soát còn kênh "nghe". Không dựng được cả hai thì `clip` để `null`, trang tự ẩn nút.
  */
 export async function media(video, utts, cachePath, {
-  n = 3, width = 300, q = 6, pad = 0.15, kbps = 40, log = null,
+  n = 3, width = 300, q = 6, pad = 0.15, kbps = 40, log = null, audioSrc = null,
 } = {}) {
+  const clipSrc = video || audioSrc;
   const old = (cachePath && (await readJson(cachePath))) || {};
   const out = {};
   let fresh = 0;
@@ -64,20 +69,24 @@ export async function media(video, utts, cachePath, {
       out[k] = old[k];
       continue;
     }
-    const ts = Array.from({ length: n }, (_, i) => u.start + ((u.end - u.start) * (i + 0.5)) / n);
     const thumbs = [];
-    for (const t of ts) {
-      thumbs.push((await ff([
-        "-ss", t.toFixed(3), "-i", video, "-frames:v", "1", "-vf", `scale=${width}:-2`,
-        "-q:v", String(q), "-f", "image2pipe", "-vcodec", "mjpeg", "-",
-      ])).toString("base64"));
+    const times = [];
+    if (video) {
+      const ts = Array.from({ length: n }, (_, i) => u.start + ((u.end - u.start) * (i + 0.5)) / n);
+      for (const t of ts) {
+        thumbs.push((await ff([
+          "-ss", t.toFixed(3), "-i", video, "-frames:v", "1", "-vf", `scale=${width}:-2`,
+          "-q:v", String(q), "-f", "image2pipe", "-vcodec", "mjpeg", "-",
+        ])).toString("base64"));
+        times.push(Math.round(t * 100) / 100);
+      }
     }
-    const clip = (await ff([
+    const clip = clipSrc ? (await ff([
       "-ss", Math.max(0, u.start - pad).toFixed(3), "-t", (u.end - u.start + 2 * pad).toFixed(3),
-      "-i", video, "-vn", "-ac", "1", "-ar", "24000", "-c:a", "libmp3lame",
+      "-i", clipSrc, "-vn", "-ac", "1", "-ar", "24000", "-c:a", "libmp3lame",
       "-b:a", `${kbps}k`, "-f", "mp3", "-",
-    ])).toString("base64");
-    out[k] = { times: ts.map((t) => Math.round(t * 100) / 100), thumbs, clip };
+    ])).toString("base64") : null;
+    out[k] = { times, thumbs, clip };
     fresh += 1;
     if (fresh % 10 === 0) log?.info?.(`    trích ${fresh} câu...`);
   }
@@ -221,6 +230,9 @@ table.ch tr.fin td.finv.auto b{color:var(--fg,#ddd)}
 .ctext{font-size:22px;line-height:1.9;margin-bottom:10px;display:flex;flex-wrap:wrap;align-items:center}
 .ctext .gap{display:inline-block;width:9px;height:1.5em;cursor:col-resize;border-radius:3px}
 .ctext .gap:hover{background:#3a4150}
+.ctext .gap.asr{background:linear-gradient(#556070,#556070) center/1px 60% no-repeat}
+.ctext .gap.pause{position:relative;width:14px;background:linear-gradient(90deg,transparent 4px,#d4a017 4px,#d4a017 6px,transparent 6px,transparent 8px,#d4a017 8px,#d4a017 10px,transparent 10px) center/100% 70% no-repeat}
+.ctext .gap.pause::after{content:attr(data-ps);position:absolute;top:-1.05em;left:50%;transform:translateX(-50%);font-size:10px;color:#d4a017;white-space:nowrap}
 .ctext .gap.on{background:#c0392b;width:4px;margin:0 3px}
 .cpart{display:grid;grid-template-columns:34px minmax(0,1fr) 150px 220px;gap:8px;align-items:center;padding:4px 0;border-top:1px solid var(--line)}
 .cpart .ctx{font-size:15px}
@@ -306,7 +318,9 @@ function cutParts(r){const c=r.querySelector('.cut'),st=cutOf(r.dataset.key),zh=
   return ps}
 function renderCut(r){const c=r.querySelector('.cut');if(!c||!r.classList.contains('cutpick'))return;
   const st=cutOf(r.dataset.key),zh=c.dataset.zh,e=s=>s.replace(/&/g,'&amp;').replace(/</g,'&lt;');
-  let h='';for(let i=0;i<zh.length;i++){if(i)h+='<span class="gap'+(st.at.includes(i)?' on':'')+'" data-i="'+i+'" title="cắt ở đây"></span>';h+='<span>'+e(zh[i])+'</span>'}
+  const w=JSON.parse(c.dataset.w||'{}'),pz=JSON.parse(c.dataset.p||'{}');
+  let h='';for(let i=0;i<zh.length;i++){if(i)h+='<span class="gap'+(w[i]!==undefined?' asr':'')+(pz[i]?' pause':'')+(st.at.includes(i)?' on':'')+'" data-i="'+i+'"'
+    +(pz[i]?' data-ps="'+pz[i].toFixed(1)+'s"':'')+' title="'+(w[i]!==undefined?'cắt ở đây — mốc ASR '+w[i]+'s'+(pz[i]?', lặng '+pz[i]+'s trước đó':''):'cắt ở đây — không có mốc ASR, tự điền')+'"></span>';h+='<span>'+e(zh[i])+'</span>'}
   c.querySelector('.ctext').innerHTML=h;
   const tpl=c.querySelector('.cwho-tpl').innerHTML,ps=cutParts(r);
   c.querySelector('.cparts').innerHTML=ps.length<2?'':ps.map((p,k)=>'<div class="cpart" data-i="'+p.i+'">'
@@ -352,11 +366,13 @@ function onTerm(e){const t=e.target.closest('.trm'),k=t.dataset.k;
 function onNote(e){const k=e.target.closest('.row').dataset.key;
   store[k]=Object.assign({},store[k],{note:e.target.value});
   localStorage.setItem(KEY,JSON.stringify(store))}
-function applyFilter(){const f=document.getElementById('filt').value;
+function applyFilter(){const f=document.getElementById('filt').value,only2=f==='lines'||f==='linesSusp';
   document.querySelectorAll('.row').forEach(r=>{
     const s=r.dataset.susp==='1',d=r.classList.contains('done'),c=r.dataset.kind==='cluster';
-    r.hidden=(f==='susp'&&!s&&!c)||(f==='todo'&&d)||(f==='suspTodo'&&((!s&&!c)||d))||(f==='cl'&&!c);
-  })}
+    r.hidden=(only2&&c)||(f==='linesSusp'&&!s)||(f==='susp'&&!s&&!c)||(f==='todo'&&d)||(f==='suspTodo'&&((!s&&!c)||d))||(f==='cl'&&!c);
+  });
+  // mục 1 (thuật ngữ + đặt tên cụm) ẩn cả tiêu đề, không chỉ hàng
+  document.querySelectorAll('[data-sec="1"]').forEach(x=>x.hidden=only2)}
 function exportJson(){
   const eps={};
   document.querySelectorAll('.row').forEach(r=>{
@@ -468,6 +484,7 @@ document.addEventListener('DOMContentLoaded',()=>{
     const a=box.querySelector('audio');if(!a)return;e.preventDefault();
     if(a.paused){a.currentTime=0;a.play()}else a.pause()});
   document.getElementById('filt').addEventListener('change',applyFilter);
+  applyFilter(); // trước đây chỉ áp khi đổi -> mặc định ghi một đằng mà trang hiện tất cả
   document.getElementById('exp').addEventListener('click',exportJson);
   document.getElementById('rst').addEventListener('click',resetAll);
   paint();
@@ -529,10 +546,10 @@ function newCastForm(key, cands, vi) {
 function termRows(ep, newTerms, bib) {
   const rows = Object.entries(newTerms || {}).filter(([zh]) => !(zh in bib.terms));
   if (!rows.length) return "";
-  return `<div class="sub">Thuật ngữ mới (${rows.length}) — nạp vào bible dùng chung cả bộ</div>`
+  return `<div class="sub" data-sec="1">Thuật ngữ mới (${rows.length}) — nạp vào bible dùng chung cả bộ</div>`
     // v1 đề xuất `{zh: "vi"}`, v2 đề xuất `{zh: {vi, why}}`. Coi cả hai là chuỗi thì v2 điền sẵn
     // "[object Object]", và vì "không sửa gì = đồng ý" nó đi thẳng vào bible.
-    + rows.map(([zh, p]) => [zh, typeof p === "string" ? p : p?.vi ?? ""]).map(([zh, vi]) => `<div class="trm" data-k="T:${esc(ep)}|${esc(zh)}" data-ep="${esc(ep)}"
+    + rows.map(([zh, p]) => [zh, typeof p === "string" ? p : p?.vi ?? ""]).map(([zh, vi]) => `<div class="trm" data-sec="1" data-k="T:${esc(ep)}|${esc(zh)}" data-ep="${esc(ep)}"
      data-zh="${esc(zh)}" data-vi="${esc(vi)}">
   <div class="tzh">${esc(zh)}</div>
   <div><input type="text" class="tvi" value="${esc(vi)}"></div>
@@ -545,17 +562,18 @@ const lineKey = (ep, u) => (u.sk != null ? `${ep}|@${u.sk}` : `${ep}|#${u.id}`);
 
 /**
  * Bộ cắt tay cho câu nhiều người (chỉ v2: cần \`sk\`). Người cắt là bản cuối — không gửi LLM
- * xác nhận. Mốc điền sẵn chỉ ở đúng ranh giới từ ASR (\`at\`); ngoài đó người tự đặt.
+ * xác nhận. Mốc điền sẵn chỉ ở đúng ranh giới từ ASR (\`w.at\`); ngoài đó người tự đặt.
+ * \`w.pause\` = khoảng lặng trước ranh giới đó — chỉ vẽ ra làm gợi ý chỗ đổi người.
  */
-function cutPanel(bib, u, at, vref) {
+function cutPanel(bib, u, w, vref) {
   if (u.sk == null || !vref) return "";
   const opts = [...bib.cast.map((c) => c.zh), "không rõ"]
     .map((o) => `<option value="${esc(o)}">${o === "không rõ" ? o : esc(bib.cast.find((c) => c.zh === o)?.vi || "") + " " + esc(o)}</option>`).join("");
   const q = (x) => esc(x).replace(/"/g, "&quot;"); // esc không thoát dấu nháy, mà JSON đầy nháy
-  return `<div class="cut" data-zh="${q(u.zh)}" data-t0="${u.start}" data-t1="${u.end}" data-w="${q(JSON.stringify(at || {}))}"
+  return `<div class="cut" data-zh="${q(u.zh)}" data-t0="${u.start}" data-t1="${u.end}" data-w="${q(JSON.stringify(w?.at || {}))}" data-p="${q(JSON.stringify(w?.pause || {}))}"
     data-rel="${q(vref.rel)}" data-repo="${q(vref.repo)}" data-cap="#${u.id}">
   <div class="hint">Câu có nhiều người: bấm vào <b>khe giữa hai chữ</b> để cắt (bấm lại để bỏ). Mỗi mảnh chọn người nói;
-    mốc điền sẵn từ ASR khi khe trùng ranh giới từ, ▶ để nghe/xem đúng mảnh đó rồi chỉnh mốc nếu lệch.</div>
+    khe <b>có gạch</b> là ranh giới từ ASR — cắt ở đó thì mốc tự điền; <b>‖ số giây</b> là khoảng lặng, hay là chỗ đổi người. ▶ để nghe/xem đúng mảnh đó rồi chỉnh mốc nếu lệch.</div>
   <div class="ctext"></div><div class="cparts"></div>
   <select class="cwho-tpl" hidden><option value="">— ai nói —</option>${opts}</select>
 </div>`;
@@ -665,14 +683,14 @@ function renderEp(ep, d, bib, vref = null) {
     `<h2 class="epttl">Tập ${esc(ep)} — ${utts.length} câu, ${Object.keys(cc).length} cụm giọng, `
     + `${Object.keys(susp).length} câu cần soi</h2>`,
     termRows(ep, al.newTerms, bib),
-    '<div class="sub">1. Đặt tên cụm — sửa ở đây là sửa cả cụm cùng lúc</div>',
+    '<div class="sub" data-sec="1">1. Đặt tên cụm — sửa ở đây là sửa cả cụm cùng lúc</div>',
   ];
 
   for (const [spk, c] of Object.entries(cc).sort((a, b) => (b[1].size || 0) - (a[1].size || 0))) {
     const [lv, col] = LEVEL[c.level] || ["?", "#666"];
     const key = `${ep}|S:${spk}`;
     const ex = utts.filter((u) => u.speaker === spk).slice(0, 3);
-    const probed = (c.probed || []).filter((i) => i in med).map((i) => {
+    const probed = (c.probed || []).filter((i) => med[i]?.thumbs?.length).map((i) => {
       const th = med[i].thumbs[Math.floor(med[i].thumbs.length / 2)];
       const pred = (vlines[String(i)] || vlines[i] || {}).pred;
       return `<figure><img src="data:image/jpeg;base64,${th}" loading="lazy"${sceneOf(byId.get(Number(i)), `#${i}`)}>`
@@ -743,7 +761,7 @@ function renderEp(ep, d, bib, vref = null) {
     </div>
     <div class="zh">${esc(u.zh)}</div>
     <div class="vi">${esc(vi[i] || "")}</div>
-    <div class="au"><audio controls preload="none" src="data:audio/mpeg;base64,${med[i].clip}"></audio>
+    <div class="au"><audio controls preload="none"${med[i].clip ? ` src="data:audio/mpeg;base64,${med[i].clip}"` : " title=\"không có tiếng — thiếu cả video lẫn audio gốc\""}></audio>
       <span class="hint">${(u.end - u.start).toFixed(1)}s · phím <b>Space</b> phát câu đang trỏ</span></div>
     <div class="thumbs">${thumbs}</div>
   </div>
@@ -777,6 +795,8 @@ export async function build(eps, bib, out, { log = null, sigPrefix = "" } = {}) 
 <header>
   <h1>Soát người nói</h1>
   <select id="filt">
+    <option value="lines">mục 2 — từng câu</option>
+    <option value="linesSusp">mục 2 — chỉ câu cần soi</option>
     <option value="susp">cụm + câu cần soi</option>
     <option value="all">tất cả</option>
     <option value="cl">chỉ cụm</option>

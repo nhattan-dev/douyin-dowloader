@@ -18,6 +18,7 @@ import { fileURLToPath } from "node:url";
 
 import { pinyin } from "pinyin-pro";
 
+import * as BIBLE from "../zhvi/bible.js";
 import { STAGES, readEnvFile, subsOf } from "../zhvi/index.js";
 import { saveEdit } from "./edits.js";
 import { Jobs } from "./jobs.js";
@@ -388,6 +389,17 @@ on("POST", "/api/series/([^/]+)/videos", async (req, [slug]) => {
   await fsp.writeFile(file, JSON.stringify(meta, null, 1));
   return { ok: true, videoIds: meta.videoIds };
 });
+// Gỡ một video khỏi danh sách NGUỒN (series chưa duyệt bible) — chỉ sửa series.json, không đụng
+// data/<video>/… Dùng cho tập vừa lỡ tay thêm sai trước khi dựng bible.
+on("DELETE", "/api/series/([^/]+)/videos/([^/]+)", async (req, [slug, videoId]) => {
+  const file = path.join("series", slug, "series.json");
+  const meta = await scan.readJson(file);
+  if (!meta) throw Object.assign(new Error("không có series này"), { code: 404 });
+  if (!meta.videoIds.includes(videoId)) throw Object.assign(new Error("video không nằm trong series này"), { code: 404 });
+  meta.videoIds = meta.videoIds.filter((v) => v !== videoId);
+  await fsp.writeFile(file, JSON.stringify(meta, null, 1));
+  return { ok: true, videoIds: meta.videoIds };
+});
 // Thêm MỘT tập vào series đã duyệt bible. Tách khỏi `/videos` (chỉ ghi series.json, dùng cho
 // series chưa dựng bible) vì đây là đường duy nhất KHÔNG phải duyệt lại bible — xem addEpisode.
 // Chưa tải/chưa STT thì xếp fetch -> stt rồi mới thêm, cùng lối `then` với /init.
@@ -462,6 +474,19 @@ on("GET", "/api/series/([^/]+)/ep/([^/]+)", async (req, [slug, ep]) => {
   delete d.abs;
   return d;
 });
+// Gỡ một tập khỏi bible (BIBLE.removeEpisode — xem lý do không đụng file trên đĩa ở đó). Khoá
+// cấp series cùng `seriesBusy` với xoá series, vì đây cũng là đọc-sửa-ghi bible.json.
+on("DELETE", "/api/series/([^/]+)/ep/([^/]+)", async (req, [slug, ep]) => {
+  const busy = seriesBusy(slug);
+  if (busy.length) throw Object.assign(new Error(`đang chạy "${busy[0].title}" cho series này — dừng việc đó rồi xoá`), { code: 409 });
+  const biblePath = path.join("series", slug, "bible.json");
+  const b = await scan.readJson(biblePath);
+  if (!b) throw Object.assign(new Error("series chưa có bible"), { code: 404 });
+  const removed = BIBLE.removeEpisode(b, ep);
+  if (!removed) throw Object.assign(new Error(`không có tập ${ep}`), { code: 404 });
+  await BIBLE.save(b, biblePath);
+  return { removed };
+});
 // Lõi nào chạy tập này là việc của scan.engineOf; route chỉ chọn recipe tương ứng. `engine` trong
 // body là đường chạy tay bằng lõi kia (dự phòng), không phải thứ màn hình thường dùng.
 const engineOfEp = async (slug, ep, want = null) => {
@@ -488,7 +513,28 @@ on("POST", "/api/series/([^/]+)/ep/([^/]+)/speaker-review", async (req, [slug, e
 // Danh sách giọng của VieNeu (catalog + giọng bạn đã clone/enrol) — GET /voices chỉ đọc, không tốn token.
 // Cache 10 phút: ~1200 giọng, và id trùng giữa v3/v4 nên phải lọc theo engine.
 let voicesCache = null;
+// Giọng của server VieNeu LOCAL (apps/openai_speech.py, mặc định 127.0.0.1:8000) — catalog RIÊNG,
+// không trùng namespace với cloud (chỉ ~25 giọng, không có field kind/region). Giọng enrol qua
+// POST /v1/voices chỉ sống trong RAM của tiến trình server nên cache ngắn hơn cloud (10s, đủ để
+// UI vẽ lại vài lần liền mà không phải hỏi lại), và lỗi kết nối (server chưa bật) phải rõ ràng.
+let localVoicesCache = null;
+async function localVieneuVoices() {
+  if (!localVoicesCache || Date.now() - localVoicesCache.at > 10000) {
+    const base = process.env.VIENEU_LOCAL_URL || "http://127.0.0.1:8000/v1";
+    let res;
+    try {
+      res = await fetch(`${base}/voices`, { signal: AbortSignal.timeout(5000) });
+    } catch (err) {
+      throw Object.assign(new Error(`không gọi được VieNeu local ở ${base} (server đã bật chưa?): ${err.message}`), { code: 502 });
+    }
+    if (!res.ok) throw Object.assign(new Error(`VieNeu local ${res.status} khi lấy danh sách giọng`), { code: 502 });
+    localVoicesCache = { at: Date.now(), list: (await res.json()).data || [] };
+  }
+  return localVoicesCache.list.map(({ id, name, description, gender }) =>
+    ({ id, name, description, gender, region: null, kind: "preset" }));
+}
 async function vieneuVoices(engine) {
+  if (engine === "local") return localVieneuVoices();
   if (!voicesCache || Date.now() - voicesCache.at > 600000) {
     const env = { ...(await readEnvFile(path.join(ROOT, ".env"))), ...process.env };
     const key = (env.VIENUE_KEY || env.VIENEU_API_KEY || "").trim();
@@ -508,12 +554,38 @@ async function vieneuVoices(engine) {
 }
 on("GET", "/api/vieneu/voices", async (req, m, res, url) => {
   const engine = url.searchParams.get("engine") || "v3";
-  if (!["v3", "v4"].includes(engine)) throw Object.assign(new Error("engine phải là v3 hoặc v4"), { code: 400 });
+  if (!["v3", "v4", "local"].includes(engine)) throw Object.assign(new Error("engine phải là v3, v4 hoặc local"), { code: 400 });
   return { engine, voices: await vieneuVoices(engine) };
+});
+// Nghe thử một giọng TRƯỚC khi chọn lồng tiếng thật — chỉ làm được với VieNeu LOCAL (miễn phí,
+// trả thẳng audio qua POST /v1/audio/speech). Cloud (v3/v4) không có: mỗi lần thử là một lượt
+// /tts tính tiền thật, và tài khoản đang cạn token nên cố tình không bật đường đó ở đây.
+const PREVIEW_TEXT = "Xin chào, đây là giọng đọc mẫu để bạn nghe thử trước khi lồng tiếng.";
+on("GET", "/api/vieneu/preview", async (req, m, res, url) => {
+  const voice = url.searchParams.get("voice");
+  if (!voice) throw Object.assign(new Error("thiếu voice"), { code: 400 });
+  const base = process.env.VIENEU_LOCAL_URL || "http://127.0.0.1:8000/v1";
+  let r;
+  try {
+    r = await fetch(`${base}/audio/speech`, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ model: "vieneu-v3-turbo", input: url.searchParams.get("text") || PREVIEW_TEXT, voice, response_format: "wav" }),
+      signal: AbortSignal.timeout(30000),
+    });
+  } catch (err) {
+    throw Object.assign(new Error(`không gọi được VieNeu local ở ${base} (server đã bật chưa?): ${err.message}`), { code: 502 });
+  }
+  if (!r.ok) {
+    const raw = await r.text().catch(() => "");
+    const detail = (() => { try { return JSON.parse(raw)?.error?.message; } catch { return null; } })() ?? raw.slice(0, 200);
+    throw Object.assign(new Error(`VieNeu local ${r.status}: ${detail}`), { code: 502 });
+  }
+  send(res, 200, Buffer.from(await r.arrayBuffer()), "audio/wav");
 });
 on("POST", "/api/series/([^/]+)/ep/([^/]+)/tts", async (req, [slug, ep]) => {
   const { engine = "v3", reextract = false, mode = "clone", presets = {}, bed = "vocals-removed", origDb } = await body(req);
-  if (!["v3", "v4"].includes(engine)) throw Object.assign(new Error("engine phải là v3 hoặc v4"), { code: 400 });
+  if (!["v3", "v4", "local"].includes(engine)) throw Object.assign(new Error("engine phải là v3, v4 hoặc local"), { code: 400 });
   if (!["clone", "preset"].includes(mode)) throw Object.assign(new Error("mode phải là clone hoặc preset"), { code: 400 });
   if (!["vocals-removed", "original", "none"].includes(bed)) throw Object.assign(new Error("bed phải là vocals-removed, original hoặc none"), { code: 400 });
   if (origDb !== undefined &&!(Number.isFinite(origDb) && origDb >= -30 && origDb <= 0)) throw Object.assign(new Error("origDb phải là số dB từ -30 đến 0"), { code: 400 });

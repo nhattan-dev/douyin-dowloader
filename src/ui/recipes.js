@@ -208,7 +208,7 @@ export const recipes = {
     // cả bước tách khi bedMode "none"). Mặc định "vocals-removed" = bỏ tiếng Trung, chỉ giữ nhạc/hiệu ứng.
     // origDb: mức tiếng Trung gốc so với giọng Việt (dB, âm), chỉ có nghĩa khi bed "original"
     plan: async ({ slug, ep, engine = "v3", mode = "clone", bed = "vocals-removed" }) => ({
-      title: `Lồng tiếng tập ${ep} (VieNeu ${engine}${mode === "preset" ? ", giọng có sẵn" : ""}${bed === "original" ? ", giữ tiếng Trung" : ""}${bed === "none" ? ", không nhạc nền" : ""}) — ${await seriesTitle(slug)}`,
+      title: `Lồng tiếng tập ${ep} (VieNeu ${engine === "local" ? "v3 local" : engine}${mode === "preset" ? ", giọng có sẵn" : ""}${bed === "original" ? ", giữ tiếng Trung" : ""}${bed === "none" ? ", không nhạc nền" : ""}) — ${await seriesTitle(slug)}`,
       lane: "tts", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
     }),
     async steps({ slug, ep, engine = "v3", reextract = false, mode = "clone", presets = {}, bed = "vocals-removed", origDb }) {
@@ -228,7 +228,10 @@ export const recipes = {
         // 4 vì trần là pool render phía VieNeu (~2-3), không phải hạn mức 300 lượt/phút của mình.
         // Câu rơi về /clone (nhân vật enrol hỏng) vẫn tự đi 1 luồng — dub-video gác theo endpoint.
         // không truyền --synth thì dub-video dùng `voice` (enrol + /tts), ghi ra dub/ — đúng chỗ scan.js đọc
-        argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir), "--engine", engine, "--concurrency", "4",
+        // engine "local" không phải một engine VieNeu thật — dub-video.mjs coi đó là --local (server tại
+        // máy này, apps/openai_speech.py), tự đặt engine hiển thị "v3turbo-local" trong report.json.
+        argv: withEnv("scripts/dub-video.mjs", "--dir", rel(p.videoDir),
+          ...(engine === "local" ? ["--local"] : ["--engine", engine]), "--concurrency", "4",
           ...(preset ? ["--synth", "preset", "--preset-map", rel(presetFile)] : ["--voices", rel(p.bank)]),
           ...(bed === "original" ? ["--bed", "original", ...(origDb === undefined ? [] : ["--orig-db", String(origDb)])] : []),
           ...(bed === "none" ? ["--bed", "none"] : []),

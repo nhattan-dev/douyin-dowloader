@@ -143,7 +143,7 @@ export async function runEpisode({
   const gate = reviewNeeded(align, labels, { hasBible: true, bible });
   report.review = { ...gate, stopped: false };
   if (review || (gate.need && !skipReview)) {
-    const page = await reviewPage({ utts, align, roughVi, bible, video, outDir, ep, log, lines });
+    const page = await reviewPage({ utts, align, roughVi, bible, video, outDir, ep, log, lines, dataDir });
     log.info(`dừng cho người soát: ${review ? "--review" : gate.why}`);
     report.review = { ...gate, stopped: true, page };
     return { report, utts, align };
@@ -275,36 +275,74 @@ function bySk(labels, utts, log) {
 
 /**
  * Mốc từ ASR tại ranh giới từ, theo vị trí ký tự trong `u.zh` — để bộ cắt tay điền sẵn mốc.
- * Chỉ khi chữ của các từ ghép lại khớp đúng câu (bỏ dấu câu); lệch (câu đã sửa ASR) thì không
- * điền gì, người tự đặt mốc — không nội suy.
+ * `at[i]` = mốc bắt đầu của từ ASR mở đầu ở chữ `u.zh[i]`; `pause[i]` = khoảng lặng ≥ PAUSE ngay
+ * trước đó (chỗ hay đổi người — trang chỉ vẽ ra, không tự cắt).
+ *
+ * Câu đã sửa ASR (`蓝毒→寒毒`) thì chữ không còn khớp từ ASR. Bản cũ bỏ trắng cả câu — đo:
+ * 71/2.791 câu v2 mất hết mốc, 7/130 câu «nhiều người». Giờ căn từng chữ (LCS): chữ giống nhau
+ * ứng thẳng; đoạn thay CÙNG độ dài ứng theo vị trí; đoạn thay khác độ dài chỉ đầu đoạn có mốc.
+ * Mọi mốc vẫn là ranh giới thật của ASR — không nội suy.
  */
+const PAUSE = 0.3;
 export function wordsOf(utts, lines) {
   const raw = new Map(lines.map((l) => [l.id, l]));
   const bare = (s) => String(s).replace(/[\s\p{P}]/gu, "");
   const out = {};
   for (const u of utts) {
     const ws = (raw.get(u.segmentIndexes[0])?.words || []).filter((w) => w.start >= u.start - 0.005 && w.start < u.end);
-    if (!ws.length || bare(ws.map((w) => w.word).join("")) !== bare(u.zh)) continue;
-    const at = {};
-    let wi = 0, left = 0;
-    for (let i = 0; i < u.zh.length && wi < ws.length; i++) {
-      if (!bare(u.zh[i])) continue;
-      if (left === 0) {
-        if (i > 0) at[i] = ws[wi].start;
-        left = bare(ws[wi].word).length;
-        wi += 1;
-      }
-      left -= 1;
-    }
-    out[u.id] = at;
+    if (!ws.length) continue;
+    // chữ gốc: mỗi chữ của mỗi từ ASR; chữ đầu từ mang mốc + khoảng lặng trước nó
+    const rc = [];
+    ws.forEach((w, k) => [...bare(w.word)].forEach((ch, j) => rc.push(j ? { ch } : {
+      ch, start: w.start, pause: k && w.start - ws[k - 1].end >= PAUSE ? Math.round((w.start - ws[k - 1].end) * 100) / 100 : 0,
+    })));
+    const zi = [...u.zh].map((ch, i) => (bare(ch) ? i : -1)).filter((i) => i >= 0); // vị trí chữ thật trong u.zh
+    const map = alignChars(rc.map((c) => c.ch), zi.map((i) => u.zh[i]));
+    const at = {}, pause = {};
+    map.forEach((r, z) => {
+      const i = zi[z], c = r < 0 ? null : rc[r];
+      if (!i || c?.start === undefined) return;
+      at[i] = c.start;
+      if (c.pause) pause[i] = c.pause;
+    });
+    if (Object.keys(at).length) out[u.id] = { at, pause };
   }
   return out;
 }
 
-/** Trang soát của v1, bản dịch thô lấy từ task 1 thay vì qwen-mt. */
-async function reviewPage({ utts, align, roughVi, bible, video, outDir, ep, log, lines }) {
-  if (!video) throw new Error("dựng trang soát cần video");
-  const med = await media(video, utts, path.join(outDir, "media.json"), { n: 3, log });
+/** Với mỗi chữ của `b`, chỉ số chữ của `a` ứng với nó (-1 nếu không có) — xem `wordsOf`. */
+function alignChars(a, b) {
+  const n = a.length, m = b.length;
+  const L = Array.from({ length: n + 1 }, () => new Int32Array(m + 1));
+  for (let i = n - 1; i >= 0; i--) for (let j = m - 1; j >= 0; j--)
+    L[i][j] = a[i] === b[j] ? L[i + 1][j + 1] + 1 : Math.max(L[i + 1][j], L[i][j + 1]);
+  const map = new Array(m).fill(-1);
+  let i = 0, j = 0, i0 = 0, j0 = 0;
+  const gap = (i1, j1) => { // đoạn khác nhau a[i0..i1) ↔ b[j0..j1)
+    if (i1 - i0 === j1 - j0) for (let k = 0; k < j1 - j0; k++) map[j0 + k] = i0 + k;
+    else if (i1 > i0 && j1 > j0) map[j0] = i0;
+  };
+  while (i < n && j < m) {
+    if (a[i] === b[j] && L[i][j] === L[i + 1][j + 1] + 1) { gap(i, j); map[j] = i; i0 = ++i; j0 = ++j; }
+    else if (L[i + 1][j] >= L[i][j + 1]) i++;
+    else j++;
+  }
+  gap(n, m);
+  return map;
+}
+
+/**
+ * Trang soát của v1, bản dịch thô lấy từ task 1 thay vì qwen-mt.
+ *
+ * `video` có thể thiếu (tải video lỗi, chỉ audio tách riêng còn sống) — vẫn dựng trang, chỉ
+ * mất khung hình; kênh "nghe" vẫn còn nhờ `audio.m4a` trong `dataDir` (xem `media()`).
+ */
+async function reviewPage({ utts, align, roughVi, bible, video, outDir, ep, log, lines, dataDir }) {
+  const audioSrc = !video && dataDir
+    ? await fs.access(path.join(dataDir, "audio.m4a")).then(() => path.join(dataDir, "audio.m4a"), () => null)
+    : null;
+  if (!video && !audioSrc) log.warn(`  tập ${ep}: không có video.mp4 lẫn audio.m4a — trang soát dựng không kèm nghe/xem`);
+  const med = await media(video, utts, path.join(outDir, "media.json"), { n: 3, log, audioSrc });
   const known = bible.cast.flatMap((c) => [c.zh, c.vi, c.viShort, ...(c.alias || [])]).concat(Object.keys(bible.terms || {}));
   const cands = vocativeNames([{ ep, utts }], known);
   const out = path.join(outDir, "review.html");

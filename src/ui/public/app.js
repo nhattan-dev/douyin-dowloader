@@ -16,8 +16,19 @@ async function api(url, { method = "GET", body } = {}) {
   if (!r.ok) throw new Error(j.error || `lỗi ${r.status}`);
   return j;
 }
+/** Như `api()` nhưng trả object URL cho audio nhị phân — lỗi vẫn đọc được (server trả JSON khi hỏng). */
+async function apiAudio(url) {
+  const r = await fetch(url);
+  if (!r.ok) {
+    const j = await r.json().catch(() => ({}));
+    throw new Error(j.error || `lỗi ${r.status}`);
+  }
+  return URL.createObjectURL(await r.blob());
+}
 
 const money = (n) => (n ? `$${n < 0.1 ? n.toFixed(3) : n.toFixed(2)}` : "");
+// report.json ghi thẳng engine mà dub-video.mjs dùng ("v3turbo-local" khi --local) — hiện gọn hơn cho người đọc.
+const engLabel = (e) => (e?.startsWith("v3turbo-local") ? "v3 local" : e);
 const mb = (n) => (n > 1 << 20 ? `${(n / (1 << 20)).toFixed(1)} MB` : `${Math.max(1, Math.round(n / 1024))} KB`);
 const mmss = (t) => `${Math.floor(t / 60)}:${String(Math.floor(t % 60)).padStart(2, "0")}`;
 const dur = (ms) => (ms < 1000 ? `${ms}ms` : ms < 60000 ? `${Math.round(ms / 1000)}s` : `${Math.floor(ms / 60000)}m${String(Math.round((ms % 60000) / 1000)).padStart(2, "0")}s`);
@@ -614,7 +625,10 @@ async function viewUser([userId]) {
       const nums = s.episodes.filter((e) => e.use).map((e) => Number(e.ep)).filter((n) => Number.isFinite(n) && n > 0);
       return nums.length ? Math.max(...nums) + 1 : 1;
     };
-    const dupOf = (v, s) => (v.series || []).some((m) => m.slug === s.slug);
+    // chỉ tính trùng khi video đã có SỐ TẬP thật trong series này — `series.json` có thể còn giữ
+    // videoId ứng viên chưa từng thành tập (bible.episodes không có), seriesMembership() vẫn gắn
+    // nhãn slug cho nó (ep:"") nên xét trùng theo slug suông sẽ gạt oan, chặn "Thêm vào series"
+    const dupOf = (v, s) => (v.series || []).some((m) => m.slug === s.slug && m.ep);
     const tooShort = (v) => v.duration !== null && v.duration < 60;
     const skipOf = (v, s) => dupOf(v, s) || (s.status === "approved" && tooShort(v));
 
@@ -790,6 +804,26 @@ async function viewSeriesList() {
   return { refresh: render };
 }
 
+/**
+ * Gỡ MỘT video khỏi series. Trước khi có bible thì chỉ là xoá khỏi `series.json.videoIds`
+ * (`/videos/:id`); sau khi có bible, số tập nằm ở `bible.episodes` nên phải gỡ theo `ep`
+ * (`/ep/:ep`, xem `BIBLE.removeEpisode`) — hai đường khác store, cùng luật với `addEpBtn`.
+ * KHÔNG đụng file trên đĩa (video/transcript/bản dịch) — chỉ gỡ khỏi danh sách, thêm lại được.
+ */
+const delEpBtn = (slug, status, e) => (status === "new"
+  ? btn("Xoá", {
+    act: "del", url: `/api/series/${enc(slug)}/videos/${enc(e.videoId)}`, cls: "sm danger",
+    confirm: `Bỏ video "${e.title || e.videoId}" khỏi danh sách nguồn của series?\n\nVideo/transcript không bị xoá, chỉ gỡ khỏi series — thêm lại được bất cứ lúc nào.`,
+    ok: "Đã gỡ khỏi series",
+  })
+  : btn("Xoá", {
+    act: "del", url: `/api/series/${enc(slug)}/ep/${enc(e.ep)}`, cls: "sm danger",
+    confirm: `Xoá tập ${e.ep} (${e.title || e.videoId}) khỏi series?\n\n`
+      + (e.state?.lastCost ? `Đã tốn ${money(e.state.lastCost)} cho tập này — file dịch/lồng tiếng KHÔNG bị xoá, chỉ gỡ số tập khỏi bible.\n\n` : "")
+      + "Video/audio/transcript gốc không bị đụng. Thêm lại được bằng «Thêm vào series».",
+    ok: "Đã xoá tập",
+  }));
+
 // ===== Một series =====
 function epAction(s, e, active) {
   const base = `#/series/${enc(s.slug)}/ep/${enc(e.ep)}`;
@@ -897,10 +931,12 @@ async function viewSeries([slug]) {
           if (s.status === "new") {
             return html`<tr><td class="dim">${i + 1}</td><td style="max-width:320px">${e.title || e.videoId}<div class="dim small">${e.duration ? mmss(e.duration) : ""}</div></td>
               <td>${e.hasTranscript ? pill(["có transcript", "ok"]) : pill(["chưa tải / STT", "warn"])}</td>
-              <td colspan="3" class="dim small">số tập chốt khi dựng bible${e.duration && e.duration < 60 ? " · video ngắn, sẽ bị gạt" : ""}</td></tr>`;
+              <td colspan="2" class="dim small">số tập chốt khi dựng bible${e.duration && e.duration < 60 ? " · video ngắn, sẽ bị gạt" : ""}</td>
+              <td>${delEpBtn(slug, s.status, e)}</td></tr>`;
           }
           if (!e.state) {
-            return html`<tr class="off"><td>—</td><td>${e.title || e.videoId}<div class="dim small">${e.why || "không dùng"}</div></td><td colspan="4"></td></tr>`;
+            return html`<tr class="off"><td>—</td><td>${e.title || e.videoId}<div class="dim small">${e.why || "không dùng"}</div></td><td colspan="3"></td>
+              <td>${delEpBtn(slug, s.status, e)}</td></tr>`;
           }
           const ej = jobsFor((j) => j.params?.slug === slug && String(j.params?.ep) === e.ep);
           const act = activeOf(ej);
@@ -918,7 +954,8 @@ async function viewSeries([slug]) {
               ${e.state.dubStale ? html`<div class="small" style="color:var(--warn)">lồng tiếng cũ hơn bản dịch</div>` : ""}</td>
             <td>${act ? html`<div data-live-job="${act.id}" data-mode="mini" style="min-width:220px">${liveJob(act, "mini")}</div>` : timeline(scope, plan, { compact: true })}</td>
             <td class="num money">${money(e.state.lastCost)}</td>
-            <td>${failed ? html`<div class="row">${btn("Chạy lại", { url: `/api/jobs/${failed.id}/retry`, cls: "sm pri" })}${link("Xem lỗi", `#/jobs/${failed.id}`, "sm ghost")}</div>` : epAction(s, e, act)}</td></tr>`;
+            <td><div class="row" style="gap:6px;flex-wrap:nowrap">${failed ? html`<div class="row">${btn("Chạy lại", { url: `/api/jobs/${failed.id}/retry`, cls: "sm pri" })}${link("Xem lỗi", `#/jobs/${failed.id}`, "sm ghost")}</div>` : epAction(s, e, act)}
+              ${act ? "" : delEpBtn(slug, s.status, e)}</div></td></tr>`;
         })}</table></div>
       ${legend}`);
   };
@@ -1098,7 +1135,7 @@ async function viewEpisode([slug, ep, tab]) {
       return html`<div class="split">
         <div class="player card card-b">
           ${!act && d.urls.dub && d.dub && ttsJob?.status !== "failed" ? html`<div class="callout ok" id="dubOk"><b>✓ Đã lồng tiếng thành công</b>
-            <div class="small">VieNeu ${d.dub.engine} · ${d.dub.synth === "preset" ? "giọng có sẵn" : "clone"} · ${d.dub.bed === "original" ? "giữ tiếng Trung gốc" : d.dub.bed === "none" ? "không nhạc nền" : "bỏ tiếng Trung"} · ${d.dub.lines} câu${d.dub.overflow.length ? `, ${d.dub.overflow.length} câu tràn khung` : ""}${ttsJob?.status === "done" && ttsJob.endedAt ? ` · ${ago(ttsJob.endedAt)}` : ""}${ttsJob?.usd ? ` · ${money(ttsJob.usd)}` : ""}</div></div>` : ""}
+            <div class="small">VieNeu ${engLabel(d.dub.engine)} · ${d.dub.synth === "preset" ? "giọng có sẵn" : "clone"} · ${d.dub.bed === "original" ? "giữ tiếng Trung gốc" : d.dub.bed === "none" ? "không nhạc nền" : "bỏ tiếng Trung"} · ${d.dub.lines} câu${d.dub.overflow.length ? `, ${d.dub.overflow.length} câu tràn khung` : ""}${ttsJob?.status === "done" && ttsJob.endedAt ? ` · ${ago(ttsJob.endedAt)}` : ""}${ttsJob?.usd ? ` · ${money(ttsJob.usd)}` : ""}</div></div>` : ""}
           ${d.urls.dub ? html`<video id="dubv" controls preload="metadata" src="${d.urls.dub}"></video>
             <div class="row">
               <div class="seg" id="srcSeg"><button data-src="dub" class="on">Lồng tiếng Việt</button>
@@ -1111,7 +1148,8 @@ async function viewEpisode([slug, ep, tab]) {
           ${!act && ttsJob?.status === "failed" ? html`<div class="callout err"><b>Lần lồng tiếng trước hỏng</b><div class="err-text">${ttsJob.error}</div></div>` : ""}
           ${act ? "" : html`<form id="ttsForm" class="stack" style="gap:10px">
             <div class="row">
-              <select name="engine"><option value="v3">VieNeu v3 (mặc định)</option><option value="v4">VieNeu v4 (clone tốt hơn, đắt hơn)</option></select>
+              <select name="engine"><option value="v3">VieNeu v3 (mặc định)</option><option value="v4">VieNeu v4 (clone tốt hơn, đắt hơn)</option>
+                <option value="local">VieNeu v3 local (máy này, miễn phí)</option></select>
               <select name="mode" title="Clone bị VieNeu giới hạn theo ngày/tháng; giọng có sẵn thì không">
                 <option value="clone">Clone giọng từ mẫu (tính hạn mức clone)</option>
                 <option value="preset">Giọng có sẵn của VieNeu (không clone)</option></select>
@@ -1139,7 +1177,7 @@ async function viewEpisode([slug, ep, tab]) {
               <td>${v.refUrl ? html`<audio controls preload="none" style="height:28px;width:180px" src="${v.refUrl}"></audio>` : ""}</td></tr>`)}
           </table></div>
           <div class="card-b dim small">Tập đầu tiên được lồng tiếng đặt giọng cho nhân vật; các tập sau dùng chung để giọng không đổi giữa các tập. «Tách lại giọng mẫu» thay giọng series bằng mẫu của tập này.</div></div>
-          ${d.dub ? html`<div class="card"><div class="card-h"><h3>Câu tràn khung</h3><span class="dim small">${d.dub.overflow.length}/${d.dub.lines} câu · engine ${d.dub.engine} · nền ${d.dub.bed === "original" ? "gốc (còn tiếng Trung)" : d.dub.bed === "none" ? "không có" : "đã bỏ tiếng Trung"}</span></div>
+          ${d.dub ? html`<div class="card"><div class="card-h"><h3>Câu tràn khung</h3><span class="dim small">${d.dub.overflow.length}/${d.dub.lines} câu · engine ${engLabel(d.dub.engine)} · nền ${d.dub.bed === "original" ? "gốc (còn tiếng Trung)" : d.dub.bed === "none" ? "không có" : "đã bỏ tiếng Trung"}</span></div>
             ${d.dub.overflow.length ? html`<div class="lines" style="max-height:420px">${d.dub.overflow.map((o) => html`<div class="ln" data-start="${o.start}">
               <div class="tm">${mmss(o.start)}</div><div>${o.speaker ? spk(o.speaker) : ""}<span class="vi">${o.vi}</span>
               <div class="small" style="color:var(--err)">thừa ${o.over}s dù đã nén ${o.tempo}× — <a href="${base}/translation" data-focus="${o.index}">rút gọn câu này</a></div></div></div>`)}</div>`
@@ -1309,9 +1347,31 @@ async function viewEpisode([slug, ep, tab]) {
           return html`<div class="row"><span style="min-width:140px">${spk(v.name)}${v.gender ? html` <span class="dim small">${v.gender === "male" ? "nam" : "nữ"}</span>` : ""}</span>
             <span class="dim small" style="min-width:52px">${v.lines} câu</span>
             <select data-sp="${v.speaker}" style="flex:1;min-width:220px"><option value="">— chọn giọng —</option>
-              ${order.filter((g) => by[g]).map((g) => html`<optgroup label="${GROUPS[g]}">${by[g].map((o) => html`<option value="${o.id}">${label(o)}</option>`)}</optgroup>`)}</select></div>`;
+              ${order.filter((g) => by[g]).map((g) => html`<optgroup label="${GROUPS[g]}">${by[g].map((o) => html`<option value="${o.id}">${label(o)}</option>`)}</optgroup>`)}</select>
+            <button type="button" class="btn sm ghost" data-preview="${v.speaker}"
+              title="${engine === "local" ? "Nghe thử giọng đang chọn (miễn phí)" : "Chỉ nghe thử được với VieNeu v3 local — cloud tốn token mỗi lần thử nên không bật ở đây"}"
+              ${engine === "local" ? "" : "disabled"}>▶ nghe thử</button></div>`;
         })}<div class="dim small">Giọng có sẵn không tốn hạn mức clone (ngày/tháng); vẫn tính token theo số ký tự. Lựa chọn được nhớ cho cả series.</div>`);
         for (const s of $$("select[data-sp]", box)) if ([...s.options].some((o) => o.value === keep[s.dataset.sp])) s.value = keep[s.dataset.sp];
+        for (const pb of $$("button[data-preview]", box)) {
+          pb.onclick = async () => {
+            const sel = box.querySelector(`select[data-sp="${CSS.escape(pb.dataset.preview)}"]`);
+            if (!sel.value) return toast("Chưa chọn giọng cho nhân vật này", "err");
+            pb.disabled = true;
+            pb.textContent = "… đang tổng hợp";
+            try {
+              const src = await apiAudio(`/api/vieneu/preview?voice=${enc(sel.value)}`);
+              const a = new Audio(src);
+              a.onended = a.onerror = () => URL.revokeObjectURL(src);
+              await a.play();
+            } catch (ex) {
+              toast(ex.message, "err");
+            } finally {
+              pb.disabled = false;
+              pb.textContent = "▶ nghe thử";
+            }
+          };
+        }
       };
       f.engine.value = draft.engine ?? f.engine.value;
       f.mode.value = draft.mode ?? (d.dub?.synth === "preset" ? "preset" : "clone");
@@ -1341,7 +1401,8 @@ async function viewEpisode([slug, ep, tab]) {
         const bed = f.bed.value;
         const origDb = bed === "original" ? { origDb: Number(f.origDb.value) } : {};
         const nen = bed === "original" ? `giữ tiếng Trung gốc (${f.origDb.selectedOptions[0].text.toLowerCase()})` : bed === "none" ? "không nhạc nền, chỉ giọng Việt" : "bỏ tiếng Trung";
-        if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value}, ${how}, ${nen}? Tính tiền theo token VieNeu.`)) return;
+        const gia = f.engine.value === "local" ? "chạy free tại máy này" : "tính tiền theo token VieNeu";
+        if (!confirm(`Lồng tiếng tập ${d.ep} bằng VieNeu ${f.engine.value === "local" ? "v3 local" : f.engine.value}, ${how}, ${nen}? ${gia[0].toUpperCase()}${gia.slice(1)}.`)) return;
         try {
           const r = await api(`${url}/tts`, { method: "POST", body: presets
             ? { engine: f.engine.value, mode: "preset", presets, bed, ...origDb }
