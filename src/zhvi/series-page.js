@@ -220,7 +220,9 @@ function castCard(c, m, castOpts, spkName) {
   const samples = (c.samples || []).map((s, i) => `
       <div class="smp"><audio controls preload="none" src="data:audio/mpeg;base64,${m?.clips?.[i] || ""}"></audio>
         ${sceneBlock(s, spkName, { open: i === 0 })}</div>`).join("");
-  const clus = Object.entries(c.clusters || {}).map(([ep, ks]) => `tập ${ep}: ${ks.join(", ")}`).join(" · ");
+  // v2 không có cụm: hiện số câu máy chắc nhân vật đang nói (nguồn của khung hình + câu mẫu)
+  const clus = c.speaks ? Object.entries(c.speaks).map(([ep, xs]) => `tập ${ep}: #${xs.join(", #")}`).join(" · ")
+    : Object.entries(c.clusters || {}).map(([ep, ks]) => `tập ${ep}: ${ks.join(", ")}`).join(" · ");
   return `
 <section class="card${c.doubt ? " warn" : ""}" id="${esc(c.id)}">
   <div>
@@ -361,7 +363,7 @@ ${order.map((c) => castCard(c, mediaByCast[c.id], castOpts, spkName)).join("")}
 
 <h2>Thêm nhân vật máy bỏ sót</h2>
 <div class="hint">Thiếu một người ở đây là <b>ngõ cụt</b>: lúc soát người nói từng tập chỉ chọn được trong danh sách trên.
-${unassigned.length ? `Dưới đây là ${unassigned.length} cụm giọng có người nói mà máy không gán cho ai — nghe thử xem có phải người mới không.` : "Máy đã gán hết các cụm giọng, nhưng nếu bạn thấy thiếu ai thì cứ thêm."}</div>
+${unassigned.length ? `Dưới đây là ${unassigned.length} cụm giọng có người nói mà máy không gán cho ai — nghe thử xem có phải người mới không.` : draft.engine === "v2" ? "Dàn nhân vật dựng từ lời thoại, chưa đối chiếu cụm giọng — người máy bỏ sót sẽ được hỏi lại ở trang soát từng tập. Thấy thiếu ai thì cứ thêm." : "Máy đã gán hết các cụm giọng, nhưng nếu bạn thấy thiếu ai thì cứ thêm."}</div>
 ${unassigned.map((un) => unassignedCard(un, spkName)).join("")}
 <div id="newrows"></div>
 <button id="more">+ thêm một nhân vật nữa</button>

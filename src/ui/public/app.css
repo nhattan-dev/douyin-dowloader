@@ -55,6 +55,7 @@ code, .mono { font-family: ui-monospace, "SF Mono", Menlo, Consolas, monospace; 
 .conn.on::before { background: var(--ok); }
 .conn.off::before { background: var(--err); }
 .main { padding: 22px 28px 90px; max-width: 1360px; width: 100%; }
+.main.wide { max-width: none; }
 .page-h > div:first-child { min-width: 0; }
 .mono { overflow-wrap: anywhere; }
 .seg { max-width: 100%; overflow-x: auto; }
@@ -243,6 +244,9 @@ table.t { width: 100%; border-collapse: collapse; font-size: 13px; }
 .frame { width: 100%; height: calc(100vh - 230px); min-height: 520px; border: 1px solid var(--line); border-radius: var(--r); background: #14161a; }
 .split { display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr); gap: 16px; align-items: start; }
 @media (max-width: 1100px) { .split { grid-template-columns: minmax(0, 1fr); } }
+.series-split { display: grid; grid-template-columns: minmax(0, 7fr) minmax(300px, 3fr); gap: 20px; align-items: start; }
+.series-side { position: sticky; top: 22px; }
+@media (max-width: 1100px) { .series-split { grid-template-columns: minmax(0, 1fr); } .series-side { position: static; } }
 .ln .edit { border: 0; background: none; color: var(--faint); cursor: pointer; font-size: 14px; padding: 0 4px; opacity: 0; }
 .ln:hover .edit, .ln .edit:focus-visible { opacity: 1; }
 @media (hover: none) { .ln .edit { opacity: 1; } }

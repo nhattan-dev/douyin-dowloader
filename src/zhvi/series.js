@@ -31,6 +31,8 @@ import { LOOK_CONTRAST_SYS, LOOK_SYS, SERIES_SYS } from "./prompts.js";
 import { media, roughVi } from "./review.js";
 import { buildBiblePage } from "./series-page.js";
 import { denied, grab, pool } from "./vision.js";
+import { SERIES as SERIES_V2 } from "../zhvi2/prompts.js";
+import * as S2 from "../zhvi2/series.js";
 
 const NULL_LOG = { info() {}, warn() {}, error() {} };
 // Ngắn hơn ngần này thì gần như chắc không phải một tập: gặp thật ở 杂役合道 — clip 10s
@@ -173,7 +175,7 @@ export async function mergeCast(llm, input, { model }) {
  * Model đề xuất, CODE kiểm. Không có bước này thì nháp tin được bao nhiêu là tuỳ lượt chạy.
  * Thứ bị loại không biến mất lặng lẽ: nó thành dòng `doubt` trên trang duyệt.
  */
-export function validateDraft(m, eps, pinned = {}) {
+export function validateDraft(m, eps, pinned = {}, { textOnly = false } = {}) {
   const byEp = Object.fromEntries(eps.map((d) => [d.ep, d]));
   const text = eps.map((d) => d.utts.map((u) => u.zh).join("\n")).join("\n");
   const seen = (s) => Boolean(s) && (text.includes(s) || NON_DIALOGUE_NAMES.has(s));
@@ -187,8 +189,12 @@ export function validateDraft(m, eps, pinned = {}) {
     const id = `C${cast.length + 1}`;
     if (c.id !== undefined) idMap.set(String(c.id), id);
     const notes = [];
-    if (!seen(c.zh)) notes.push("tên chữ Hán không có trong thoại — có thể máy bịa");
     const alias = uniq((c.alias || []).map(String)).filter((a) => a !== c.zh);
+    if (!seen(c.zh)) {
+      const heard = alias.filter(seen);
+      notes.push(heard.length ? `tên chữ Hán không có trong thoại — thoại ghi là ${heard.join(", ")} (ASR nghe nhầm?)`
+        : "tên chữ Hán không có trong thoại — có thể máy bịa");
+    }
     const fake = alias.filter((a) => !seen(a));
     if (fake.length) notes.push(`đã bỏ ${fake.length} biệt danh không có trong thoại`);
 
@@ -208,8 +214,16 @@ export function validateDraft(m, eps, pinned = {}) {
         (clusters[ep] ||= []).push(k);
       }
     }
-    const lines = Object.entries(clusters)
-      .reduce((n, [ep, ks]) => n + byEp[ep].utts.filter((u) => ks.includes(u.speaker)).length, 0);
+    // v2: không cụm — task khai thẳng vài câu chắc nhân vật đang nói (chỉ dùng để cắt khung tả look)
+    const speaks = {};
+    for (const [ep, xs] of Object.entries(c.speaks || {})) {
+      const have = new Set(byEp[String(ep)]?.utts.map((u) => u.id) || []);
+      const ok = uniq([].concat(xs || []).map(Number)).filter((i) => have.has(i));
+      if (ok.length) speaks[ep] = ok;
+    }
+    const lines = textOnly
+      ? Object.values(speaks).reduce((n, xs) => n + xs.length, 0)
+      : Object.entries(clusters).reduce((n, [ep, ks]) => n + byEp[ep].utts.filter((u) => ks.includes(u.speaker)).length, 0);
     cast.push({
       id,
       zh: String(c.zh),
@@ -220,8 +234,8 @@ export function validateDraft(m, eps, pinned = {}) {
       alias: alias.filter(seen),
       note: String(c.note || ""),
       clusters,
+      ...(textOnly ? { speaks } : {}),
       lines,
-      confidence: Number(c.confidence ?? 0.5),
       doubt: [c.doubt, ...notes].filter(Boolean).join("; "),
     });
   }
@@ -229,7 +243,7 @@ export function validateDraft(m, eps, pinned = {}) {
   // Cụm giọng không ai nhận = có người nói mà dàn nhân vật không có chỗ cho họ. Trả ra thành dữ
   // liệu chứ không chỉ một dòng chữ: trang duyệt còn phải cho nghe, cho xem, rồi cho thêm người.
   const unassigned = [];
-  for (const d of eps) {
+  for (const d of textOnly ? [] : eps) {
     for (const [k, n] of Object.entries(countBy(d.utts))) {
       if (n >= 2 && !taken.has(`${d.ep}|${k}`)) {
         doubts.push(`tập ${d.ep}: cụm giọng ${k} (${n} câu) chưa gán cho nhân vật nào`);
@@ -341,8 +355,11 @@ export function samplesOf(c, byEp, n = 4, { names = [] } = {}) {
     return (named.some((nm) => isVocative(u.zh, nm)) ? 4 : named.length ? 2 : 0)
       + Math.min(u.end - u.start, 8) / 8;
   };
-  const perEp = Object.entries(c.clusters || {}).map(([ep, ks]) => byEp[ep].utts
-    .filter((u) => ks.includes(u.speaker) && u.end - u.start >= 1.2)
+  // v2 (`speaks`): số câu task khai; v1: mọi câu trong cụm của nhân vật
+  const src = c.speaks ? Object.entries(c.speaks).map(([ep, ids]) => [ep, (u) => ids.includes(u.id)])
+    : Object.entries(c.clusters || {}).map(([ep, ks]) => [ep, (u) => ks.includes(u.speaker)]);
+  const perEp = src.map(([ep, mine]) => byEp[ep].utts
+    .filter((u) => mine(u) && u.end - u.start >= 1.2)
     .sort((a, b) => score(b) - score(a))
     .map((u) => ({ ep, u })));
   const out = [];
@@ -451,7 +468,10 @@ export async function initSeries({
   llm, models, log = NULL_LOG,
   force = false, minSec = MIN_EP_SEC, noLooks = false,
   onEvent = null,
+  engine = "v1", todo = null,
 } = {}) {
+  if (!["v1", "v2"].includes(engine)) throw new Error(`engine ${engine} không có (v1|v2)`);
+  if (engine === "v2" && !todo) throw new Error("init v2 cần todo LLM (TODO_TOKEN)");
   if (!videoDirs?.length) throw new Error("thiếu danh sách thư mục video");
   if (!seriesDir) throw new Error("thiếu seriesDir");
   const biblePath = path.join(seriesDir, "bible.json");
@@ -483,16 +503,22 @@ export async function initSeries({
     kind: "series",
     episodes: episodes.map(({ ep, videoId, duration, title, use, why }) => ({ ep, videoId, duration, title, use, why })),
     steps: [
-      ...used.map((e) => ({ id: `ep${e.ep}`, title: `Tập ${e.ep}: sửa ASR` })),
-      { id: "merge", title: `Tự suy dàn nhân vật (gộp ${used.length} tập)` },
+      ...(engine === "v1" ? used.map((e) => ({ id: `ep${e.ep}`, title: `Tập ${e.ep}: sửa ASR` })) : []),
+      { id: "merge", title: engine === "v1" ? `Tự suy dàn nhân vật (gộp ${used.length} tập)` : `Todo LLM dựng dàn nhân vật từ thoại ${used.length} tập` },
       ...(noLooks ? [] : [{ id: "look", title: "Tả ngoại hình từng nhân vật" }, { id: "contrast", title: "Viết lại ngoại hình cho nổi khác biệt" }]),
       { id: "rough", title: "Dịch thô cảnh mẫu cho người duyệt" },
     ],
   });
 
-  // 2. từng tập: pass A. Mỗi tập một sổ usage riêng, cuối cùng dồn về sổ chung.
+  // 2. từng tập: pass A (v1). Mỗi tập một sổ usage riêng, cuối cùng dồn về sổ chung.
+  // v2 không sửa ASR ở đây (task U từng tập làm) — câu lấy thẳng từ transcript, cùng số câu với U.
   const eps = [];
-  for (const e of used) {
+  if (engine === "v2") {
+    for (const e of used) {
+      eps.push({ ep: e.ep, episode: e, utts: S2.episodeLines(await readJson(path.join(e.videoDir, "transcript.json"))) });
+    }
+  }
+  for (const e of engine === "v1" ? used : []) {
     log.info(`[tập ${e.ep}] pass A (sửa ASR)`);
     step(`ep${e.ep}`, "start");
     const sub = llm.fork();
@@ -513,8 +539,9 @@ export async function initSeries({
   const byEp = Object.fromEntries(eps.map((d) => [d.ep, d]));
 
   // 3. tự suy — có cache: chạy lại init (vd. sau khi sửa bước look) không được xáo lại dàn nhân vật
-  const input = mergeInput(eps, episodes, { glossary, pinned: terms, log });
-  const mergeKey = sig(models.profile, SERIES_SYS, input);
+  const input = engine === "v1" ? mergeInput(eps, episodes, { glossary, pinned: terms, log })
+    : S2.context(eps, episodes, { pinned: terms, log });
+  const mergeKey = engine === "v1" ? sig(models.profile, SERIES_SYS, input) : sig("v2", SERIES_V2, input, S2.schema());
   const mergeFile = path.join(draftDir, "merge.json");
   const cached = await readJson(mergeFile);
   let merged;
@@ -523,12 +550,23 @@ export async function initSeries({
     log.info("[gộp] dùng lại draft/merge.json");
     step("merge", "reused");
   } else {
-    log.info(`[tự suy] B2b một lượt trên thoại ${eps.length} tập -> dàn nhân vật (${models.profile})`);
     step("merge", "start");
-    merged = await mergeCast(llm, input, { model: models.profile });
+    if (engine === "v1") {
+      log.info(`[tự suy] B2b một lượt trên thoại ${eps.length} tập -> dàn nhân vật (${models.profile})`);
+      merged = await mergeCast(llm, input, { model: models.profile });
+    } else {
+      log.info(`[tự suy] todo LLM một task trên thoại ${eps.length} tập -> dàn nhân vật`);
+      const { out, errors } = await todo.ask({
+        tag: "S", title: `zhvi2 dựng bible — ${path.basename(path.resolve(seriesDir))}`,
+        instructions: SERIES_V2, context: input, schema: S2.schema(), check: (o) => S2.check(o, eps),
+      });
+      // lỗi còn sót sau các lượt hỏi lại: validateDraft bỏ đúng mục hỏng và ghi thành doubt
+      if (errors.length) log.warn(`  S: còn ${errors.length} lỗi sau khi hỏi lại — mục hỏng sẽ bị bỏ`);
+      merged = S2.toMerged(out);
+    }
     await fs.writeFile(mergeFile, JSON.stringify({ key: mergeKey, value: merged }, null, 1), "utf8");
   }
-  const draft = validateDraft(merged, eps, terms || {});
+  const draft = validateDraft(merged, eps, terms || {}, { textOnly: engine === "v2" });
   step("merge", "done", { cast: draft.cast.length, doubts: draft.doubts.length });
   log.info(`[gộp] ${draft.cast.length} nhân vật, ${Object.keys(draft.terms).length} thuật ngữ, `
     + `${draft.address.length} cặp xưng hô, ${draft.doubts.length} điều máy không chắc`);
@@ -701,6 +739,7 @@ export async function initSeries({
   const out = {
     schema: BIBLE.SCHEMA,
     draft: true,
+    engine,
     createdAt: new Date().toISOString().replace(/\.\d+Z$/, "Z"),
     series: {
       id: path.basename(path.resolve(seriesDir)),

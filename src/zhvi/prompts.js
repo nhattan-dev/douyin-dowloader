@@ -216,7 +216,7 @@ Trả JSON:
  "series": {"titleZh": "tên phim", "titleVi": "tên phim tiếng Việt"},
  "cast": [{"id":"C1","zh":"林天","vi":"Lâm Thiên","viShort":"","gender":"male|female|?",
            "role":"main|episodic|mentioned","alias":["宗主"],"note":"vai trò + quan hệ, 1 câu tiếng Việt",
-           "clusters":{"1":["S0"],"2":["S3"]},"confidence":0.9,"doubt":""}],
+           "clusters":{"1":["S0"],"2":["S3"]},"doubt":""}],
  "terms": {"<chữ Hán>": "<tiếng Việt>"},
  "skipped": ["<cụm trong danh sách CỤM LẶP LẠI mà bạn xét là từ thường, không cần chốt>"],
  "address": [{"from":"C1","to":"C2","self":"ta","other":"ngươi","fromEp":"1","why":"lý do ngắn"}],
@@ -255,13 +255,13 @@ Quy tắc:
 - "series.titleZh": TÊN PHIM. Tìm trong hashtag và tiêu đề các video (tên phim hay nằm trong hashtag,
   kể cả ở video không phải tập). Tiêu đề từng tập thường là câu mô tả tình tiết — KHÔNG lấy làm tên phim.
 - "role": "main" chỉ cho nhân vật trung tâm hoặc có mặt ở nhiều tập.
-- "vi": tên riêng phiên âm Hán-Việt, viết hoa từng âm tiết. Danh xưng không phải tên riêng thì dịch nghĩa
-  viết thường ("tông chủ", "người dẫn chuyện"). Các tập dịch cùng một tên khác nhau thì chọn MỘT.
-  "viShort": cách gọi tắt quen dùng trong thoại, không có thì để "".
+- "vi": danh xưng không phải tên riêng thì dịch nghĩa viết thường ("tông chủ", "người dẫn chuyện"); là
+  tên riêng thì theo luật phiên âm Hán-Việt ở bullet "terms" dưới. Các tập dịch cùng một tên khác nhau
+  thì chọn MỘT. "viShort": cách gọi tắt quen dùng trong thoại, không có thì để "".
 - "gender": chỉ theo bằng chứng trong thoại (đại từ 他/她, xưng hô, vai). Không rõ thì "?".
-- "terms": tên riêng (địa danh, môn phái, bảo vật, công pháp, cảnh giới) và thuật ngữ dễ dịch trôi giữa
-  các tập. KHÔNG đưa tên nhân vật (đã ở cast), KHÔNG đưa từ thường. Chữ Hán phải có nguyên văn trong kịch bản.
-- Danh từ riêng (người, nơi chốn, bảo vật, môn phái, chiêu thức) → phiên âm Hán-Việt, viết hoa mỗi âm tiết.
+- "terms": tên riêng không phải người (địa danh, môn phái, bảo vật, công pháp, chiêu thức, cảnh giới) và
+  thuật ngữ tiên hiệp dễ dịch trôi giữa các tập → phiên âm Hán-Việt, viết hoa mỗi âm tiết (cùng luật cho
+  "cast.vi"). KHÔNG đưa tên nhân vật (đã ở cast), KHÔNG đưa từ thường. Chữ Hán phải có nguyên văn trong kịch bản.
 - KIỂM TRA HÁN-VIỆT: chỉ phiên âm khi âm Hán-Việt đó người đọc truyện tiên hiệp Việt hiểu được.
   Nếu phiên âm ra một cụm vô nghĩa với người Việt (面首 -> "diện thủ", 色妖 -> "sắc yêu") thì bắt buộc
   dịch nghĩa ("nam sủng", "yêu quái háo sắc"). Tự hỏi: "người Việt đọc có hiểu không?"

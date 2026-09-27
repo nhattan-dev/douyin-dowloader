@@ -377,6 +377,13 @@ theo nội dung, nên chạy lại mà ra kết quả y hệt thì không kéo t
   401/403 phải bắt ở vòng ngoài (`denied`) — trước đó hết quota thì B1 vẫn gọi đủ 30 lần.
   `looks.json` ghi nối đuôi, không ghi đồng thời.
 - `init` từ chối khi đã có `bible.json` — dựng lại cả series KHÔNG phải đường bổ sung tập mới.
+- **`init --engine v2`** (UI dùng mặc định, cài 2026-09-27): dàn nhân vật từ MỘT task todo trên
+  thoại thô — bỏ pass A (task U từng tập sửa ASR) và bỏ cụm giọng (cụm thuộc về tập, cổng soát lo).
+  Tên nghe nhầm đi vào `alias`; `zh` không có trong thoại vẫn giữ nếu một alias có. Cái giá phải trả
+  thay: `look` cắt khung theo cụm, nên task khai `speaks` — 2–4 câu/tập **chắc** nhân vật đang nói,
+  suy từ lời. Không còn `mixedLines`/`asr-flags` (U tự tìm câu gộp người) và không còn "cụm chưa ai
+  nhận" trên trang duyệt (người bỏ sót được hỏi ở cổng từng tập qua `newCast`). Bỏ luôn glossary 271
+  mục (có lỗi đã biết); `--terms` ghim tay vẫn thắng. Chưa đo trên series thật.
 
 ### Bible lớn thêm ở cổng soát từng tập (cài 2026-09-19)
 
@@ -543,16 +550,31 @@ Hai ràng buộc phải giữ khi sửa tiếp trang này:
   gán bừa. Luật "trang ghi giá trị cuối của MỌI ô" vẫn giữ (đã đo: áp hai lần ra cùng `version`),
   nên hàng thêm tay bỏ trống phải bị bỏ qua ở `applyReview` chứ không thành nhân vật rỗng.
 
-### Trang soát người nói là file TĨNH — sửa bible xong phải dựng lại (2026-09-21)
+### Trang soát người nói: v2 dựng MỖI LẦN MỞ, v1 vẫn là file tĩnh (2026-09-27)
 
-`review.html` chốt danh sách người nói theo `bible.cast` **lúc dựng**; server chỉ đọc file ra. Thêm
-nhân vật ở trang bible sau đó thì ô chọn của từng câu không có họ (đo: `ai创作浪潮计划` tập 1, bible
-sửa 14:47, trang dựng 12:13 → 0/372 ô có «Nam phụ 1»), rồi kéo theo lồng tiếng không có câu nào mang
-tên họ. "Dịch lại tập" **không** dựng lại trang: cổng chỉ chặn một lần. Hiện UI **chưa có** đường
-dựng lại (một nút «Dựng lại trang soát» từng được thử rồi gỡ theo ý fleex); dựng tay bằng đúng lệnh
-dịch tập kèm `--review` (v1: `node src/zhvi/cli.js … --review`, v2: `node src/zhvi2/cli.js --series
-… --ep N --review`). Giá ~$0,03/lần vì bible đổi → A3/B1/B2 chạy lại; nhãn đã soát không bị đụng,
-nhưng tập đã dịch quay về «chờ soát» (review.html mới hơn translation.json) tới khi lưu lại.
+Trước đây `review.html` dựng một lần rồi server chỉ đọc file ra, và file đó gánh ba vai cùng lúc:
+giao diện (JS/CSS nằm trong file → sửa code trang thì trang cũ không đổi), ảnh chụp dữ liệu (chốt
+`bible.cast` lúc dựng → đo: `ai创作浪潮计划` tập 1, 0/372 ô có «Nam phụ 1» thêm sau), và **mốc trạng
+thái** (`scan.js` so mtime với `translation.json`). Vai thứ ba là cái khoá: dựng lại = tập đã dịch
+quay về «chờ soát». Lúc đo: **62/63 trang cũ hơn code trang, 35/63 cũ hơn bible**.
+
+- **Mốc cổng là `gate.json`**, pipeline ghi khi DỪNG ở cổng. `scan.js` đọc nó, thiếu thì lùi về
+  mtime `review.html` (tập cũ giữ nguyên trạng thái, không cần chuyển đổi). Luật: **mở/dựng trang
+  không bao giờ đổi trạng thái tập**.
+- **v2: server dựng từ đĩa** (`renderReview`): `u.json` + `vision.json` + transcript + nhãn +
+  **bible hiện tại** + `media.json`. Phần áp là hàm dùng chung `understood()` cho cả pipeline lẫn
+  trang — không nhận llm/todo nên về cấu trúc không gọi được API. Đo: trang tập 16 dựng từ đĩa
+  **giống từng byte** trang `--review`; 49/49 tập dựng được, chậm nhất ~150 ms (lần đầu đĩa nguội 4s).
+- **Server không chạy ffmpeg** (`media(…, {extract:false})`): cắt ảnh/tiếng là việc của pipeline —
+  lúc dừng ở cổng, và sau khi nạp nhãn có cắt câu (chỉ phần thiếu, chỉ khi tập đã có `media.json`).
+  Mảnh chưa có media thì vẽ không ảnh/tiếng chứ không vỡ — 7/49 tập đang ở tình trạng đó, bản đầu
+  chết `Cannot read … 'thumbs'` ở đúng 7 tập này.
+- Dựng lỗi → trả `review.html` cũ kèm dòng báo, không trả trang trắng. `--review` vẫn ghi
+  `review.html` làm bản xuất cho `file://`; UI không đọc nó với v2.
+- Nút «Cập nhật nhân vật» (`reviewRebuild`) chỉ còn cho **v1**; recipe từ chối v2 (ở v2 nó chỉ còn
+  tác dụng phụ). v1 (14 trang) để tĩnh vì dựng từ đĩa phải đụng nhiều công đoạn, mà v1 không tự dịch
+  lại — dựng tay bằng `node src/zhvi/cli.js … --review` (~$0,03 khi bible đổi, tập về «chờ soát»).
+- Khoá localStorage (`v2-<tập>`) và khoá câu theo `sk` không đổi → lựa chọn chưa lưu sống qua mỗi lần dựng.
 
 Bẫy đi kèm: nhân vật thêm tay để trống chữ Hán thì khoá lấy tên Việt **có dấu cách**, mà `phon.js`
 ghi vocab thành dòng từ điển jieba `từ 100000 n` → `Load dict failed`, mọi lần chạy pass A của series

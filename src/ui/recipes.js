@@ -82,9 +82,9 @@ export const recipes = {
       if (missing.length) throw new Error(`${missing.length} video chưa có transcript (${missing.join(", ")}) — tải + STT trước`);
       const bibleExists = await scan.mtime(path.join("series", slug, "bible.json"));
       return [{
-        label: "sửa ASR + suy nhân vật từng tập, gộp, tả ngoại hình",
+        label: "todo LLM dựng dàn nhân vật từ thoại, tả ngoại hình",
         argv: zhvi("series", "init", ...dirs.map(rel), "--series", `series/${slug}`, "--glossary", "glossary.json",
-          "--out", `out/${slug}`, "--events", ...(force || bibleExists ? ["--force"] : [])),
+          "--out", `out/${slug}`, "--engine", "v2", "--events", ...(force || bibleExists ? ["--force"] : [])),
       }];
     },
   },
@@ -179,7 +179,7 @@ export const recipes = {
     next: ({ slug, ep }) => ({ type: "translate2", params: { slug, ep: String(ep) } }),
   },
 
-  // review.html chốt danh sách nhân vật theo bible.cast LÚC DỰNG, không tự theo bible đổi sau đó
+  // CHỈ lõi v1 (v2 dựng trang mỗi lần mở). review.html của v1 chốt danh sách nhân vật LÚC DỰNG, không theo bible đổi sau đó
   // (CLAUDE.md: "Trang soát người nói là file TĨNH"). Thêm nhân vật ở trang bible sau khi trang đã
   // dựng thì ô chọn của từng câu không có họ. Nút này chỉ dựng lại trang soát cho ĐÚNG tập đó theo
   // bible hiện tại — dừng lại ở cổng soát, KHÔNG dịch tiếp (khác `translate`/`translate2`).
@@ -188,9 +188,9 @@ export const recipes = {
       title: `Cập nhật nhân vật trang soát tập ${ep} — ${await seriesTitle(slug)}`, lane: "zhvi", locks: [`series:${slug}:ep${ep}`], meta: { slug, ep: String(ep) },
     }),
     async steps({ slug, ep, engine }) {
-      if (engine === "v2") {
-        return [{ label: "dựng lại trang soát (lõi v2)", argv: ["node", "src/zhvi2/cli.js", "--series", `series/${slug}`, "--ep", String(ep), "--review"] }];
-      }
+      // v2 dựng trang mỗi lần mở từ bible hiện tại — dựng lại ở đây chỉ còn tác dụng phụ (ghi gate.json
+      // -> tập đã dịch quay về «chờ soát») nên chặn hẳn.
+      if (engine === "v2") throw new Error("lõi v2 dựng trang soát mỗi lần mở — tải lại trang là thấy nhân vật mới");
       const biblePath = path.join("series", slug, "bible.json");
       const bible = await scan.readJson(biblePath);
       if (!bible) throw new Error("series chưa có bible đã duyệt — duyệt bible trước");

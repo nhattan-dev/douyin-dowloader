@@ -3,8 +3,11 @@
  * giữ database riêng; chạy lệnh tay ngoài UI thì UI vẫn thấy đúng.
  *
  * Trạng thái một tập suy từ mốc thời gian file, không từ cờ nào:
- *   review.html mới hơn translation.json và mới hơn nhãn đã soát  -> chờ soát người nói
- *   translation.json mới hơn review.html                            -> đã dịch
+ *   cổng mới hơn translation.json và mới hơn nhãn đã soát  -> chờ soát người nói
+ *   translation.json mới hơn cổng                           -> đã dịch
+ * "cổng" = `gate.json` (pipeline ghi khi DỪNG ở cổng soát). Tập cũ chưa có file đó thì lấy mtime
+ * của `review.html` như trước. Không lấy review.html khi đã có gate.json: v2 dựng trang mỗi lần mở,
+ * và một lượt dựng trang không được phép kéo tập đã dịch về «chờ soát».
  *   dub/dub-vi.mp4 mới hơn translation.json                         -> đã lồng tiếng
  */
 import { execFile } from "node:child_process";
@@ -28,6 +31,18 @@ async function videoCodec(f) {
   } catch {
     return null;
   }
+}
+
+/** video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được (xem videoCodec ở trên) — trả
+ * preview.mp4 đã dựng nếu có, hoặc báo cần dựng. Dùng chung cho trang tập lẻ và trang tác giả. */
+export async function previewInfo(dir) {
+  const videoFile = path.join(dir, "video.mp4");
+  if (!(await exists(videoFile))) return { videoUrl: null, needsPreview: false };
+  const previewFile = path.join(dir, "preview.mp4");
+  const codec = await videoCodec(videoFile);
+  const unplayable = codec && codec !== "h264";
+  if (unplayable && !(await exists(previewFile))) return { videoUrl: null, needsPreview: true };
+  return { videoUrl: mediaUrl(unplayable ? previewFile : videoFile), needsPreview: false };
 }
 
 export async function readJson(p) {
@@ -211,7 +226,7 @@ export async function episodeState(core, e, engine = null) {
   const vd = e.videoDir;
   const [ckpt, usage] = await Promise.all([readJson(path.join(d, "ckpt.json")), readJson(path.join(d, "usage.json"))]);
   const m = {
-    review: await mtime(path.join(d, "review.html")),
+    review: (await mtime(path.join(d, "gate.json"))) || (await mtime(path.join(d, "review.html"))),
     translation: await mtime(path.join(d, "translation.json")),
     labels: await mtime(p.labels),
     // bản nằm trong thư mục video: dub-video đọc file NÀY, không đọc thư mục kết quả
@@ -237,6 +252,9 @@ export async function episodeState(core, e, engine = null) {
     // đã dịch mà thư mục video chưa có bản này -> lồng tiếng sẽ đọc bản cũ (hoặc không có gì)
     dataStale: Boolean(m.translation && m.data < m.translation),
     dubStale: Boolean(m.dub && m.translation && m.dub < m.translation),
+    // thành phẩm có trên đĩa thì tải được, bất kể status (status suy từ mtime nên có lúc vẫn ghi
+    // «soát người nói» dù đã lồng tiếng xong — vd. review.html dựng lại sau khi dub)
+    dubUrl: m.dub ? mediaUrl(path.join(vd, "dub", "dub-vi.mp4")) + `?v=${Math.round(m.dub)}` : null,
     times: m,
   };
 }
@@ -364,18 +382,7 @@ export async function episodeDetail(slug, ep) {
     .filter(([idx, ed]) => !segs.some((s, i) => String(s.index ?? s.id ?? i) === idx && s.zh === ed.zh))
     .map(([index, ed]) => ({ index, zh: ed.zh, vi: ed.vi }));
   const api = `/api/series/${encodeURIComponent(slug)}/ep/${encodeURIComponent(e.ep)}`;
-  // video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được (xem preview.mp4 dựng riêng, nhẹ hơn) —
-  // không đụng tới video.mp4 vì còn dùng cho demucs, dub-video…
-  let videoUrl = null;
-  let needsPreview = false;
-  if (state.hasVideo) {
-    const videoFile = path.join(e.videoDir, "video.mp4");
-    const previewFile = path.join(e.videoDir, "preview.mp4");
-    const codec = await videoCodec(videoFile);
-    const unplayable = codec && codec !== "h264";
-    if (unplayable && !(await exists(previewFile))) needsPreview = true;
-    else videoUrl = mediaUrl(unplayable ? previewFile : videoFile);
-  }
+  const { videoUrl, needsPreview } = await previewInfo(e.videoDir);
   // lõi kia: chỉ để đối chiếu/dự phòng, không phải thứ màn hình nào cũng phải biết
   const other = state.engine === "v2" ? "v1" : "v2";
   const otherState = await episodeState(core, e, other);

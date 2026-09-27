@@ -11,39 +11,41 @@ import { markVideo, saveState, STATUS, videosByStatus } from "./state.js";
 const log = createLogger("FETCH");
 
 /**
- * Tải 1 URL về file.
+ * Tải 1 URL về file bằng fetch thuần, không qua Playwright.
  *
- * Dùng APIRequestContext của Playwright (`context.request`) chứ không phải fetch
- * trần: nó thừa hưởng cookie của browser context, nên tránh được 403 do thiếu
- * cookie/Referer trên CDN của Douyin.
+ * Trước đây dùng `context.request.get` để thừa hưởng cookie của browser context
+ * (tránh 403 do thiếu cookie/Referer trên CDN Douyin). Đo lại: tự dựng header
+ * `Cookie` từ `context.cookies()` chụp MỘT LẦN rồi đóng hẳn browser vẫn tải được
+ * (200, đúng bytes) — CDN chỉ đòi cookie/Referer/User-Agent đúng, không đòi
+ * context Playwright phải còn sống. Nhờ vậy browser đóng được ngay sau khi bắt
+ * xong link, không phải đợi tải file xong (xem fetchAll).
  */
-export async function downloadTo(context, url, destPath) {
+export async function downloadTo(cookieHeader, url, destPath) {
   await fs.mkdir(path.dirname(destPath), { recursive: true });
 
   let lastErr;
   for (let attempt = 1; attempt <= config.downloadRetries; attempt += 1) {
-    const headers = { Referer: `${DOUYIN_ORIGIN}/`, "User-Agent": USER_AGENT };
+    const headers = { Referer: `${DOUYIN_ORIGIN}/`, "User-Agent": USER_AGENT, Cookie: cookieHeader };
     logApiRequest(log, { method: "GET", url, headers });
     const t0 = Date.now();
     try {
-      const res = await context.request.get(url, { headers, timeout: 120_000 });
-
-      const body = await res.body();
+      const res = await fetch(url, { headers, signal: AbortSignal.timeout(120_000) });
+      const body = Buffer.from(await res.arrayBuffer());
       // Response là media nhị phân — log cỡ + header thật, không log nội dung. Header
       // `content-type` mới là thứ phân biệt mp3/mp4 (xem CLAUDE.md: `mime_type` trong
       // query string không đáng tin), nên nó phải nằm trong log.
       logApiResponse(log, {
         method: "GET",
         url,
-        status: res.status(),
+        status: res.status,
         ms: Date.now() - t0,
-        body: { headers: res.headers(), bytes: body.length },
+        body: { headers: Object.fromEntries(res.headers), bytes: body.length },
       });
-      if (!res.ok()) throw new Error(`HTTP ${res.status()}`);
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
       if (body.length === 0) throw new Error("body rỗng");
 
       await fs.writeFile(destPath, body);
-      return { bytes: body.length, contentType: res.headers()["content-type"] ?? null };
+      return { bytes: body.length, contentType: res.headers.get("content-type") ?? null };
     } catch (err) {
       logApiError(log, { method: "GET", url, ms: Date.now() - t0, error: err });
       lastErr = err;
@@ -77,39 +79,13 @@ async function pool(items, limit, fn) {
 }
 
 /**
- * Trần riêng cho một loại tài nguyên bên trong pool.
+ * Bắt metadata cho 1 video: lọc tác giả khác, đòi phải có `audioUrl`.
  *
- * Cần vì hai nửa của một lượt fetch tốn thứ khác nhau: mở trang Douyin tốn RAM và dễ
- * bị soi, còn tải file chỉ tốn băng thông. Không có cái này thì phải hạ cả pool xuống
- * theo giới hạn của nửa nặng hơn, tức là bỏ phí băng thông ở nửa còn lại.
+ * Đây là phần DUY NHẤT cần browser (mở trang, đọc network response). Không tải
+ * file ở đây — tải là việc của giai đoạn sau, sau khi browser đã đóng.
  */
-function createSemaphore(limit) {
-  let active = 0;
-  const waiting = [];
-
-  return async function withSlot(fn) {
-    if (active >= limit) await new Promise((resolve) => waiting.push(resolve));
-    else active += 1;
-    try {
-      return await fn();
-    } finally {
-      const next = waiting.shift();
-      // Chuyển thẳng chỗ cho người đang chờ (active giữ nguyên), tránh khe hở để
-      // một luồng khác chen vào giữa lúc nhả và lúc cấp lại.
-      if (next) next();
-      else active -= 1;
-    }
-  };
-}
-
-/**
- * Tải trọn 1 video: bắt link → tải audio (+ video) → ghi meta + state.
- *
- * Trả về nhãn kết quả thay vì tự cộng biến đếm, để bên gọi tổng hợp — chạy song song
- * thì mỗi lượt phải là một đơn vị độc lập, không đụng vào trạng thái chung giữa chừng.
- */
-async function fetchOne(context, userId, videoId, state, prefix, capture) {
-  const media = await capture(() => captureMedia(context, videoId));
+async function captureOne(context, userId, videoId, state, prefix) {
+  const media = await captureMedia(context, videoId);
 
   // Chặn TRƯỚC khi tải: video của tác giả khác thì bỏ hẳn, không tính là lỗi
   // và không retry ở lần chạy sau.
@@ -121,16 +97,27 @@ async function fetchOne(context, userId, videoId, state, prefix, capture) {
     });
     await saveState(state);
     log.info(`${prefix}: bỏ qua — của "${media.authorNickname}", không phải user này`);
-    return { outcome: "foreign", audioBytes: 0, videoBytes: 0 };
+    return { videoId, outcome: "foreign" };
   }
 
   if (!media.audioUrl) {
     throw new Error("không bắt được link audio (chạy `npm run inspect` để xem response thật)");
   }
 
+  return { videoId, media };
+}
+
+/**
+ * Tải audio (+ video) của 1 video đã capture, ghi meta + state.
+ *
+ * Không đụng tới browser/context nữa — chỉ cần `cookieHeader` chụp một lần trước
+ * khi đóng browser (xem fetchAll). Trả nhãn kết quả thay vì tự cộng biến đếm, để
+ * bên gọi tổng hợp — chạy song song thì mỗi lượt phải là một đơn vị độc lập.
+ */
+async function downloadOne(cookieHeader, userId, videoId, media, prefix) {
   const dir = paths.videoDir(userId, videoId);
   const audioPath = path.join(dir, `audio${media.audioExt}`);
-  const { bytes, contentType } = await downloadTo(context, media.audioUrl, audioPath);
+  const { bytes, contentType } = await downloadTo(cookieHeader, media.audioUrl, audioPath);
 
   // Video gốc: cần cho bước ghép audio đã dub trở lại. Nặng gấp ~45 lần audio
   // nên tách thành tuỳ chọn riêng, và lỗi ở đây không làm hỏng cả video —
@@ -140,7 +127,7 @@ async function fetchOne(context, userId, videoId, state, prefix, capture) {
   if (config.downloadVideo && media.videoUrl) {
     try {
       const videoPath = path.join(dir, "video.mp4");
-      const res = await downloadTo(context, media.videoUrl, videoPath);
+      const res = await downloadTo(cookieHeader, media.videoUrl, videoPath);
       videoBytes = res.bytes;
       videoFile = "video.mp4";
     } catch (err) {
@@ -188,22 +175,20 @@ async function fetchOne(context, userId, videoId, state, prefix, capture) {
   };
   await fs.writeFile(path.join(dir, "meta.json"), JSON.stringify(meta, null, 2), "utf8");
 
-  markVideo(state, videoId, {
-    status: STATUS.FETCHED,
-    audioSource: media.audioKind,
-    audioFile: path.basename(audioPath),
-    isOriginalSound: media.isOriginalSound,
-    suspectBgm,
-    error: null,
-  });
-  await saveState(state);
-
   const videoNote = videoBytes
     ? ` + video ${(videoBytes / 1048576).toFixed(1)} MB ${media.videoResolution ?? ""}`.trimEnd()
     : "";
   log.info(`${prefix}: OK (audio ${(bytes / 1024).toFixed(0)} KB ${media.audioKind}${videoNote})`);
 
-  return { outcome: "ok", audioBytes: bytes, videoBytes: videoBytes ?? 0 };
+  return {
+    outcome: "ok",
+    audioBytes: bytes,
+    videoBytes: videoBytes ?? 0,
+    audioFile: path.basename(audioPath),
+    audioKind: media.audioKind,
+    isOriginalSound: media.isOriginalSound,
+    suspectBgm,
+  };
 }
 
 /**
@@ -216,9 +201,13 @@ async function fetchOne(context, userId, videoId, state, prefix, capture) {
  * `userId` truyền vào chính là `sec_uid` — dùng để loại video của tác giả khác lọt
  * vào danh sách từ khu vực gợi ý của trang.
  *
- * Chạy song song `config.fetchConcurrency` video: phần lớn thời gian mỗi lượt là chờ
- * mạng (mp4 ~30-45 MB trên MỘT kết nối, CDN Douyin bóp tốc độ từng kết nối chứ không
- * bóp tổng), nên xếp hàng tuần tự là bỏ trống băng thông gần như suốt.
+ * Chia làm HAI giai đoạn tách biệt, không interleave như trước:
+ * 1. Capture (cần browser, trần `captureConcurrency`) — bắt link cho cả lô.
+ * 2. Download (không cần browser, trần `fetchConcurrency`) — tải bằng fetch thuần
+ *    + cookie snapshot chụp ngay sau khi capture xong.
+ * Browser đóng ngay sau giai đoạn 1, không phải đợi hết giai đoạn 2 — phần lớn
+ * thời gian của một lượt fetch là chờ mạng tải file (mp4 ~30-45 MB một kết nối),
+ * giữ cả cửa sổ Chromium sống suốt quãng đó chỉ tốn RAM/lộ diện vô ích.
  */
 export async function fetchAll(context, userId, state, { limit = null, concurrency = null, videoIds = null } = {}) {
   let pending = videosByStatus(state, [STATUS.COLLECTED, STATUS.FAILED]);
@@ -238,39 +227,70 @@ export async function fetchAll(context, userId, state, { limit = null, concurren
   // và các lần chạy sau cứ thế lấn dần xuống dưới.
   pending.sort((a, b) => (a < b ? 1 : -1));
   const targets = limit ? pending.slice(0, limit) : pending;
-  const workers = Math.max(1, concurrency ?? config.fetchConcurrency);
-  const capture = createSemaphore(Math.max(1, Math.min(config.captureConcurrency, workers)));
+  const downloadWorkers = Math.max(1, concurrency ?? config.fetchConcurrency);
+  const captureWorkers = Math.max(1, Math.min(config.captureConcurrency, downloadWorkers));
 
   log.info(
     `${targets.length}/${pending.length} video sẽ tải` +
       (limit ? ` (giới hạn --limit ${limit})` : "") +
-      `, song song ${workers} (capture ${Math.min(config.captureConcurrency, workers)})` +
+      `, capture song song ${captureWorkers}, tải song song ${downloadWorkers}` +
       `, video gốc: ${config.downloadVideo ? `CÓ (${config.videoQuality})` : "KHÔNG"}`,
   );
+
   let ok = 0;
   let failed = 0;
   let foreign = 0;
   let audioTotal = 0;
   let videoTotal = 0;
 
-  await pool(targets, workers, async (videoId, i) => {
+  // Giai đoạn 1: bắt link — cần browser.
+  const captured = new Array(targets.length).fill(null);
+  await pool(targets, captureWorkers, async (videoId, i) => {
     const prefix = `[${i + 1}/${targets.length}] ${videoId}`;
     try {
-      const res = await fetchOne(context, userId, videoId, state, prefix, capture);
-      if (res.outcome === "foreign") foreign += 1;
-      else {
-        ok += 1;
-        audioTotal += res.audioBytes;
-        videoTotal += res.videoBytes;
-      }
+      captured[i] = { ...(await captureOne(context, userId, videoId, state, prefix)), prefix };
     } catch (err) {
       failed += 1;
       markVideo(state, videoId, { status: STATUS.FAILED, error: err.message });
       await saveState(state);
       log.error(`${prefix}: ${err.message}`);
     }
-
     await randomDelay();
+  });
+
+  for (const c of captured) {
+    if (c?.outcome === "foreign") foreign += 1;
+  }
+
+  // Chụp cookie MỘT LẦN rồi đóng browser hẳn — giai đoạn tải không cần Playwright
+  // nữa (đã đo thật, xem comment ở downloadTo).
+  const cookieHeader = (await context.cookies()).map((c) => `${c.name}=${c.value}`).join("; ");
+  await context.close();
+  log.info(`đã bắt xong link cho ${targets.length} video — đóng browser, chuyển sang tải file qua HTTP`);
+
+  // Giai đoạn 2: tải file — không cần browser, chỉ tốn băng thông.
+  const toDownload = captured.filter((c) => c?.media);
+  await pool(toDownload, downloadWorkers, async (item) => {
+    try {
+      const res = await downloadOne(cookieHeader, userId, item.videoId, item.media, item.prefix);
+      markVideo(state, item.videoId, {
+        status: STATUS.FETCHED,
+        audioSource: res.audioKind,
+        audioFile: res.audioFile,
+        isOriginalSound: res.isOriginalSound,
+        suspectBgm: res.suspectBgm,
+        error: null,
+      });
+      await saveState(state);
+      ok += 1;
+      audioTotal += res.audioBytes;
+      videoTotal += res.videoBytes;
+    } catch (err) {
+      failed += 1;
+      markVideo(state, item.videoId, { status: STATUS.FAILED, error: err.message });
+      await saveState(state);
+      log.error(`${item.prefix}: ${err.message}`);
+    }
   });
 
   const mb = (n) => (n / 1048576).toFixed(0);

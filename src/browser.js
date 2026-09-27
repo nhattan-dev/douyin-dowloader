@@ -44,6 +44,13 @@ export async function openContext() {
     log.warn("HEADLESS=true — Douyin dễ phát hiện hơn. Chỉ dùng khi đã chắc chắn không bị chặn.");
   }
 
+  // Giữ 1 tab trống sống suốt vòng đời context: capture.js đóng page ngay sau khi
+  // bắt xong metadata, và nếu mọi page capture đồng thời đóng hết (về 0 tab) thì
+  // Chromium headed tự thoát cả tiến trình như đóng cửa sổ cuối cùng của trình
+  // duyệt thật — sập trước khi cli.js chủ động gọi context.close(), kéo theo
+  // context.request đang dùng để tải file chết theo.
+  await context.newPage();
+
   return context;
 }
 

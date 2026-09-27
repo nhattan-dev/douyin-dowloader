@@ -99,3 +99,59 @@ Yêu cầu:
    thuật ngữ có trôi không, câu nào nghe như dịch máy.
 
 Trả đúng schema: \`vi\` là object \`{"<id>": "<câu tiếng Việt>"}\` đủ mọi id.`;
+
+// --- series init v2: dựng bible nháp CHỈ từ lời thoại (không cụm giọng, không pass A) ---
+// Cố ý NGẮN: prompt fleex dùng tay trong chat, cộng mô tả bible + đúng hai luật code cần (alias cho
+// tên nghe nhầm, speaks cho bước look). Hình dạng đã do JSON Schema của task ép, không lặp lại ở đây.
+export const SERIES = `Từ transcript các tập trong \`context\` (\`episodes[].script\`, mỗi dòng \`#<số câu> <giây bắt đầu>-<giây kết thúc> <câu chữ Hán>\`,
+đây là kết quả từ ASR, giúp tao dựng bible cho series.
+
+## Bible là gì
+Hồ sơ dùng chung cho mọi tập để các tập dịch ra thống nhất. Nhân vật/thuật ngữ mới ở tập sau sẽ được đề xuất thêm — không chắc thì ghi \`doubt\`, đừng đoán.
+
+## Mẫu
+\`\`\`
+{
+  "series": {"titleZh": "tên phim", "titleVi": "tên phim tiếng Việt"},
+  "cast": [{"id": "C1", "zh": "林天", "vi": "Lâm Thiên", "viShort": "", "gender": "male|female|?",
+            "role": "main|episodic|mentioned", "alias": ["宗主"],
+            "note": "vai trò + quan hệ, 1 câu tiếng Việt", "doubt": "",
+            "speaks": [{"ep": "1", "lines": [3, 12]}]}],
+  "terms": [{"zh": "<chữ Hán>", "vi": "<tiếng Việt>"}],
+  "address": [{"from": "C1", "to": "C2", "self": "ta", "other": "ngươi", "fromEp": "1", "why": "lý do ngắn"}],
+  "doubts": ["điều bạn không chắc mà người duyệt nên biết"]
+}
+\`\`\`
+`;
+// export const SERIES = `Từ transcript các tập trong \`context\` (\`episodes[].script\`, mỗi dòng \`#<số câu> <giây bắt đầu>-<giây kết thúc> <câu chữ Hán>\`,
+// do máy nhận dạng giọng nói ra nên có chỗ nghe nhầm; không có nhãn người nói), giúp tao dựng bible cho series.
+// \`videos\` là tiêu đề + hashtag mọi video tác giả đăng (tên phim thường nằm ở đó). \`pinnedTerms\` là thuật
+// ngữ đã chốt tay.
+
+// ## Bible là gì
+// Hồ sơ dùng chung cho mọi tập để các tập dịch ra thống nhất. Người duyệt KHÔNG đọc được tiếng Trung —
+// mọi ô chữ viết tiếng Việt. Sau khi duyệt, mỗi tập dùng bible để: sửa lỗi nghe nhầm (tên + thuật ngữ là
+// chính tả chuẩn), nhận ra ai đang nói (khớp lời gọi tên với \`zh\`/\`alias\`, khớp khung hình với ngoại
+// hình), dịch (\`vi\`, \`terms\`, \`address\`) và lồng tiếng (mỗi nhân vật một giọng — gộp nhầm hai người là
+// chung giọng, tách nhầm một người là đổi giọng giữa phim). Nhân vật/thuật ngữ mới ở tập sau sẽ được đề
+// xuất thêm, nên không cần đủ; nhưng đã duyệt thì sửa rất đắt — không chắc thì ghi \`doubt\`, đừng đoán.
+
+// ## Mẫu
+// \`\`\`
+// {
+//   "series": {"titleZh": "tên phim", "titleVi": "tên phim tiếng Việt"},
+//   "cast": [{"id": "C1", "zh": "林天", "vi": "Lâm Thiên", "viShort": "", "gender": "male|female|?",
+//             "role": "main|episodic|mentioned", "alias": ["宗主"],
+//             "note": "vai trò + quan hệ, 1 câu tiếng Việt", "doubt": "",
+//             "speaks": [{"ep": "1", "lines": [3, 12]}]}],
+//   "terms": [{"zh": "<chữ Hán>", "vi": "<tiếng Việt>"}],
+//   "address": [{"from": "C1", "to": "C2", "self": "ta", "other": "ngươi", "fromEp": "1", "why": "lý do ngắn"}],
+//   "doubts": ["điều bạn không chắc mà người duyệt nên biết"]
+// }
+// \`\`\`
+
+// Hai luật chương trình sẽ kiểm:
+// - \`zh\` hoặc ít nhất một \`alias\` phải có NGUYÊN VĂN trong thoại (người dẫn chuyện dùng "旁白"). Tên bị
+//   nghe nhầm: \`zh\` là dạng đúng, các dạng nghe nhầm cho vào \`alias\`. Khoá \`terms\` cũng phải có nguyên văn.
+// - \`speaks\`: mỗi tập 2–4 số câu bạn CHẮC nhân vật đang nói — dùng để cắt khung hình tả ngoại hình. Không
+//   chắc thì để trống tập đó; chỉ được nhắc tới, không có thoại thì rỗng.`;

@@ -91,6 +91,10 @@ const activeJobs = () => jobList().filter((j) => j.status === "running" || j.sta
 const jobsFor = (pred) => jobList().filter(pred);
 const activeOf = (list) => list.find((j) => j.status === "running") || list.find((j) => j.status === "queued") || null;
 
+// Cho các mảnh UI ngoài view chính (vd. dialog xem trước) tự đăng ký nghe việc nền theo id/loại,
+// vì refreshSoon() chỉ vẽ lại S.view chứ không đụng tới dialog đang mở.
+const jobWatchers = new Set();
+
 function connect() {
   const es = new EventSource("/api/events");
   es.onopen = () => setConn(true);
@@ -106,6 +110,7 @@ function connect() {
     S.jobs.set(j.id, j);
     paintLive(j);
     paintSideSoon();
+    for (const w of jobWatchers) w(j);
     if (!prev || prev.status !== j.status) {
       if (prev) notify(j);
       refreshSoon();
@@ -689,14 +694,37 @@ async function viewUser([userId]) {
     };
   }
 
-  function preview(vid) {
+  // video.mp4 gốc mã hoá HEVC thì trình duyệt phát được tiếng mà hình đứng im (xem scan.js
+  // videoCodec) — dễ tưởng video hỏng. Hỏi server trước khi phát; cần dựng bản xem trước thì hiện
+  // nút thay vì im lặng phát một khung hình chết.
+  async function preview(vid) {
     const v = data.videos.find((x) => x.id === vid);
     const dlg = $("#dlg");
-    dlg.innerHTML = val(html`<div class="dlg-h"><h2>${v.title || v.id}</h2></div>
-      <div class="dlg-b"><video src="/media/${v.dir.split("/").map(enc).join("/")}/video.mp4" controls autoplay></video>
-      <div class="row small dim">${v.tags.map((t) => html`<span class="tag">#${t}</span>`)}</div></div>
-      <div class="dlg-f">${openBtn(v.dir)}<button class="btn" onclick="this.closest('dialog').close()">Đóng</button></div>`);
-    dlg.onclose = () => { dlg.innerHTML = ""; };
+    let info;
+    try {
+      info = await api(`/api/preview/${enc(userId)}/${enc(vid)}`);
+    } catch {
+      info = { videoUrl: `/media/${v.dir.split("/").map(enc).join("/")}/video.mp4`, needsPreview: false };
+    }
+    function paint() {
+      const pj = info.needsPreview ? activeOf(jobsFor((j) => j.type === "preview" && j.params?.videoId === vid)) : null;
+      const body = !info.needsPreview ? html`<video src="${info.videoUrl}" controls autoplay></video>`
+        : pj ? html`<div>${liveJob(pj)}</div>`
+        : html`<div class="empty"><b>Video gốc mã hoá HEVC, trình duyệt không phát được (chỉ nghe tiếng)</b>
+            ${btn("Dựng bản xem trước", { url: `/api/preview/${enc(userId)}/${enc(vid)}`, cls: "sm pri", ok: "Đang dựng bản xem trước…" })}</div>`;
+      dlg.innerHTML = val(html`<div class="dlg-h"><h2>${v.title || v.id}</h2></div>
+        <div class="dlg-b">${body}
+        <div class="row small dim">${v.tags.map((t) => html`<span class="tag">#${t}</span>`)}</div></div>
+        <div class="dlg-f">${openBtn(v.dir)}<button class="btn" onclick="this.closest('dialog').close()">Đóng</button></div>`);
+    }
+    const watch = async (j) => {
+      if (j.type !== "preview" || j.params?.videoId !== vid) return;
+      if (j.status === "done") info = await api(`/api/preview/${enc(userId)}/${enc(vid)}`).catch(() => info);
+      paint();
+    };
+    jobWatchers.add(watch);
+    dlg.onclose = () => { jobWatchers.delete(watch); dlg.innerHTML = ""; };
+    paint();
     dlg.showModal();
   }
 
@@ -919,45 +947,50 @@ async function viewSeries([slug]) {
       ${s.userId ? html`<div class="row small dim" style="margin-bottom:12px;gap:8px;align-items:baseline">
         <span>Danh sách video quét lần cuối ${ago(s.lastCollectedAt)}${s.mixNews.length ? "" : " — không thấy tập mới nào"}.</span>
         ${collectJob ? pill(JOB_ST[collectJob.status]) : btn("Quét lại tác giả", { url: `/api/users/${enc(s.userId)}/collect`, cls: "sm ghost", ok: "Đang quét — cửa sổ trình duyệt sẽ mở ra" })}</div>` : ""}
-      <div class="section-t"><span class="step-n ${bibleStep}">1</span><h2>Bible nhân vật</h2></div>
-      <div class="card card-b">${bibleBody}</div>
-
-      <div class="section-t"><span class="step-n ${used.some((e) => ["translated", "dubbed"].includes(e.state.status)) ? "ok" : ""}">2</span><h2>Dịch & lồng tiếng từng tập</h2>
-        <span class="grow"></span>
-        ${s.status === "approved" && todo.length ? btn(`Dịch ${todo.length} tập chưa dịch`, { url: `/api/series/${enc(slug)}/translate-all`, cls: "pri", confirm: `Xếp dịch ${todo.length} tập (~$0.10/tập)? Tập nào máy chưa chắc người nói sẽ dừng chờ bạn soát, các tập khác vẫn chạy.` }) : ""}</div>
-      <div class="card tw"><table class="t">
-        <tr><th>Tập</th><th>Video</th><th>Trạng thái</th><th>Tiến độ</th><th class="num">Lượt gần nhất</th><th></th></tr>
-        ${s.episodes.map((e, i) => {
-          if (s.status === "new") {
-            return html`<tr><td class="dim">${i + 1}</td><td style="max-width:320px">${e.title || e.videoId}<div class="dim small">${e.duration ? mmss(e.duration) : ""}</div></td>
-              <td>${e.hasTranscript ? pill(["có transcript", "ok"]) : pill(["chưa tải / STT", "warn"])}</td>
-              <td colspan="2" class="dim small">số tập chốt khi dựng bible${e.duration && e.duration < 60 ? " · video ngắn, sẽ bị gạt" : ""}</td>
-              <td>${delEpBtn(slug, s.status, e)}</td></tr>`;
-          }
-          if (!e.state) {
-            return html`<tr class="off"><td>—</td><td>${e.title || e.videoId}<div class="dim small">${e.why || "không dùng"}</div></td><td colspan="3"></td>
-              <td>${delEpBtn(slug, s.status, e)}</td></tr>`;
-          }
-          const ej = jobsFor((j) => j.params?.slug === slug && String(j.params?.ep) === e.ep);
-          const act = activeOf(ej);
-          const diskT = Math.max(e.state.times.translation, e.state.times.review, e.state.times.dub);
-          const failed = !act && ej[0] && ["failed", "interrupted"].includes(ej[0].status) && new Date(ej[0].endedAt).getTime() > diskT ? ej[0] : null;
-          const z = (act || ej.find((j) => j.type === "translate"))?.progress?.zhvi;
-          const scope = act?.progress?.zhvi?.plan ? act.progress.zhvi
-            : e.state.status === "translated" || e.state.status === "dubbed" ? { subs: Object.fromEntries(plan.map((x) => [x.id, { status: "ran" }])) }
-              : z?.plan ? z : { subs: Object.fromEntries(e.state.paid.map((id) => [id, { status: "ran" }])), gate: e.state.status === "review" ? { stopped: true } : null };
-          return html`<tr class="click" data-href="#/series/${enc(slug)}/ep/${enc(e.ep)}">
-            <td><b>${e.ep}</b></td>
-            <td style="max-width:320px">${e.title || e.videoId}<div class="dim small">${e.duration ? mmss(e.duration) : ""}</div></td>
-            <td>${act ? pill(JOB_ST[act.status]) : failed ? html`<span class="pill p-err" title="${failed.error || ""}">lỗi ở lần chạy trước</span>` : pill(EP_ST[e.state.status])}
-              ${e.state.labelsStale ? html`<div class="small" style="color:var(--act)">nhãn soát mới hơn bản dịch</div>` : ""}
-              ${e.state.dubStale ? html`<div class="small" style="color:var(--warn)">lồng tiếng cũ hơn bản dịch</div>` : ""}</td>
-            <td>${act ? html`<div data-live-job="${act.id}" data-mode="mini" style="min-width:220px">${liveJob(act, "mini")}</div>` : timeline(scope, plan, { compact: true })}</td>
-            <td class="num money">${money(e.state.lastCost)}</td>
-            <td><div class="row" style="gap:6px;flex-wrap:nowrap">${failed ? html`<div class="row">${btn("Chạy lại", { url: `/api/jobs/${failed.id}/retry`, cls: "sm pri" })}${link("Xem lỗi", `#/jobs/${failed.id}`, "sm ghost")}</div>` : epAction(s, e, act)}
-              ${act ? "" : delEpBtn(slug, s.status, e)}</div></td></tr>`;
-        })}</table></div>
-      ${legend}`);
+      <div class="series-split">
+        <div>
+          <div class="section-t"><span class="step-n ${used.some((e) => ["translated", "dubbed"].includes(e.state.status)) ? "ok" : ""}">2</span><h2>Dịch & lồng tiếng từng tập</h2>
+            <span class="grow"></span>
+            ${s.status === "approved" && todo.length ? btn(`Dịch ${todo.length} tập chưa dịch`, { url: `/api/series/${enc(slug)}/translate-all`, cls: "pri", confirm: `Xếp dịch ${todo.length} tập (~$0.10/tập)? Tập nào máy chưa chắc người nói sẽ dừng chờ bạn soát, các tập khác vẫn chạy.` }) : ""}</div>
+          <div class="card tw"><table class="t">
+            <tr><th>Tập</th><th>Video</th><th>Trạng thái</th><th>Tiến độ</th><th class="num">Lượt gần nhất</th><th></th></tr>
+            ${s.episodes.map((e, i) => {
+              if (s.status === "new") {
+                return html`<tr><td class="dim">${i + 1}</td><td style="max-width:320px">${e.title || e.videoId}<div class="dim small">${e.duration ? mmss(e.duration) : ""}</div></td>
+                  <td>${e.hasTranscript ? pill(["có transcript", "ok"]) : pill(["chưa tải / STT", "warn"])}</td>
+                  <td colspan="2" class="dim small">số tập chốt khi dựng bible${e.duration && e.duration < 60 ? " · video ngắn, sẽ bị gạt" : ""}</td>
+                  <td>${delEpBtn(slug, s.status, e)}</td></tr>`;
+              }
+              if (!e.state) {
+                return html`<tr class="off"><td>—</td><td>${e.title || e.videoId}<div class="dim small">${e.why || "không dùng"}</div></td><td colspan="3"></td>
+                  <td>${delEpBtn(slug, s.status, e)}</td></tr>`;
+              }
+              const ej = jobsFor((j) => j.params?.slug === slug && String(j.params?.ep) === e.ep);
+              const act = activeOf(ej);
+              const diskT = Math.max(e.state.times.translation, e.state.times.review, e.state.times.dub);
+              const failed = !act && ej[0] && ["failed", "interrupted"].includes(ej[0].status) && new Date(ej[0].endedAt).getTime() > diskT ? ej[0] : null;
+              const z = (act || ej.find((j) => j.type === "translate"))?.progress?.zhvi;
+              const scope = act?.progress?.zhvi?.plan ? act.progress.zhvi
+                : e.state.status === "translated" || e.state.status === "dubbed" ? { subs: Object.fromEntries(plan.map((x) => [x.id, { status: "ran" }])) }
+                  : z?.plan ? z : { subs: Object.fromEntries(e.state.paid.map((id) => [id, { status: "ran" }])), gate: e.state.status === "review" ? { stopped: true } : null };
+              return html`<tr class="click" data-href="#/series/${enc(slug)}/ep/${enc(e.ep)}">
+                <td><b>${e.ep}</b></td>
+                <td style="max-width:320px">${e.title || e.videoId}<div class="dim small">${e.duration ? mmss(e.duration) : ""}</div></td>
+                <td>${act ? pill(JOB_ST[act.status]) : failed ? html`<span class="pill p-err" title="${failed.error || ""}">lỗi ở lần chạy trước</span>` : pill(EP_ST[e.state.status])}
+                  ${e.state.labelsStale ? html`<div class="small" style="color:var(--act)">nhãn soát mới hơn bản dịch</div>` : ""}
+                  ${e.state.dubStale ? html`<div class="small" style="color:var(--warn)">lồng tiếng cũ hơn bản dịch</div>` : ""}</td>
+                <td>${act ? html`<div data-live-job="${act.id}" data-mode="mini" style="min-width:220px">${liveJob(act, "mini")}</div>` : timeline(scope, plan, { compact: true })}</td>
+                <td class="num money">${money(e.state.lastCost)}</td>
+                <td><div class="row" style="gap:6px;flex-wrap:nowrap">${e.state.dubUrl ? html`<a class="btn sm" href="${e.state.dubUrl}" download="${slug}-tap-${e.ep}.mp4" title="Tải thành phẩm lồng tiếng${e.state.dubStale ? " (cũ hơn bản dịch)" : ""}">Tải</a>` : ""}${failed ? html`<div class="row">${btn("Chạy lại", { url: `/api/jobs/${failed.id}/retry`, cls: "sm pri" })}${link("Xem lỗi", `#/jobs/${failed.id}`, "sm ghost")}</div>` : epAction(s, e, act)}
+                  ${act ? "" : delEpBtn(slug, s.status, e)}</div></td></tr>`;
+            })}</table></div>
+          ${legend}
+        </div>
+        <div class="series-side">
+          <div class="section-t" style="margin-top:0"><span class="step-n ${bibleStep}">1</span><h2>Bible nhân vật</h2></div>
+          <div class="card card-b">${bibleBody}</div>
+        </div>
+      </div>`);
   };
   await render();
   return { refresh: render };
@@ -1081,14 +1114,14 @@ async function viewEpisode([slug, ep, tab]) {
         <div class="callout act" style="margin-bottom:10px">Chốt <b>cụm giọng</b> trước (sửa một lần là cả cụm), rồi mới tới câu lẻ được đánh dấu. Phím <b>Space</b> phát câu đang trỏ.
           ${v2 ? html`Câu có hai người nói thì chọn <b>«nhiều người»</b> rồi bấm vào khe giữa hai chữ để <b>cắt</b>, mỗi mảnh chọn một người.` : ""}
           Xong bấm <b>«Lưu &amp; dịch tiếp»</b> ở góc trên trang — nhãn được nạp và tập đi tiếp.</div>
-        <div class="row" style="margin-bottom:10px">
+        ${v2 ? "" : html`<div class="row" style="margin-bottom:10px">
           ${btn("Cập nhật nhân vật", {
             url: `${url}/rebuild-review`, cls: "sm ghost", go: `${base}/progress`,
             confirm: "Dựng lại trang soát theo bible hiện tại — tốn một lượt LLM nhỏ (sửa ASR + gán người nói lại tập này), nhãn đã soát không mất. Chạy?",
             ok: "Đang dựng lại trang soát",
           })}
           <span class="dim small">Trang này chốt danh sách nhân vật lúc dựng — vừa thêm nhân vật ở trang bible thì bấm đây để họ hiện ra.</span>
-        </div>
+        </div>`}
         <iframe class="frame" src="${d.urls.review}"></iframe>`;
     }
     if (tab === "translation") {
@@ -1506,6 +1539,7 @@ async function route() {
   for (const [re, fn] of ROUTES) {
     const m = h.match(re);
     if (!m) continue;
+    main().classList.toggle("wide", fn === viewSeries);
     loading();
     try {
       S.view = await fn(m.slice(1).map((x) => (x === undefined ? undefined : decodeURIComponent(x))));
@@ -1525,8 +1559,10 @@ document.addEventListener("click", (e) => {
   if (r) location.hash = r.dataset.href;
 });
 
-window.addEventListener("hashchange", route);
+// meta TRƯỚC, rồi mới nghe hashchange: đổi trang trong lúc chờ /api/meta thì view đọc S.meta.plan
+// trên null ("Cannot read properties of null (reading 'plan')"); route() cuối file vẫn vẽ đúng hash hiện tại
 S.meta = await api("/api/meta");
+window.addEventListener("hashchange", route);
 connect();
 loadOverview();
 setInterval(loadOverview, 60000);

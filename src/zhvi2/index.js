@@ -22,7 +22,7 @@ import { Ckpt, Store, sig as makeSig } from "../zhvi/ckpt.js";
 import { Llm, modelsFromEnv } from "../zhvi/llm.js";
 import { applySpeakers, reviewNeeded, sheetFromBible, vocativeNames } from "../zhvi/passes/b-speakers.js";
 import * as E from "../zhvi/passes/e-export.js";
-import { build as buildPage, media } from "../zhvi/review.js";
+import { build as buildPage, media, render as renderPage } from "../zhvi/review.js";
 import * as V from "../zhvi/vision.js";
 import { TRANSLATE, UNDERSTAND } from "./prompts.js";
 import { Todo } from "./todo.js";
@@ -123,19 +123,13 @@ export async function runEpisode({
   }, { frozen: Boolean(labels) });
 
   // --- áp (miễn phí, dựng lại mỗi lần)
-  const { utts, roughVi, align, rejected } = U.apply(uOut, lines, bible, { cuts: labels?.cuts || {} });
-  const rawToUtt = new Map();
-  for (const u of utts) if (!rawToUtt.has(u.segmentIndexes[0])) rawToUtt.set(u.segmentIndexes[0], u.id);
-  U.attachVision(align, vision, bible, rawToUtt);
+  const { utts, roughVi, align, rejected, summary } = understood({ uOut, lines, bible, vision, labels, log });
   if (rejected.length) {
     log.warn(`  U: bỏ ${rejected.length} mục task trả mà code không áp được:`);
     for (const r of rejected) log.warn(`      ${r}`);
   }
-  log.info(`  U: ${utts.length} câu (${utts.filter((u) => u.edits.length).length} câu sửa ASR, `
-    + `${utts.filter((u) => u.speakerSource === "todo-split").length} mảnh tách, ${utts.filter((u) => u.speakerSource === "todo-moved").length} câu đổi người); `
-    + Object.entries(align.clusters).map(([k, c]) => `${k}=${c.cid ? bible.cast.find((x) => x.id === c.cid)?.vi : c.who || "?"}/${c.level}`).join(" "));
+  log.info(`  U: ${summary}`);
 
-  if (labels) applySpeakers(utts, align, bible, bySk(labels, utts, log));
   await store.write("utts.json", utts);
   await store.write("align.json", { ...align, rejected });
 
@@ -144,11 +138,20 @@ export async function runEpisode({
   report.review = { ...gate, stopped: false };
   if (review || (gate.need && !skipReview)) {
     const page = await reviewPage({ utts, align, roughVi, bible, video, outDir, ep, log, lines, dataDir });
+    // Mốc "đã dừng ở cổng" là file RIÊNG, không phải mtime của review.html: UI dựng trang mỗi lần
+    // mở, nên dựng trang không được phép đổi trạng thái tập (trước đây dựng lại = tập đã dịch
+    // quay về «chờ soát»).
+    await store.write("gate.json", { at: new Date().toISOString(), why: review ? "--review" : gate.why });
     log.info(`dừng cho người soát: ${review ? "--review" : gate.why}`);
     report.review = { ...gate, stopped: true, page };
     return { report, utts, align };
   }
   if (gate.need) log.warn(`bỏ qua cổng người soát: ${gate.why}`);
+  // Nhãn vừa nạp có cắt câu -> mảnh mới chưa có ảnh/tiếng. Cắt ở đây (chỉ phần thiếu) để trang
+  // soát dựng mỗi lần mở không bao giờ phải chạy ffmpeg. Tập chưa từng có trang thì thôi.
+  if (await fs.access(path.join(outDir, "media.json")).then(() => true, () => false)) {
+    await media(video, utts, path.join(outDir, "media.json"), { n: 3, log, audioSrc: await audioOf(video, dataDir) });
+  }
 
   // --- T: task 2
   const sheet = sheetFromBible(bible, align, { ep, utts });
@@ -338,14 +341,58 @@ function alignChars(a, b) {
  * mất khung hình; kênh "nghe" vẫn còn nhờ `audio.m4a` trong `dataDir` (xem `media()`).
  */
 async function reviewPage({ utts, align, roughVi, bible, video, outDir, ep, log, lines, dataDir }) {
-  const audioSrc = !video && dataDir
-    ? await fs.access(path.join(dataDir, "audio.m4a")).then(() => path.join(dataDir, "audio.m4a"), () => null)
-    : null;
+  const audioSrc = await audioOf(video, dataDir);
   if (!video && !audioSrc) log.warn(`  tập ${ep}: không có video.mp4 lẫn audio.m4a — trang soát dựng không kèm nghe/xem`);
   const med = await media(video, utts, path.join(outDir, "media.json"), { n: 3, log, audioSrc });
+  const out = path.join(outDir, "review.html");
+  await buildPage(pageEps({ utts, align, roughVi, bible, video, ep, lines, med }), bible, out, { log, sigPrefix: "v2-" });
+  return out;
+}
+
+const audioOf = (video, dataDir) => (!video && dataDir
+  ? fs.access(path.join(dataDir, "audio.m4a")).then(() => path.join(dataDir, "audio.m4a"), () => null)
+  : Promise.resolve(null));
+
+function pageEps({ utts, align, roughVi, bible, video, ep, lines, med }) {
   const known = bible.cast.flatMap((c) => [c.zh, c.vi, c.viShort, ...(c.alias || [])]).concat(Object.keys(bible.terms || {}));
   const cands = vocativeNames([{ ep, utts }], known);
-  const out = path.join(outDir, "review.html");
-  await buildPage({ [ep]: { utts, align, media: med, vi: roughVi, cands, video, words: wordsOf(utts, lines) } }, bible, out, { log, sigPrefix: "v2-" });
-  return out;
+  return { [ep]: { utts, align, media: med, vi: roughVi, cands, video, words: wordsOf(utts, lines) } };
+}
+
+/**
+ * Phần miễn phí sau task hiểu tập: áp kết quả U + nhát cắt của người, gắn kênh hình, áp nhãn đã
+ * soát. Dùng chung cho pipeline và cho trang soát dựng mỗi lần mở — một chỗ, để trang không bao
+ * giờ lệch với thứ pipeline dịch. Không nhận llm/todo: về cấu trúc không gọi được API nào.
+ */
+export function understood({ uOut, lines, bible, vision, labels, log = NULL_LOG }) {
+  const r = U.apply(uOut, lines, bible, { cuts: labels?.cuts || {} });
+  const rawToUtt = new Map();
+  for (const u of r.utts) if (!rawToUtt.has(u.segmentIndexes[0])) rawToUtt.set(u.segmentIndexes[0], u.id);
+  U.attachVision(r.align, vision, bible, rawToUtt);
+  // tóm tắt phần MÁY làm — đếm trước khi nhãn người soát đè lên
+  r.summary = `${r.utts.length} câu (${r.utts.filter((u) => u.edits.length).length} câu sửa ASR, `
+    + `${r.utts.filter((u) => u.speakerSource === "todo-split").length} mảnh tách, ${r.utts.filter((u) => u.speakerSource === "todo-moved").length} câu đổi người); `
+    + Object.entries(r.align.clusters).map(([k, c]) => `${k}=${c.cid ? bible.cast.find((x) => x.id === c.cid)?.vi : c.who || "?"}/${c.level}`).join(" ");
+  if (labels) applySpeakers(r.utts, r.align, bible, bySk(labels, r.utts, log));
+  return r;
+}
+
+/**
+ * Trang soát dựng từ đĩa, lúc mở (UI). Đầu vào đều là thứ pipeline đã ghi: `u.json` (đã trả tiền),
+ * `vision.json`, `media.json` (chỉ đọc), transcript, nhãn — và bible HIỆN TẠI, nên nhân vật vừa
+ * thêm ở trang bible có ngay trong ô chọn, sửa code trang là mọi tập thấy ngay.
+ * Trả `null` nếu tập chưa có `u.json` (chưa chạy task hiểu tập).
+ */
+export async function renderReview({ biblePath, ep, outDir, videoDir, log = NULL_LOG }) {
+  const uOut = await readJson(path.join(outDir, "u.json"));
+  if (!uOut) return null;
+  const bible = await BIBLE.load(biblePath);
+  const transcript = JSON.parse(await fs.readFile(path.join(videoDir, "transcript.json"), "utf8"));
+  const video = await fs.access(path.join(videoDir, "video.mp4")).then(() => path.join(videoDir, "video.mp4"), () => null);
+  const labels = await readJson(path.join(path.dirname(biblePath), labelsName(ep)));
+  const lines = U.rawLines(transcript);
+  const vision = video ? V.revalidate(await readJson(path.join(outDir, "vision.json")), lines, bible, log) : null;
+  const { utts, roughVi, align } = understood({ uOut, lines, bible, vision, labels, log });
+  const med = await media(video, utts, path.join(outDir, "media.json"), { audioSrc: await audioOf(video, videoDir), extract: false });
+  return renderPage(pageEps({ utts, align, roughVi, bible, video, ep, lines, med }), bible, path.join(outDir, "review.html"), { sigPrefix: "v2-" });
 }

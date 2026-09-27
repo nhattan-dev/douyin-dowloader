@@ -52,9 +52,13 @@ const readJson = async (p, dflt = null) => {
  * `video` có thể thiếu (tải video lỗi, chỉ audio tách riêng còn sống — xem README mục nguồn
  * audio) — khi đó không có khung hình để cắt, nhưng vẫn cắt được tiếng từ `audioSrc` nếu có,
  * để người soát còn kênh "nghe". Không dựng được cả hai thì `clip` để `null`, trang tự ẩn nút.
+ *
+ * `extract: false` = chỉ đọc cache, không chạy ffmpeg, không ghi file — đường của UI dựng trang
+ * mỗi lần mở: cắt là việc của pipeline (lúc dừng ở cổng, lúc nạp nhãn có cắt câu), không của
+ * một lượt xem. Câu chưa có trong cache thì trả `undefined`, trang tự vẽ không ảnh/tiếng.
  */
 export async function media(video, utts, cachePath, {
-  n = 3, width = 300, q = 6, pad = 0.15, kbps = 40, log = null, audioSrc = null,
+  n = 3, width = 300, q = 6, pad = 0.15, kbps = 40, log = null, audioSrc = null, extract = true,
 } = {}) {
   const clipSrc = video || audioSrc;
   const old = (cachePath && (await readJson(cachePath))) || {};
@@ -62,6 +66,7 @@ export async function media(video, utts, cachePath, {
   let fresh = 0;
   // khoá theo MỐC, không theo id: người cắt một câu thì id các câu sau đánh lại mà clip không đổi
   const keyOf = (u) => `${u.start.toFixed(2)}-${u.end.toFixed(2)}`;
+  if (!extract) return Object.fromEntries(utts.map((u) => [u.id, old[keyOf(u)]]));
 
   for (const u of utts) {
     const k = keyOf(u);
@@ -740,9 +745,12 @@ function renderEp(ep, d, bib, vref = null) {
     const who = lj ? lj.who : base;
     const why = susp[String(i)];
     const key = lineKey(ep, u);
-    const thumbs = med[i].thumbs.map((t, k) =>
+    // mảnh vừa cắt mà pipeline chưa trích ảnh/tiếng (trang dựng lúc mở chỉ ĐỌC media.json):
+    // vẽ không ảnh/tiếng, ▶ xem cảnh vẫn chạy thẳng từ video gốc
+    const m = med[i] || { thumbs: [], times: [], clip: null, missing: true };
+    const thumbs = m.thumbs.map((t, k) =>
       `<figure><img src="data:image/jpeg;base64,${t}" loading="lazy"${sceneOf(u, `#${i}`)}>`
-      + `<figcaption>${med[i].times[k]}s</figcaption></figure>`).join("");
+      + `<figcaption>${m.times[k]}s</figcaption></figure>`).join("");
     const dis = vp.pred && !(vp.pred in NA) && vp.pred !== who ? ' class="disagree"' : "";
     const ldis = lj && lj.who !== voice ? ' class="disagree"' : "";
     const verdict = lj
@@ -761,7 +769,7 @@ function renderEp(ep, d, bib, vref = null) {
     </div>
     <div class="zh">${esc(u.zh)}</div>
     <div class="vi">${esc(vi[i] || "")}</div>
-    <div class="au"><audio controls preload="none"${med[i].clip ? ` src="data:audio/mpeg;base64,${med[i].clip}"` : " title=\"không có tiếng — thiếu cả video lẫn audio gốc\""}></audio>
+    <div class="au"><audio controls preload="none"${m.clip ? ` src="data:audio/mpeg;base64,${m.clip}"` : ` title="${m.missing ? "mảnh mới cắt, chưa trích tiếng — dịch lại tập là có" : "không có tiếng — thiếu cả video lẫn audio gốc"}"`}></audio>
       <span class="hint">${(u.end - u.start).toFixed(1)}s · phím <b>Space</b> phát câu đang trỏ</span></div>
     <div class="thumbs">${thumbs}</div>
   </div>
@@ -781,7 +789,20 @@ function renderEp(ep, d, bib, vref = null) {
   return h.join("\n");
 }
 
-export async function build(eps, bib, out, { log = null, sigPrefix = "" } = {}) {
+export async function build(eps, bib, out, opts = {}) {
+  const html = await render(eps, bib, out, opts);
+  await fs.mkdir(path.dirname(path.resolve(out)), { recursive: true });
+  await fs.writeFile(out, html, "utf8");
+  const { size } = await fs.stat(out);
+  opts.log?.info?.(`${(size / 1e6).toFixed(1)} MB -> ${out}`);
+  return out;
+}
+
+/**
+ * HTML của trang soát, không ghi gì. `out` chỉ để tính đường dẫn tương đối tới video (mở bằng
+ * file://) — UI dựng mỗi lần mở vẫn truyền đúng chỗ file sẽ nằm.
+ */
+export async function render(eps, bib, out, { sigPrefix = "" } = {}) {
   const parts = [];
   for (const [ep, d] of Object.entries(eps)) parts.push(renderEp(ep, d, bib, await videoRef(d.video, out)));
   const body = parts.join("");
@@ -811,11 +832,7 @@ export async function build(eps, bib, out, { log = null, sigPrefix = "" } = {}) 
 <main>${body}</main>
 <div id="vbox" hidden><video controls playsinline preload="metadata"></video><div class="cap"></div></div>
 <script>${PAGE_JS}</script></body></html>`;
-  await fs.mkdir(path.dirname(path.resolve(out)), { recursive: true });
-  await fs.writeFile(out, html, "utf8");
-  const { size } = await fs.stat(out);
-  log?.info?.(`${(size / 1e6).toFixed(1)} MB -> ${out}`);
-  return out;
+  return html;
 }
 
 /**

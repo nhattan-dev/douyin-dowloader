@@ -20,6 +20,7 @@ import { pinyin } from "pinyin-pro";
 
 import * as BIBLE from "../zhvi/bible.js";
 import { STAGES, readEnvFile, subsOf } from "../zhvi/index.js";
+import { renderReview } from "../zhvi2/index.js";
 import { saveEdit } from "./edits.js";
 import { Jobs } from "./jobs.js";
 import { recipes, saveSubmission } from "./recipes.js";
@@ -340,6 +341,10 @@ on("GET", "/api/cover/([^/]+)/([^/]+)", async (req, [user, vid], res) => {
 
 // video.mp4 gốc mã hoá HEVC thì trình duyệt không phát được — dựng bản xem trước riêng (xem
 // scan.js videoCodec + urls.buildPreview), việc chạy nền như mọi việc khác, xong tự hiện qua SSE
+on("GET", "/api/preview/([^/]+)/([^/]+)", async (req, [userId, videoId]) => {
+  if (!safePath(path.join("data", userId, videoId))) throw Object.assign(new Error("sai đường dẫn"), { code: 400 });
+  return scan.previewInfo(path.join(ROOT, "data", userId, videoId));
+});
 on("POST", "/api/preview/([^/]+)/([^/]+)", async (req, [userId, videoId]) => {
   if (!safePath(path.join("data", userId, videoId))) throw Object.assign(new Error("sai đường dẫn"), { code: 400 });
   return { job: await jobs.enqueue("preview", { userId, videoId }) };
@@ -645,13 +650,14 @@ const submitHook = (url, label) => String.raw`<script>(function(){
   document.addEventListener('DOMContentLoaded',function(){var b=document.getElementById('exp');if(b)b.textContent=${JSON.stringify(label)}});
 })();</script>`;
 
-async function injectReview(res, file, url, label) {
+async function injectReview(res, file, url, label, warn = null) {
   let html;
   try {
     html = await fsp.readFile(file, "utf8");
   } catch {
     return fail(res, 404, "chưa có trang soát");
   }
+  if (warn) html = html.replace("<main>", `<main><div style="background:#7a2e1f;color:#fff;padding:8px 12px;border-radius:6px;margin-bottom:10px">${warn.replace(/</g, "&lt;")}</div>`);
   return send(res, 200, html.replace("<head>", `<head>${submitHook(url, label)}`), TYPES[".html"]);
 }
 on("GET", "/review/bible/([^/]+)", async (req, [slug], res) =>
@@ -664,8 +670,24 @@ on("GET", "/review/speakers/([^/]+)/([^/]+)", async (req, [slug, ep], res, url) 
   const dir = v === d.state.engine ? d.state.outDir : d.backup?.outDir;
   if (!dir) return fail(res, 404, "chưa có trang soát");
   const q = want ? `?engine=${encodeURIComponent(want)}` : "";
-  return injectReview(res, path.join(ROOT, dir, "review.html"),
-    `/api/series/${encodeURIComponent(slug)}/ep/${encodeURIComponent(ep)}/speaker-review${q}`, "Lưu & dịch tiếp");
+  const submit = `/api/series/${encodeURIComponent(slug)}/ep/${encodeURIComponent(ep)}/speaker-review${q}`;
+  // v2: dựng từ đĩa mỗi lần mở (bible hiện tại, code trang hiện tại) — review.html chỉ còn là bản
+  // xuất cho file://. Dựng lỗi thì trả bản cũ kèm lời báo, không trả trang trắng.
+  if (v === "v2") {
+    const hit = await scan.episodeCore(slug, ep);
+    try {
+      const html = await renderReview({
+        biblePath: path.resolve(ROOT, hit.core.dir, "bible.json"), ep: String(hit.e.ep),
+        outDir: path.resolve(ROOT, dir), videoDir: path.resolve(ROOT, hit.e.videoDir),
+      });
+      if (html) return send(res, 200, html.replace("<head>", `<head>${submitHook(submit, "Lưu & dịch tiếp")}`), TYPES[".html"]);
+    } catch (e) {
+      console.error(`[soát] dựng trang tập ${ep} lỗi, trả bản cũ: ${e.stack || e.message}`);
+      return injectReview(res, path.join(ROOT, dir, "review.html"), submit, "Lưu & dịch tiếp",
+        `Trang dựng lại lỗi (${e.message}) — đang xem bản cũ, có thể thiếu nhân vật/tính năng mới.`);
+    }
+  }
+  return injectReview(res, path.join(ROOT, dir, "review.html"), submit, "Lưu & dịch tiếp");
 });
 
 // việc

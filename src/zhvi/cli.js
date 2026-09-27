@@ -18,7 +18,8 @@
  *
  * Bible cho series mới:
  *   node src/zhvi/cli.js series init <videoDir tập 1> <videoDir tập 2> ... --series series/<tên> \
- *        --glossary g.json [--terms t.json] [--out out/<tên>] [--min-sec 60] [--no-looks] [--force]
+ *        --glossary g.json [--terms t.json] [--out out/<tên>] [--min-sec 60] [--no-looks] [--force] [--engine v2]
+ *   --engine v2: dàn nhân vật từ MỘT task todo trên thoại thô — không pass A, không cụm giọng (cần TODO_TOKEN)
  *   node src/zhvi/cli.js series apply ~/Downloads/bible-review.json --series series/<tên>
  *
  * Series đã duyệt bible, tác giả đăng thêm tập:
@@ -32,6 +33,7 @@ import { fileURLToPath } from "node:url";
 import { Llm, STAGES, modelsFromEnv, readEnvFile, runPipeline, subsOf } from "./index.js";
 import { applyExport, buildReview } from "./review.js";
 import { addEpisode, applyReview, initSeries, translateArgs } from "./series.js";
+import { Todo } from "../zhvi2/todo.js";
 
 function parseArgs(argv) {
   const a = { _: [] };
@@ -116,7 +118,7 @@ const log = {
 if (a._[0] === "series") {
   const [, cmd, ...rest] = a._;
   if (!a.series || !["init", "apply", "add-episode"].includes(cmd) || !rest.length) {
-    console.error("dùng: node src/zhvi/cli.js series init <videoDir>... --series series/<tên> --glossary g.json");
+    console.error("dùng: node src/zhvi/cli.js series init <videoDir>... --series series/<tên> --glossary g.json [--engine v2]");
     console.error("      node src/zhvi/cli.js series apply <bible-review.json> --series series/<tên>");
     console.error("      node src/zhvi/cli.js series add-episode <videoDir> --series series/<tên> [--ep 7]");
     process.exit(2);
@@ -168,6 +170,9 @@ if (a._[0] === "series") {
     minSec: Number(a["min-sec"] || 60),
     noLooks: Boolean(a["no-looks"]),
     onEvent,
+    // v2: dàn nhân vật từ MỘT task todo trên thoại thô (không pass A, không cụm giọng)
+    engine: a.engine || "v1",
+    todo: a.engine === "v2" ? new Todo({ url: env.TODO_URL, token: env.TODO_TOKEN, log }) : null,
   });
   onEvent?.({ t: "draft", page: r.page, draftPath: r.draftPath, cost: printableCost(llm) });
   const d = r.draft;
